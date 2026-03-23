@@ -62,6 +62,8 @@
     "nearley": "^2.19.5"
   },
   "devDependencies": {
+    "@types/nearley": "^2.11.5",
+    "@types/node": "^25.5.0",
     "graphviz": "0.0.9",
     "tsup": "^8.5.1",
     "typescript": "^5.9.3",
