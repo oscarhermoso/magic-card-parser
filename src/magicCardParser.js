@@ -1,7 +1,8 @@
-import { Parser, Grammar } from 'nearley';
+import nearley from 'nearley';
+const { Parser, Grammar } = nearley;
 
-import magicCardGrammar from './generated/magicCardGrammar.js';
-import typeLineGrammar from './generated/typeLineGrammar.js';
+import magicCardGrammar from './generated/magicCardGrammar.cjs';
+import typeLineGrammar from './generated/typeLineGrammar.cjs';
 
 /** @typedef {import('./index.d.ts').CardInput} CardInput */
 /** @typedef {import('./index.d.ts').ParseResult} ParseResult */
