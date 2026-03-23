@@ -205,6 +205,30 @@ const ambiguousCards: TestCard[] = [
   { name: 'Selfless Spirit', oracle_text: 'Flying\nSacrifice this creature: Creatures you control gain indestructible until end of turn.' },
   { name: 'Blood Artist', oracle_text: 'Whenever this creature or another creature dies, target player loses 1 life and you gain 1 life.' },
   { name: 'Zealous Conscripts', oracle_text: 'Haste\nWhen this creature enters, gain control of target permanent until end of turn. Untap that permanent. It gains haste until end of turn.' },
+
+  // Search/tutor/fetchland patterns (Step 5)
+  { name: 'Demonic Tutor', oracle_text: 'Search your library for a card, put that card into your hand, then shuffle.' },
+  { name: 'Vampiric Tutor', oracle_text: 'Search your library for a card, then shuffle and put that card on top. You lose 2 life.' },
+  { name: 'Imperial Seal', oracle_text: 'Search your library for a card, then shuffle and put that card on top. You lose 2 life.' },
+  { name: 'Entomb', oracle_text: 'Search your library for a card, put that card into your graveyard, then shuffle.' },
+  { name: 'Enlightened Tutor', oracle_text: 'Search your library for an artifact or enchantment card, reveal it, then shuffle and put that card on top.' },
+  { name: 'Green Sun\'s Zenith', oracle_text: 'Search your library for a green creature card with mana value X or less, put it onto the battlefield, then shuffle. Shuffle Green Sun\'s Zenith into its owner\'s library.' },
+  { name: 'Tinker', oracle_text: 'As an additional cost to cast this spell, sacrifice an artifact.\nSearch your library for an artifact card, put that card onto the battlefield, then shuffle.' },
+  { name: 'Crop Rotation', oracle_text: 'As an additional cost to cast this spell, sacrifice a land.\nSearch your library for a land card, put that card onto the battlefield, then shuffle.' },
+  { name: 'Fauna Shaman', oracle_text: '{G}, {T}, Discard a creature card: Search your library for a creature card, reveal it, put it into your hand, then shuffle.' },
+  { name: 'Stoneforge Mystic', oracle_text: 'When Stoneforge Mystic enters, you may search your library for an Equipment card, reveal it, put it into your hand, then shuffle.\n{1}{W}, {T}: You may put an Equipment card from your hand onto the battlefield.' },
+  { name: 'Sakura-Tribe Elder', oracle_text: 'Sacrifice Sakura-Tribe Elder: Search your library for a basic land card, put that card onto the battlefield tapped, then shuffle.' },
+  { name: 'Prismatic Vista', oracle_text: '{T}, Pay 1 life, Sacrifice Prismatic Vista: Search your library for a basic land card, put it onto the battlefield, then shuffle.' },
+  { name: 'Verdant Catacombs', oracle_text: '{T}, Pay 1 life, Sacrifice Verdant Catacombs: Search your library for a Swamp or Forest card, put it onto the battlefield, then shuffle.' },
+  { name: 'Scalding Tarn', oracle_text: '{T}, Pay 1 life, Sacrifice Scalding Tarn: Search your library for an Island or Mountain card, put it onto the battlefield, then shuffle.' },
+  { name: 'Polluted Delta', oracle_text: '{T}, Pay 1 life, Sacrifice Polluted Delta: Search your library for an Island or Swamp card, put it onto the battlefield, then shuffle.' },
+  { name: 'Flooded Strand', oracle_text: '{T}, Pay 1 life, Sacrifice Flooded Strand: Search your library for a Plains or Island card, put it onto the battlefield, then shuffle.' },
+  { name: 'Bloodstained Mire', oracle_text: '{T}, Pay 1 life, Sacrifice Bloodstained Mire: Search your library for a Swamp or Mountain card, put it onto the battlefield, then shuffle.' },
+  { name: 'Wooded Foothills', oracle_text: '{T}, Pay 1 life, Sacrifice Wooded Foothills: Search your library for a Mountain or Forest card, put it onto the battlefield, then shuffle.' },
+  { name: 'Windswept Heath', oracle_text: '{T}, Pay 1 life, Sacrifice Windswept Heath: Search your library for a Forest or Plains card, put it onto the battlefield, then shuffle.' },
+  { name: 'Marsh Flats', oracle_text: '{T}, Pay 1 life, Sacrifice Marsh Flats: Search your library for a Plains or Swamp card, put it onto the battlefield, then shuffle.' },
+  { name: 'Arid Mesa', oracle_text: '{T}, Pay 1 life, Sacrifice Arid Mesa: Search your library for a Mountain or Plains card, put it onto the battlefield, then shuffle.' },
+  { name: 'Misty Rainforest', oracle_text: '{T}, Pay 1 life, Sacrifice Misty Rainforest: Search your library for a Forest or Island card, put it onto the battlefield, then shuffle.' },
 ];
 
 describe('Baseline: Ambiguous cards parse with results', () => {
@@ -326,6 +350,59 @@ describe('AST structure snapshots', () => {
     expect(result.error).toBeNull();
     const abilities = result.result![0];
     expect(abilities).toHaveLength(1);
+  });
+
+  // Search/tutor/fetchland AST tests (Step 5)
+  it('Demonic Tutor: search for card, put into hand, shuffle', () => {
+    const result = parse({ name: 'Demonic Tutor', oracle_text: 'Search your library for a card, put that card into your hand, then shuffle.' });
+    expect(result.result).not.toBeNull();
+    const abilities = result.result![0];
+    expect(abilities).toHaveLength(1);
+    // First parse should contain search + put + shuffle
+    const effect = abilities[0];
+    // Should contain search with library
+    const flat = JSON.stringify(effect);
+    expect(flat).toContain('"search"');
+    expect(flat).toContain('"library"');
+    expect(flat).toContain('"shuffle"');
+  });
+
+  it('Verdant Catacombs: fetchland with tap/life/sacrifice cost', () => {
+    const result = parse({ name: 'Verdant Catacombs', oracle_text: '{T}, Pay 1 life, Sacrifice Verdant Catacombs: Search your library for a Swamp or Forest card, put it onto the battlefield, then shuffle.' });
+    expect(result.result).not.toBeNull();
+    const abilities = result.result![0];
+    expect(abilities).toHaveLength(1);
+    const ability = abilities[0];
+    // Should be an activated ability with costs
+    expect(ability).toHaveProperty('costs');
+    expect(ability).toHaveProperty('activatedAbility');
+    // Cost should include tap, life payment, and sacrifice
+    const costStr = JSON.stringify(ability.costs);
+    expect(costStr).toContain('"tap"');
+    expect(costStr).toContain('"life"');
+    expect(costStr).toContain('"sacrifice"');
+  });
+
+  it('Tinker: additional cost + search for artifact', () => {
+    const result = parse({ name: 'Tinker', oracle_text: 'As an additional cost to cast this spell, sacrifice an artifact.\nSearch your library for an artifact card, put that card onto the battlefield, then shuffle.' });
+    expect(result.result).not.toBeNull();
+    const abilities = result.result![0];
+    expect(abilities).toHaveLength(2);
+    // First ability should be additional cost
+    expect(abilities[0]).toHaveProperty('additionalCost');
+    // Second ability should contain search
+    const searchStr = JSON.stringify(abilities[1]);
+    expect(searchStr).toContain('"search"');
+    expect(searchStr).toContain('"battlefield"');
+  });
+
+  it('Vampiric Tutor: search, shuffle and put on top, lose life', () => {
+    const result = parse({ name: 'Vampiric Tutor', oracle_text: 'Search your library for a card, then shuffle and put that card on top. You lose 2 life.' });
+    expect(result.result).not.toBeNull();
+    const flat = JSON.stringify(result.result![0]);
+    expect(flat).toContain('"search"');
+    expect(flat).toContain('"shuffle"');
+    expect(flat).toContain('"topOf"');
   });
 });
 

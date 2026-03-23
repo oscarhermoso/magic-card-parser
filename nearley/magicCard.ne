@@ -530,6 +530,7 @@ imperative -> "sacrifice" __ object {% ([, , sacrifice]) => ({ sacrifice }) %}
   | "draw" "s":? __ "cards equal to" __ numberDefinition {% ([, , , , , draw]) => ({ draw }) %}
   | "shuffle" "s":? __ zone {% ([, , , shuffle]) => ({ shuffle }) %}
   | "shuffle" "s":? __ (object | zone) __ "into" __ zone {% ([, , , shuffle, , , , into]) => ({ shuffle, into }) %}
+  | "shuffle" "s":? {% () => ({ shuffle: "library" }) %}
   | "counter" "s":? __ object {% ([, , counter]) => ({ counter }) %}
   | "tap" "s":? (__ "or untap"):? __ object {% ([, , untap, , tap]) => untap ? { does: { or: ["tap", "untap"] }, to: tap } : { tap } %}
   | "untap" "s":? (__ "and goad" "s":?):? __ object (__ "during" __ qualifiedPartOfTurn):? {% ([, , goad, , tap, during]) => {
@@ -760,6 +761,7 @@ untilClauseInner -> sentence {% ([s]) => s %}
 numericalCharacteristic -> "toughness" {% () => "toughness" %}
   | "power" {% () => "power" %}
   | "converted mana cost" {% () => "cmc" %}
+  | "mana value" {% () => "cmc" %}
   | "life total" {% () => "lifeTotal" %}
   | "power and toughness" {% () => ({ and: ["power", "toughness"] }) %}
 
@@ -893,6 +895,7 @@ ownedZone -> "graveyard" {% () => "graveyard" %}
 intoZone -> "onto the battlefield" {% () => "battlefield" %}
   | "into" __ zone {% ([, , into]) => into %}
   | "on top of" __ playersPossessive __ "library" {% ([, , whose]) => ({ topOf: { what: "library", whose } }) %}
+  | "on top" {% () => ({ topOf: { what: "library" } }) %}
   | "on the bottom of" __ zone (__ "in" __  ("any" {% () => "any" %} | "a random" {% () => "random" %}) __ "order"):? {% ([, , bottom, order]) => order ? { bottom, order: order[3] } : { bottom } %}
 inZone -> "on the battlefield" {% () => ({ in: "battlefield" }) %}
   | "in" __ zone {% ([, , inZone]) => ({ in: inZone }) %}
@@ -902,6 +905,7 @@ permanentType -> permanentTypeInner (__ permanentTypeInner):* {% ([t1, ts]) => (
   | connected[permanentType] {% ([c]) => c %}
 permanentTypeSpecifier -> permanentTypeSpecifierInner (__ permanentTypeSpecifierInner):* {% ([t1, ts]) => ({ and: [t1, ...ts.map(([, t]) => t)] }) %}
 anyType -> anyTypeInner (__ anyTypeInner):* {% ([t1, ts]) => ({ and: [t1, ...ts.map(([, t]) => t)] }) %}
+  | connected[anyTypeInner] {% ([c]) => c %}
 anyTypeInner -> permanentTypeInner {% ([t]) => t %}
   | spellType {% ([t]) => t %}
   | superType {% ([t]) => t %}
