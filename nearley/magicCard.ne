@@ -305,7 +305,6 @@ additionalSentence -> sentence {% ([s]) => s %}
   | triggeredAbility {% ([t]) => t %}
 
 sentence -> singleSentence {% ([ss]) => ss %}
-  | singleSentence "," __ sentence {% ([s1, , , s2]) => ({ and: [s1, s2] }) %}
   | "then" __ sentence {% ([, , s]) => s %}
   | connected[sentence] {% ([c]) => c %}
   | "otherwise," __ sentence {% ([, , otherwise]) => ({ otherwise }) %}
@@ -441,10 +440,9 @@ pureObject1 -> (prefix __):* (anyType __):? pureObjectInner {% ([prefixes, types
   if (suffix) result.suffix = suffix[1];
   return result;
 } %}
-  | (prefix __):* anyType "s":? (__ suffix):? {% ([prefixes, type, , suffix]) => {
+  | (prefix __):* anyType "s":? {% ([prefixes, type]) => {
   const result = { type };
   if (prefixes.length > 0) result.prefixes = prefixes.map(([p]) => p);
-  if (suffix) result.suffix = suffix[1];
   return result;
 } %}
 pureObjectInner -> ("copy" | "copies") (__ "of" __ object):? {% ([, copyOf]) => copyOf ? { copyOf } : "copy" %}
@@ -491,11 +489,8 @@ commonReferencingPrefixInner -> "each" {% () => "each" %}
   | "at least" __ englishNumber {% ([, , atLeast]) => ({ atLeast }) %}
   | "each other" {% () => ({ each: { reference: "other" } }) %}
   | "your" {% () => "your" %}
-prefix -> "enchanted" {% () => "enchanted" %}
-  | "the" {% () => "the" %}
-  | "first" {% () => "first" %}
+prefix -> "first" {% () => "first" %}
   | "attached" {% () => "attached" %}
-  | "equipped" {% () => "equipped" %}
   | "historic" {% () => "historic" %}
   | "noncreature," __ "nonland" {% () => ({ not: { and: ["creature", "land"] } }) %}
   | "nonartifact," __ "nonland" {% () => ({ not: { and: ["artifact", "land"] } }) %}
@@ -671,17 +666,28 @@ playerVerbPhrase -> gains __ number __ "life" {% ([, , lifeGain]) => ({ lifeGain
   | "has no cards in hand" {% () => ({ not: { has: { what: "card", in: "hand" } } }) %}
   | ("have" | "has") __ (countableCount __):? object __ inZone {% ([, , count, what, , inZone]) => count ? { has: { count: count[0], what, ...inZone } } : { has: { what, ...inZone } } %}
   | "has" __ object __ objectVerbPhrase {% ([, , what, , does]) => ({ what, does }) %}
-objectVerbPhrase -> connected[objectVerbPhrase] {% ([c]) => c %}
-  | ("was" | "is") __ object {% ([, , is]) => ({ is }) %}
-  | ("has" | "have") __ acquiredAbility (__ asLongAsClause):? {% ([, , haveAbility, asLongAs]) => asLongAs ? { haveAbility, asLongAs: asLongAs[1] } : { haveAbility } %}
+objectVerbPhrase -> connected[modifiedObjectVerbPhrase] {% ([c]) => c %}
+  | modifiedObjectVerbPhrase {% ([m]) => m %}
+modifiedObjectVerbPhrase -> baseObjectVerbPhrase (__ forEachClause):? (__ durationOrDuring):? {% ([does, forEach, dur]) => {
+    let result = does;
+    if (forEach) result = { does: result, forEach: forEach[1] };
+    if (dur) result = { does: result, ...dur[1] };
+    return result;
+  } %}
+  | baseObjectVerbPhrase (__ durationOrDuring) (__ forEachClause) {% ([does, dur, forEach]) => {
+    let result = { does, ...dur[1] };
+    result = { does: result, forEach: forEach[1] };
+    return result;
+  } %}
+durationOrDuring -> duration {% ([d]) => ({ duration: d }) %}
+  | "during" __ qualifiedPartOfTurn {% ([, , during]) => ({ during }) %}
+baseObjectVerbPhrase -> ("was" | "is") __ object {% ([, , is]) => ({ is }) %}
+  | ("has" | "have") __ acquiredAbility {% ([, , haveAbility]) => ({ haveAbility }) %}
   | ("has" | "have") __ "base power and toughness" __ pt (__ "and" __ ("are" | "is") __ anyType "s":? __ "in addition to" __ itsPossessive __ "other types"):? {% ([, , , , basePowerToughness, andAre]) => andAre ? { basePowerToughness, additionalType: andAre[5] } : { basePowerToughness } %}
   | gains __ acquiredAbility (__ "and" __ gets __ ptModification):? {% ([, , gains, gets]) => gets ? { gains, ...gets[5] } : { gains } %}
-  | gets __ ptModification (__ forEachClause):? (__ "and" __ gains __ acquiredAbility):? (__ untilClause):? (__ asLongAsClause):? {% ([, , powerToughnessMod, forEach, gains, until, asLongAs]) => {
+  | gets __ ptModification (__ "and" __ gains __ acquiredAbility):? {% ([, , powerToughnessMod, gains]) => {
     const result = { powerToughnessMod };
-    if (forEach) result.forEach = forEach[1];
     if (gains) result.gains = gains[5];
-    if (until) result.until = until[1];
-    if (asLongAs) result.asLongAs = asLongAs[1];
     return result;
   } %}
   | "enter" "s":? (__ "the battlefield"):? __ "with" __ (englishNumber {% ([n]) => n %} | englishNumber __ "additional" {% ([additional]) => ({ additional }) %}) __ counterKind __ "counter" "s":? __ "on it" (__ forEachClause):? {% ([, , , , , , amount, , counterKind, , , , , , forEach]) => ({ entersWith: forEach ? { amount, counterKind, forEach: forEach[1] } : { amount, counterKind } }) %}
@@ -726,14 +732,10 @@ objectVerbPhrase -> connected[objectVerbPhrase] {% ([c]) => c %}
   | "can block an additional" __ object __ "each combat" {% ([, , blockAdditional]) => ({ blockAdditional }) %}
   | ("do" | "does") __ "so" {% () => "do" %}
   | "remain" "s":? __ "exiled" {% () => ({ remain: "exile" }) %}
-  | "become" "s":? __ becomesWhat (__ untilClause):? {% ([, , , become, until]) => until ? { become, until: until[1] } : { become } %}
-  | "lose" "s":? __ "all abilities" (__ untilClause):? {% ([, , , , until]) => until ? { loses: "allAbilities", until } : { loses: "allAbilities" } %}
+  | "become" "s":? __ becomesWhat {% ([, , , become]) => ({ become }) %}
+  | "lose" "s":? __ "all abilities" {% () => ({ loses: "allAbilities" }) %}
   | ("is" | "are") __ "created" {% () => "created" %}
   | "cause" "s":? __ player __ "to" __ playerVerbPhrase {% ([, , , actor, , , , does]) => ({ cause: { actor, does } }) %}
-  | objectVerbPhrase __ forEachClause {% ([does, , forEach]) => ({ does, forEach }) %}
-  | objectVerbPhrase __ duration {% ([does, , duration]) => ({ does, duration }) %}
-  | objectVerbPhrase __ "during" __ qualifiedPartOfTurn {% ([does, , , , during]) => ({ does, during }) %}
-  | objectVerbPhrase __ "if" __ sentence {% ([does, , , , condition]) => ({ does, condition }) %}
   | "become" "s":? __ "the target of" __ object {% ([, , , , , targetOf]) => ({ becomesTargetOf: targetOf }) %}
   | "was kicked" {% () => "kicked" %}
   | "was milled this way" {% () => ({ reference: "thisWay", does: "milled" }) %}
@@ -750,8 +752,6 @@ objectVerbPhrase -> connected[objectVerbPhrase] {% ([c]) => c %}
   | "as" __ object (__ "in addition to its other types"):? {% ([, , as, inAddition]) => inAddition ? { as, inAddition: true } : { as } %}
   | "assign its combat damage as though it" __ WEREN_T __ "blocked" {% () => ({ damage: { as: { not: "blocked" } } }) %}
   | "remains tapped" {% () => ({ remains: "tapped" }) %}
-  | objectVerbPhrase __ ("and" | "or") __ sentence {% ([does, , [connector], , next]) => ({ [connector]: [does, next] }) %}
-  | objectVerbPhrase __ ("and" | "or") __ objectVerbPhrase {% ([does, , [connector], , next]) => ({ [connector]: [does, next] }) %}
 objectInfinitive -> "be put" __ intoZone __ duration {% ([, , enter, , duration]) => ({ enter, duration }) %}
   | "be created under your control" {% () => ({ reference: { actor: "you", does: "control" }, does: "create" }) %}
   | "fight" __ object {% ([, , fight]) => ({ fight }) %}
@@ -893,7 +893,6 @@ dealsWhat -> damageNoun __ "to" __ damageRecipient {% ([damage, , , , to]) => ({
  | "damage equal to" __ numberDefinition __  divideAmongDamageTargets {% ([, , amount, , divideAmong]) => ({ amount, divideAmong }) %}
 
 damageRecipient -> anyEntity {% ([o]) => o %}
-  | "any target" {% () => "anyTarget" %}
   | ("target" __):? connected[damageRecipient] {% ([target, rs]) => target ? { target: rs } : rs %}
   | "itself" {% () => "self" %}
 divideAmongDamageTargets -> "divided as you choose among" __ divideTargets {% ([, , divideTargets]) => divideTargets %}
@@ -988,16 +987,13 @@ anyTypeInner -> permanentTypeInner {% ([t]) => t %}
   | spellType {% ([t]) => t %}
   | superType {% ([t]) => t %}
   | subType {% ([t]) => t %}
-  | "noncreature" {% () => ({ not: "creature" }) %}
-  | "nonland" {% () => ({ not: "land" }) %}
 
 asLongAsClause -> "as long as" __ condition {% ([, , c]) => c %}
 
 replacementEffect -> sentence __ "instead of putting it" __ intoZone {% ([instead, , , , enters]) => ({ enters, instead }) %}
   | sentenceInstead {% ([s]) => s %}
 
-costs -> connected[cost] {% ([c]) => c %}
-  | cost ("," __ cost):* {% ([c, cs]) => cs.length > 0 ? { and: [c, ...cs.map(([, , c2]) => c2)] } : c %}
+costs -> cost ("," __ cost):* {% ([c, cs]) => cs.length > 0 ? { and: [c, ...cs.map(([, , c2]) => c2)] } : c %}
 cost -> "{t}" {% () => "tap" %}
   | sentence {% ([s]) => s %}
   | manacost {% ([mana]) => ({ mana }) %}
