@@ -1,7 +1,11 @@
-const { Parser, Grammar } = require('nearley');
+import { Parser, Grammar } from 'nearley';
 
-const magicCardGrammar = require('./generated/magicCardGrammar');
-const typeLineGrammar = require('./generated/typeLineGrammar');
+import magicCardGrammar from './generated/magicCardGrammar.js';
+import typeLineGrammar from './generated/typeLineGrammar.js';
+
+/** @typedef {import('./index.d.ts').CardInput} CardInput */
+/** @typedef {import('./index.d.ts').ParseResult} ParseResult */
+/** @typedef {import('./index.d.ts').TypeLineResult} TypeLineResult */
 
 const makeUnique = (lst) => {
     const seen = [];
@@ -19,6 +23,10 @@ const makeUnique = (lst) => {
 const compiledMagicCardGrammar = Grammar.fromCompiled(magicCardGrammar);
 const compiledTypeLineGrammar = Grammar.fromCompiled(typeLineGrammar);
 
+/**
+ * @param {CardInput} card
+ * @returns {ParseResult}
+ */
 const parseCard = (card) => {
     const { name, oracle_text, layout } = card;
 
@@ -57,6 +65,10 @@ const parseCard = (card) => {
     return { result, error: null, oracleText, card };
 };
 
+/**
+ * @param {string} typeLine
+ * @returns {TypeLineResult}
+ */
 const parseTypeLine = (typeLine) => {
     const typeLineParser = new Parser(compiledTypeLineGrammar);
     try {
@@ -78,6 +90,10 @@ const parseTypeLine = (typeLine) => {
     return { result, error: null, typeLine };
 };
 
+/**
+ * @param {CardInput} card
+ * @returns {string | null}
+ */
 const cardToGraphViz = (card) => {
     const { result } = parseCard(card);
     if (!result) return null;
@@ -130,4 +146,4 @@ const cardToGraphViz = (card) => {
     return lines.join('\n');
 }
 
-module.exports = { cardToGraphViz, parseCard, parseTypeLine };
+export { cardToGraphViz, parseCard, parseTypeLine };
