@@ -1,7 +1,5 @@
 import { describe, it, expect } from 'vitest';
-
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const { parseCard, parseTypeLine } = require('../src/magicCardParser');
+import { parseCard, parseTypeLine } from '../src/magicCardParser.js';
 
 describe('magic-card-parser setup', () => {
   it('exports parseCard function', () => {

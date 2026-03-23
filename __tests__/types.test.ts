@@ -16,8 +16,7 @@ import type {
   TokenSpec,
 } from '../src/index';
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const { parseCard: _parseCard, parseTypeLine } = require('../src/magicCardParser');
+import { parseCard as _parseCard, parseTypeLine } from '../src/magicCardParser.js';
 
 /** Wrapper that defaults layout to 'normal' */
 function parseCard(input: { name: string; oracle_text: string }) {

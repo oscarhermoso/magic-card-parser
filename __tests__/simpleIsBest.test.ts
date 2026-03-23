@@ -1,7 +1,5 @@
 import { describe, it, expect } from 'vitest';
-
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const { parseCard, parseTypeLine } = require('../src/magicCardParser');
+import { parseCard, parseTypeLine } from '../src/magicCardParser.js';
 
 // Card data extracted from mtg-cube-simulator's simple-is-best cube (src/cards.json)
 // These represent the 360-card cube used in the simulator.
