@@ -29,7 +29,14 @@ const parseCard = (card) => {
 
     const magicCardParser = new Parser(compiledMagicCardGrammar);
     const shortenedName = name.split(',')[0];
-    let oracleText = oracle_text.split(name).join('~').split(shortenedName).join('~').toLowerCase();
+    let oracleText = oracle_text.split(name).join('~').split(shortenedName).join('~');
+    // Also replace first-word name references (e.g. "Loran" from "Loran of the Third Path")
+    // Only when the first word is unique enough (not a common MTG word) and appears standalone
+    const firstName = shortenedName.split(' ')[0];
+    if (firstName.length > 3 && firstName !== shortenedName && !/^(goblin|dragon|angel|demon|human|zombie|soldier|knight|wizard|elf|beast|spirit|vampire|bear|cat|dog|bird|snake|spider|wolf|giant|troll|ogre|orc|golem|elemental|artifact|creature|land|enchant|instant|sorcery|planeswalker|legendary|token|tribal|snow|basic|world|forest|island|swamp|mountain|plains)$/i.test(firstName)) {
+      oracleText = oracleText.split(firstName).join('~');
+    }
+    oracleText = oracleText.toLowerCase();
     // Replace new-style self-references with ~ (e.g. "this creature" → "~")
     oracleText = oracleText.replace(/\bthis (creature|artifact|land|enchantment|permanent)\b/g, '~');
 

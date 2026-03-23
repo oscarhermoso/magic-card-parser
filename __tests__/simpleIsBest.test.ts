@@ -157,6 +157,16 @@ const successCards: TestCard[] = [
   { name: 'Godless Shrine', oracle_text: 'As this land enters, you may pay 2 life. If you don\'t, it enters tapped.\n{T}: Add {W} or {B}.' },
   { name: 'Breeding Pool', oracle_text: 'As this land enters, you may pay 2 life. If you don\'t, it enters tapped.\n{T}: Add {G} or {U}.' },
   { name: 'Death\'s Shadow', oracle_text: 'This creature gets -X/-X, where X is your life total.' },
+
+  // Step 8 batch 2: enters-with, becomes-target, during-duration, gain-life-equal, token-state, look-at-hand, damage-instead, number-of-tokens, counters-trigger
+  { name: 'Shivan Devastator', oracle_text: 'Flying, haste\nThis creature enters with X +1/+1 counters on it.' },
+  { name: 'Brimaz, King of Oreskos', oracle_text: 'Vigilance\nWhenever Brimaz attacks, create a 1/1 white Cat Soldier creature token with vigilance that\'s attacking.\nWhenever Brimaz blocks a creature, create a 1/1 white Cat Soldier creature token with vigilance that\'s blocking that creature.' },
+  { name: 'Razorkin Needlehead', oracle_text: 'This creature has first strike during your turn.\nWhenever an opponent draws a card, this creature deals 1 damage to them.' },
+  { name: 'Krenko, Tin Street Kingpin', oracle_text: 'Whenever Krenko attacks, put a +1/+1 counter on it, then create a number of 1/1 red Goblin creature tokens equal to Krenko\'s power.' },
+  { name: 'Noxious Gearhulk', oracle_text: 'Menace\nWhen this creature enters, you may destroy another target creature. If a creature is destroyed this way, you gain life equal to its toughness.' },
+  { name: 'Gitaxian Probe', oracle_text: '({U/P} can be paid with either {U} or 2 life.)\nLook at target player\'s hand.\nDraw a card.' },
+  { name: 'Dark Confidant', oracle_text: 'At the beginning of your upkeep, reveal the top card of your library and put that card into your hand. You lose life equal to its mana value.' },
+  { name: 'Flickerwisp', oracle_text: 'Flying\nWhen this creature enters, exile another target permanent. Return that card to the battlefield under its owner\'s control at the beginning of the next end step.' },
 ];
 
 describe('Baseline: Successfully parsing cards', () => {
@@ -247,6 +257,17 @@ const ambiguousCards: TestCard[] = [
   { name: 'Mox Opal', oracle_text: 'Metalcraft — {T}: Add one mana of any color. Activate only if you control three or more artifacts.' },
   { name: 'Lion\'s Eye Diamond', oracle_text: 'Discard your hand, Sacrifice Lion\'s Eye Diamond: Add three mana of any one color. Activate only as an instant.' },
   { name: 'Recurring Nightmare', oracle_text: 'Sacrifice a creature, Return Recurring Nightmare to its owner\'s hand: Return target creature card from your graveyard to the battlefield. Activate only as a sorcery.' },
+
+  // Step 8 batch 2: ambiguous but parsing
+  { name: 'Phantasmal Shieldback', oracle_text: 'When this creature becomes the target of a spell or ability, sacrifice it.\nWhen this creature dies, draw a card.' },
+  { name: 'Galvanic Blast', oracle_text: 'Galvanic Blast deals 2 damage to any target.\nMetalcraft — Galvanic Blast deals 4 damage instead if you control three or more artifacts.' },
+  { name: 'Burst Lightning', oracle_text: 'Kicker {4} (You may pay an additional {4} as you cast this spell.)\nBurst Lightning deals 2 damage to any target. If this spell was kicked, it deals 4 damage instead.' },
+  { name: 'Baral, Chief of Compliance', oracle_text: 'Instant and sorcery spells you cast cost {1} less to cast.\nWhenever a spell or ability you control counters a spell, you may draw a card. If you do, discard a card.' },
+  { name: 'Windfall', oracle_text: 'Each player discards their hand, then draws cards equal to the greatest number of cards a player discarded this way.' },
+  { name: 'Deep-Cavern Bat', oracle_text: 'Flying, lifelink\nWhen this creature enters, look at target opponent\'s hand. You may exile a nonland card from it until this creature leaves the battlefield.' },
+  { name: 'Restoration Angel', oracle_text: 'Flash\nFlying\nWhen this creature enters, you may exile target non-Angel creature you control, then return that card to the battlefield under your control.' },
+  { name: 'Goblin Guide', oracle_text: 'Haste\nWhenever this creature attacks, defending player reveals the top card of their library. If it\'s a land card, that player puts it into their hand.' },
+  { name: 'Loran of the Third Path', oracle_text: 'Vigilance\nWhen Loran enters, destroy up to one target artifact or enchantment.\n{T}: You and target opponent each draw a card.' },
 ];
 
 describe('Baseline: Ambiguous cards parse with results', () => {
