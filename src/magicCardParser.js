@@ -29,7 +29,9 @@ const parseCard = (card) => {
 
     const magicCardParser = new Parser(compiledMagicCardGrammar);
     const shortenedName = name.split(',')[0];
-    const oracleText = oracle_text.split(name).join('~').split(shortenedName).join('~').toLowerCase();
+    let oracleText = oracle_text.split(name).join('~').split(shortenedName).join('~').toLowerCase();
+    // Replace new-style self-references with ~ (e.g. "this creature" → "~")
+    oracleText = oracleText.replace(/\bthis (creature|artifact|land|enchantment|permanent)\b/g, '~');
 
     try {
         magicCardParser.feed(oracleText);

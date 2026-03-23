@@ -641,6 +641,11 @@ objectVerbPhrase -> connected[objectVerbPhrase] {% ([c]) => c %}
     if (counters) result.with = { amount: counters[3], counterKind: counters[5] };
     return result;
   } %}
+  | "enter" "s":? (__ "tapped"):? {% ([, , tapped]) => {
+    const result = { enter: "battlefield" }
+    if (tapped) result.tapped = true;
+    return result;
+  } %}
   | "leave" "s":? __ "the battlefield" {% () => ({ leaves: "battlefield" }) %}
   | "die" "s":? {% () => "die" %}
   | ("is" | "would be") __ "put" __ intoZone (__ fromZone):? {% ([, , , , enter, from]) => from ? { enter, from: from[1] } : { enter } %}
@@ -687,6 +692,7 @@ objectVerbPhrase -> connected[objectVerbPhrase] {% ([c]) => c %}
   | "assign its combat damage as though it" __ WEREN_T __ "blocked" {% () => ({ damage: { as: { not: "blocked" } } }) %}
   | "remains tapped" {% () => ({ remains: "tapped" }) %}
   | objectVerbPhrase __ ("and" | "or") __ sentence {% ([does, , [connector], , next]) => ({ [connector]: [does, next] }) %}
+  | objectVerbPhrase __ ("and" | "or") __ objectVerbPhrase {% ([does, , [connector], , next]) => ({ [connector]: [does, next] }) %}
 objectInfinitive -> "be put" __ intoZone __ duration {% ([, , enter, , duration]) => ({ enter, duration }) %}
   | "be created under your control" {% () => ({ reference: { actor: "you", does: "control" }, does: "create" }) %}
   | "fight" __ object {% ([, , fight]) => ({ fight }) %}

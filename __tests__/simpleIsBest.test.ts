@@ -140,9 +140,26 @@ const successCards: TestCard[] = [
 
   // Other
   { name: 'Seal of Removal', oracle_text: 'Sacrifice Seal of Removal: Return target creature to its owner\'s hand.' },
+
+  // New-style "this creature/artifact/land" self-references (Step 4)
+  { name: 'Wall of Omens', oracle_text: 'Defender\nWhen this creature enters, draw a card.' },
+  { name: 'Baleful Strix', oracle_text: 'Flying, deathtouch\nWhen this creature enters, draw a card.' },
+  { name: 'Llanowar Visionary', oracle_text: 'When this creature enters, draw a card.\n{T}: Add {G}.' },
+  { name: 'Flametongue Kavu', oracle_text: 'When this creature enters, it deals 4 damage to target creature.' },
+  { name: 'Worn Powerstone', oracle_text: 'This artifact enters tapped.\n{T}: Add {C}{C}.' },
+  { name: 'Strip Mine', oracle_text: '{T}: Add {C}.\n{T}, Sacrifice this land: Destroy target land.' },
+  { name: 'Wasteland', oracle_text: '{T}: Add {C}.\n{T}, Sacrifice this land: Destroy target nonbasic land.' },
+  { name: 'Ancient Tomb - new', oracle_text: '{T}: Add {C}{C}. This land deals 2 damage to you.' },
+  { name: 'Aether Spellbomb', oracle_text: '{U}, Sacrifice this artifact: Return target creature to its owner\'s hand.\nSacrifice this artifact: Draw a card.' },
+  { name: 'Wall of Blossoms', oracle_text: 'Defender\nWhen this creature enters, draw a card.' },
+  { name: 'Ripjaw Raptor', oracle_text: 'Enrage — Whenever this creature is dealt damage, draw a card.' },
+  { name: 'Overgrown Tomb', oracle_text: 'As this land enters, you may pay 2 life. If you don\'t, it enters tapped.\n{T}: Add {B} or {G}.' },
+  { name: 'Godless Shrine', oracle_text: 'As this land enters, you may pay 2 life. If you don\'t, it enters tapped.\n{T}: Add {W} or {B}.' },
+  { name: 'Breeding Pool', oracle_text: 'As this land enters, you may pay 2 life. If you don\'t, it enters tapped.\n{T}: Add {G} or {U}.' },
+  { name: 'Death\'s Shadow', oracle_text: 'This creature gets -X/-X, where X is your life total.' },
 ];
 
-describe('Baseline: Successfully parsing cards (96)', () => {
+describe('Baseline: Successfully parsing cards', () => {
   it.each(successCards.map(c => [c.name, c]))('%s parses without error', (_name, card) => {
     const result = parse(card as TestCard);
     expect(result.error).toBeNull();
@@ -175,6 +192,19 @@ const ambiguousCards: TestCard[] = [
   { name: 'Bone Shards', oracle_text: 'As an additional cost to cast this spell, sacrifice a creature or discard a card.\nDestroy target creature or planeswalker.' },
   { name: 'Elspeth, Sun\'s Champion', oracle_text: '+1: Create three 1/1 white Soldier creature tokens.\n−3: Destroy all creatures with power 4 or greater.\n−7: You get an emblem with "Creatures you control get +2/+2 and have flying."' },
   { name: 'Goblin Rabblemaster', oracle_text: 'Other Goblin creatures you control attack each combat if able.\nAt the beginning of combat on your turn, create a 1/1 red Goblin creature token with haste.\nWhenever Goblin Rabblemaster attacks, it gets +1/+0 until end of turn for each other attacking Goblin.' },
+
+  // New-style "this creature" ETB triggers — ambiguous but parsing (Step 4)
+  { name: 'Eternal Witness', oracle_text: 'When this creature enters, you may return target card from your graveyard to your hand.' },
+  { name: 'Reclamation Sage', oracle_text: 'When this creature enters, you may destroy target artifact or enchantment.' },
+  { name: 'Blade Splicer', oracle_text: 'When this creature enters, create a 3/3 colorless Phyrexian Golem artifact creature token.\nGolems you control have first strike.' },
+  { name: 'Thragtusk', oracle_text: 'When this creature enters, you gain 5 life.\nWhen this creature leaves the battlefield, create a 3/3 green Beast creature token.' },
+  { name: 'Craterhoof Behemoth', oracle_text: 'Haste\nWhen this creature enters, creatures you control gain trample and get +X/+X until end of turn, where X is the number of creatures you control.' },
+  { name: 'Grave Titan', oracle_text: 'Deathtouch\nWhenever this creature enters or attacks, create two 2/2 black Zombie creature tokens.' },
+  { name: 'Ashen Rider', oracle_text: 'Flying\nWhen this creature enters or dies, exile target permanent.' },
+  { name: 'Stitcher\'s Supplier', oracle_text: 'When this creature enters or dies, mill three cards.' },
+  { name: 'Selfless Spirit', oracle_text: 'Flying\nSacrifice this creature: Creatures you control gain indestructible until end of turn.' },
+  { name: 'Blood Artist', oracle_text: 'Whenever this creature or another creature dies, target player loses 1 life and you gain 1 life.' },
+  { name: 'Zealous Conscripts', oracle_text: 'Haste\nWhen this creature enters, gain control of target permanent until end of turn. Untap that permanent. It gains haste until end of turn.' },
 ];
 
 describe('Baseline: Ambiguous cards parse with results', () => {
@@ -255,6 +285,37 @@ describe('AST structure snapshots', () => {
 
   it('Strip Mine: mana + activated destroy', () => {
     const result = parse({ name: 'Strip Mine', oracle_text: '{T}: Add {C}.\n{T}, Sacrifice Strip Mine: Destroy target land.' });
+    expect(result.error).toBeNull();
+    const abilities = result.result![0];
+    expect(abilities).toHaveLength(2);
+  });
+
+  it('Flametongue Kavu: new-style ETB trigger with "this creature enters"', () => {
+    const result = parse({ name: 'Flametongue Kavu', oracle_text: 'When this creature enters, it deals 4 damage to target creature.' });
+    expect(result.error).toBeNull();
+    const abilities = result.result![0];
+    expect(abilities).toHaveLength(1);
+    const triggered = abilities[0];
+    // Should have trigger with CARD_NAME entering battlefield
+    expect(triggered).toHaveProperty('trigger');
+    expect(triggered.trigger).toHaveProperty('when');
+    expect(triggered.trigger.when.what).toBe('CARD_NAME');
+    expect(triggered.trigger.when.does).toEqual({ enter: 'battlefield' });
+    // Should have damage effect
+    expect(triggered).toHaveProperty('effect');
+    expect(triggered.effect.what).toBe('it');
+    expect(triggered.effect.does).toHaveProperty('deal');
+  });
+
+  it('Overgrown Tomb: shockland with "this land enters"', () => {
+    const result = parse({ name: 'Overgrown Tomb', oracle_text: 'As this land enters, you may pay 2 life. If you don\'t, it enters tapped.\n{T}: Add {B} or {G}.' });
+    expect(result.error).toBeNull();
+    const abilities = result.result![0];
+    expect(abilities.length).toBeGreaterThanOrEqual(2);
+  });
+
+  it('Strip Mine new-style: mana + sacrifice this land', () => {
+    const result = parse({ name: 'Strip Mine', oracle_text: '{T}: Add {C}.\n{T}, Sacrifice this land: Destroy target land.' });
     expect(result.error).toBeNull();
     const abilities = result.result![0];
     expect(abilities).toHaveLength(2);
