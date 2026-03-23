@@ -18,27 +18,30 @@ export interface ParseResult {
   oracleText: string;
   /** The original card input */
   card: CardInput;
-  /** Alias for result (used in some error paths) */
+  /** Alias for result (used in some error paths instead of result) */
   parsed?: AbilityNode[][] | null;
 }
 
 /** Result from parseTypeLine */
 export interface TypeLineResult {
-  result: TypeLineNode[][] | null;
+  result: TypeLineNode[] | null;
   error: string | Error | null;
   typeLine: string;
 }
 
 /** A parsed type line node */
 export interface TypeLineNode {
-  superTypes?: string[];
-  type: string;
-  subTypes?: string[];
+  superType?: string;
+  type: string | { and: string[] };
+  subType?: string | { and: string[] };
 }
+
+/** Mana cost value — an array mixing generic amounts and color chars */
+export type ManaCostValue = (string | number)[];
 
 /**
  * A node in the parsed ability AST.
- * Can be a keyword string, an array of keywords, or a structured object.
+ * Can be a keyword string array, a keyword object, or a structured ability/effect.
  */
 export type AbilityNode =
   | string
@@ -47,10 +50,13 @@ export type AbilityNode =
   | ActivatedAbilityNode
   | TriggeredAbilityNode
   | ModalNode
+  | AdditionalCostNode
   | EffectNode;
 
-/** Keyword with a cost or value, e.g. { cycling: "{2}" } or { flashback: "{1}{R}" } */
-export type KeywordObject = { [keyword: string]: string | number };
+/** Keyword with a cost or value, e.g. { flashback: { mana: [1, "r"] } } */
+export type KeywordObject = {
+  [keyword: string]: string | number | { mana: ManaCostValue };
+};
 
 /** An activated ability with costs and effect */
 export interface ActivatedAbilityNode {
@@ -72,16 +78,22 @@ export interface ModalNode {
   options: EffectNode[];
 }
 
+/** An additional cost declaration (e.g. "as an additional cost, sacrifice a creature") */
+export interface AdditionalCostNode {
+  additionalCost: EffectNode;
+}
+
 /** Cost specification - can be a string or structured */
 export type CostSpec =
   | string
   | string[]
   | { and: CostSpec[] }
   | { tap: boolean }
-  | { mana: string }
+  | { mana: ManaCostValue }
   | { life: number }
-  | { sacrifice: ObjectSpec }
-  | { discard: ObjectSpec }
+  | { loyalty: number }
+  | { sacrifice: ObjectSpec | string }
+  | { discard: ObjectSpec | string }
   | Record<string, unknown>;
 
 /** Trigger specification */
@@ -97,6 +109,10 @@ export interface TriggerSpec {
     [key: string]: unknown;
   };
   at?: string | Record<string, unknown>;
+  turnPhase?: {
+    qualification?: string;
+    partOfTurn: string;
+  };
   [key: string]: unknown;
 }
 
@@ -104,11 +120,25 @@ export interface TriggerSpec {
 export type ObjectSpec =
   | string
   | {
-      reference?: string;
-      object?: string;
-      type?: string;
+      reference?:
+        | string
+        | { targetCount: number }
+        | { count: number };
+      object?: string | { type: TypeFilter; prefixes?: ObjectFilter[] };
+      type?: string | TypeFilter;
+      prefixes?: ObjectFilter[];
+      suffix?: ObjectFilter[];
       [key: string]: unknown;
     };
+
+/** Type filter - typically { and: string[] } */
+export type TypeFilter = { and: string[] } | string;
+
+/** Object filter used in prefixes/suffixes */
+export type ObjectFilter =
+  | { not: Record<string, unknown> }
+  | { color: string | string[] }
+  | Record<string, unknown>;
 
 /** Condition node */
 export type ConditionNode = string | Record<string, unknown>;
@@ -127,9 +157,10 @@ export type EffectNode =
   | { sacrifice: ObjectSpec }
   | { discard: ObjectSpec; random?: boolean }
   | { create: TokenSpec }
-  | { counter: ObjectSpec }
+  | { counter: ObjectSpec | string[] }
   | { loseLife: number }
   | { gainLife: number }
+  | { lifeGain: { whose?: ObjectSpec; value?: string | number } }
   | { mill: number }
   | { scry: number }
   | { surveil: number }
@@ -137,16 +168,26 @@ export type EffectNode =
   | { untap: ObjectSpec }
   | { returns: ObjectSpec; to: string; tapped?: boolean }
   | { search: string | ObjectSpec; criteria?: ObjectSpec }
-  | { addOneOf: string[]; amount?: number }
+  | { addOneOf: (string | string[])[]; amount?: number }
   | { amount: number; counterKind: string; putOn: ObjectSpec }
-  | { cast: ObjectSpec; withoutPaying?: boolean }
-  | { put: ObjectSpec; into: string; tapped?: boolean }
+  | { cast: ObjectSpec; withoutPaying?: boolean; duration?: DurationSpec }
+  | { put: ObjectSpec; into: string; tapped?: boolean; control?: string }
   | { may: EffectNode; ifDo?: EffectNode }
   | { and: EffectNode[] }
+  | { or: EffectNode[] }
   | { what: string | ObjectSpec; does: VerbPhrase }
   | { actor: string | ObjectSpec; does: VerbPhrase }
   | { deal: DamageSpec }
   | { gainsControlOf: ObjectSpec; until?: ConditionNode }
+  | { powerToughnessMod: { powerMod?: number; toughnessMod?: number } }
+  | { costIncrease: { mana: ManaCostValue }; action?: string }
+  | { costDecrease: { mana: ManaCostValue }; action?: string }
+  | { haveAbility: string | EffectNode }
+  | { emblem: { with: { ability: EffectNode } } }
+  | { condition: ConditionNode; effect: EffectNode }
+  | { does: EffectNode; unless?: EffectNode; forEach?: ObjectSpec }
+  | { asLongAs: ConditionNode; effect: EffectNode }
+  | { duration: DurationSpec; effect: EffectNode }
   | EffectNode[]
   | Record<string, unknown>;
 
