@@ -165,6 +165,16 @@ keyword -> ("deathtouch"
   | mutateKeyword
   | megamorphKeyword) {% ([[keyword]]) => keyword %}
 cyclingKeyword -> "cycling" __ cost {% ([, , cost]) => ({ cycling: cost }) %}
+  | typeCycling __ cost {% ([type, , cost]) => ({ cycling: cost, cyclingType: type }) %}
+typeCycling -> "plainscycling" {% () => "plains" %}
+  | "islandcycling" {% () => "island" %}
+  | "swampcycling" {% () => "swamp" %}
+  | "mountaincycling" {% () => "mountain" %}
+  | "forestcycling" {% () => "forest" %}
+  | "landcycling" {% () => "land" %}
+  | "wizardcycling" {% () => "wizard" %}
+  | "slivercycling" {% () => "sliver" %}
+  | "basic landcycling" {% () => "basicLand" %}
 enchantKeyword -> "enchant" __ anyEntity {% ([, , entity]) => ({ enchant: entity }) %}
 equipKeyword -> "equip" __ cost {% ([, , cost]) => ({ equip: cost }) %}
 cumulativeUpkeepKeyword -> "cumulative upkeep" __ cost {% ([, , cumulativeUpkeep]) => ({ cumulativeUpkeep }) %}
@@ -244,17 +254,21 @@ landwalkKeyword -> anyType "walk" {% ([landwalk]) => ({ landwalk }) %}
 auraSwapKeyword -> "aura swap" __ cost {% ([, , auraSwap]) => ({ auraSwap }) %}
 
 abilityWordAbility -> abilityWord __ DASHDASH __ ability {% ([aw, , , , a]) => a %}
-activatedAbility -> costs ":" __ effect (__ activationInstructions):? {% ([costs, , , activatedAbility, i]) => {
+activatedAbility -> costs ":" __ effect (("." __ | __ ) activationInstructions):? {% ([costs, , , activatedAbility, i]) => {
   const result = { costs, activatedAbility };
-  if (i) result.instructions = i;
+  if (i) result.instructions = i[1];
   return result;
 } %}
-activationInstructions -> "activate this ability only " activationInstruction "." {% ([, i]) => ({ only: i }) %}
+activationInstructions -> "activate" (__ "this ability"):? __ "only " activationInstruction "." {% ([, , , , i]) => ({ only: i }) %}
   | "any player may activate this ability." {% () => "anyPlayer" %}
 activationInstruction -> "once each turn" {% () => "onceATurn" %}
   | "any time you could cast a sorcery" {% () => "sorceryOnly" %}
+  | "any time you could cast an instant" {% () => "instantOnly" %}
+  | "as a sorcery" {% () => "sorceryOnly" %}
+  | "as an instant" {% () => "instantOnly" %}
   | "if" __ player __ "control" "s":? __ object {% ([, , actor, , , , , controls]) => ({ actor, controls }) %}
   | "only if" __ condition {% ([, , condition]) => ({ condition }) %}
+  | "if" __ condition {% ([, , condition]) => ({ condition }) %}
 # TODO: Make into AST
 activatedAbilities -> (itsPossessive __):? "activated abilities" {% ([reference]) => reference ? { whose: reference, activatedAbilities: "any" } : { activatedAbilities: "any" } %}
   | "activated abilities of" __ object {% ([, , activatedAbilities]) => ({ whose: activatedAbilities, activatedAbilities: true }) %}
@@ -315,6 +329,7 @@ singleSentence -> imperative {% ([i]) => i %}
   | "as" __ sentence "," __ sentence {% ([, , as, , , does]) => ({ as, does }) %}
   | "instead" __ singleSentence {% ([, , instead]) => ({ instead }) %}
   | playersPossessive __ "maximum hand size is" __ ("reduced" | "increased") __ "by" __ numberDefinition {% ([whose, , , , handSize, , , , amount])  => ({ whose, handSize, amount }) %}
+  | "each" __ permanentTypeInner __ "is" __ "a" "n":? __ subType __ "in addition to its other" __ permanentTypeInner __ "types" {% ([, , what, , , , , , , type, , , , , , ]) => ({ each: what, is: { type, inAddition: true } }) %}
 sentenceInstead -> sentence __ "instead" {% ([instead]) => ({ instead }) %}
   | "instead" __ sentence {% ([, ,instead]) => ({ instead }) %}
 
@@ -397,6 +412,7 @@ suffix -> player __ ((DON_T | DOESN_T) __):? ("control" | "own") "s":? {% ([acto
   | "it targets" {% () => ({ what: "it", does: "targets" }) %}
   | "other than" __ object {% ([, , not]) => ({ not }) %}
   | objectAction __ "this way" {% ([does]) => ({ reference: "thisWay", does }) %}
+  | "of" __ playersPossessive __ "choice" {% ([, , whose]) => ({ choice: whose }) %}
   | "with base power and toughness" __ pt {% ([, , basePowerToughness]) => ({ basePowerToughness }) %}
   | "with total" __ numericalCharacteristic __ numericalComparison {% ([, , characteristic, , value]) => ({ total: { [characteristic]: value } }) %}
   | "dealt damage this way" {% () => ({ reference: "thisWay", does: "dealtDamage" }) %}
@@ -489,12 +505,14 @@ prefix -> "enchanted" {% () => "enchanted" %}
 
 didAction -> "dealt damage" {% () => "dealtDamage" %}
   | "was dealt damage" {% () => "damaged" %}
+  | "discarded" {% () => "discarded" %}
 
 imperative -> "sacrifice" "s":? __ object {% ([, , , sacrifice]) => ({ sacrifice }) %}
   | connected[imperative] {% ([c]) => c %}
   | "fateseal" __ number {% ([, , fateseal]) => ({ fateseal }) %}
   | "destroy" "s":? __ object {% ([, , , destroy]) => ({ destroy }) %}
   | "detain" __ object {% ([, , detain]) => ({ detain }) %}
+  | "discard" "s":? __ playersPossessive __ "hand" {% ([, , , whose]) => ({ discard: { what: "hand", whose } }) %}
   | "discard" "s":? __ object (__ "at random"):? {% ([, , , discard, random]) => random ? { discard, random: true } : { discard } %}
   | "return" "s":? __ object  (__ fromZone):? __ "to" __ zone (__ "tapped"):? (__ "attached to" __ object):? {% ([, , , returns, from, , , , to, tapped, attached]) => {
     result = tapped ? { returns, to, tapped: true } : { returns, to };
@@ -513,6 +531,7 @@ imperative -> "sacrifice" "s":? __ object {% ([, , , sacrifice]) => ({ sacrifice
   | "lose" "s":? __ englishNumber __ "life" {% ([, , , loseLife]) => ({ loseLife }) %}
   | "mill" "s":? __ englishNumber __ "card" "s":? {% ([, , , mill]) => ({ mill }) %}
   | gains (__ numberDefinition):? __ "life" {% ([, gainLife]) => gainLife ? { gainLife: gainLife[1] } : "gainLife" %}
+  | gains __ "no life" {% () => ({ lifeGain: 0 }) %}
   | gains __ "control of" __ object (__ untilClause):? {% ([, , , , gainsControlOf, until]) => until ? { gainsControlOf, until } : { gainsControlOf } %}
   | "remove" "s":? __ countableCount __ (counterKind __):? "counter" "s":? __ "from" __ object {% ([, , , count, , counterKind, , , , , , removeCountersFrom]) => counterKind ? { count, removeCountersFrom, counterKind: counterKind[0] } : { count, removeCountersFrom } %}
   | ("cast" | "play") "s":? __ object (__ "without paying its mana cost"):? (__ duration):? (__ "only during" __ partOfTurn):? (__ "on each of" __ qualifiedPartOfTurn "s":?):? {% ([[cp], , , cast, withoutPaying, duration, onlyDuring, each]) => {
@@ -546,7 +565,11 @@ imperative -> "sacrifice" "s":? __ object {% ([, , , sacrifice]) => ({ sacrifice
   | "add one mana of any color" {% () => ({ addOneOf: ["W", "U", "B", "R", "G"], amount: 1 }) %}
   | "add" "s":? __ englishNumber __ "mana of any one color" {% ([, , , amount]) => ({ addOneOf: ["w", "u", "b", "r", "g"], amount }) %}
   | "add" "s":? __ englishNumber __ "mana in any combination of" __ (manaSymbol __ "and/or" __ manaSymbol {% ([c1, , , , c2]) => [c1, c2] %} | "colors" {% () => ["w", "u", "b", "r", "g"] %}) {% ([, , , amount, , , , addCombinationOf]) => ({ addCombinationOf, amount }) %}
-  | "add" "s":? __ manaSymbols (",":? __ "or" __ manaSymbols):* {% ([, , , m1, ms]) => ({ addOneOf: [m1, ...ms.map(([, , , , m2]) => m2)] }) %}
+  | "add" "s":? __ manaSymbols ("," __ manaSymbols):* (",":? __ "or" __ manaSymbols):? {% ([, , , m1, ms, last]) => {
+    const all = [m1, ...ms.map(([, , m2]) => m2)];
+    if (last) all.push(last[4]);
+    return all.length > 1 ? { addOneOf: all } : { add: m1 };
+  } %}
   | "prevent" __ damagePreventionAmount __ damageNoun __ (object __ "would deal" {% ([from]) => ({ from }) %} | "that would be dealt" (__ "to" __ anyEntity):? {% ([, to]) => to ? { to: to[3] } : { to: "any" } %}) (__ duration):?{% ([, , amount, , prevent, , to, duration]) => {
     const result = to ? { amount, prevent, ...to } : { amount, prevent };
     if (duration) result.duration = duration[1];
@@ -583,6 +606,8 @@ imperative -> "sacrifice" "s":? __ object {% ([, , , sacrifice]) => ({ sacrifice
   | "regenerate" __ object {% ([, , regenerate]) => ({ regenerate }) %}
   | "bolster" __ englishNumber {% ([, , bolster]) => ({ bolster }) %}
   | "populate" {% () => "populate" %}
+  | "investigate" {% () => "investigate" %}
+  | "lose" "s":? __ "life equal to" __ numberDefinition {% ([, , , , , loseLife]) => ({ loseLife }) %}
   | imperative __ untilClause {% ([does, , until]) => ({ does, until }) %}
   | "support" __ number {% ([, , support]) => ({ support }) %}
   | "attach" __ object __ "to" __ object {% ([, , attach, , , , to]) => ({ attach, to }) %}
@@ -619,6 +644,7 @@ playerVerbPhrase -> gains __ number __ "life" {% ([, , lifeGain]) => ({ lifeGain
   | "each" __ playerVerbPhrase {% ([, , each]) => ({ each }) %}
   | "cycle" __ object {% ([, , cycle]) => ({ cycle }) %}
   | "has no cards in hand" {% () => ({ not: { has: { what: "card", in: "hand" } } }) %}
+  | ("have" | "has") __ (countableCount __):? object __ inZone {% ([, , count, what, , inZone]) => count ? { has: { count: count[0], what, ...inZone } } : { has: { what, ...inZone } } %}
   | "has" __ object __ objectVerbPhrase {% ([, , what, , does]) => ({ what, does }) %}
 objectVerbPhrase -> connected[objectVerbPhrase] {% ([c]) => c %}
   | ("was" | "is") __ object {% ([, , is]) => ({ is }) %}
@@ -795,6 +821,7 @@ pt -> number "/" number {% ([power, , toughness]) => ({ power, toughness }) %}
 ptModification -> PLUSMINUS number "/" PLUSMINUS number {% ([pmP, power, , pmT, toughness]) => ({ powerMod: '+' === pmP.toString() ? power : -power, toughnessMod: '+' === pmT.toString() ? toughness : -toughness }) %}
 numberDefinition -> itsPossessive __ numericalCharacteristic {% ([whose, , characteristic]) => ({ whose, characteristic }) %}
   | "the" __ ("total" __):? "number of" __ object {% ([, , , , , count]) => ({ count }) %}
+  | "the greatest number of" __ object {% ([, , count]) => ({ greatest: { count } }) %}
   | "the total" __ numericalCharacteristic __ "of" __ object {% ([, , total, , , , whose]) => ({ total, whose }) %}
   | "the greatest" __ numericalCharacteristic __ "among" __ anyEntity {% ([, , greatest, , , , among]) => ({ greatest, among }) %}
   | "life" {% () => "life" %}
@@ -813,6 +840,7 @@ withClauseInner -> numericalCharacteristic __ numericalComparison {% ([value, , 
   | object {% ([object]) => ({ object }) %}
 
 dealsWhat -> damageNoun __ "to" __ damageRecipient {% ([damage, , , , to]) => ({ ...damage, to }) %}
+ | numberDefinition __ "damage to" __ damageRecipient __ "and" __ numberDefinition __ "damage to" __ damageRecipient {% ([amount1, , , , to1, , , , amount2, , , , to2]) => ({ and: [{ amount: amount1, damageTo: to1 }, { amount: amount2, damageTo: to2 }] }) %}
  | numberDefinition __ "damage to" __ damageRecipient {% ([amount, , , , damageTo]) => ({ amount, damageTo }) %}
  | "damage equal to" __ numberDefinition __ "to" __ damageRecipient {% ([, , amount, , , , damageTo]) => ({ amount, damageTo }) %}
  | "damage to" __ damageRecipient __ "equal to" __ numberDefinition {% ([, , damageTo, , , , amount]) => ({ amount, damageTo }) %}
@@ -888,6 +916,7 @@ zone -> (playersPossessive | "a" (__ "single"):?) __ ownedZone {% ([[owner], , z
   | "the battlefield" {% () => "battlefield" %}
   | "it" {% () => "it" %}
   | "anywhere" {% () => "anywhere" %}
+  | ownedZone {% ([zone]) => ({ zone }) %}
 ownedZone -> "graveyard" {% () => "graveyard" %}
   | "library" {% () => "library" %}
   | "libraries" {% () => "library" %}

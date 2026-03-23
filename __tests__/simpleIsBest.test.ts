@@ -232,6 +232,21 @@ const ambiguousCards: TestCard[] = [
 
   // Planeswalker loyalty abilities (Step 7)
   { name: 'Dack Fayden', oracle_text: '+1: Target player draws two cards, then discards two cards.\n−2: Gain control of target artifact.\n−6: You get an emblem with "Whenever you cast a spell that targets one or more permanents, gain control of those permanents."' },
+
+  // Step 8: Grammar fixes — investigate, lose life equal, each land type, activate only, compound damage, mana add list
+  { name: 'Thraben Inspector', oracle_text: 'When Thraben Inspector enters, investigate. (Create a Clue token. It\'s an artifact with "{2}, Sacrifice this token: Draw a card.")' },
+  { name: 'Tireless Tracker', oracle_text: 'Landfall — Whenever a land you control enters, investigate. (Create a Clue token. It\'s an artifact with "{2}, Sacrifice this token: Draw a card.")\nWhenever you sacrifice a Clue, put a +1/+1 counter on Tireless Tracker.' },
+  { name: 'Reanimate', oracle_text: 'Put target creature card from a graveyard onto the battlefield under your control. You lose life equal to that card\'s mana value.' },
+  { name: 'Feed the Swarm', oracle_text: 'Destroy target creature or enchantment an opponent controls. You lose life equal to that permanent\'s mana value.' },
+  { name: 'Urborg, Tomb of Yawgmoth', oracle_text: 'Each land is a Swamp in addition to its other land types.' },
+  { name: 'Yavimaya, Cradle of Growth', oracle_text: 'Each land is a Forest in addition to its other land types.' },
+  { name: 'Noble Hierarch', oracle_text: 'Exalted (Whenever a creature you control attacks alone, that creature gets +1/+1 until end of turn.)\n{T}: Add {G}, {W}, or {U}.' },
+  { name: 'Ignoble Hierarch', oracle_text: 'Exalted (Whenever a creature you control attacks alone, that creature gets +1/+1 until end of turn.)\n{T}: Add {B}, {R}, or {G}.' },
+  { name: 'Char', oracle_text: 'Char deals 4 damage to any target and 2 damage to you.' },
+  { name: 'Library of Alexandria', oracle_text: '{T}: Add {C}.\n{T}: Draw a card. Activate only if you have exactly seven cards in hand.' },
+  { name: 'Mox Opal', oracle_text: 'Metalcraft — {T}: Add one mana of any color. Activate only if you control three or more artifacts.' },
+  { name: 'Lion\'s Eye Diamond', oracle_text: 'Discard your hand, Sacrifice Lion\'s Eye Diamond: Add three mana of any one color. Activate only as an instant.' },
+  { name: 'Recurring Nightmare', oracle_text: 'Sacrifice a creature, Return Recurring Nightmare to its owner\'s hand: Return target creature card from your graveyard to the battlefield. Activate only as a sorcery.' },
 ];
 
 describe('Baseline: Ambiguous cards parse with results', () => {
