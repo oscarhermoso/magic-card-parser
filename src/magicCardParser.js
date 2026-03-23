@@ -22,7 +22,7 @@ const compiledTypeLineGrammar = Grammar.fromCompiled(typeLineGrammar);
 const parseCard = (card) => {
     const { name, oracle_text, layout } = card;
 
-    if (layout != 'normal') {
+    if (layout && layout != 'normal') {
         // https://scryfall.com/docs/api/layouts
         return { parsed: null, error: 'Currently only support normal layout', oracleText: oracle_text, card };
     }

@@ -490,7 +490,7 @@ prefix -> "enchanted" {% () => "enchanted" %}
 didAction -> "dealt damage" {% () => "dealtDamage" %}
   | "was dealt damage" {% () => "damaged" %}
 
-imperative -> "sacrifice" __ object {% ([, , sacrifice]) => ({ sacrifice }) %}
+imperative -> "sacrifice" "s":? __ object {% ([, , , sacrifice]) => ({ sacrifice }) %}
   | connected[imperative] {% ([c]) => c %}
   | "fateseal" __ number {% ([, , fateseal]) => ({ fateseal }) %}
   | "destroy" "s":? __ object {% ([, , , destroy]) => ({ destroy }) %}
@@ -528,6 +528,7 @@ imperative -> "sacrifice" __ object {% ([, , sacrifice]) => ({ sacrifice }) %}
   | "choose" "s":? __ (object {% ([o]) => o %} | "a" __ anyType __ "type" {% ([, , type]) => ({ type }) %} | "not to" __ imperative {% ([, , not]) => ({ not }) %} | "a card name" {% () => "cardName" %} | "a color" {% () => "color" %}) {% ([, , , choose]) => ({ choose }) %}
   | "draw" "s":? __ ("a" __ "card" {% () => 1 %} | "an additional card" {% () => 1 %} | englishNumber __ "card" "s" {% ([n]) => n %}) {% ([, , , draw]) => ({ draw }) %}
   | "draw" "s":? __ "cards equal to" __ numberDefinition {% ([, , , , , draw]) => ({ draw }) %}
+  | "draw" "s":? __ "more than" __ englishNumber __ "card" "s":? (__ "each" __ "turn"):? {% ([, , , , , max, , , , duration]) => ({ draw: { max }, duration: duration ? { reference: "each", what: "turn" } : null }) %}
   | "shuffle" "s":? __ zone {% ([, , , shuffle]) => ({ shuffle }) %}
   | "shuffle" "s":? __ (object | zone) __ "into" __ zone {% ([, , , shuffle, , , , into]) => ({ shuffle, into }) %}
   | "shuffle" "s":? {% () => ({ shuffle: "library" }) %}
@@ -880,6 +881,7 @@ cantClauseInner -> "attack" {% () => "attack" %}
   | "be enchanted" (__ "by" __ object):? {% ([, by]) => by ? { what: by[3], does: "enchant" } : "enchanted" %}
   | objectVerbPhrase {% ([does]) => does %}
   | "be regenerated" {% () => "regenerate" %}
+  | "draw more than" __ englishNumber __ "card" "s":? (__ "each" __ "turn"):? {% ([, , max, , , , duration]) => ({ draw: { max }, duration: duration ? { reference: "each", what: "turn" } : null }) %}
 
 zone -> (playersPossessive | "a" (__ "single"):?) __ ownedZone {% ([[owner], , zone]) => ({ owner, zone }) %}
   | "exile" {% () => "exile" %}

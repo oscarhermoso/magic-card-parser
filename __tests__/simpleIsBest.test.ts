@@ -229,6 +229,9 @@ const ambiguousCards: TestCard[] = [
   { name: 'Marsh Flats', oracle_text: '{T}, Pay 1 life, Sacrifice Marsh Flats: Search your library for a Plains or Swamp card, put it onto the battlefield, then shuffle.' },
   { name: 'Arid Mesa', oracle_text: '{T}, Pay 1 life, Sacrifice Arid Mesa: Search your library for a Mountain or Plains card, put it onto the battlefield, then shuffle.' },
   { name: 'Misty Rainforest', oracle_text: '{T}, Pay 1 life, Sacrifice Misty Rainforest: Search your library for a Forest or Island card, put it onto the battlefield, then shuffle.' },
+
+  // Planeswalker loyalty abilities (Step 7)
+  { name: 'Dack Fayden', oracle_text: '+1: Target player draws two cards, then discards two cards.\n−2: Gain control of target artifact.\n−6: You get an emblem with "Whenever you cast a spell that targets one or more permanents, gain control of those permanents."' },
 ];
 
 describe('Baseline: Ambiguous cards parse with results', () => {
@@ -394,6 +397,36 @@ describe('AST structure snapshots', () => {
     const searchStr = JSON.stringify(abilities[1]);
     expect(searchStr).toContain('"search"');
     expect(searchStr).toContain('"battlefield"');
+  });
+
+  // Planeswalker AST tests (Step 7)
+  it('Elspeth, Sun\'s Champion: three loyalty abilities', () => {
+    const result = parse({ name: 'Elspeth, Sun\'s Champion', oracle_text: '+1: Create three 1/1 white Soldier creature tokens.\n−3: Destroy all creatures with power 4 or greater.\n−7: You get an emblem with "Creatures you control get +2/+2 and have flying."' });
+    expect(result.result).not.toBeNull();
+    const abilities = result.result![0];
+    // Should have 3 loyalty abilities
+    expect(abilities).toHaveLength(3);
+    // Each should have costs (loyalty cost) and activatedAbility
+    abilities.forEach((a: Record<string, unknown>) => {
+      expect(a).toHaveProperty('costs');
+      expect(a).toHaveProperty('activatedAbility');
+    });
+  });
+
+  it('Dack Fayden: loyalty abilities with draw/discard, control, emblem', () => {
+    const result = parse({ name: 'Dack Fayden', oracle_text: '+1: Target player draws two cards, then discards two cards.\n−2: Gain control of target artifact.\n−6: You get an emblem with "Whenever you cast a spell that targets one or more permanents, gain control of those permanents."' });
+    expect(result.result).not.toBeNull();
+    const abilities = result.result![0];
+    expect(abilities).toHaveLength(3);
+    // +1 should contain draw and discard
+    const plus1 = JSON.stringify(abilities[0]);
+    expect(plus1).toContain('"draw"');
+    expect(plus1).toContain('"discard"');
+  });
+
+  it('parseCard works without layout field', () => {
+    const result = parseCard({ name: 'Lightning Bolt', oracle_text: 'Lightning Bolt deals 3 damage to any target.' });
+    expect(result.result).not.toBeNull();
   });
 
   it('Vampiric Tutor: search, shuffle and put on top, lose life', () => {
