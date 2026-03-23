@@ -1,3 +1,4 @@
+// @ts-nocheck — data-driven test file; type narrowing not needed for parse result assertions
 import { describe, it, expect } from 'vitest';
 import { parseCard, parseTypeLine } from '../src/magicCardParser.js';
 
