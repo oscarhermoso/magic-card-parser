@@ -13,13 +13,4 @@ export default defineConfig({
   // Bundle generated grammars (local files), externalize nearley (npm dep)
   noExternal: [],
   external: ['nearley'],
-  banner({ format }) {
-    // Shim require() in ESM for nearley compatibility
-    if (format === 'esm') {
-      return {
-        js: "import {createRequire as __createRequire} from 'module';\nvar require=__createRequire(import.meta.url);",
-      };
-    }
-    return {};
-  },
 });
