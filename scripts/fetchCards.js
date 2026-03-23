@@ -1,5 +1,5 @@
-const https = require('https');
-const fs = require('fs');
+import https from 'https';
+import fs from 'fs';
 
 console.log("Fetching /bulk-data to find the file")
 https.get('https://api.scryfall.com/bulk-data', (res) => {

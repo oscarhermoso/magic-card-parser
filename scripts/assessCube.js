@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 // Quick assessment of parse success/ambiguity/failure for simple-is-best cube
-const { parseCard } = require('../src/magicCardParser');
+import { parseCard } from '../src/magicCardParser.js';
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
 const cards = require('/home/oscarhermoso/Git/mtg-cube-simulator/src/cards.json');
 
 let success = 0, ambiguous = 0, failed = 0;

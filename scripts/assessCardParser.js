@@ -1,17 +1,16 @@
-const fs = require('fs');
-const os = require('os');
-const { isMainThread, parentPort, Worker, workerData } = require('worker_threads');
-
-const { parseCard, parseTypeLine } = require('../src/magicCardParser');
+import fs from 'fs';
+import os from 'os';
+import { isMainThread, parentPort, Worker, workerData } from 'worker_threads';
+import { parseCard, parseTypeLine } from '../src/magicCardParser.js';
 
 if (!fs.existsSync('./oracle_cards.json')) {
     console.error("oracle_cards.json does not exist, run 'npm run fetch' to download it");
-    return;
+    process.exit(1);
 }
 
 const runService = (data) => {
     return new Promise((resolve, reject) => {
-        const worker = new Worker('./scripts/assessCardParser.js', { workerData: data });
+        const worker = new Worker(new URL('./assessCardParser.js', import.meta.url), { workerData: data });
         worker.on('message', resolve);
         worker.on('error', reject);
         worker.on('exit', (code) => {
@@ -99,20 +98,6 @@ if (isMainThread) {
             }
         }
         console.info('successes', successes.length);
-        // console.debug(
-        //   JSON.stringify(
-        //     successes.concat(ambiguous).map(({ cardID, name, manaCost, types, parsed, power, toughness, loyalty }) => ({
-        //       cardID,
-        //       name,
-        //       manaCost,
-        //       types,
-        //       parsed,
-        //       power,
-        //       toughness,
-        //       loyalty,
-        //     })),
-        //   ),
-        // );
         console.info('ambiguous', ambiguous.length);
         for (let i = 0; i < 1; i++) {
             console.info(JSON.stringify(ambiguous[Math.floor(Math.random() * ambiguous.length)], null, 2));
@@ -121,7 +106,6 @@ if (isMainThread) {
         for (let i = 0; i < 8; i++) {
             console.info(JSON.stringify(failures[Math.floor(Math.random() * failures.length)]));
         }
-        // console.debug(failures.join('\n,'));
         console.info(
             'parse rate',
             successes.length + ambiguous.length,
