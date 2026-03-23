@@ -167,6 +167,16 @@ const successCards: TestCard[] = [
   { name: 'Gitaxian Probe', oracle_text: '({U/P} can be paid with either {U} or 2 life.)\nLook at target player\'s hand.\nDraw a card.' },
   { name: 'Dark Confidant', oracle_text: 'At the beginning of your upkeep, reveal the top card of your library and put that card into your hand. You lose life equal to its mana value.' },
   { name: 'Flickerwisp', oracle_text: 'Flying\nWhen this creature enters, exile another target permanent. Return that card to the battlefield under its owner\'s control at the beginning of the next end step.' },
+
+  // Step 8 batch 4: tapped-for-mana, countered-this-way, becomes-creature, base-p/t, mana-restriction
+  { name: 'Remand', oracle_text: 'Counter target spell. If that spell is countered this way, put it into its owner\'s hand instead of into that player\'s graveyard.\nDraw a card.' },
+  { name: 'Memory Lapse', oracle_text: 'Counter target spell. If that spell is countered this way, put it on top of its owner\'s library instead of into that player\'s graveyard.' },
+  { name: 'High Tide', oracle_text: 'Until end of turn, whenever a player taps an Island for mana, that player adds an additional {U}.' },
+  { name: 'Mana Drain', oracle_text: 'Counter target spell. At the beginning of your next main phase, add an amount of {C} equal to that spell\'s mana value.' },
+  { name: 'Kudo, King Among Bears', oracle_text: 'Other creatures have base power and toughness 2/2 and are Bears in addition to their other types.' },
+  { name: 'Mishra\'s Workshop', oracle_text: '{T}: Add {C}{C}{C}. Spend this mana only to cast artifact spells.' },
+  { name: 'Heartbeat of Spring', oracle_text: 'Whenever a player taps a land for mana, that player adds one mana of any type that land produced.' },
+  { name: 'Mana Flare', oracle_text: 'Whenever a player taps a land for mana, that player adds one mana of any type that land produced.' },
 ];
 
 describe('Baseline: Successfully parsing cards', () => {
@@ -280,6 +290,12 @@ const ambiguousCards: TestCard[] = [
   { name: 'Hazoret the Fervent', oracle_text: 'Indestructible, haste\nHazoret can\'t attack or block unless you have one or fewer cards in hand.\n{2}{R}, Discard a card: Hazoret deals 2 damage to each opponent.' },
   { name: 'Narset, Parter of Veils', oracle_text: 'Each opponent can\'t draw more than one card each turn.\n−2: Look at the top four cards of your library. You may reveal a noncreature, nonland card from among them and put it into your hand. Put the rest on the bottom of your library in a random order.' },
   { name: 'Irreverent Gremlin', oracle_text: 'Menace\nWhenever another creature you control with power 2 or less enters, you may discard a card. If you do, draw a card.' },
+
+  // Step 8 batch 4: ambiguous — tapped for mana triggers, becomes creature, leaves battlefield, arclight condition
+  { name: 'Wild Growth', oracle_text: 'Enchant land\nWhenever enchanted land is tapped for mana, its controller adds an additional {G}.' },
+  { name: 'Mutavault', oracle_text: '{T}: Add {C}.\n{1}: Mutavault becomes a 2/2 creature with all creature types until end of turn. It\'s still a land.' },
+  { name: 'Sundering Titan', oracle_text: 'When Sundering Titan enters or leaves the battlefield, choose a land of each basic land type, then destroy those lands.' },
+  { name: 'Arclight Phoenix', oracle_text: 'Flying, haste\nAt the beginning of combat on your turn, if you\'ve cast three or more instant and sorcery spells this turn, return Arclight Phoenix from your graveyard to the battlefield.' },
 ];
 
 describe('Baseline: Ambiguous cards parse with results', () => {
