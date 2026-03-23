@@ -1,8 +1,42 @@
 # Magic Card Parser
 This is a project to implement a parser that will support parsing most Magic
 the Gathering card texts. The current goal is to parse 80% of cards
-successfully. To use simply run `npm i magic-card-parser` then you can include
-it in your project with `import { parseCard } from 'magic-card-parser'`.
+successfully.
+
+## Installation
+
+This package is published to [GitHub Packages](https://github.com/oscarhermoso/magic-card-parser/packages).
+
+### 1. Configure npm registry
+
+Create or update `.npmrc` in your project root:
+
+```
+@oscarhermoso:registry=https://npm.pkg.github.com/
+//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
+```
+
+You'll need a [GitHub personal access token](https://github.com/settings/tokens) with `read:packages` scope, set as the `GITHUB_TOKEN` environment variable.
+
+### 2. Install
+
+```bash
+npm install @oscarhermoso/magic-card-parser
+```
+
+### 3. Usage
+
+```javascript
+// ESM
+import { parseCard, parseTypeLine } from '@oscarhermoso/magic-card-parser';
+
+// CommonJS
+const { parseCard, parseTypeLine } = require('@oscarhermoso/magic-card-parser');
+```
+
+## Overview
+
+Include it in your project with `import { parseCard } from '@oscarhermoso/magic-card-parser'`.
 `parseCard` takes a single argument, `card`, that must include the properties
 `name` and `oracle_text`. It will automatically replace the cards name with `~`
 in the oracle text and convert to lowercase before parsing. The return value is
