@@ -1,4 +1,5 @@
 node_modules/
+dist/
 failures.json
 ambiguous.json
 incorrect.json
@@ -6,3 +7,4 @@ incorrect.json
 private/
 src/generated/
 /oracle_cards.json
+nearley/magicCard.js
