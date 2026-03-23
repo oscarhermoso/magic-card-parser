@@ -219,6 +219,11 @@ const successCards: TestCard[] = [
   { name: 'Wild Growth', oracle_text: 'Enchant land\nWhenever enchanted land is tapped for mana, its controller adds an additional {G}.' },
   { name: 'Mutavault', oracle_text: '{T}: Add {C}.\n{1}: Mutavault becomes a 2/2 creature with all creature types until end of turn. It\'s still a land.' },
   { name: 'Sundering Titan', oracle_text: 'When Sundering Titan enters or leaves the battlefield, choose a land of each basic land type, then destroy those lands.' },
+  // Moved from ambiguous after grammar restructuring (suffix from-zone fix)
+  { name: 'Wrenn and Six', oracle_text: '+1: Return target land card from your graveyard to your hand.\n−1: Wrenn and Six deals 1 damage to any target.\n−7: You get an emblem with "Instant and sorcery cards in your graveyard have retrace."' },
+  { name: 'Eternal Witness', oracle_text: 'When this creature enters, you may return target card from your graveyard to your hand.' },
+  { name: 'Recurring Nightmare', oracle_text: 'Sacrifice a creature, Return Recurring Nightmare to its owner\'s hand: Return target creature card from your graveyard to the battlefield. Activate only as a sorcery.' },
+  { name: 'Arclight Phoenix', oracle_text: 'Flying, haste\nAt the beginning of combat on your turn, if you\'ve cast three or more instant and sorcery spells this turn, return Arclight Phoenix from your graveyard to the battlefield.' },
 ];
 
 describe('Baseline: Successfully parsing cards', () => {
@@ -242,11 +247,9 @@ const ambiguousCards: TestCard[] = [
   { name: 'Gush', oracle_text: 'You may return two Islands you control to their owner\'s hand rather than pay this spell\'s mana cost.\nDraw two cards.' },
   { name: 'Tendrils of Agony', oracle_text: 'Target player loses 2 life and you gain 2 life.\nStorm' },
   { name: 'Garruk Wildspeaker', oracle_text: '+1: Untap two target lands.\n−1: Create a 3/3 green Beast creature token.\n−4: Creatures you control get +3/+3 and gain trample until end of turn.' },
-  { name: 'Wrenn and Six', oracle_text: '+1: Return target land card from your graveyard to your hand.\n−1: Wrenn and Six deals 1 damage to any target.\n−7: You get an emblem with "Instant and sorcery cards in your graveyard have retrace."' },
   { name: 'Bone Shards', oracle_text: 'As an additional cost to cast this spell, sacrifice a creature or discard a card.\nDestroy target creature or planeswalker.' },
 
   // New-style "this creature" ETB triggers — still ambiguous
-  { name: 'Eternal Witness', oracle_text: 'When this creature enters, you may return target card from your graveyard to your hand.' },
   { name: 'Reclamation Sage', oracle_text: 'When this creature enters, you may destroy target artifact or enchantment.' },
   { name: 'Blade Splicer', oracle_text: 'When this creature enters, create a 3/3 colorless Phyrexian Golem artifact creature token.\nGolems you control have first strike.' },
   { name: 'Thragtusk', oracle_text: 'When this creature enters, you gain 5 life.\nWhen this creature leaves the battlefield, create a 3/3 green Beast creature token.' },
@@ -278,7 +281,6 @@ const ambiguousCards: TestCard[] = [
   { name: 'Feed the Swarm', oracle_text: 'Destroy target creature or enchantment an opponent controls. You lose life equal to that permanent\'s mana value.' },
   { name: 'Library of Alexandria', oracle_text: '{T}: Add {C}.\n{T}: Draw a card. Activate only if you have exactly seven cards in hand.' },
   { name: 'Mox Opal', oracle_text: 'Metalcraft — {T}: Add one mana of any color. Activate only if you control three or more artifacts.' },
-  { name: 'Recurring Nightmare', oracle_text: 'Sacrifice a creature, Return Recurring Nightmare to its owner\'s hand: Return target creature card from your graveyard to the battlefield. Activate only as a sorcery.' },
   { name: 'Phantasmal Shieldback', oracle_text: 'When this creature becomes the target of a spell or ability, sacrifice it.\nWhen this creature dies, draw a card.' },
   { name: 'Baral, Chief of Compliance', oracle_text: 'Instant and sorcery spells you cast cost {1} less to cast.\nWhenever a spell or ability you control counters a spell, you may draw a card. If you do, discard a card.' },
   { name: 'Windfall', oracle_text: 'Each player discards their hand, then draws cards equal to the greatest number of cards a player discarded this way.' },
@@ -291,7 +293,6 @@ const ambiguousCards: TestCard[] = [
   { name: 'Hazoret the Fervent', oracle_text: 'Indestructible, haste\nHazoret can\'t attack or block unless you have one or fewer cards in hand.\n{2}{R}, Discard a card: Hazoret deals 2 damage to each opponent.' },
   { name: 'Narset, Parter of Veils', oracle_text: 'Each opponent can\'t draw more than one card each turn.\n−2: Look at the top four cards of your library. You may reveal a noncreature, nonland card from among them and put it into your hand. Put the rest on the bottom of your library in a random order.' },
   { name: 'Irreverent Gremlin', oracle_text: 'Menace\nWhenever another creature you control with power 2 or less enters, you may discard a card. If you do, draw a card.' },
-  { name: 'Arclight Phoenix', oracle_text: 'Flying, haste\nAt the beginning of combat on your turn, if you\'ve cast three or more instant and sorcery spells this turn, return Arclight Phoenix from your graveyard to the battlefield.' },
 ];
 
 describe('Baseline: Ambiguous cards parse with results', () => {

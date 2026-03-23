@@ -399,7 +399,7 @@ suffix -> player __ ((DON_T | DOESN_T) __):? ("control" | "own") "s":? {% ([acto
   | "in" __ zone (__ "and in" __ zone):? {% ([, , zone, zone2]) => zone2 ? { and: [{ in: zone}, {in: zone2[3]}] } : { in: zone } %}
   | "not" __ suffix {% ([, , not]) => ({ not }) %}
   | "revealed this way" {% () => ({ reference: "thisWay", does: "reveal" }) %}
-  | "from" __ (zone | object) {% ([, , [from]]) => ({ from }) %}
+  | "from" __ object {% ([, , from]) => ({ from }) %}
   | ("that" __):? "you cast" {% () => "youCast" %}
   | "that" __ didAction (__ duration):? {% ([, , didAction, when]) => when ? { didAction, when: when[1] } : { didAction } %}
   | "that targets only" __ object {% ([, , onlyTargets]) => ({ onlyTargets }) %}
@@ -430,8 +430,7 @@ suffix -> player __ ((DON_T | DOESN_T) __):? ("control" | "own") "s":? {% ([acto
 objectAction -> "sacrificed" {% () => "sacrifice" %}
   | "returned" {% () => "return" %}
   | "discarded" {% () => "discard" %}
-pureObject -> connected[pureObject1] (__ suffix):?{% ([c, suffix]) => suffix ? { object: c, suffix: suffix[1] } : c %}
-  | pureObject1 (__ suffix):?{% ([o, suffix]) => suffix ? { object: o, suffix: suffix[1] } : o %}
+pureObject -> pureObject1 (__ suffix):?{% ([o, suffix]) => suffix ? { object: o, suffix: suffix[1] } : o %}
 pureObject1 -> (prefix __):* (anyType __):? pureObjectInner {% ([prefixes, types, object, suffix]) => {
   if (prefixes.length === 0 && !suffix && !types) return object;
   const result = { object };
@@ -531,8 +530,9 @@ imperative -> "sacrifice" "s":? __ object {% ([, , , sacrifice]) => ({ sacrifice
     if (control) result.control = control[3];
     return result;
   } %}
-  | "exile" "s":? __ object (__ "face down"):? (__ untilClause):? {% ([, , , exile, faceDown, until]) => {
+  | "exile" "s":? __ object (__ fromZone):? (__ "face down"):? (__ untilClause):? {% ([, , , exile, from, faceDown, until]) => {
     const result = { exile };
+    if (from) result.from = from[1];
     if (faceDown) result.faceDown = true;
     if (until) result.until = until[1];
     return result;
@@ -596,8 +596,9 @@ imperative -> "sacrifice" "s":? __ object {% ([, , , sacrifice]) => ({ sacrifice
   | "look" "s":? __ "at" __ zone {% ([, , , , , lookAt]) => ({ lookAt }) %}
   | "reveal" "s":? __ (object | zone) (__ "at random" __ fromZone):? {% ([, , , [reveal], random]) => random ? { random: true, from: random[3], reveal } : { reveal } %}
   | "reveal" "s":? __ "the top" __ englishNumber __ "card" "s":? __ "of" __ zone {% ([, , , , , count, , , , , , from]) => ({ reveal: { topCards: count, from } }) %}
-  | "put" "s":? __ object __ intoZone (__ "tapped"):? (__ "and" __ object __ intoZone):? (__ "under" __ playersPossessive __ "control"):? (__ "instead of" __ intoZone):? {% ([, , , put, , into, tapped, additional, control, insteadOf]) => {
+  | "put" "s":? __ object (__ fromZone):? __ intoZone (__ "tapped"):? (__ "and" __ object __ intoZone):? (__ "under" __ playersPossessive __ "control"):? (__ "instead of" __ intoZone):? {% ([, , , put, from, , into, tapped, additional, control, insteadOf]) => {
     let result = { put, into };
+    if (from) result.from = from[1];
     if (tapped) result.tapped = true;
     if (control) result.control = control[3];
     if (additional) result = { and: [result, { put: additonal[3], into: additional[5] }] };
@@ -632,10 +633,19 @@ imperative -> "sacrifice" "s":? __ object {% ([, , , sacrifice]) => ({ sacrifice
   | "cast" __ numericalComparison __ "spell" __ duration {% ([, , comparison, , what, , duration]) => ({ cast: { comparison, what, duration } }) %}
   | "spend this mana only to cast" __ object {% ([, , spendOnlyOn]) => ({ spendOnlyOn }) %}
 
-playerVerbPhrase -> gains __ number __ "life" {% ([, , lifeGain]) => ({ lifeGain }) %}
+playerVerbPhrase -> modifiedPlayerVerbPhrase {% ([m]) => m %}
+  | modifiedPlayerVerbPhrase ("," | ".") __ "then" __ modifiedPlayerVerbPhrase {% ([p1, , , , , p2]) => ({ and: [p1, p2] }) %}
+  | "each" __ modifiedPlayerVerbPhrase {% ([, , each]) => ({ each }) %}
+modifiedPlayerVerbPhrase -> basePlayerVerbPhrase (__ playerVerbModifier):? {% ([does, mod]) => {
+    if (!mod) return does;
+    return { does, ...mod[1] };
+  } %}
+playerVerbModifier -> "for each" __ pureObject {% ([, , forEach]) => ({ forEach }) %}
+  | "for the first time each turn" {% () => ({ reference: "firstTime", duration: { reference: "each", what: "turn" } }) %}
+  | "if" __ sentence {% ([, , condition]) => ({ condition }) %}
+  | "this way" {% () => ({ reference: "thisWay" }) %}
+basePlayerVerbPhrase -> gains __ number __ "life" {% ([, , lifeGain]) => ({ lifeGain }) %}
   | gains __ "life equal to" __ itsPossessive __ numericalCharacteristic {% ([, , , , whose, , value]) => ({ lifeGain: { whose, value } }) %}
-  | playerVerbPhrase __ "for each" __ pureObject {% ([does, , , , forEach]) => ({ does, forEach }) %}
-  | playerVerbPhrase __ "for the first time each turn" {% ([does]) => ({ does, reference: "firstTime", duration: { reference: "each", what: "turn" } }) %}
   | controls __ ("no" __):? object {% ([, , negation, controls]) => negation ? { not: { controls } } : { controls } %}
   | owns __ object {% ([, , owns]) => ({ owns }) %}
   | (DON_T | DOESN_T) "lose this mana as steps and phases end." {% () => "doesntEmpty" %}
@@ -651,15 +661,11 @@ playerVerbPhrase -> gains __ number __ "life" {% ([, , lifeGain]) => ({ lifeGain
     return result;
   } %}
   | imperative {% ([i]) => i %}
-  | playerVerbPhrase ("," | ".") __ "then" __ playerVerbPhrase {% ([p1, , , , , p2]) => ({ and: [p1, p2] }) %}
   | CAN_T __ imperative {% ([, , cant]) => ({ cant }) %}
   | (DOESN_T | DON_T) {% () => { not: "do" } %}
   | ("does" | "do") {% () => "do" %}
   | "lose" "s":? __ "the game" {% () => "lose" %}
-  | playerVerbPhrase __ "if" __ sentence {% ([does, , , , condition]) => ({ does, condition }) %}
-  | playerVerbPhrase __ "this way" {% ([does]) => ({ does, reference: "thisWay" }) %}
   | gets __ "an emblem" __ withClause {% ([, , , , emblem]) => ({ emblem }) %}
-  | "each" __ playerVerbPhrase {% ([, , each]) => ({ each }) %}
   | "may play" __ object (__ fromZone):? {% ([, , what, from]) => from ? { may: { play: { what, from: from[1] } } } : { may: { play: { what } } } %}
   | "cycle" __ object {% ([, , cycle]) => ({ cycle }) %}
   | "tap" "s":? __ object __ "for mana" {% ([, , , what]) => ({ tapsForMana: what }) %}
@@ -982,7 +988,7 @@ permanentType -> permanentTypeInner (__ permanentTypeInner):* {% ([t1, ts]) => (
   | connected[permanentType] {% ([c]) => c %}
 permanentTypeSpecifier -> permanentTypeSpecifierInner (__ permanentTypeSpecifierInner):* {% ([t1, ts]) => ({ and: [t1, ...ts.map(([, t]) => t)] }) %}
 anyType -> anyTypeInner (__ anyTypeInner):* {% ([t1, ts]) => ({ and: [t1, ...ts.map(([, t]) => t)] }) %}
-  | connected[anyTypeInner] {% ([c]) => c %}
+  | anyTypeInner __ "or" __ anyTypeInner {% ([t1, , , , t2]) => ({ or: [t1, t2] }) %}
 anyTypeInner -> permanentTypeInner {% ([t]) => t %}
   | spellType {% ([t]) => t %}
   | superType {% ([t]) => t %}
