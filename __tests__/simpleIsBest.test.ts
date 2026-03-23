@@ -268,6 +268,18 @@ const ambiguousCards: TestCard[] = [
   { name: 'Restoration Angel', oracle_text: 'Flash\nFlying\nWhen this creature enters, you may exile target non-Angel creature you control, then return that card to the battlefield under your control.' },
   { name: 'Goblin Guide', oracle_text: 'Haste\nWhenever this creature attacks, defending player reveals the top card of their library. If it\'s a land card, that player puts it into their hand.' },
   { name: 'Loran of the Third Path', oracle_text: 'Vigilance\nWhen Loran enters, destroy up to one target artifact or enchantment.\n{T}: You and target opponent each draw a card.' },
+
+  // Step 8 batch 3: noncreature/nonland compound, skip draw, play revealed, threshold, entering/dying, that are tokens, each opponent
+  { name: 'Duress', oracle_text: 'Target opponent reveals their hand. You choose a noncreature, nonland card from it. That player discards that card.' },
+  { name: 'Hushbringer', oracle_text: 'Flying, lifelink\nCreatures entering or dying don\'t cause abilities to trigger.' },
+  { name: 'Yawgmoth\'s Bargain', oracle_text: 'Skip your draw step.\nPay 1 life: Draw a card.' },
+  { name: 'Courser of Kruphix', oracle_text: 'Play with the top card of your library revealed.\nYou may play lands from the top of your library.\nLandfall — Whenever a land you control enters, you gain 1 life.' },
+  { name: 'Oracle of Mul Daya', oracle_text: 'You may play an additional land on each of your turns.\nPlay with the top card of your library revealed.\nYou may play lands from the top of your library.' },
+  { name: 'Cabal Ritual', oracle_text: 'Add {B}{B}{B}.\nThreshold — Add {B}{B}{B}{B}{B} instead if there are seven or more cards in your graveyard.' },
+  { name: 'Hero of Bladehold', oracle_text: 'Battle cry\nWhenever this creature attacks, create two 1/1 white Soldier creature tokens that are tapped and attacking.' },
+  { name: 'Hazoret the Fervent', oracle_text: 'Indestructible, haste\nHazoret can\'t attack or block unless you have one or fewer cards in hand.\n{2}{R}, Discard a card: Hazoret deals 2 damage to each opponent.' },
+  { name: 'Narset, Parter of Veils', oracle_text: 'Each opponent can\'t draw more than one card each turn.\n−2: Look at the top four cards of your library. You may reveal a noncreature, nonland card from among them and put it into your hand. Put the rest on the bottom of your library in a random order.' },
+  { name: 'Irreverent Gremlin', oracle_text: 'Menace\nWhenever another creature you control with power 2 or less enters, you may discard a card. If you do, draw a card.' },
 ];
 
 describe('Baseline: Ambiguous cards parse with results', () => {

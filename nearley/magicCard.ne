@@ -328,7 +328,10 @@ singleSentence -> imperative {% ([i]) => i %}
   | itsPossessive __ numericalCharacteristic __ ("is" | "are each") __ "equal to" __ numberDefinition {% ([what, , characteristic, , , , , , setTo]) => ({ what, characteristic, setTo }) %}
   | "as" __ sentence "," __ sentence {% ([, , as, , , does]) => ({ as, does }) %}
   | "instead" __ singleSentence {% ([, , instead]) => ({ instead }) %}
+  | imperative __ "instead" __ "if" __ condition {% ([instead, , , , , , condition]) => ({ instead, condition }) %}
   | playersPossessive __ "maximum hand size is" __ ("reduced" | "increased") __ "by" __ numberDefinition {% ([whose, , , , handSize, , , , amount])  => ({ whose, handSize, amount }) %}
+  | "skip" __ playersPossessive __ partOfTurn {% ([, , whose, , step]) => ({ skip: { whose, step } }) %}
+  | "play with the top card of" __ playersPossessive __ "library revealed" {% ([, , whose]) => ({ playRevealed: { whose } }) %}
   | "each" __ permanentTypeInner __ "is" __ "a" "n":? __ subType __ "in addition to its other" __ permanentTypeInner __ "types" {% ([, , what, , , , , , , type, , , , , , ]) => ({ each: what, is: { type, inAddition: true } }) %}
 sentenceInstead -> sentence __ "instead" {% ([instead]) => ({ instead }) %}
   | "instead" __ sentence {% ([, ,instead]) => ({ instead }) %}
@@ -349,6 +352,7 @@ condition -> sentence {% ([s]) => s %}
   | (numericalComparison {% ([condition]) => ({ condition }) %}| manaSymbol {% ([mana]) => ({ mana }) %}) __ "was spent to cast this spell" {% ([c]) => ({ ...c, value: { what: "mana", reference: { does: "spent", reference: "this", what: "spell" } } }) %}
   | object __ "was kicked with its" __ manacost __ "kicker" {% ([what, , , , mana]) => ({ what, kicked: { with: { mana } } }) %}
   | object __ "has" __ englishNumber __ counterKind __ "counter" "s":? " on it" {% ([what, , , , amount, , counterKind]) => ({ what, has: { amount, counterKind } }) %}
+  | "there" __ ("are" | "is") __ countableCount __ object __ inZone {% ([, , , , count, , what, , zone]) => ({ count, what, ...zone }) %}
 
 action -> "scried" {% () => "scried" %}
   | "surveilled" {% () => "surveilled" %}
@@ -369,6 +373,7 @@ player -> "you" {% () => "you" %}
   | "defending player" {% () => "defendingPlayer" %}
   | itsPossessive __ ("controller" {% () => "control" %} | "owner" {% () => "own" %}) "s":? {% ([whose, , does]) => ({ whose, does })  %}
   | "each of" __ player {% ([, , each]) => ({ each }) %}
+  | "each opponent" {% () => ({ each: "opponents" }) %}
   | "your team" {% () => "team" %}
 purePlayer -> "player" "s":? {% () => "player" %}
   | "opponent" "s":? {% () => "opponents" %}
@@ -417,6 +422,8 @@ suffix -> player __ ((DON_T | DOESN_T) __):? ("control" | "own") "s":? {% ([acto
   | "with base power and toughness" __ pt {% ([, , basePowerToughness]) => ({ basePowerToughness }) %}
   | "with total" __ numericalCharacteristic __ numericalComparison {% ([, , characteristic, , value]) => ({ total: { [characteristic]: value } }) %}
   | "dealt damage this way" {% () => ({ reference: "thisWay", does: "dealtDamage" }) %}
+  | "entering or dying" {% () => ({ does: { or: ["enter", "die"] } }) %}
+  | "entering" {% () => ({ does: "enter" }) %}
 objectAction -> "sacrificed" {% () => "sacrifice" %}
   | "returned" {% () => "return" %}
   | "discarded" {% () => "discard" %}
@@ -486,6 +493,8 @@ prefix -> "enchanted" {% () => "enchanted" %}
   | "attached" {% () => "attached" %}
   | "equipped" {% () => "equipped" %}
   | "historic" {% () => "historic" %}
+  | "noncreature," __ "nonland" {% () => ({ not: { and: ["creature", "land"] } }) %}
+  | "nonartifact," __ "nonland" {% () => ({ not: { and: ["artifact", "land"] } }) %}
   | "non" ("-" | __):? (anyType {% ([type]) => ({ type }) %} | color {% ([color]) => ({ color }) %}) {% ([, , not]) => ({ not }) %}
   | "exiled" {% () => "exiled" %}
   | "revealed" {% () => "revealed" %}
@@ -647,6 +656,7 @@ playerVerbPhrase -> gains __ number __ "life" {% ([, , lifeGain]) => ({ lifeGain
   | playerVerbPhrase __ "this way" {% ([does]) => ({ does, reference: "thisWay" }) %}
   | gets __ "an emblem" __ withClause {% ([, , , , emblem]) => ({ emblem }) %}
   | "each" __ playerVerbPhrase {% ([, , each]) => ({ each }) %}
+  | "may play" __ object (__ fromZone):? {% ([, , what, from]) => from ? { may: { play: { what, from: from[1] } } } : { may: { play: { what } } } %}
   | "cycle" __ object {% ([, , cycle]) => ({ cycle }) %}
   | "has no cards in hand" {% () => ({ not: { has: { what: "card", in: "hand" } } }) %}
   | ("have" | "has") __ (countableCount __):? object __ inZone {% ([, , count, what, , inZone]) => count ? { has: { count: count[0], what, ...inZone } } : { has: { what, ...inZone } } %}
@@ -805,7 +815,7 @@ damagePreventionAmount -> "all" {% () => "all" %}
   | "the next" __ englishNumber {% ([, , next]) => next %}
 damageNoun -> ("non":? "combat" __):? "damage" {% ([combat]) => ({ damage: combat ? (combat[0] ? { not: "combat" } : "combat") : "any" }) %}
 
-tokenDescription -> englishNumber (__ pt):? (__ color):? __ permanentTypeSpecifier __ "token" "s":? (__ withClause):? (__ "named" __ [^.]:+):? (__ THAT_S __ tokenState):? {% ([amount, size, color, , type, , , , withClause, name, state]) => {
+tokenDescription -> englishNumber (__ pt):? (__ color):? __ permanentTypeSpecifier __ "token" "s":? (__ withClause):? (__ "named" __ [^.]:+):? (__ (THAT_S | "that are") __ tokenState):? {% ([amount, size, color, , type, , , , withClause, name, state]) => {
   const result = { amount, type };
   if (size) result.size = size[1];
   if (color) result.color = color[1];
@@ -814,7 +824,7 @@ tokenDescription -> englishNumber (__ pt):? (__ color):? __ permanentTypeSpecifi
   if (state) result.state = state[3];
   return result;
 } %}
-  | "a number of" (__ pt):? (__ color):? __ permanentTypeSpecifier __ "token" "s":? __ "equal to" __ numberDefinition (__ withClause):? (__ THAT_S __ tokenState):? {% ([, size, color, , type, , , , , , amount, withClause, state]) => {
+  | "a number of" (__ pt):? (__ color):? __ permanentTypeSpecifier __ "token" "s":? __ "equal to" __ numberDefinition (__ withClause):? (__ (THAT_S | "that are") __ tokenState):? {% ([, size, color, , type, , , , , , amount, withClause, state]) => {
   const result = { amount, type };
   if (size) result.size = size[1];
   if (color) result.color = color[1];
@@ -911,6 +921,7 @@ numericalComparison -> numberDefinition __ "or greater" {% ([gte]) => ({ gte }) 
 countableCount -> "exactly" __ englishNumber {% ([, , eq]) => ({ eq }) %}
   | englishNumber __ "or more" {% ([atLeast]) => ({ atLeast }) %}
   | "fewer than" __ englishNumber {% ([, , lessThan]) => ({ lessThan }) %}
+  | englishNumber __ "or fewer" {% ([atMost]) => ({ atMost }) %}
   | "any number of" {% () => "anyNumber" %}
   | "one of" {% () => 1 %}
   | "up to" __ englishNumber {% ([, , upTo]) => ({ upTo }) %}
@@ -931,6 +942,7 @@ cantClauseInner -> "attack" {% () => "attack" %}
   | "be enchanted" (__ "by" __ object):? {% ([, by]) => by ? { what: by[3], does: "enchant" } : "enchanted" %}
   | objectVerbPhrase {% ([does]) => does %}
   | "be regenerated" {% () => "regenerate" %}
+  | "cause abilities to trigger" {% () => "causeAbilitiesToTrigger" %}
   | "draw more than" __ englishNumber __ "card" "s":? (__ "each" __ "turn"):? {% ([, , max, , , , duration]) => ({ draw: { max }, duration: duration ? { reference: "each", what: "turn" } : null }) %}
 
 zone -> (playersPossessive | "a" (__ "single"):?) __ ownedZone {% ([[owner], , zone]) => ({ owner, zone }) %}
