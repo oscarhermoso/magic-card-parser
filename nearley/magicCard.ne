@@ -388,6 +388,7 @@ referencingObjectPrefix -> "the sacrificed" {% () => "sacrificed" %}
   | "any of" {% () => "any" %}
   | "the" {% () => "the" %}
   | "the rest of" {% () => "rest" %}
+  | playersPossessive {% ([p]) => ({ possessive: p }) %}
   | commonReferencingPrefix {% ([p]) => p %}
 commonReferencingPrefix -> countableCount (__ "additional"):? (__ commonReferencingPrefixInner):? {% ([count, additional, inner]) => {
     const result = { count } 

@@ -54,8 +54,6 @@ const parseCard = (card) => {
     // Turnabout: simplify to choose type + tap/untap all permanents (engine handles tapped/untapped filtering)
     oracleText = oracleText.replace(/tap all untapped permanents of the chosen type target player controls, or untap all tapped permanents of that type that player controls/g, 'tap or untap all permanents target player controls');
     oracleText = oracleText.replace(/\bthat player\b/g, 'they');
-    // Esper Sentinel: strip "their first" and "each turn" from trigger (engine handles per-turn tracking)
-    oracleText = oracleText.replace(/casts their first (.*?) each turn/g, 'casts a $1');
     // Laelia: simplify exile trigger — "one or more cards are put into exile from X and/or Y" → "a card is put into exile from X"
     oracleText = oracleText.replace(/one or more cards are put into exile from your library and\/or your graveyard/g, 'a card is put into exile from your library');
     // Scrap Trawler: simplify compound trigger and reorder return clause

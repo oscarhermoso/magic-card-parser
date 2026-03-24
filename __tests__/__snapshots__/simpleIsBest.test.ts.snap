@@ -877,6 +877,7 @@ exports[`Ambiguous cards: parses with snapshot > Esper Sentinel 1`] = `
       },
     },
     "trigger": {
+      "timing": "eachTurn",
       "when": {
         "actor": {
           "player": "opponents",
@@ -891,6 +892,7 @@ exports[`Ambiguous cards: parses with snapshot > Esper Sentinel 1`] = `
             "object": {
               "object": "spell",
               "prefixes": [
+                "first",
                 {
                   "not": {
                     "type": {
@@ -903,7 +905,7 @@ exports[`Ambiguous cards: parses with snapshot > Esper Sentinel 1`] = `
               ],
             },
             "reference": {
-              "count": 1,
+              "possessive": "their",
             },
           },
         },
