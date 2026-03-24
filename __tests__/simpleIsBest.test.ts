@@ -408,7 +408,7 @@ const cubeCards: CubeCard[] = [
   { name: 'Library of Alexandria', oracle_text: '{T}: Add {C}.\n{T}: Draw a card. Activate only if you have exactly seven cards in hand.' },
   { name: 'Mox Opal', oracle_text: 'Metalcraft — {T}: Add one mana of any color. Activate only if you control three or more artifacts.' },
   { name: 'Phantasmal Shieldback', oracle_text: 'When this creature becomes the target of a spell or ability, sacrifice it.\nWhen this creature dies, draw a card.' },
-  { name: 'Baral, Chief of Compliance', oracle_text: 'Instant and sorcery spells you cast cost {1} less to cast.\nWhenever a spell or ability you control counters a spell, you may draw a card. If you do, discard a card.', ambiguous: true },
+  { name: 'Baral, Chief of Compliance', oracle_text: 'Instant and sorcery spells you cast cost {1} less to cast.\nWhenever a spell or ability you control counters a spell, you may draw a card. If you do, discard a card.' },
   { name: 'Windfall', oracle_text: 'Each player discards their hand, then draws cards equal to the greatest number of cards a player discarded this way.' },
   { name: 'Deep-Cavern Bat', oracle_text: 'Flying, lifelink\nWhen this creature enters, look at target opponent\'s hand. You may exile a nonland card from it until this creature leaves the battlefield.' },
   { name: 'Restoration Angel', oracle_text: 'Flash\nFlying\nWhen this creature enters, you may exile target non-Angel creature you control, then return that card to the battlefield under your control.' },

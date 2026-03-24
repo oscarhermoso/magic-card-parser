@@ -1,86 +1,5 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Ambiguous cards: parses with snapshot > Baral, Chief of Compliance 1`] = `
-[
-  {
-    "does": {
-      "costReduction": {
-        "mana": [
-          1,
-        ],
-      },
-    },
-    "what": {
-      "object": {
-        "object": "spell",
-        "types": {
-          "and": [
-            "instant",
-            "sorcery",
-          ],
-        },
-      },
-      "suffix": "youCast",
-    },
-  },
-  {
-    "effect": [
-      {
-        "actor": "you",
-        "does": {
-          "may": {
-            "draw": 1,
-          },
-        },
-      },
-      {
-        "condition": {
-          "actor": "you",
-          "does": "do",
-        },
-        "effect": {
-          "discard": {
-            "object": "card",
-            "reference": {
-              "count": 1,
-            },
-          },
-        },
-      },
-    ],
-    "trigger": {
-      "when": {
-        "does": {
-          "counters": {
-            "object": "spell",
-            "reference": {
-              "count": 1,
-            },
-          },
-        },
-        "what": {
-          "object": {
-            "object": {
-              "or": [
-                "spell",
-                "ability",
-              ],
-            },
-            "suffix": {
-              "actor": "you",
-              "does": "control",
-            },
-          },
-          "reference": {
-            "count": 1,
-          },
-        },
-      },
-    },
-  },
-]
-`;
-
 exports[`Ambiguous cards: parses with snapshot > Esper Sentinel 1`] = `
 [
   {
@@ -1434,6 +1353,87 @@ exports[`Unambiguous cards: single parse + snapshot > Banefire 1`] = `
 ]
 `;
 
+exports[`Unambiguous cards: single parse + snapshot > Baral, Chief of Compliance 1`] = `
+[
+  {
+    "does": {
+      "costReduction": {
+        "mana": [
+          1,
+        ],
+      },
+    },
+    "what": {
+      "object": {
+        "object": "spell",
+        "types": {
+          "and": [
+            "instant",
+            "sorcery",
+          ],
+        },
+      },
+      "suffix": "youCast",
+    },
+  },
+  {
+    "effect": [
+      {
+        "actor": "you",
+        "does": {
+          "may": {
+            "draw": 1,
+          },
+        },
+      },
+      {
+        "condition": {
+          "actor": "you",
+          "does": "do",
+        },
+        "effect": {
+          "discard": {
+            "object": "card",
+            "reference": {
+              "count": 1,
+            },
+          },
+        },
+      },
+    ],
+    "trigger": {
+      "when": {
+        "does": {
+          "counters": {
+            "object": "spell",
+            "reference": {
+              "count": 1,
+            },
+          },
+        },
+        "what": {
+          "object": {
+            "object": {
+              "or": [
+                "spell",
+                "ability",
+              ],
+            },
+            "suffix": {
+              "actor": "you",
+              "does": "control",
+            },
+          },
+          "reference": {
+            "count": 1,
+          },
+        },
+      },
+    },
+  },
+]
+`;
+
 exports[`Unambiguous cards: single parse + snapshot > Basalt Monolith 1`] = `
 [
   {
@@ -1762,7 +1762,7 @@ exports[`Unambiguous cards: single parse + snapshot > Blood Artist 1`] = `
       "when": {
         "does": "die",
         "what": {
-          "x": [
+          "xor": [
             "CARD_NAME",
             {
               "object": {

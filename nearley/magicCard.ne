@@ -138,7 +138,13 @@ triggerConditionInner -> singleSentence {% ([s]) => s %}
   | player __ gains __ "life" {% ([actor]) => ({ actor, does: "gainLife" }) %}
   | object __ "is dealt damage" {% ([what]) => ({ what, does: "dealtDamage" }) %}
   | object __ objectVerbPhrase {% ([what, , does]) => ({ what, does }) %}
-  | object __ ("or" {% () => "xor" %} | "and" {% () => "and" %}) __ object __ objectVerbPhrase {% ([what1, , [connector], , what2, , does]) => ({ what: { [connector]: [what1, what2] }, does }) %}
+  | object __ ("or" {% () => "xor" %} | "and" {% () => "and" %}) __ object __ objectVerbPhrase {% (data, ref, reject) => {
+    const what1 = data[0], what2 = data[4], connector = data[2], does = data[6];
+    const w1hasRef = what1 === "CARD_NAME" || (typeof what1 === 'object' && what1 !== null && 'reference' in what1);
+    const w2hasRef = what2 === "CARD_NAME" || (typeof what2 === 'object' && what2 !== null && 'reference' in what2);
+    if (!w1hasRef || !w2hasRef) return reject;
+    return { what: { [connector]: [what1, what2] }, does };
+  } %}
 triggerTiming -> "each turn" {% () => "eachTurn" %}
   | "during each opponent" SAXON __ "turn" {% () => ({ reference: "each", what: { whose: "opponent", what: "turn" } }) %}
 
