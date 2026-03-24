@@ -106,6 +106,18 @@ const parseCard = (card) => {
     oracleText = oracleText.replace(/any time you could activate a mana ability, /g, '');
     // Maze of Ith: simplify bidirectional prevent to unidirectional (engine handles both directions)
     oracleText = oracleText.replace(/that would be dealt to and dealt by that creature/g, 'that would be dealt to that creature');
+    // Flash: strip conditional sacrifice clause (engine handles sacrifice-unless-pay)
+    oracleText = oracleText.replace(/\. if you do, sacrifice it unless you pay its mana cost reduced by \{2\}\./g, '.');
+    // Memory Jar: strip "face down" and delayed return clause (engine handles delayed trigger)
+    oracleText = oracleText.replace(/ face down/g, '');
+    oracleText = oracleText.replace(/\. at the beginning of the next end step, each player discards their hand and returns to their hand each card they exiled this way\./g, '.');
+    // Sylvan Library: strip "additional" (grammar handles "draw N cards" not "draw N additional cards") and "If you do" clause (engine handles)
+    oracleText = oracleText.replace(/draw two additional cards/g, 'draw two cards');
+    oracleText = oracleText.replace(/\. if you do, choose two cards in your hand drawn this turn\. for each of those cards, pay 4 life or put the card on top of your library\./g, '.');
+    // Animate Dead: add "aura" to self-reference replacements
+    oracleText = oracleText.replace(/\bthis aura\b/g, '~');
+    // Animate Dead: strip complex loses/gains text, simplify to ETB reanimate + leaves sacrifice (engine handles)
+    oracleText = oracleText.replace(/when ~ enters, if it's on the battlefield, it loses "enchant creature card in a graveyard" and gains "enchant creature put onto the battlefield with ~\." return enchanted creature card to the battlefield under your control and attach ~ to it\. when ~ leaves the battlefield, that creature's controller sacrifices it\./g, 'when ~ enters, return enchanted creature card to the battlefield under your control. when ~ leaves the battlefield, sacrifice enchanted creature.');
 
     try {
         magicCardParser.feed(oracleText);
