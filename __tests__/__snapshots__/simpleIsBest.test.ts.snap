@@ -1649,48 +1649,72 @@ exports[`Ambiguous cards: parses with snapshot > Land Tax 1`] = `
 [
   {
     "effect": {
-      "and": [
-        {
-          "actor": "you",
-          "does": {
-            "may": {
-              "criteria": {
-                "object": {
-                  "object": "card",
-                  "types": {
-                    "and": [
-                      "basic",
-                      "land",
-                    ],
-                  },
-                },
-                "reference": {
-                  "count": {
-                    "upTo": 3,
-                  },
-                },
+      "condition": {
+        "actor": {
+          "player": "opponents",
+          "references": [
+            {
+              "count": 1,
+            },
+          ],
+        },
+        "does": {
+          "controls": {
+            "more": {
+              "type": {
+                "and": [
+                  "land",
+                ],
               },
-              "search": {
-                "owner": "your",
-                "zone": "library",
+            },
+            "than": "you",
+          },
+        },
+      },
+      "effect": {
+        "and": [
+          {
+            "actor": "you",
+            "does": {
+              "may": {
+                "criteria": {
+                  "object": {
+                    "object": "card",
+                    "types": {
+                      "and": [
+                        "basic",
+                        "land",
+                      ],
+                    },
+                  },
+                  "reference": {
+                    "count": {
+                      "upTo": 3,
+                    },
+                  },
+                },
+                "search": {
+                  "owner": "your",
+                  "zone": "library",
+                },
               },
             },
           },
-        },
-        {
-          "reveal": "them",
-        },
-        {
-          "into": {
-            "owner": "your",
-            "zone": "hand",
+          {
+            "reveal": "them",
           },
-          "put": "them",
-        },
-        {
-          "shuffle": "library",
-        },
-      ],
+          {
+            "into": {
+              "owner": "your",
+              "zone": "hand",
+            },
+            "put": "them",
+          },
+          {
+            "shuffle": "library",
+          },
+        ],
+      },
     },
     "trigger": {
       "turnPhase": {

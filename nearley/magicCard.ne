@@ -581,6 +581,7 @@ playerVerbModifier -> "for each" __ pureObject {% ([, , forEach]) => ({ forEach 
 basePlayerVerbPhrase -> gains __ number __ "life" {% ([, , lifeGain]) => ({ lifeGain }) %}
   | gains __ "life equal to" __ itsPossessive __ numericalCharacteristic {% ([, , , , whose, , value]) => ({ lifeGain: { whose, value } }) %}
   | controls __ ("no" __):? object {% ([, , negation, controls]) => negation ? { not: { controls } } : { controls } %}
+  | controls __ "more" __ object __ "than" __ player {% ([, , , , what, , , , thanWhom]) => ({ controls: { more: what, than: thanWhom } }) %}
   | owns __ object {% ([, , owns]) => ({ owns }) %}
   | (DON_T | DOESN_T) "lose this mana as steps and phases end." {% () => "doesntEmpty" %}
   | "puts" __ object __ intoZone {% ([, , what, , enters]) => ({ what, enters }) %}
