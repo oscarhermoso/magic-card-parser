@@ -16,21 +16,21 @@ exports[`Ambiguous cards: parses with snapshot > Aluren 1`] = `
           "who": "they",
         },
         "cast": {
-          "condition": {
-            "with": {
-              "comparison": {
-                "lte": 3,
-              },
-              "value": "cmc",
-            },
-          },
           "object": {
-            "object": "spell",
-            "types": {
-              "and": [
-                "creature",
-              ],
+            "condition": {
+              "with": {
+                "comparison": {
+                  "lte": 3,
+                },
+                "value": "cmc",
+              },
             },
+            "object": "spell",
+          },
+          "types": {
+            "and": [
+              "creature",
+            ],
           },
         },
         "withoutPaying": true,
@@ -64,10 +64,21 @@ exports[`Ambiguous cards: parses with snapshot > Baral, Chief of Compliance 1`] 
     },
   },
   {
-    "effect": {
-      "actor": "you",
-      "does": {
-        "ifDo": {
+    "effect": [
+      {
+        "actor": "you",
+        "does": {
+          "may": {
+            "draw": 1,
+          },
+        },
+      },
+      {
+        "condition": {
+          "actor": "you",
+          "does": "do",
+        },
+        "effect": {
           "discard": {
             "object": "card",
             "reference": {
@@ -75,11 +86,8 @@ exports[`Ambiguous cards: parses with snapshot > Baral, Chief of Compliance 1`] 
             },
           },
         },
-        "may": {
-          "draw": 1,
-        },
       },
-    },
+    ],
     "trigger": {
       "when": {
         "does": {
@@ -113,147 +121,6 @@ exports[`Ambiguous cards: parses with snapshot > Baral, Chief of Compliance 1`] 
 ]
 `;
 
-exports[`Ambiguous cards: parses with snapshot > Channel 1`] = `
-[
-  [
-    {
-      "duration": {
-        "until": "endOfTurn",
-      },
-      "effect": {
-        "actor": "you",
-        "does": undefined,
-        "timing": "manaAbility",
-      },
-    },
-    {
-      "condition": {
-        "actor": "you",
-        "does": "do",
-      },
-      "effect": {
-        "add": [
-          "c",
-        ],
-      },
-    },
-  ],
-]
-`;
-
-exports[`Ambiguous cards: parses with snapshot > Dack Fayden 1`] = `
-[
-  {
-    "activatedAbility": {
-      "and": [
-        {
-          "actor": {
-            "player": "player",
-            "references": [
-              {
-                "targetCount": 1,
-              },
-            ],
-          },
-          "does": {
-            "draw": 2,
-          },
-        },
-        {
-          "discard": {
-            "object": "card",
-            "reference": {
-              "count": 2,
-            },
-          },
-        },
-      ],
-    },
-    "costs": {
-      "loyalty": 1,
-    },
-  },
-  {
-    "activatedAbility": {
-      "gainControlOf": {
-        "object": {
-          "type": {
-            "and": [
-              "artifact",
-            ],
-          },
-        },
-        "reference": {
-          "targetCount": 1,
-        },
-      },
-    },
-    "costs": {
-      "loyalty": -2,
-    },
-  },
-  {
-    "activatedAbility": {
-      "actor": "you",
-      "does": {
-        "emblem": {
-          "with": {
-            "ability": {
-              "effect": {
-                "gainsControlOf": {
-                  "object": {
-                    "type": {
-                      "and": [
-                        "permanent",
-                      ],
-                    },
-                  },
-                  "reference": "thsoe",
-                },
-              },
-              "trigger": {
-                "when": {
-                  "actor": "you",
-                  "does": {
-                    "cast": {
-                      "object": {
-                        "object": "spell",
-                        "suffix": {
-                          "targets": {
-                            "object": {
-                              "type": {
-                                "and": [
-                                  "permanent",
-                                ],
-                              },
-                            },
-                            "reference": {
-                              "count": {
-                                "atLeast": 1,
-                              },
-                            },
-                          },
-                        },
-                      },
-                      "reference": {
-                        "count": 1,
-                      },
-                    },
-                  },
-                },
-              },
-            },
-          },
-        },
-      },
-    },
-    "costs": {
-      "loyalty": -6,
-    },
-  },
-]
-`;
-
 exports[`Ambiguous cards: parses with snapshot > Deep-Cavern Bat 1`] = `
 [
   [
@@ -279,26 +146,32 @@ exports[`Ambiguous cards: parses with snapshot > Deep-Cavern Bat 1`] = `
         "actor": "you",
         "does": {
           "may": {
-            "exile": {
-              "object": {
-                "object": "card",
-                "prefixes": [
-                  {
-                    "not": {
-                      "type": {
-                        "and": [
-                          "land",
-                        ],
+            "does": {
+              "exile": {
+                "object": {
+                  "object": {
+                    "object": "card",
+                    "prefixes": [
+                      {
+                        "not": {
+                          "type": {
+                            "and": [
+                              "land",
+                            ],
+                          },
+                        },
                       },
-                    },
+                    ],
                   },
-                ],
-              },
-              "reference": {
-                "count": 1,
+                  "suffix": {
+                    "from": "it",
+                  },
+                },
+                "reference": {
+                  "count": 1,
+                },
               },
             },
-            "from": "it",
             "until": {
               "does": {
                 "leaves": "battlefield",
@@ -379,62 +252,6 @@ exports[`Ambiguous cards: parses with snapshot > Esper Sentinel 1`] = `
       },
     },
   },
-]
-`;
-
-exports[`Ambiguous cards: parses with snapshot > Flash 1`] = `
-[
-  [
-    {
-      "actor": "you",
-      "does": {
-        "may": {
-          "from": {
-            "owner": "your",
-            "zone": "hand",
-          },
-          "into": "battlefield",
-          "put": {
-            "object": {
-              "object": "card",
-              "types": {
-                "and": [
-                  "creature",
-                ],
-              },
-            },
-            "reference": {
-              "count": 1,
-            },
-          },
-        },
-      },
-    },
-    {
-      "condition": {
-        "actor": "you",
-        "does": "do",
-      },
-      "effect": {
-        "does": {
-          "sacrifice": "it",
-        },
-        "unless": {
-          "actor": "you",
-          "does": {
-            "pay": {
-              "costOf": {
-                "reference": "its",
-              },
-              "reducedBy": [
-                2,
-              ],
-            },
-          },
-        },
-      },
-    },
-  ],
 ]
 `;
 
@@ -573,70 +390,6 @@ exports[`Ambiguous cards: parses with snapshot > Hazoret the Fervent 1`] = `
           },
         },
       ],
-    },
-  },
-]
-`;
-
-exports[`Ambiguous cards: parses with snapshot > Irreverent Gremlin 1`] = `
-[
-  [
-    "menace",
-  ],
-  {
-    "effect": [
-      {
-        "actor": "you",
-        "does": {
-          "ifDo": {
-            "draw": 1,
-          },
-          "may": {
-            "discard": {
-              "object": "card",
-              "reference": {
-                "count": 1,
-              },
-            },
-          },
-        },
-      },
-      {
-        "limit": "onceEachTurn",
-      },
-    ],
-    "trigger": {
-      "when": {
-        "does": {
-          "enter": "battlefield",
-        },
-        "what": {
-          "object": {
-            "condition": {
-              "with": {
-                "comparison": {
-                  "lte": 2,
-                },
-                "value": "power",
-              },
-            },
-            "object": {
-              "object": {
-                "type": {
-                  "and": [
-                    "creature",
-                  ],
-                },
-              },
-              "suffix": {
-                "actor": "you",
-                "does": "control",
-              },
-            },
-          },
-          "reference": "other",
-        },
-      },
     },
   },
 ]
@@ -1057,95 +810,6 @@ exports[`Ambiguous cards: parses with snapshot > Sylvan Library 1`] = `
 ]
 `;
 
-exports[`Ambiguous cards: parses with snapshot > Torsten, Founder of Benalia 1`] = `
-[
-  {
-    "effect": [
-      {
-        "reveal": {
-          "from": [
-            " ",
-          ],
-          "topCards": 7,
-        },
-      },
-      {
-        "and": [
-          {
-            "into": {
-              "owner": "your",
-              "zone": "hand",
-            },
-            "put": {
-              "object": {
-                "object": {
-                  "object": "card",
-                  "types": {
-                    "or": [
-                      "creature",
-                      "land",
-                    ],
-                  },
-                },
-                "suffix": "amongThem",
-              },
-              "reference": {
-                "count": "anyNumber",
-              },
-            },
-          },
-          {
-            "into": {
-              "bottom": {
-                "owner": "your",
-                "zone": "library",
-              },
-              "order": "random",
-            },
-            "put": {
-              "object": "rest",
-              "reference": "the",
-            },
-          },
-        ],
-      },
-    ],
-    "trigger": {
-      "when": {
-        "does": {
-          "enter": "battlefield",
-        },
-        "what": "CARD_NAME",
-      },
-    },
-  },
-  {
-    "effect": {
-      "create": {
-        "amount": 7,
-        "color": "w",
-        "size": {
-          "power": 1,
-          "toughness": 1,
-        },
-        "type": {
-          "and": [
-            "soldier",
-            "creature",
-          ],
-        },
-      },
-    },
-    "trigger": {
-      "when": {
-        "does": "die",
-        "what": "CARD_NAME",
-      },
-    },
-  },
-]
-`;
-
 exports[`Ambiguous cards: parses with snapshot > Yawgmoth's Will 1`] = `
 [
   {
@@ -1208,69 +872,6 @@ exports[`Ambiguous cards: parses with snapshot > Yawgmoth's Will 1`] = `
           "object": "card",
           "reference": "that",
         },
-      },
-    },
-  },
-]
-`;
-
-exports[`Ambiguous cards: parses with snapshot > Zealous Conscripts 1`] = `
-[
-  [
-    "haste",
-  ],
-  {
-    "effect": [
-      {
-        "gainsControlOf": {
-          "object": {
-            "type": {
-              "and": [
-                "permanent",
-              ],
-            },
-          },
-          "reference": {
-            "targetCount": 1,
-          },
-        },
-        "until": [
-          [
-            " ",
-          ],
-          "endOfTurn",
-        ],
-      },
-      {
-        "untap": {
-          "object": {
-            "type": {
-              "and": [
-                "permanent",
-              ],
-            },
-          },
-          "reference": "that",
-        },
-      },
-      {
-        "does": {
-          "does": {
-            "gains": "haste",
-          },
-          "duration": {
-            "until": "endOfTurn",
-          },
-        },
-        "what": "it",
-      },
-    ],
-    "trigger": {
-      "when": {
-        "does": {
-          "enter": "battlefield",
-        },
-        "what": "CARD_NAME",
       },
     },
   },
@@ -2234,6 +1835,34 @@ exports[`Unambiguous cards: single parse + snapshot > Cabal Ritual 1`] = `
 ]
 `;
 
+exports[`Unambiguous cards: single parse + snapshot > Channel 1`] = `
+[
+  [
+    {
+      "duration": {
+        "until": "endOfTurn",
+      },
+      "effect": {
+        "actor": "you",
+        "does": undefined,
+        "timing": "manaAbility",
+      },
+    },
+    {
+      "condition": {
+        "actor": "you",
+        "does": "do",
+      },
+      "effect": {
+        "add": [
+          "c",
+        ],
+      },
+    },
+  ],
+]
+`;
+
 exports[`Unambiguous cards: single parse + snapshot > Char 1`] = `
 [
   {
@@ -2727,6 +2356,119 @@ exports[`Unambiguous cards: single parse + snapshot > Crop Rotation 1`] = `
         "shuffle": "library",
       },
     ],
+  },
+]
+`;
+
+exports[`Unambiguous cards: single parse + snapshot > Dack Fayden 1`] = `
+[
+  {
+    "activatedAbility": {
+      "and": [
+        {
+          "actor": {
+            "player": "player",
+            "references": [
+              {
+                "targetCount": 1,
+              },
+            ],
+          },
+          "does": {
+            "draw": 2,
+          },
+        },
+        {
+          "discard": {
+            "object": "card",
+            "reference": {
+              "count": 2,
+            },
+          },
+        },
+      ],
+    },
+    "costs": {
+      "loyalty": 1,
+    },
+  },
+  {
+    "activatedAbility": {
+      "gainControlOf": {
+        "object": {
+          "type": {
+            "and": [
+              "artifact",
+            ],
+          },
+        },
+        "reference": {
+          "targetCount": 1,
+        },
+      },
+    },
+    "costs": {
+      "loyalty": -2,
+    },
+  },
+  {
+    "activatedAbility": {
+      "actor": "you",
+      "does": {
+        "emblem": {
+          "with": {
+            "ability": {
+              "effect": {
+                "gainControlOf": {
+                  "object": {
+                    "type": {
+                      "and": [
+                        "permanent",
+                      ],
+                    },
+                  },
+                  "reference": "thsoe",
+                },
+              },
+              "trigger": {
+                "when": {
+                  "actor": "you",
+                  "does": {
+                    "cast": {
+                      "object": {
+                        "object": "spell",
+                        "suffix": {
+                          "targets": {
+                            "object": {
+                              "type": {
+                                "and": [
+                                  "permanent",
+                                ],
+                              },
+                            },
+                            "reference": {
+                              "count": {
+                                "atLeast": 1,
+                              },
+                            },
+                          },
+                        },
+                      },
+                      "reference": {
+                        "count": 1,
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    "costs": {
+      "loyalty": -6,
+    },
   },
 ]
 `;
@@ -3737,6 +3479,62 @@ exports[`Unambiguous cards: single parse + snapshot > Flametongue Kavu 1`] = `
       },
     },
   },
+]
+`;
+
+exports[`Unambiguous cards: single parse + snapshot > Flash 1`] = `
+[
+  [
+    {
+      "actor": "you",
+      "does": {
+        "may": {
+          "from": {
+            "owner": "your",
+            "zone": "hand",
+          },
+          "into": "battlefield",
+          "put": {
+            "object": {
+              "object": "card",
+              "types": {
+                "and": [
+                  "creature",
+                ],
+              },
+            },
+            "reference": {
+              "count": 1,
+            },
+          },
+        },
+      },
+    },
+    {
+      "condition": {
+        "actor": "you",
+        "does": "do",
+      },
+      "effect": {
+        "does": {
+          "sacrifice": "it",
+        },
+        "unless": {
+          "actor": "you",
+          "does": {
+            "pay": {
+              "costOf": {
+                "reference": "its",
+              },
+              "reducedBy": [
+                2,
+              ],
+            },
+          },
+        },
+      },
+    },
+  ],
 ]
 `;
 
@@ -4947,6 +4745,76 @@ exports[`Unambiguous cards: single parse + snapshot > Infernal Grasp 1`] = `
       },
     },
   ],
+]
+`;
+
+exports[`Unambiguous cards: single parse + snapshot > Irreverent Gremlin 1`] = `
+[
+  [
+    "menace",
+  ],
+  {
+    "effect": [
+      {
+        "actor": "you",
+        "does": {
+          "may": {
+            "discard": {
+              "object": "card",
+              "reference": {
+                "count": 1,
+              },
+            },
+          },
+        },
+      },
+      {
+        "condition": {
+          "actor": "you",
+          "does": "do",
+        },
+        "effect": {
+          "draw": 1,
+        },
+      },
+      {
+        "limit": "onceEachTurn",
+      },
+    ],
+    "trigger": {
+      "when": {
+        "does": {
+          "enter": "battlefield",
+        },
+        "what": {
+          "object": {
+            "condition": {
+              "with": {
+                "comparison": {
+                  "lte": 2,
+                },
+                "value": "power",
+              },
+            },
+            "object": {
+              "object": {
+                "type": {
+                  "and": [
+                    "creature",
+                  ],
+                },
+              },
+              "suffix": {
+                "actor": "you",
+                "does": "control",
+              },
+            },
+          },
+          "reference": "other",
+        },
+      },
+    },
+  },
 ]
 `;
 
@@ -8804,6 +8672,96 @@ exports[`Unambiguous cards: single parse + snapshot > Tireless Tracker 1`] = `
 ]
 `;
 
+exports[`Unambiguous cards: single parse + snapshot > Torsten, Founder of Benalia 1`] = `
+[
+  {
+    "effect": [
+      {
+        "reveal": {
+          "from": {
+            "owner": "your",
+            "zone": "library",
+          },
+          "topCards": 7,
+        },
+      },
+      {
+        "and": [
+          {
+            "into": {
+              "owner": "your",
+              "zone": "hand",
+            },
+            "put": {
+              "object": {
+                "object": {
+                  "object": "card",
+                  "types": {
+                    "or": [
+                      "creature",
+                      "land",
+                    ],
+                  },
+                },
+                "suffix": "amongThem",
+              },
+              "reference": {
+                "count": "anyNumber",
+              },
+            },
+          },
+          {
+            "into": {
+              "bottom": {
+                "owner": "your",
+                "zone": "library",
+              },
+              "order": "random",
+            },
+            "put": {
+              "object": "rest",
+              "reference": "the",
+            },
+          },
+        ],
+      },
+    ],
+    "trigger": {
+      "when": {
+        "does": {
+          "enter": "battlefield",
+        },
+        "what": "CARD_NAME",
+      },
+    },
+  },
+  {
+    "effect": {
+      "create": {
+        "amount": 7,
+        "color": "w",
+        "size": {
+          "power": 1,
+          "toughness": 1,
+        },
+        "type": {
+          "and": [
+            "soldier",
+            "creature",
+          ],
+        },
+      },
+    },
+    "trigger": {
+      "when": {
+        "does": "die",
+        "what": "CARD_NAME",
+      },
+    },
+  },
+]
+`;
+
 exports[`Unambiguous cards: single parse + snapshot > Toxic Deluge 1`] = `
 [
   {
@@ -9748,6 +9706,66 @@ exports[`Unambiguous cards: single parse + snapshot > Young Pyromancer 1`] = `
             },
           },
         },
+      },
+    },
+  },
+]
+`;
+
+exports[`Unambiguous cards: single parse + snapshot > Zealous Conscripts 1`] = `
+[
+  [
+    "haste",
+  ],
+  {
+    "effect": [
+      {
+        "does": {
+          "gainControlOf": {
+            "object": {
+              "type": {
+                "and": [
+                  "permanent",
+                ],
+              },
+            },
+            "reference": {
+              "targetCount": 1,
+            },
+          },
+        },
+        "until": "endOfTurn",
+      },
+      {
+        "untap": {
+          "object": {
+            "type": {
+              "and": [
+                "permanent",
+              ],
+            },
+          },
+          "reference": "that",
+        },
+      },
+      {
+        "does": {
+          "does": {
+            "gains": "haste",
+          },
+          "duration": {
+            "until": "endOfTurn",
+          },
+        },
+        "what": "it",
+      },
+    ],
+    "trigger": {
+      "when": {
+        "does": {
+          "enter": "battlefield",
+        },
+        "what": "CARD_NAME",
       },
     },
   },

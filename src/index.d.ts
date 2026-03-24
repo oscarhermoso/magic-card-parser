@@ -121,10 +121,7 @@ export interface TriggerSpec {
 export type ObjectSpec =
   | string
   | {
-      reference?:
-        | string
-        | { targetCount: number }
-        | { count: number };
+      reference?: string | { targetCount: number } | { count: number };
       object?: string | { type: TypeFilter; prefixes?: ObjectFilter[] };
       type?: string | TypeFilter;
       prefixes?: ObjectFilter[];
@@ -172,14 +169,19 @@ export type EffectNode =
   | { addOneOf: (string | string[])[]; amount?: number }
   | { amount: number; counterKind: string; putOn: ObjectSpec }
   | { cast: ObjectSpec; withoutPaying?: boolean; duration?: DurationSpec }
-  | { put: ObjectSpec; into: string | { secondFromTop: Record<string, unknown> }; tapped?: boolean; control?: string }
+  | {
+      put: ObjectSpec;
+      into: string | { secondFromTop: Record<string, unknown> };
+      tapped?: boolean;
+      control?: string;
+    }
   | { may: EffectNode; ifDo?: EffectNode }
   | { and: EffectNode[] }
   | { or: EffectNode[] }
   | { what: string | ObjectSpec; does: VerbPhrase }
   | { actor: string | ObjectSpec; does: VerbPhrase }
   | { deal: DamageSpec }
-  | { gainsControlOf: ObjectSpec; until?: ConditionNode }
+  | { gainControlOf: ObjectSpec; until?: ConditionNode }
   | { powerToughnessMod: { powerMod?: number; toughnessMod?: number } }
   | { costIncrease: { mana: ManaCostValue }; action?: string }
   | { costDecrease: { mana: ManaCostValue }; action?: string }

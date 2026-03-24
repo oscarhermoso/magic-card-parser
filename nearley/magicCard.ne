@@ -408,11 +408,10 @@ imperative -> "sacrifice" "s":? __ object {% ([, , , sacrifice]) => ({ sacrifice
     return result;
   } %}
   | "return" "s":? __ "to" __ zone __ object {% ([, , , , , to, , returns]) => ({ returns, to }) %}
-  | "exile" "s":? __ object (__ fromZone):? (__ "face down"):? (__ untilClause):? {% ([, , , exile, from, faceDown, until]) => {
+  | "exile" "s":? __ object (__ fromZone):? (__ "face down"):? {% ([, , , exile, from, faceDown]) => {
     const result = { exile };
     if (from) result.from = from[1];
     if (faceDown) result.faceDown = true;
-    if (until) result.until = until[1];
     return result;
   } %}
   | "create" "s":? __ tokenDescription {% ([, , , create]) => ({ create }) %}
@@ -421,7 +420,7 @@ imperative -> "sacrifice" "s":? __ object {% ([, , , sacrifice]) => ({ sacrifice
   | "mill" "s":? __ englishNumber __ "card" "s":? {% ([, , , mill]) => ({ mill }) %}
   | gains (__ numberDefinition):? __ "life" {% ([, gainLife]) => gainLife ? { gainLife: gainLife[1] } : "gainLife" %}
   | gains __ "no life" {% () => ({ lifeGain: 0 }) %}
-  | gains __ "control of" __ object (__ untilClause):? {% ([, , , , gainsControlOf, until]) => until ? { gainsControlOf, until } : { gainsControlOf } %}
+  | gains __ "control of" __ object {% ([, , , , gainControlOf]) => ({ gainControlOf }) %}
   | "remove" "s":? __ countableCount __ (counterKind __):? "counter" "s":? __ "from" __ object {% ([, , , count, , counterKind, , , , , , removeCountersFrom]) => counterKind ? { count, removeCountersFrom, counterKind: counterKind[0] } : { count, removeCountersFrom } %}
   | ("cast" | "play") "s":? __ "additional" __ object {% ([[cp], , , , , cast]) => ({ [cp.toLowerCase()]: cast, additional: true }) %}
   | ("cast" | "play") "s":? __ object __ fromZone __ "without paying its mana cost" {% ([[cp], , , cast, , from, , ]) => ({ [cp.toLowerCase()]: cast, from, withoutPaying: true }) %}
@@ -476,7 +475,6 @@ imperative -> "sacrifice" "s":? __ object {% ([, , , sacrifice]) => ({ sacrifice
   | "look" "s":? __ "at" __ object {% ([, , , , , lookAt]) => ({ lookAt }) %}
   | "look" "s":? __ "at" __ zone {% ([, , , , , lookAt]) => ({ lookAt }) %}
   | "reveal" "s":? __ (object | zone) (__ "at random" __ fromZone):? {% ([, , , [reveal], random]) => random ? { random: true, from: random[3], reveal } : { reveal } %}
-  | "reveal" "s":? __ "the top" __ englishNumber __ "card" "s":? __ "of" __ zone {% ([, , , , , count, , , , , , from]) => ({ reveal: { topCards: count, from } }) %}
   | "put" "s":? __ object (__ fromZone):? __ intoZone (__ "tapped"):? (__ "and" __ object __ intoZone):? (__ "under" __ playersPossessive __ "control"):? (__ "instead of" __ intoZone):? {% ([, , , put, from, , into, tapped, additional, control, insteadOf]) => {
     let result = { put, into };
     if (from) result.from = from[1];
@@ -486,7 +484,6 @@ imperative -> "sacrifice" "s":? __ object {% ([, , , sacrifice]) => ({ sacrifice
     if (insteadOf) result.insteadOf = insteadOf[3];
     return result;
   } %}
-  | gains __ "control of" __ object {% ([, , , , gainControlOf]) => ({ gainControlOf }) %}
   | "have" __ object __ (objectInfinitive {% ([property]) => ({ property }) %} | objectVerbPhrase {% ([does]) => ({ does }) %}) {% ([, , have, , property]) => ({ have, ...property }) %}
   | "have" __ player __ playerVerbPhrase {% ([, , actor, , does]) => ({ actor, does }) %}
   | "have your life total become" __ numberDefinition {% ([, , lifeTotalBecomes]) => ({ lifeTotalBecomes }) %}
@@ -541,7 +538,7 @@ basePlayerVerbPhrase -> gains __ "life equal to" __ itsPossessive __ numericalCh
     if (duration) result.duration = duration[1];
     return result;
   } %}
-  | "may" __ imperative (". if you do," __ sentence):? {% ([, , may, ifDo]) => ifDo ? { may, ifDo: ifDo[2] } : { may } %}
+  | "may" __ imperative {% ([, , may]) => ({ may }) %}
   | imperative {% ([i]) => i %}
   | "can't" __ imperative {% ([, , cant]) => ({ cant }) %}
   | ("doesn't" | "don't") {% () => { not: "do" } %}

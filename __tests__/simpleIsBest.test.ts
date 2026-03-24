@@ -250,7 +250,7 @@ const cubeCards: CubeCard[] = [
   { name: 'Turnabout', oracle_text: 'Choose artifact, creature, or land. Tap all untapped permanents of the chosen type target player controls, or untap all tapped permanents of that type that player controls.', parseError: true },
   { name: 'Maze of Ith', oracle_text: '{T}: Untap target attacking creature. Prevent all combat damage that would be dealt to and dealt by that creature this turn.' },
   // Step 9: Complex spells part 2 — Flash, Sylvan Library, Animate Dead
-  { name: 'Flash', oracle_text: 'You may put a creature card from your hand onto the battlefield. If you do, sacrifice it unless you pay its mana cost reduced by {2}.', ambiguous: true },
+  { name: 'Flash', oracle_text: 'You may put a creature card from your hand onto the battlefield. If you do, sacrifice it unless you pay its mana cost reduced by {2}.' },
   { name: 'Sylvan Library', oracle_text: 'At the beginning of your draw step, you may draw two additional cards. If you do, choose two cards in your hand drawn this turn. For each of those cards, pay 4 life or put the card on top of your library.', ambiguous: true },
   { name: 'Animate Dead', oracle_text: 'Enchant creature card in a graveyard\nWhen this Aura enters, if it\'s on the battlefield, it loses "enchant creature card in a graveyard" and gains "enchant creature put onto the battlefield with this Aura." Return enchanted creature card to the battlefield under your control and attach this Aura to it. When this Aura leaves the battlefield, that creature\'s controller sacrifices it.\nEnchanted creature gets -1/-0.', parseError: true },
   // Ambiguous cards — parse but may produce multiple results
@@ -266,7 +266,7 @@ const cubeCards: CubeCard[] = [
   { name: 'Thragtusk', oracle_text: 'When this creature enters, you gain 5 life.\nWhen this creature leaves the battlefield, create a 3/3 green Beast creature token.' },
   { name: 'Craterhoof Behemoth', oracle_text: 'Haste\nWhen this creature enters, creatures you control gain trample and get +X/+X until end of turn, where X is the number of creatures you control.' },
   { name: 'Blood Artist', oracle_text: 'Whenever this creature or another creature dies, target player loses 1 life and you gain 1 life.' },
-  { name: 'Zealous Conscripts', oracle_text: 'Haste\nWhen this creature enters, gain control of target permanent until end of turn. Untap that permanent. It gains haste until end of turn.', ambiguous: true },
+  { name: 'Zealous Conscripts', oracle_text: 'Haste\nWhen this creature enters, gain control of target permanent until end of turn. Untap that permanent. It gains haste until end of turn.' },
   { name: 'Vampiric Tutor', oracle_text: 'Search your library for a card, then shuffle and put that card on top. You lose 2 life.' },
   { name: 'Imperial Seal', oracle_text: 'Search your library for a card, then shuffle and put that card on top. You lose 2 life.' },
   { name: 'Enlightened Tutor', oracle_text: 'Search your library for an artifact or enchantment card, reveal it, then shuffle and put that card on top.' },
@@ -282,7 +282,7 @@ const cubeCards: CubeCard[] = [
   { name: 'Marsh Flats', oracle_text: '{T}, Pay 1 life, Sacrifice Marsh Flats: Search your library for a Plains or Swamp card, put it onto the battlefield, then shuffle.' },
   { name: 'Arid Mesa', oracle_text: '{T}, Pay 1 life, Sacrifice Arid Mesa: Search your library for a Mountain or Plains card, put it onto the battlefield, then shuffle.' },
   { name: 'Misty Rainforest', oracle_text: '{T}, Pay 1 life, Sacrifice Misty Rainforest: Search your library for a Forest or Island card, put it onto the battlefield, then shuffle.' },
-  { name: 'Dack Fayden', oracle_text: '+1: Target player draws two cards, then discards two cards.\n−2: Gain control of target artifact.\n−6: You get an emblem with "Whenever you cast a spell that targets one or more permanents, gain control of those permanents."', ambiguous: true },
+  { name: 'Dack Fayden', oracle_text: '+1: Target player draws two cards, then discards two cards.\n−2: Gain control of target artifact.\n−6: You get an emblem with "Whenever you cast a spell that targets one or more permanents, gain control of those permanents."' },
   { name: 'Feed the Swarm', oracle_text: 'Destroy target creature or enchantment an opponent controls. You lose life equal to that permanent\'s mana value.' },
   { name: 'Library of Alexandria', oracle_text: '{T}: Add {C}.\n{T}: Draw a card. Activate only if you have exactly seven cards in hand.' },
   { name: 'Mox Opal', oracle_text: 'Metalcraft — {T}: Add one mana of any color. Activate only if you control three or more artifacts.' },
@@ -297,7 +297,7 @@ const cubeCards: CubeCard[] = [
   { name: 'Oracle of Mul Daya', oracle_text: 'You may play an additional land on each of your turns.\nPlay with the top card of your library revealed.\nYou may play lands from the top of your library.' },
   { name: 'Hazoret the Fervent', oracle_text: 'Indestructible, haste\nHazoret can\'t attack or block unless you have one or fewer cards in hand.\n{2}{R}, Discard a card: Hazoret deals 2 damage to each opponent.', ambiguous: true },
   { name: 'Narset, Parter of Veils', oracle_text: 'Each opponent can\'t draw more than one card each turn.\n−2: Look at the top four cards of your library. You may reveal a noncreature, nonland card from among them and put it into your hand. Put the rest on the bottom of your library in a random order.', ambiguous: true },
-  { name: 'Irreverent Gremlin', oracle_text: 'Menace\nWhenever another creature you control with power 2 or less enters, you may discard a card. If you do, draw a card. Do this only once each turn.', ambiguous: true },
+  { name: 'Irreverent Gremlin', oracle_text: 'Menace\nWhenever another creature you control with power 2 or less enters, you may discard a card. If you do, draw a card. Do this only once each turn.' },
   { name: 'Oust', oracle_text: 'Put target creature into its owner\'s library second from the top. Its controller gains 3 life.' },
   { name: 'Gravecrawler', oracle_text: 'This creature can\'t block.\nYou may cast this card from your graveyard as long as you control a Zombie.' },
   { name: 'Snapcaster Mage', oracle_text: 'Flash\nWhen this creature enters, target instant or sorcery card in your graveyard gains flashback until end of turn. The flashback cost is equal to its mana cost. (You may cast that card from your graveyard for its flashback cost. Then exile it.)' },
@@ -309,8 +309,8 @@ const cubeCards: CubeCard[] = [
   { name: 'Esper Sentinel', oracle_text: 'Whenever an opponent casts their first noncreature spell each turn, draw a card unless that player pays {X}, where X is this creature\'s power.', ambiguous: true },
   { name: 'Land Tax', oracle_text: 'At the beginning of your upkeep, if an opponent controls more lands than you, you may search your library for up to three basic land cards, reveal them, put them into your hand, then shuffle.', ambiguous: true },
   { name: 'Sram\'s Expertise', oracle_text: 'Create three 1/1 colorless Servo artifact creature tokens. You may cast a spell with mana value 3 or less from your hand without paying its mana cost.' },
-  { name: 'Torsten, Founder of Benalia', oracle_text: 'When Torsten enters, reveal the top seven cards of your library. Put any number of creature and/or land cards from among them into your hand and the rest on the bottom of your library in a random order.\nWhen Torsten dies, create seven 1/1 white Soldier creature tokens.', ambiguous: true },
-  { name: 'Channel', oracle_text: 'Until end of turn, any time you could activate a mana ability, you may pay 1 life. If you do, add {C}.', ambiguous: true },
+  { name: 'Torsten, Founder of Benalia', oracle_text: 'When Torsten enters, reveal the top seven cards of your library. Put any number of creature and/or land cards from among them into your hand and the rest on the bottom of your library in a random order.\nWhen Torsten dies, create seven 1/1 white Soldier creature tokens.' },
+  { name: 'Channel', oracle_text: 'Until end of turn, any time you could activate a mana ability, you may pay 1 life. If you do, add {C}.' },
   { name: 'Memory Jar', oracle_text: '{T}, Sacrifice this artifact: Each player exiles all cards from their hand face down and draws seven cards. At the beginning of the next end step, each player discards their hand and returns to their hand each card they exiled this way.', ambiguous: true },
 ];
 
