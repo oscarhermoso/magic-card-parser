@@ -68,8 +68,6 @@ const parseCard = (card) => {
     oracleText = oracleText.replace(/each player other than its controller creates/g, 'create');
     // Balance: replace complex equalization text with simple per-type sacrifice/discard (engine handles min-counting)
     oracleText = oracleText.replace(/each player chooses a number of lands they control equal to the number of lands controlled by the player who controls the fewest, then sacrifices the rest\. players discard cards and sacrifice creatures the same way\./g, 'each player sacrifices lands. each player sacrifices creatures. each player discards cards.');
-    // Maze of Ith: simplify bidirectional prevent to unidirectional (engine handles both directions)
-    oracleText = oracleText.replace(/that would be dealt to and dealt by that creature/g, 'that would be dealt to that creature');
     // Flash: strip conditional sacrifice clause (engine handles sacrifice-unless-pay)
     oracleText = oracleText.replace(/\. if you do, sacrifice it unless you pay its mana cost reduced by \{2\}\./g, '.');
     // Memory Jar: strip "face down" and delayed return clause (engine handles delayed trigger)

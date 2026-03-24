@@ -7030,6 +7030,16 @@ exports[`Unambiguous cards: single parse + snapshot > Maze of Ith 1`] = `
       },
       {
         "amount": "all",
+        "by": {
+          "object": {
+            "type": {
+              "and": [
+                "creature",
+              ],
+            },
+          },
+          "reference": "that",
+        },
         "duration": {
           "reference": "this",
           "what": "turn",
