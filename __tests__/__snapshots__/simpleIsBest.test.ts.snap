@@ -7714,7 +7714,11 @@ exports[`Unambiguous cards: single parse + snapshot > Phyrexian Revoker 1`] = `
         "what": "CARD_NAME",
       },
       "does": {
-        "choose": "cardName",
+        "choose": {
+          "cardName": {
+            "not": "land",
+          },
+        },
       },
     },
     {
@@ -7723,17 +7727,11 @@ exports[`Unambiguous cards: single parse + snapshot > Phyrexian Revoker 1`] = `
       "whose": {
         "condition": {
           "with": {
-            "reference": "that",
+            "reference": "chosen",
             "what": "name",
           },
         },
-        "object": {
-          "type": {
-            "and": [
-              "permanent",
-            ],
-          },
-        },
+        "object": "source",
       },
     },
   ],

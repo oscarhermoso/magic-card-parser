@@ -379,6 +379,7 @@ pureObjectInner -> ("copy" | "copies") (__ "of" __ object):? {% ([, copyOf]) => 
   | CARD_NAME {% ([c]) => c %}
   | "ability" {% () => "ability" %}
   | "abilities" {% () => "abilities" %}
+  | "source" "s":? {% () => "source" %}
   | "commander" {% () => "commander" %}
   | "token" {% () => "token" %}
   | "target" "s":? {% () => "target" %}
@@ -481,7 +482,7 @@ imperative -> "sacrifice" "s":? __ object {% ([, , , sacrifice]) => ({ sacrifice
   } %}
   | "surveil" __ number {% ([, , surveil]) => ({ surveil }) %}
   | "search" "es":? __ zone (__ "for" __ object):? {% ([, , , search, criteria]) => criteria ? { search, criteria: criteria[3] } : search %}
-  | "choose" "s":? __ (object {% ([o]) => o %} | "a" __ anyType __ "type" {% ([, , type]) => ({ type }) %} | "not to" __ imperative {% ([, , not]) => ({ not }) %} | "a card name" {% () => "cardName" %} | "a color" {% () => "color" %} | "a" __ object __ "of each basic land type" {% ([, , what]) => ({ what, ofEach: "basicLandType" }) %}) {% ([, , , choose]) => ({ choose }) %}
+  | "choose" "s":? __ (object {% ([o]) => o %} | "a" __ anyType __ "type" {% ([, , type]) => ({ type }) %} | "not to" __ imperative {% ([, , not]) => ({ not }) %} | "a" (__ "nonland"):? __ "card name" {% ([, nonland]) => nonland ? { cardName: { not: "land" } } : "cardName" %} | "a color" {% () => "color" %} | "a" __ object __ "of each basic land type" {% ([, , what]) => ({ what, ofEach: "basicLandType" }) %}) {% ([, , , choose]) => ({ choose }) %}
   | "draw" "s":? __ ("a" __ "card" {% () => 1 %} | "an additional card" {% () => 1 %} | englishNumber __ "card" "s" {% ([n]) => n %}) {% ([, , , draw]) => ({ draw }) %}
   | "draw" "s":? __ "cards equal to" __ numberDefinition {% ([, , , , , draw]) => ({ draw }) %}
   | "draw" "s":? __ "more than" __ englishNumber __ "card" "s":? (__ "each" __ "turn"):? {% ([, , , , , max, , , , duration]) => ({ draw: { max }, duration: duration ? { reference: "each", what: "turn" } : null }) %}
@@ -823,6 +824,7 @@ withClauseInner -> numericalCharacteristic __ numericalComparison {% ([value, , 
   | "converted mana costs" __ numericalNumber __ "and" __ numericalNumber {% ([, , cmc, and]) => and ? { and: [{ cmc }, { cmc: and[3] }] } : { cmc } %}
   | counterKind __ "counter" "s":? __ "on" __ ("it" | "them") {% ([counterKind]) => ({ counterKind }) %}
   | "that name" {% () => ({ reference: "that", what: "name" }) %}
+  | "the chosen name" {% () => ({ reference: "chosen", what: "name" }) %}
   | "the same name as" __ object {% ([, , sameNameAs]) => ({ sameNameAs }) %}
   | acquiredAbility {% ([ability]) => ({ ability }) %}
   | object {% ([object]) => ({ object }) %}
