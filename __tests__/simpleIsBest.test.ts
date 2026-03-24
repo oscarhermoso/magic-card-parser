@@ -264,7 +264,7 @@ const cubeCards: CubeCard[] = [
   { name: 'Banefire', oracle_text: 'Banefire deals X damage to any target.\nIf X is 5 or more, this spell can\'t be countered and the damage can\'t be prevented.' },
   { name: 'Batterskull', oracle_text: 'Living weapon (When this Equipment enters, create a 0/0 black Phyrexian Germ creature token, then attach this to it.)\nEquipped creature gets +4/+4 and has vigilance and lifelink.\n{3}: Return this Equipment to its owner\'s hand.\nEquip {5}' },
   { name: 'Bitter Triumph', oracle_text: 'As an additional cost to cast this spell, discard a card or pay 3 life.\nDestroy target creature or planeswalker.' },
-  { name: 'Bitterblossom', oracle_text: 'At the beginning of your upkeep, you lose 1 life and create a 1/1 black Faerie Rogue creature token with flying.', ambiguous: true },
+  { name: 'Bitterblossom', oracle_text: 'At the beginning of your upkeep, you lose 1 life and create a 1/1 black Faerie Rogue creature token with flying.' },
   { name: 'Blood Crypt', oracle_text: '({T}: Add {B} or {R}.)\nAs this land enters, you may pay 2 life. If you don\'t, it enters tapped.' },
   { name: 'Bonesplitter', oracle_text: 'Equipped creature gets +2/+0.\nEquip {1}' },
   { name: 'Braids, Cabal Minion', oracle_text: 'At the beginning of each player\'s upkeep, that player sacrifices an artifact, creature, or land of their choice.', parseError: true },
@@ -316,7 +316,7 @@ const cubeCards: CubeCard[] = [
   { name: 'Mox Diamond', oracle_text: 'If this artifact would enter, you may discard a land card instead. If you do, put this artifact onto the battlefield. If you don\'t, put it into its owner\'s graveyard.\n{T}: Add one mana of any color.' },
   { name: 'Mystical Tutor', oracle_text: 'Search your library for an instant or sorcery card, reveal it, then shuffle and put that card on top.' },
   { name: 'Natural Order', oracle_text: 'As an additional cost to cast this spell, sacrifice a green creature.\nSearch your library for a green creature card, put it onto the battlefield, then shuffle.' },
-  { name: 'Night\'s Whisper', oracle_text: 'You draw two cards and lose 2 life.', ambiguous: true },
+  { name: 'Night\'s Whisper', oracle_text: 'You draw two cards and lose 2 life.' },
   { name: 'Opposition', oracle_text: 'Tap an untapped creature you control: Tap target artifact, creature, or land.', parseError: true },
   { name: 'Pack Rat', oracle_text: 'Pack Rat\'s power and toughness are each equal to the number of Rats you control.\n{2}{B}, Discard a card: Create a token that\'s a copy of this creature.' },
   { name: 'Path to Exile', oracle_text: 'Exile target creature. Its controller may search their library for a basic land card, put that card onto the battlefield tapped, then shuffle.' },
@@ -347,7 +347,7 @@ const cubeCards: CubeCard[] = [
   { name: 'Splitskin Doll', oracle_text: 'When this creature enters, draw a card. Then discard a card unless you control another creature with power 2 or less.', parseError: true },
   { name: 'Steam Vents', oracle_text: '({T}: Add {U} or {R}.)\nAs this land enters, you may pay 2 life. If you don\'t, it enters tapped.' },
   { name: 'Stomping Ground', oracle_text: '({T}: Add {R} or {G}.)\nAs this land enters, you may pay 2 life. If you don\'t, it enters tapped.' },
-  { name: 'Stormfist Crusader', oracle_text: 'Menace\nAt the beginning of your upkeep, each player draws a card and loses 1 life.', ambiguous: true },
+  { name: 'Stormfist Crusader', oracle_text: 'Menace\nAt the beginning of your upkeep, each player draws a card and loses 1 life.' },
   { name: 'Stormscale Scion', oracle_text: 'Flying\nOther Dragons you control get +1/+1.\nStorm (When you cast this spell, copy it for each spell cast before it this turn. Copies become tokens.)' },
   { name: 'Sulfuric Vortex', oracle_text: 'At the beginning of each player\'s upkeep, this enchantment deals 2 damage to that player.\nIf a player would gain life, that player gains no life instead.' },
   { name: 'Survival of the Fittest', oracle_text: '{G}, Discard a creature card: Search your library for a creature card, reveal that card, put it into your hand, then shuffle.' },
@@ -432,7 +432,7 @@ const cubeCards: CubeCard[] = [
   { name: 'Sram\'s Expertise', oracle_text: 'Create three 1/1 colorless Servo artifact creature tokens. You may cast a spell with mana value 3 or less from your hand without paying its mana cost.' },
   { name: 'Torsten, Founder of Benalia', oracle_text: 'When Torsten enters, reveal the top seven cards of your library. Put any number of creature and/or land cards from among them into your hand and the rest on the bottom of your library in a random order.\nWhen Torsten dies, create seven 1/1 white Soldier creature tokens.' },
   { name: 'Channel', oracle_text: 'Until end of turn, any time you could activate a mana ability, you may pay 1 life. If you do, add {C}.' },
-  { name: 'Memory Jar', oracle_text: '{T}, Sacrifice this artifact: Each player exiles all cards from their hand face down and draws seven cards. At the beginning of the next end step, each player discards their hand and returns to their hand each card they exiled this way.', ambiguous: true },
+  { name: 'Memory Jar', oracle_text: '{T}, Sacrifice this artifact: Each player exiles all cards from their hand face down and draws seven cards. At the beginning of the next end step, each player discards their hand and returns to their hand each card they exiled this way.' },
 ];
 
 // ============================================================================

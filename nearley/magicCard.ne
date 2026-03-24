@@ -159,7 +159,13 @@ additionalSentence -> sentence {% ([s]) => s %}
   | "do" __ "this" __ "only" __ "once" __ "each" __ "turn" {% () => ({ limit: "onceEachTurn" }) %}
 
 sentence -> singleSentence {% ([ss]) => ss %}
-  | connected[singleSentence] {% ([c]) => c %}
+  | singleSentence ("," __ singleSentence):* ",":? __ ("and" {% () => "and" %} | "or" {% () => "xor" %} | "and/or" {% () => "or" %}) __ singleSentence {% ([s1, ss, , , connector, , s2]) => {
+    const elements = [s1, ...ss.map(([, , s]) => s), s2];
+    if (elements[0] && elements[0].actor && elements.slice(1).every(e => !e || !e.actor && !e.what)) {
+      return { actor: elements[0].actor, does: { [connector]: elements.map(e => e.actor ? e.does : e) } };
+    }
+    return { [connector]: elements };
+  } %}
   | singleSentence ("," __ singleSentence):* "," __ "then" __ singleSentence {% ([s1, ss, , , , , s2]) => ({ and: [s1, ...ss.map(([, , s]) => s), s2] }) %}
   | "otherwise," __ sentence {% ([, , otherwise]) => ({ otherwise }) %}
   | singleSentence __ "rather than" __ sentence {% ([does, , , , ratherThan]) => ({ does, ratherThan }) %}

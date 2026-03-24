@@ -223,53 +223,6 @@ exports[`Ambiguous cards: parses with snapshot > Baral, Chief of Compliance 1`] 
 ]
 `;
 
-exports[`Ambiguous cards: parses with snapshot > Bitterblossom 1`] = `
-[
-  {
-    "effect": {
-      "and": [
-        {
-          "actor": "you",
-          "does": {
-            "loseLife": 1,
-          },
-        },
-        {
-          "create": {
-            "amount": 1,
-            "color": "b",
-            "size": {
-              "power": 1,
-              "toughness": 1,
-            },
-            "type": {
-              "and": [
-                "faerie",
-                "rogue",
-                "creature",
-              ],
-            },
-            "with": {
-              "with": {
-                "ability": "flying",
-              },
-            },
-          },
-        },
-      ],
-    },
-    "trigger": {
-      "turnPhase": {
-        "partOfTurn": "upkeep",
-        "qualification": {
-          "whose": "your",
-        },
-      },
-    },
-  },
-]
-`;
-
 exports[`Ambiguous cards: parses with snapshot > Esper Sentinel 1`] = `
 [
   {
@@ -578,90 +531,6 @@ exports[`Ambiguous cards: parses with snapshot > Lightning Helix 1`] = `
 ]
 `;
 
-exports[`Ambiguous cards: parses with snapshot > Memory Jar 1`] = `
-[
-  {
-    "activatedAbility": [
-      {
-        "and": [
-          {
-            "actor": {
-              "each": "player",
-            },
-            "does": {
-              "exile": {
-                "object": "card",
-                "reference": {
-                  "count": "all",
-                },
-              },
-              "faceDown": true,
-              "from": {
-                "owner": "their",
-                "zone": "hand",
-              },
-            },
-          },
-          {
-            "draw": 7,
-          },
-        ],
-      },
-      {
-        "effect": {
-          "and": [
-            {
-              "actor": {
-                "each": "player",
-              },
-              "does": {
-                "discard": {
-                  "what": "hand",
-                  "whose": "their",
-                },
-              },
-            },
-            {
-              "returns": {
-                "object": {
-                  "object": "card",
-                  "suffix": {
-                    "actor": "they",
-                    "does": "exile",
-                    "reference": "thisWay",
-                  },
-                },
-                "reference": "each",
-              },
-              "to": {
-                "owner": "their",
-                "zone": "hand",
-              },
-            },
-          ],
-        },
-        "trigger": {
-          "turnPhase": {
-            "partOfTurn": "end",
-            "qualification": {
-              "whose": "the",
-            },
-          },
-        },
-      },
-    ],
-    "costs": {
-      "and": [
-        "tap",
-        {
-          "sacrifice": "CARD_NAME",
-        },
-      ],
-    },
-  },
-]
-`;
-
 exports[`Ambiguous cards: parses with snapshot > Mine Collapse 1`] = `
 [
   {
@@ -758,10 +627,10 @@ exports[`Ambiguous cards: parses with snapshot > Narset, Parter of Veils 1`] = `
         "lookAtTop": 4,
       },
       {
-        "and": [
-          {
-            "actor": "you",
-            "does": {
+        "actor": "you",
+        "does": {
+          "and": [
+            {
               "may": {
                 "reveal": {
                   "object": {
@@ -786,15 +655,15 @@ exports[`Ambiguous cards: parses with snapshot > Narset, Parter of Veils 1`] = `
                 },
               },
             },
-          },
-          {
-            "into": {
-              "owner": "your",
-              "zone": "hand",
+            {
+              "into": {
+                "owner": "your",
+                "zone": "hand",
+              },
+              "put": "it",
             },
-            "put": "it",
-          },
-        ],
+          ],
+        },
       },
       {
         "into": {
@@ -813,24 +682,6 @@ exports[`Ambiguous cards: parses with snapshot > Narset, Parter of Veils 1`] = `
     "costs": {
       "loyalty": -2,
     },
-  },
-]
-`;
-
-exports[`Ambiguous cards: parses with snapshot > Night's Whisper 1`] = `
-[
-  {
-    "and": [
-      {
-        "actor": "you",
-        "does": {
-          "draw": 2,
-        },
-      },
-      {
-        "loseLife": 2,
-      },
-    ],
   },
 ]
 `;
@@ -913,12 +764,12 @@ exports[`Ambiguous cards: parses with snapshot > Ruin Grinder 1`] = `
   ],
   {
     "effect": {
-      "and": [
-        {
-          "actor": {
-            "each": "player",
-          },
-          "does": {
+      "actor": {
+        "each": "player",
+      },
+      "does": {
+        "and": [
+          {
             "may": {
               "discard": {
                 "what": "hand",
@@ -926,11 +777,11 @@ exports[`Ambiguous cards: parses with snapshot > Ruin Grinder 1`] = `
               },
             },
           },
-        },
-        {
-          "draw": 7,
-        },
-      ],
+          {
+            "draw": 7,
+          },
+        ],
+      },
     },
     "trigger": {
       "when": {
@@ -1153,39 +1004,6 @@ exports[`Ambiguous cards: parses with snapshot > Spellseeker 1`] = `
           "enter": "battlefield",
         },
         "what": "CARD_NAME",
-      },
-    },
-  },
-]
-`;
-
-exports[`Ambiguous cards: parses with snapshot > Stormfist Crusader 1`] = `
-[
-  [
-    "menace",
-  ],
-  {
-    "effect": {
-      "actor": {
-        "each": "player",
-      },
-      "does": {
-        "and": [
-          {
-            "draw": 1,
-          },
-          {
-            "loseLife": 1,
-          },
-        ],
-      },
-    },
-    "trigger": {
-      "turnPhase": {
-        "partOfTurn": "upkeep",
-        "qualification": {
-          "whose": "your",
-        },
       },
     },
   },
@@ -2293,6 +2111,53 @@ exports[`Unambiguous cards: single parse + snapshot > Bitter Triumph 1`] = `
       },
       "reference": {
         "targetCount": 1,
+      },
+    },
+  },
+]
+`;
+
+exports[`Unambiguous cards: single parse + snapshot > Bitterblossom 1`] = `
+[
+  {
+    "effect": {
+      "actor": "you",
+      "does": {
+        "and": [
+          {
+            "loseLife": 1,
+          },
+          {
+            "create": {
+              "amount": 1,
+              "color": "b",
+              "size": {
+                "power": 1,
+                "toughness": 1,
+              },
+              "type": {
+                "and": [
+                  "faerie",
+                  "rogue",
+                  "creature",
+                ],
+              },
+              "with": {
+                "with": {
+                  "ability": "flying",
+                },
+              },
+            },
+          },
+        ],
+      },
+    },
+    "trigger": {
+      "turnPhase": {
+        "partOfTurn": "upkeep",
+        "qualification": {
+          "whose": "your",
+        },
       },
     },
   },
@@ -8149,6 +8014,90 @@ exports[`Unambiguous cards: single parse + snapshot > Maze of Ith 1`] = `
 ]
 `;
 
+exports[`Unambiguous cards: single parse + snapshot > Memory Jar 1`] = `
+[
+  {
+    "activatedAbility": [
+      {
+        "actor": {
+          "each": "player",
+        },
+        "does": {
+          "and": [
+            {
+              "exile": {
+                "object": "card",
+                "reference": {
+                  "count": "all",
+                },
+              },
+              "faceDown": true,
+              "from": {
+                "owner": "their",
+                "zone": "hand",
+              },
+            },
+            {
+              "draw": 7,
+            },
+          ],
+        },
+      },
+      {
+        "effect": {
+          "actor": {
+            "each": "player",
+          },
+          "does": {
+            "and": [
+              {
+                "discard": {
+                  "what": "hand",
+                  "whose": "their",
+                },
+              },
+              {
+                "returns": {
+                  "object": {
+                    "object": "card",
+                    "suffix": {
+                      "actor": "they",
+                      "does": "exile",
+                      "reference": "thisWay",
+                    },
+                  },
+                  "reference": "each",
+                },
+                "to": {
+                  "owner": "their",
+                  "zone": "hand",
+                },
+              },
+            ],
+          },
+        },
+        "trigger": {
+          "turnPhase": {
+            "partOfTurn": "end",
+            "qualification": {
+              "whose": "the",
+            },
+          },
+        },
+      },
+    ],
+    "costs": {
+      "and": [
+        "tap",
+        {
+          "sacrifice": "CARD_NAME",
+        },
+      ],
+    },
+  },
+]
+`;
+
 exports[`Unambiguous cards: single parse + snapshot > Memory Lapse 1`] = `
 [
   [
@@ -8976,6 +8925,24 @@ exports[`Unambiguous cards: single parse + snapshot > Nettlecyst 1`] = `
       },
     },
   ],
+]
+`;
+
+exports[`Unambiguous cards: single parse + snapshot > Night's Whisper 1`] = `
+[
+  {
+    "actor": "you",
+    "does": {
+      "and": [
+        {
+          "draw": 2,
+        },
+        {
+          "loseLife": 2,
+        },
+      ],
+    },
+  },
 ]
 `;
 
@@ -11753,6 +11720,39 @@ exports[`Unambiguous cards: single parse + snapshot > Stoneforge Mystic 1`] = `
         },
         "tap",
       ],
+    },
+  },
+]
+`;
+
+exports[`Unambiguous cards: single parse + snapshot > Stormfist Crusader 1`] = `
+[
+  [
+    "menace",
+  ],
+  {
+    "effect": {
+      "actor": {
+        "each": "player",
+      },
+      "does": {
+        "and": [
+          {
+            "draw": 1,
+          },
+          {
+            "loseLife": 1,
+          },
+        ],
+      },
+    },
+    "trigger": {
+      "turnPhase": {
+        "partOfTurn": "upkeep",
+        "qualification": {
+          "whose": "your",
+        },
+      },
     },
   },
 ]
