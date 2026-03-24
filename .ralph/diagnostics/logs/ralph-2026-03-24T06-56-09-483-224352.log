@@ -1,8 +1,0 @@
-[2m2026-03-23T22:56:09.499536Z[0m [33m WARN[0m [2mralph::loop_runner[0m[2m:[0m Interactive mode requested but stdout is not a TTY, falling back to autonomous
-[2m2026-03-23T22:56:09.500005Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Memory injection check: enabled=true, inject=Auto, workspace_root="/home/oscarhermoso/Git/magic-card-parser"
-[2m2026-03-23T22:56:09.500023Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Looking for memories at: "/home/oscarhermoso/Git/magic-card-parser/.ralph/agent/memories.md" (exists: false)
-[2m2026-03-23T22:56:09.500033Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Successfully loaded 0 memories from store
-[2m2026-03-23T22:56:09.500038Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Memory store is empty - no memories to inject
-[2m2026-03-23T23:19:16.616796Z[0m [32m INFO[0m [2mralph::loop_runner[0m[2m:[0m All done! LOOP_COMPLETE detected in solo output.
-[2m2026-03-23T23:19:16.616830Z[0m [32m INFO[0m [2mralph_core::event_loop[0m[2m:[0m Wrapping up: completed. 1 iterations in 23m 7s. [3mreason[0m[2m=[0mcompleted [3miterations[0m[2m=[0m1 [3mduration[0m[2m=[0m23m 7s
-[2m2026-03-23T23:19:16.619038Z[0m [32m INFO[0m [2mralph_core::landing[0m[2m:[0m Beginning landing sequence [3mloop_id[0m[2m=[0mprimary
