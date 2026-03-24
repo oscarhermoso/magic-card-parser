@@ -236,9 +236,10 @@ singleSentence -> imperative {% ([i]) => i %}
   | "if" __ sentence "," __ replacementEffect {% ([, , condition, , , replacementEffect]) => ({ condition, replacementEffect }) %}
   | "if" __ condition "," __ sentence {% ([, , condition, , , effect]) => ({ condition, effect }) %}
   | "if" __ object __ "would" __ (objectVerbPhrase | objectInfinitive) "," __ sentenceInstead {% ([, , what, , , , [does], , , instead]) => ({ what, does, instead }) %}
-  | "if" __ player __ "would" __ playerVerbPhrase (__ exceptClause):? "," __ sentenceInstead {% ([, , actor, , , , would, except, , , instead]) => {
+  | "if" __ player __ "would" __ playerVerbPhrase (__ exceptClause):? (__ whileClause):? "," __ sentenceInstead {% ([, , actor, , , , would, except, whileC, , , instead]) => {
     const result = { actor, would, instead };
     if (except) result.except = except[1];
+    if (whileC) result.while = whileC[1];
     return result;
   } %}
   | asLongAsClause "," __ sentence {% ([asLongAs, , , effect]) => ({ asLongAs, effect }) %}
@@ -268,6 +269,7 @@ condition -> sentence {% ([s]) => s %}
   | object __ "has" __ countableCount __ (counterKind __):? "counter" "s":? "on it" {% ([object, , , count, , hasCounter]) => ({ object, count, hasCounter }) %}
   | numberDefinition __ "is" __ numericalComparison {% ([number, , , , is]) => ({ number, is }) %}
   | "that mana is spent on" __ object {% ([, , manaSpentOn]) => ({ manaSpentOn }) %}
+  | zone __ "has no cards in it" {% ([zone]) => ({ not: { has: { what: "card", in: zone } } }) %}
   | ("is" __):? "paired" __ withClause {% ([, , , pairedWith]) => ({ pairedWith }) %}
   | ("is" __):? "untapped" {% () => "untapped" %}
   | object __ "has the chosen name" {% ([what]) => ({ what, has: { reference: "chosen", what: "name" } }) %}
@@ -931,6 +933,8 @@ anyTypeInner -> permanentTypeInner {% ([t]) => t %}
   | subType {% ([t]) => t %}
 
 asLongAsClause -> "as long as" __ condition {% ([, , c]) => c %}
+
+whileClause -> "while" __ condition {% ([, , c]) => c %}
 
 exceptClause -> "except the first one" __ player __ "draw in each of" __ playersPossessive __ partOfTurn "s":? {% ([, , who, , , , whose, , step]) => ({ who, does: "draw", during: { each: { whose, step } } }) %}
 

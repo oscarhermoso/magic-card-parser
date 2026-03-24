@@ -6452,6 +6452,17 @@ exports[`Unambiguous cards: single parse + snapshot > Laboratory Maniac 1`] = `
         "does": "winGame",
       },
     },
+    "while": {
+      "not": {
+        "has": {
+          "in": {
+            "owner": "your",
+            "zone": "library",
+          },
+          "what": "card",
+        },
+      },
+    },
     "would": {
       "draw": 1,
     },

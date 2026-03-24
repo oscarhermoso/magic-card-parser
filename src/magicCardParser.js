@@ -47,8 +47,6 @@ const parseCard = (card) => {
 
     const magicCardParser = new Parser(compiledMagicCardGrammar);
     let oracleText = replaceCardName(oracle_text, name);
-    // Lab Maniac: strip while-condition clause and simplify win condition (semantics handled by bridge/ScryfallParser)
-    oracleText = oracleText.replace(/ while your library has no cards in it/g, '');
     // Phyrexian Metamorph: rewrite "may have ~ enter as" → "~ becomes" (semantics handled by bridge/ScryfallParser)
     oracleText = oracleText.replace(/you may have (~) enter as (a copy of [^,]+) on the battlefield/g, '$1 becomes $2');
     // Ethersworn Canonist: simplify conditional restriction (semantics handled by bridge/engine)
