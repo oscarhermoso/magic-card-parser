@@ -62,8 +62,6 @@ const parseCard = (card) => {
     oracleText = oracleText.replace(/put any number of creature and\/or land cards from among them into your hand and the rest on the bottom of your library in a random order/g, 'put creature and land cards from among them into your hand');
     // Balance: replace complex equalization text with simple per-type sacrifice/discard (engine handles min-counting)
     oracleText = oracleText.replace(/each player chooses a number of lands they control equal to the number of lands controlled by the player who controls the fewest, then sacrifices the rest\. players discard cards and sacrifice creatures the same way\./g, 'each player sacrifices lands. each player sacrifices creatures. each player discards cards.');
-    // Flash: strip conditional sacrifice clause (engine handles sacrifice-unless-pay)
-    oracleText = oracleText.replace(/\. if you do, sacrifice it unless you pay its mana cost reduced by \{2\}\./g, '.');
     // Memory Jar: strip "face down" and delayed return clause (engine handles delayed trigger)
     oracleText = oracleText.replace(/ face down/g, '');
     oracleText = oracleText.replace(/\. at the beginning of the next end step, each player discards their hand and returns to their hand each card they exiled this way\./g, '.');

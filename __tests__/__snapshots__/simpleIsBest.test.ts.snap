@@ -1044,6 +1044,62 @@ exports[`Ambiguous cards: parses with snapshot > Feed the Swarm 1`] = `
 ]
 `;
 
+exports[`Ambiguous cards: parses with snapshot > Flash 1`] = `
+[
+  [
+    {
+      "actor": "you",
+      "does": {
+        "may": {
+          "from": {
+            "owner": "your",
+            "zone": "hand",
+          },
+          "into": "battlefield",
+          "put": {
+            "object": {
+              "object": "card",
+              "types": {
+                "and": [
+                  "creature",
+                ],
+              },
+            },
+            "reference": {
+              "count": 1,
+            },
+          },
+        },
+      },
+    },
+    {
+      "condition": {
+        "actor": "you",
+        "does": "do",
+      },
+      "effect": {
+        "does": {
+          "sacrifice": "it",
+        },
+        "unless": {
+          "actor": "you",
+          "does": {
+            "pay": {
+              "costOf": {
+                "reference": "its",
+              },
+              "reducedBy": [
+                2,
+              ],
+            },
+          },
+        },
+      },
+    },
+  ],
+]
+`;
+
 exports[`Ambiguous cards: parses with snapshot > Flooded Strand 1`] = `
 [
   {
@@ -5445,36 +5501,6 @@ exports[`Unambiguous cards: single parse + snapshot > Flametongue Kavu 1`] = `
           "enter": "battlefield",
         },
         "what": "CARD_NAME",
-      },
-    },
-  },
-]
-`;
-
-exports[`Unambiguous cards: single parse + snapshot > Flash 1`] = `
-[
-  {
-    "actor": "you",
-    "does": {
-      "may": {
-        "from": {
-          "owner": "your",
-          "zone": "hand",
-        },
-        "into": "battlefield",
-        "put": {
-          "object": {
-            "object": "card",
-            "types": {
-              "and": [
-                "creature",
-              ],
-            },
-          },
-          "reference": {
-            "count": 1,
-          },
-        },
       },
     },
   },

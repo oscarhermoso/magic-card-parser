@@ -249,7 +249,7 @@ const cubeCards: CubeCard[] = [
   { name: 'Turnabout', oracle_text: 'Choose artifact, creature, or land. Tap all untapped permanents of the chosen type target player controls, or untap all tapped permanents of that type that player controls.' },
   { name: 'Maze of Ith', oracle_text: '{T}: Untap target attacking creature. Prevent all combat damage that would be dealt to and dealt by that creature this turn.' },
   // Step 9: Complex spells part 2 — Flash, Sylvan Library, Animate Dead parse unambiguously
-  { name: 'Flash', oracle_text: 'You may put a creature card from your hand onto the battlefield. If you do, sacrifice it unless you pay its mana cost reduced by {2}.' },
+  { name: 'Flash', oracle_text: 'You may put a creature card from your hand onto the battlefield. If you do, sacrifice it unless you pay its mana cost reduced by {2}.', ambiguous: true },
   { name: 'Sylvan Library', oracle_text: 'At the beginning of your draw step, you may draw two additional cards. If you do, choose two cards in your hand drawn this turn. For each of those cards, pay 4 life or put the card on top of your library.' },
   { name: 'Animate Dead', oracle_text: 'Enchant creature card in a graveyard\nWhen this Aura enters, if it\'s on the battlefield, it loses "enchant creature card in a graveyard" and gains "enchant creature put onto the battlefield with this Aura." Return enchanted creature card to the battlefield under your control and attach this Aura to it. When this Aura leaves the battlefield, that creature\'s controller sacrifices it.\nEnchanted creature gets -1/-0.' },
   // Ambiguous cards — parse but may produce multiple results

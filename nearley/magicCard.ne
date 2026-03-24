@@ -959,7 +959,8 @@ cost -> "{t}" {% () => "tap" %}
   | loyaltyCost {% ([loyalty]) => ({ loyalty }) %}
 loyaltyCost -> PLUSMINUS integerValue {% ([pm, int]) => pm === "+" ? int : -int %}
 manacost -> manaSymbol:+ {% ([mg]) => mg %}
-  | object SAXON __ "mana cost" {% ([costOf]) => ({ costOf }) %}
+  | object SAXON __ "mana cost" (__ "reduced by" __ manacost):? {% ([costOf, , , , reduced]) => reduced ? { costOf, reducedBy: reduced[3] } : { costOf } %}
+  | itsPossessive __ "mana cost" (__ "reduced by" __ manacost):? {% ([costOf, , , reduced]) => reduced ? { costOf, reducedBy: reduced[3] } : { costOf } %}
 manaSymbols -> manaSymbol:+ {% ([s]) => s %}
 manaSymbol -> "{" manaLetter ("/" manaLetter):? "}" {% ([, c, c2]) => c2 ? { hybrid: [c, c2[1]] } : c %}
 manaLetter -> (integerValue
