@@ -54,10 +54,6 @@ const parseCard = (card) => {
     // Turnabout: simplify to choose type + tap/untap all permanents (engine handles tapped/untapped filtering)
     oracleText = oracleText.replace(/tap all untapped permanents of the chosen type target player controls, or untap all tapped permanents of that type that player controls/g, 'tap or untap all permanents target player controls');
     oracleText = oracleText.replace(/\bthat player\b/g, 'they');
-    // Scrap Trawler: simplify compound trigger and reorder return clause
-    oracleText = oracleText.replace(/~ dies or another artifact you control is put into a graveyard from the battlefield/g, 'an artifact you control is put into a graveyard from the battlefield');
-    oracleText = oracleText.replace(/return to your hand target (.*?) in your graveyard/g, 'return target $1 in your graveyard to your hand');
-    oracleText = oracleText.replace(/ with lesser mana value/g, '');
     // Memory Jar: strip delayed return clause (engine handles delayed trigger)
     oracleText = oracleText.replace(/\. at the beginning of the next end step, each player discards their hand and returns to their hand each card they exiled this way\./g, '.');
     // Torsten: simplify "put any number of X and/or Y cards from among them into your hand and the rest on the bottom..."

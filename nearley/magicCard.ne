@@ -202,6 +202,7 @@ triggerCondition -> ("when" | "whenever") __ triggerConditionInner (__ triggerTi
   | "at the beginning of" __ qualifiedPartOfTurn {% ([, , turnPhase]) => ({ turnPhase }) %}
   | "at end of combat" {% () => ({ turnPhase: "endCombat" }) %}
 triggerConditionInner -> singleSentence {% ([s]) => s %}
+  | connected[triggerConditionInner] {% ([c]) => c %}
   | player __ gains __ "life" {% ([actor]) => ({ actor, does: "gainsLife" }) %}
   | object __ "is dealt damage" {% ([what]) => ({ what, does: "dealtDamage" }) %}
   | object __ objectVerbPhrase {% ([what, , does]) => ({ what, does }) %}
@@ -461,6 +462,7 @@ imperative -> "sacrifice" "s":? __ object {% ([, , , sacrifice]) => ({ sacrifice
     if (control) result.control = control[3];
     return result;
   } %}
+  | "return" "s":? __ "to" __ zone __ object {% ([, , , , , to, , returns]) => ({ returns, to }) %}
   | "exile" "s":? __ object (__ fromZone):? (__ "face down"):? (__ untilClause):? {% ([, , , exile, from, faceDown, until]) => {
     const result = { exile };
     if (from) result.from = from[1];
@@ -832,6 +834,7 @@ withClauseInner -> numericalCharacteristic __ numericalComparison {% ([value, , 
   | "that name" {% () => ({ reference: "that", what: "name" }) %}
   | "the chosen name" {% () => ({ reference: "chosen", what: "name" }) %}
   | "the same name as" __ object {% ([, , sameNameAs]) => ({ sameNameAs }) %}
+  | "lesser" __ numericalCharacteristic {% ([, , lesser]) => ({ lesser }) %}
   | acquiredAbility {% ([ability]) => ({ ability }) %}
   | object {% ([object]) => ({ object }) %}
 

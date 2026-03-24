@@ -2680,6 +2680,82 @@ exports[`Ambiguous cards: parses with snapshot > Scalding Tarn 1`] = `
 ]
 `;
 
+exports[`Ambiguous cards: parses with snapshot > Scrap Trawler 1`] = `
+[
+  {
+    "effect": {
+      "returns": {
+        "object": {
+          "object": {
+            "condition": {
+              "with": {
+                "lesser": "cmc",
+              },
+            },
+            "object": {
+              "object": "card",
+              "suffix": {
+                "in": {
+                  "owner": "your",
+                  "zone": "graveyard",
+                },
+              },
+            },
+          },
+          "types": {
+            "and": [
+              "artifact",
+            ],
+          },
+        },
+        "reference": {
+          "targetCount": 1,
+        },
+      },
+      "to": {
+        "owner": "your",
+        "zone": "hand",
+      },
+    },
+    "trigger": {
+      "when": {
+        "xor": [
+          {
+            "does": "die",
+            "what": "CARD_NAME",
+          },
+          {
+            "does": {
+              "enter": {
+                "owner": "a",
+                "zone": "graveyard",
+              },
+              "from": "battlefield",
+            },
+            "what": {
+              "object": {
+                "object": {
+                  "type": {
+                    "and": [
+                      "artifact",
+                    ],
+                  },
+                },
+                "suffix": {
+                  "actor": "you",
+                  "does": "control",
+                },
+              },
+              "reference": "other",
+            },
+          },
+        ],
+      },
+    },
+  },
+]
+`;
+
 exports[`Ambiguous cards: parses with snapshot > Snapcaster Mage 1`] = `
 [
   [
@@ -8393,69 +8469,6 @@ exports[`Unambiguous cards: single parse + snapshot > Sakura-Tribe Elder 1`] = `
 `;
 
 exports[`Unambiguous cards: single parse + snapshot > Savannah 1`] = `[]`;
-
-exports[`Unambiguous cards: single parse + snapshot > Scrap Trawler 1`] = `
-[
-  {
-    "effect": {
-      "returns": {
-        "object": {
-          "object": {
-            "object": "card",
-            "types": {
-              "and": [
-                "artifact",
-              ],
-            },
-          },
-          "suffix": {
-            "in": {
-              "owner": "your",
-              "zone": "graveyard",
-            },
-          },
-        },
-        "reference": {
-          "targetCount": 1,
-        },
-      },
-      "to": {
-        "owner": "your",
-        "zone": "hand",
-      },
-    },
-    "trigger": {
-      "when": {
-        "does": {
-          "enter": {
-            "owner": "a",
-            "zone": "graveyard",
-          },
-          "from": "battlefield",
-        },
-        "what": {
-          "object": {
-            "object": {
-              "type": {
-                "and": [
-                  "artifact",
-                ],
-              },
-            },
-            "suffix": {
-              "actor": "you",
-              "does": "control",
-            },
-          },
-          "reference": {
-            "count": 1,
-          },
-        },
-      },
-    },
-  },
-]
-`;
 
 exports[`Unambiguous cards: single parse + snapshot > Scrawling Crawler 1`] = `
 [

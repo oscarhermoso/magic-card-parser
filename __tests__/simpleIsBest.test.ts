@@ -240,7 +240,7 @@ const cubeCards: CubeCard[] = [
   { name: 'Phyrexian Revoker', oracle_text: 'As this creature enters, choose a nonland card name. Activated abilities of sources with the chosen name can\'t be activated.' },
   // Step 6: Conditional triggered abilities — Laelia, Scrap Trawler parse unambiguously
   { name: 'Laelia, the Blade Reforged', oracle_text: 'Haste\nWhenever Laelia attacks, exile the top card of your library. You may play that card this turn.\nWhenever one or more cards are put into exile from your library and/or your graveyard, put a +1/+1 counter on Laelia.' },
-  { name: 'Scrap Trawler', oracle_text: 'Whenever this creature dies or another artifact you control is put into a graveyard from the battlefield, return to your hand target artifact card in your graveyard with lesser mana value.' },
+  { name: 'Scrap Trawler', oracle_text: 'Whenever this creature dies or another artifact you control is put into a graveyard from the battlefield, return to your hand target artifact card in your graveyard with lesser mana value.', ambiguous: true },
   // Step 7: Token & copy effects — Fractured Identity, Nettlecyst parse unambiguously
   { name: 'Fractured Identity', oracle_text: 'Exile target nonland permanent. Each player other than its controller creates a token that\'s a copy of it.' },
   { name: 'Nettlecyst', oracle_text: 'Living weapon (When this Equipment enters, create a 0/0 black Phyrexian Germ creature token, then attach this to it.)\nEquipped creature gets +1/+1 for each artifact and/or enchantment you control.\nEquip {2}' },
