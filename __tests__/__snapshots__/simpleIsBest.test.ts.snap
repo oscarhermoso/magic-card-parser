@@ -1565,22 +1565,27 @@ exports[`Ambiguous cards: parses with snapshot > Irreverent Gremlin 1`] = `
     "menace",
   ],
   {
-    "effect": {
-      "actor": "you",
-      "does": {
-        "ifDo": {
-          "draw": 1,
-        },
-        "may": {
-          "discard": {
-            "object": "card",
-            "reference": {
-              "count": 1,
+    "effect": [
+      {
+        "actor": "you",
+        "does": {
+          "ifDo": {
+            "draw": 1,
+          },
+          "may": {
+            "discard": {
+              "object": "card",
+              "reference": {
+                "count": 1,
+              },
             },
           },
         },
       },
-    },
+      {
+        "limit": "onceEachTurn",
+      },
+    ],
     "trigger": {
       "when": {
         "does": {

@@ -308,6 +308,7 @@ effect -> (sentenceDot
 sentenceDot -> sentence (".":? __ additionalSentence):* ".":? {% ([s, ss]) => ss.length > 0 ? [s, ...ss.map(([, , s2]) => s2)] : s %}
 additionalSentence -> sentence {% ([s]) => s %}
   | triggeredAbility {% ([t]) => t %}
+  | "do" __ "this" __ "only" __ "once" __ "each" __ "turn" {% () => ({ limit: "onceEachTurn" }) %}
 
 sentence -> singleSentence {% ([ss]) => ss %}
   | "then" __ sentence {% ([, , s]) => s %}
