@@ -61,70 +61,6 @@ exports[`Ambiguous cards: parses with snapshot > Esper Sentinel 1`] = `
 ]
 `;
 
-exports[`Ambiguous cards: parses with snapshot > Green Sun's Zenith 1`] = `
-[
-  [
-    {
-      "and": [
-        {
-          "criteria": {
-            "object": {
-              "condition": {
-                "with": {
-                  "comparison": {
-                    "lte": "x",
-                  },
-                  "value": "cmc",
-                },
-              },
-              "object": "card",
-              "prefixes": [
-                {
-                  "color": "g",
-                },
-              ],
-              "types": {
-                "and": [
-                  "creature",
-                ],
-              },
-            },
-            "reference": {
-              "count": 1,
-            },
-          },
-          "search": {
-            "owner": "your",
-            "zone": "library",
-          },
-        },
-        {
-          "into": "battlefield",
-          "put": "it",
-        },
-        {
-          "shuffle": "library",
-        },
-      ],
-    },
-    {
-      "into": {
-        "owner": {
-          "does": "own",
-          "whose": {
-            "reference": "its",
-          },
-        },
-        "zone": "library",
-      },
-      "shuffle": [
-        "CARD_NAME",
-      ],
-    },
-  ],
-]
-`;
-
 exports[`Ambiguous cards: parses with snapshot > Mine Collapse 1`] = `
 [
   {
@@ -5182,6 +5118,70 @@ exports[`Unambiguous cards: single parse + snapshot > Greasewrench Goblin 1`] = 
       ],
     },
   },
+]
+`;
+
+exports[`Unambiguous cards: single parse + snapshot > Green Sun's Zenith 1`] = `
+[
+  [
+    {
+      "and": [
+        {
+          "criteria": {
+            "object": {
+              "condition": {
+                "with": {
+                  "comparison": {
+                    "lte": "x",
+                  },
+                  "value": "cmc",
+                },
+              },
+              "object": "card",
+              "prefixes": [
+                {
+                  "color": "g",
+                },
+              ],
+              "types": {
+                "and": [
+                  "creature",
+                ],
+              },
+            },
+            "reference": {
+              "count": 1,
+            },
+          },
+          "search": {
+            "owner": "your",
+            "zone": "library",
+          },
+        },
+        {
+          "into": "battlefield",
+          "put": "it",
+        },
+        {
+          "shuffle": "library",
+        },
+      ],
+    },
+    {
+      "into": {
+        "owner": {
+          "does": "own",
+          "whose": {
+            "reference": "its",
+          },
+        },
+        "zone": "library",
+      },
+      "shuffle": [
+        "CARD_NAME",
+      ],
+    },
+  ],
 ]
 `;
 

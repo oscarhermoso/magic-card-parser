@@ -391,7 +391,7 @@ const cubeCards: CubeCard[] = [
   { name: 'Vampiric Tutor', oracle_text: 'Search your library for a card, then shuffle and put that card on top. You lose 2 life.' },
   { name: 'Imperial Seal', oracle_text: 'Search your library for a card, then shuffle and put that card on top. You lose 2 life.' },
   { name: 'Enlightened Tutor', oracle_text: 'Search your library for an artifact or enchantment card, reveal it, then shuffle and put that card on top.' },
-  { name: 'Green Sun\'s Zenith', oracle_text: 'Search your library for a green creature card with mana value X or less, put it onto the battlefield, then shuffle. Shuffle Green Sun\'s Zenith into its owner\'s library.', ambiguous: true },
+  { name: 'Green Sun\'s Zenith', oracle_text: 'Search your library for a green creature card with mana value X or less, put it onto the battlefield, then shuffle. Shuffle Green Sun\'s Zenith into its owner\'s library.' },
   { name: 'Stoneforge Mystic', oracle_text: 'When Stoneforge Mystic enters, you may search your library for an Equipment card, reveal it, put it into your hand, then shuffle.\n{1}{W}, {T}: You may put an Equipment card from your hand onto the battlefield.' },
   { name: 'Verdant Catacombs', oracle_text: '{T}, Pay 1 life, Sacrifice Verdant Catacombs: Search your library for a Swamp or Forest card, put it onto the battlefield, then shuffle.' },
   { name: 'Scalding Tarn', oracle_text: '{T}, Pay 1 life, Sacrifice Scalding Tarn: Search your library for an Island or Mountain card, put it onto the battlefield, then shuffle.' },
