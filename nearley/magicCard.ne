@@ -125,11 +125,7 @@ activatedAbilities -> (itsPossessive __):? "activated abilities" {% ([reference]
   | "activated abilities of" __ object {% ([, , activatedAbilities]) => ({ whose: activatedAbilities, activatedAbilities: true }) %}
 activatedAbilitiesVP -> "can't" __ "be activated" (__ "unless they're mana abilities."):? {% ([, , , , manaOnly]) => manaOnly ? { cant: "activatedAbilities", unless: "manaAbility" } : { cant: "activatedAbilities" } %}
 
-triggeredAbility -> triggerCondition "," __ interveningIfClause:? effect {% ([trigger, , , ifClause, effect]) => {
-  const result = { trigger, effect };
-  if (ifClause) result.ifClause = ifClause
-  return result;
-} %}
+triggeredAbility -> triggerCondition "," __ effect {% ([trigger, , , effect]) => ({ trigger, effect }) %}
 triggerCondition -> ("when" | "whenever") __ triggerConditionInner (__ triggerTiming):? {% ([, , inner, timing]) => {
   const result = { when: inner };
   if (timing) result.timing = timing[1];
@@ -143,7 +139,6 @@ triggerConditionInner -> singleSentence {% ([s]) => s %}
   | object __ "is dealt damage" {% ([what]) => ({ what, does: "dealtDamage" }) %}
   | object __ objectVerbPhrase {% ([what, , does]) => ({ what, does }) %}
   | object __ ("or" {% () => "xor" %} | "and" {% () => "and" %}) __ object __ objectVerbPhrase {% ([what1, , [connector], , what2, , does]) => ({ what: { [connector]: [what1, what2] }, does }) %}
-interveningIfClause -> "if " condition "," {% ([, c]) => c %}
 triggerTiming -> "each turn" {% () => "eachTurn" %}
   | "during each opponent" SAXON __ "turn" {% () => ({ reference: "each", what: { whose: "opponent", what: "turn" } }) %}
 
