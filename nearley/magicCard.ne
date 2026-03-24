@@ -816,7 +816,11 @@ dealsWhat -> damageNoun __ "to" __ damageRecipient {% ([damage, , , , to]) => ({
  | "damage equal to" __ numberDefinition __  divideAmongDamageTargets {% ([, , amount, , divideAmong]) => ({ amount, divideAmong }) %}
 
 damageRecipient -> anyEntity {% ([o]) => o %}
-  | damageRecipient __ "or" __ damageRecipient {% ([r1, , , , r2]) => ({ xor: [r1, r2] }) %}
+  | damageRecipient __ "or" __ damageRecipient {% ([r1, , , , r2], ref, reject) => {
+    const isPlayer = (x) => typeof x === 'string' || (x && (x.player || x.each));
+    if (!isPlayer(r1) && !isPlayer(r2)) return reject;
+    return { xor: [r1, r2] };
+  } %}
   | "itself" {% () => "self" %}
 divideAmongDamageTargets -> "divided as you choose among" __ divideTargets {% ([, , divideTargets]) => divideTargets %}
 divideTargets -> "one, two, or three targets" {% () => ({ targetCount: [1, 2, 3] }) %}
