@@ -236,7 +236,11 @@ singleSentence -> imperative {% ([i]) => i %}
   | "if" __ sentence "," __ replacementEffect {% ([, , condition, , , replacementEffect]) => ({ condition, replacementEffect }) %}
   | "if" __ condition "," __ sentence {% ([, , condition, , , effect]) => ({ condition, effect }) %}
   | "if" __ object __ "would" __ (objectVerbPhrase | objectInfinitive) "," __ sentenceInstead {% ([, , what, , , , [does], , , instead]) => ({ what, does, instead }) %}
-  | "if" __ player __ "would" __ playerVerbPhrase "," __ sentenceInstead {% ([, , actor, , , , would, , , instead]) => ({ actor, would, instead }) %}
+  | "if" __ player __ "would" __ playerVerbPhrase (__ exceptClause):? "," __ sentenceInstead {% ([, , actor, , , , would, except, , , instead]) => {
+    const result = { actor, would, instead };
+    if (except) result.except = except[1];
+    return result;
+  } %}
   | asLongAsClause "," __ sentence {% ([asLongAs, , , effect]) => ({ asLongAs, effect }) %}
   | duration "," __ sentence {% ([duration, , , effect]) => ({ duration, effect }) %}
   | duration "," __ triggeredAbility {% ([duration, , , effect]) => ({ duration, effect }) %}
@@ -927,6 +931,8 @@ anyTypeInner -> permanentTypeInner {% ([t]) => t %}
   | subType {% ([t]) => t %}
 
 asLongAsClause -> "as long as" __ condition {% ([, , c]) => c %}
+
+exceptClause -> "except the first one" __ player __ "draw in each of" __ playersPossessive __ partOfTurn "s":? {% ([, , who, , , , whose, , step]) => ({ who, does: "draw", during: { each: { whose, step } } }) %}
 
 replacementEffect -> sentence __ "instead of putting it" __ intoZone {% ([instead, , , , enters]) => ({ enters, instead }) %}
   | sentenceInstead {% ([s]) => s %}
