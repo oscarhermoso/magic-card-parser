@@ -10,3 +10,7 @@ private/
 src/generated/
 /oracle_cards.json
 nearley/magicCard.js
+.*
+!.github
+!.vscode
+!.env.example
