@@ -928,6 +928,7 @@ permanentType -> permanentTypeInner (__ permanentTypeInner):* {% ([t1, ts]) => (
 permanentTypeSpecifier -> permanentTypeSpecifierInner (__ permanentTypeSpecifierInner):* {% ([t1, ts]) => ({ and: [t1, ...ts.map(([, t]) => t)] }) %}
 anyType -> anyTypeInner (__ anyTypeInner):* {% ([t1, ts]) => ({ and: [t1, ...ts.map(([, t]) => t)] }) %}
   | anyTypeInner __ "or" __ anyTypeInner {% ([t1, , , , t2]) => ({ or: [t1, t2] }) %}
+  | anyTypeInner __ "and/or" __ anyTypeInner {% ([t1, , , , t2]) => ({ or: [t1, t2] }) %}
 anyTypeInner -> permanentTypeInner {% ([t]) => t %}
   | spellType {% ([t]) => t %}
   | superType {% ([t]) => t %}

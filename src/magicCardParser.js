@@ -60,9 +60,9 @@ const parseCard = (card) => {
     oracleText = oracleText.replace(/if it wasn't the first land you played this turn, /g, '');
     // Turnabout: simplify to choose type + tap/untap all permanents (engine handles tapped/untapped filtering)
     oracleText = oracleText.replace(/tap all untapped permanents of the chosen type target player controls, or untap all tapped permanents of that type that player controls/g, 'tap or untap all permanents target player controls');
+    oracleText = oracleText.replace(/\bthat player\b/g, 'they');
     // Esper Sentinel: strip "their first" and "each turn" from trigger (engine handles per-turn tracking)
     oracleText = oracleText.replace(/casts their first (.*?) each turn/g, 'casts a $1');
-    oracleText = oracleText.replace(/\bthat player\b/g, 'they');
     // Laelia: simplify exile trigger — "one or more cards are put into exile from X and/or Y" → "a card is put into exile from X"
     oracleText = oracleText.replace(/one or more cards are put into exile from your library and\/or your graveyard/g, 'a card is put into exile from your library');
     // Scrap Trawler: simplify compound trigger and reorder return clause
@@ -77,8 +77,6 @@ const parseCard = (card) => {
     oracleText = oracleText.replace(/put any number of creature and\/or land cards from among them into your hand and the rest on the bottom of your library in a random order/g, 'put creature and land cards from among them into your hand');
     // Fractured Identity: simplify "each player other than its controller creates" → imperative "create"
     oracleText = oracleText.replace(/each player other than its controller creates/g, 'create');
-    // Nettlecyst: "and/or" between types → "or" (semantically equivalent for counting)
-    oracleText = oracleText.replace(/\band\/or\b/g, 'or');
     // Balance: replace complex equalization text with simple per-type sacrifice/discard (engine handles min-counting)
     oracleText = oracleText.replace(/each player chooses a number of lands they control equal to the number of lands controlled by the player who controls the fewest, then sacrifices the rest\. players discard cards and sacrifice creatures the same way\./g, 'each player sacrifices lands. each player sacrifices creatures. each player discards cards.');
     // Channel: strip timing clause "any time you could activate a mana ability," (engine handles timing)
