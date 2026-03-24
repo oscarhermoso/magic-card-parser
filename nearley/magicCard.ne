@@ -649,6 +649,7 @@ playerVerbModifier -> "for each" __ pureObject {% ([, , forEach]) => ({ forEach 
   | "for the first time each turn" {% () => ({ reference: "firstTime", duration: { reference: "each", what: "turn" } }) %}
   | "if" __ sentence {% ([, , condition]) => ({ condition }) %}
   | "this way" {% () => ({ reference: "thisWay" }) %}
+  | asLongAsClause {% ([asLongAs]) => ({ asLongAs }) %}
 basePlayerVerbPhrase -> gains __ number __ "life" {% ([, , lifeGain]) => ({ lifeGain }) %}
   | gains __ "life equal to" __ itsPossessive __ numericalCharacteristic {% ([, , , , whose, , value]) => ({ lifeGain: { whose, value } }) %}
   | controls __ ("no" __):? object {% ([, , negation, controls]) => negation ? { not: { controls } } : { controls } %}
@@ -672,6 +673,7 @@ basePlayerVerbPhrase -> gains __ number __ "life" {% ([, , lifeGain]) => ({ life
   | "lose" "s":? __ "the game" {% () => "lose" %}
   | gets __ "an emblem" __ withClause {% ([, , , , emblem]) => ({ emblem }) %}
   | "may play" __ object (__ fromZone):? {% ([, , what, from]) => from ? { may: { play: { what, from: from[1] } } } : { may: { play: { what } } } %}
+  | "may cast" __ object (__ fromZone):? {% ([, , what, from]) => from ? { may: { cast: { what, from: from[1] } } } : { may: { cast: { what } } } %}
   | "cycle" __ object {% ([, , cycle]) => ({ cycle }) %}
   | "tap" "s":? __ object __ "for mana" {% ([, , , what]) => ({ tapsForMana: what }) %}
   | "has no cards in hand" {% () => ({ not: { has: { what: "card", in: "hand" } } }) %}
@@ -812,6 +814,7 @@ acquiredAbility -> keyword {% ([k]) => k %}
   | "“" ability "”" {% ([, a]) => a %}
   | acquiredAbility __ "and" __ acquiredAbility {% ([a1, , , , a2]) => ({ and: [a1, a2] }) %}
   | "this ability" {% () => "thisAbility" %}
+  | "flashback" {% () => "flashback" %}
 
 gets -> "get" "s":?
 controls -> "control" "s":?

@@ -296,6 +296,10 @@ const ambiguousCards: TestCard[] = [
   { name: 'Irreverent Gremlin', oracle_text: 'Menace\nWhenever another creature you control with power 2 or less enters, you may discard a card. If you do, draw a card.' },
   // Step 1: Oust — ambiguous due to "gains N life" matching both imperative and playerVerbPhrase paths
   { name: 'Oust', oracle_text: 'Put target creature into its owner\'s library second from the top. Its controller gains 3 life.' },
+  // Step 2: Graveyard casting — ambiguous due to "instant or sorcery" / "can't block" type parsing
+  { name: 'Gravecrawler', oracle_text: 'This creature can\'t block.\nYou may cast this card from your graveyard as long as you control a Zombie.' },
+  { name: 'Snapcaster Mage', oracle_text: 'Flash\nWhen this creature enters, target instant or sorcery card in your graveyard gains flashback until end of turn. The flashback cost is equal to its mana cost. (You may cast that card from your graveyard for its flashback cost. Then exile it.)' },
+  { name: 'Past in Flames', oracle_text: 'Each instant and sorcery card in your graveyard gains flashback until end of turn. The flashback cost is equal to its mana cost.\nFlashback {4}{R} (You may cast this card from your graveyard for its flashback cost. Then exile it.)' },
 ];
 
 describe('Baseline: Ambiguous cards parse with results', () => {
