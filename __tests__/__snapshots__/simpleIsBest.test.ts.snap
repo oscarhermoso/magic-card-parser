@@ -211,66 +211,6 @@ exports[`Ambiguous cards: parses with snapshot > Courser of Kruphix 1`] = `
 ]
 `;
 
-exports[`Ambiguous cards: parses with snapshot > Craterhoof Behemoth 1`] = `
-[
-  [
-    "haste",
-  ],
-  {
-    "effect": {
-      "X": {
-        "count": {
-          "object": {
-            "type": {
-              "and": [
-                "creature",
-              ],
-            },
-          },
-          "suffix": {
-            "actor": "you",
-            "does": "control",
-          },
-        },
-      },
-      "does": {
-        "does": {
-          "does": {
-            "gains": "trample",
-            "powerMod": "x",
-            "toughnessMod": "x",
-          },
-          "duration": {
-            "until": "endOfTurn",
-          },
-        },
-        "what": {
-          "object": {
-            "type": {
-              "and": [
-                "creature",
-              ],
-            },
-          },
-          "suffix": {
-            "actor": "you",
-            "does": "control",
-          },
-        },
-      },
-    },
-    "trigger": {
-      "when": {
-        "does": {
-          "enter": "battlefield",
-        },
-        "what": "CARD_NAME",
-      },
-    },
-  },
-]
-`;
-
 exports[`Ambiguous cards: parses with snapshot > Dack Fayden 1`] = `
 [
   {
@@ -300,7 +240,7 @@ exports[`Ambiguous cards: parses with snapshot > Dack Fayden 1`] = `
       ],
     },
     "costs": {
-      "loyalty": -1,
+      "loyalty": 1,
     },
   },
   {
@@ -565,83 +505,6 @@ exports[`Ambiguous cards: parses with snapshot > Flash 1`] = `
       },
     },
   ],
-]
-`;
-
-exports[`Ambiguous cards: parses with snapshot > Garruk Wildspeaker 1`] = `
-[
-  {
-    "activatedAbility": {
-      "tap": {
-        "object": {
-          "type": {
-            "and": [
-              "land",
-            ],
-          },
-        },
-        "reference": {
-          "targetCount": 2,
-        },
-      },
-    },
-    "costs": {
-      "loyalty": -1,
-    },
-  },
-  {
-    "activatedAbility": {
-      "create": {
-        "amount": 1,
-        "color": "g",
-        "size": {
-          "power": 3,
-          "toughness": 3,
-        },
-        "type": {
-          "and": [
-            "beast",
-            "creature",
-          ],
-        },
-      },
-    },
-    "costs": {
-      "loyalty": -1,
-    },
-  },
-  {
-    "activatedAbility": {
-      "does": {
-        "does": {
-          "gains": "trample",
-          "powerToughnessMod": {
-            "powerMod": 3,
-            "toughnessMod": 3,
-          },
-        },
-        "duration": {
-          "until": "endOfTurn",
-        },
-      },
-      "what": {
-        "object": {
-          "type": {
-            "and": [
-              "creature",
-            ],
-          },
-        },
-        "suffix": {
-          "actor": "you",
-          "does": "control",
-        },
-      },
-    },
-    "costs": {
-      "loyalty": -4,
-    },
-  },
 ]
 `;
 
@@ -991,47 +854,6 @@ exports[`Ambiguous cards: parses with snapshot > Land Tax 1`] = `
 ]
 `;
 
-exports[`Ambiguous cards: parses with snapshot > Library of Alexandria 1`] = `
-[
-  {
-    "activatedAbility": {
-      "add": [
-        "c",
-      ],
-    },
-    "costs": "tap",
-  },
-  {
-    "activatedAbility": {
-      "draw": 1,
-    },
-    "costs": "tap",
-    "instructions": {
-      "only": {
-        "condition": {
-          "actor": "you",
-          "does": {
-            "has": {
-              "in": {
-                "zone": "hand",
-              },
-              "what": {
-                "object": "card",
-                "reference": {
-                  "count": {
-                    "eq": 7,
-                  },
-                },
-              },
-            },
-          },
-        },
-      },
-    },
-  },
-]
-`;
-
 exports[`Ambiguous cards: parses with snapshot > Memory Jar 1`] = `
 [
   {
@@ -1117,48 +939,6 @@ exports[`Ambiguous cards: parses with snapshot > Memory Jar 1`] = `
           "sacrifice": "CARD_NAME",
         },
       ],
-    },
-  },
-]
-`;
-
-exports[`Ambiguous cards: parses with snapshot > Mox Opal 1`] = `
-[
-  {
-    "abilityWord": "metalcraft",
-    "activatedAbility": {
-      "addOneOf": [
-        "W",
-        "U",
-        "B",
-        "R",
-        "G",
-      ],
-      "amount": 1,
-    },
-    "costs": "tap",
-    "instructions": {
-      "only": {
-        "condition": {
-          "actor": "you",
-          "does": {
-            "controls": {
-              "object": {
-                "type": {
-                  "and": [
-                    "artifact",
-                  ],
-                },
-              },
-              "reference": {
-                "count": {
-                  "atLeast": 3,
-                },
-              },
-            },
-          },
-        },
-      },
     },
   },
 ]
@@ -1764,7 +1544,7 @@ exports[`Ambiguous cards: parses with snapshot > Zealous Conscripts 1`] = `
         ],
       },
       {
-        "tap": {
+        "untap": {
           "object": {
             "type": {
               "and": [
@@ -2026,7 +1806,7 @@ exports[`Unambiguous cards: single parse + snapshot > Arbor Elf 1`] = `
 [
   {
     "activatedAbility": {
-      "tap": {
+      "untap": {
         "object": {
           "type": {
             "and": [
@@ -2251,7 +2031,7 @@ exports[`Unambiguous cards: single parse + snapshot > Basalt Monolith 1`] = `
   },
   {
     "activatedAbility": {
-      "tap": "CARD_NAME",
+      "untap": "CARD_NAME",
     },
     "costs": {
       "mana": [
@@ -3063,6 +2843,74 @@ exports[`Unambiguous cards: single parse + snapshot > Counterspell 1`] = `
 ]
 `;
 
+exports[`Unambiguous cards: single parse + snapshot > Craterhoof Behemoth 1`] = `
+[
+  [
+    "haste",
+  ],
+  {
+    "effect": {
+      "X": {
+        "count": {
+          "object": {
+            "type": {
+              "and": [
+                "creature",
+              ],
+            },
+          },
+          "suffix": {
+            "actor": "you",
+            "does": "control",
+          },
+        },
+      },
+      "does": {
+        "does": {
+          "and": [
+            {
+              "gains": "trample",
+            },
+            {
+              "does": {
+                "powerToughnessMod": {
+                  "powerMod": "x",
+                  "toughnessMod": "x",
+                },
+              },
+              "duration": {
+                "until": "endOfTurn",
+              },
+            },
+          ],
+        },
+        "what": {
+          "object": {
+            "type": {
+              "and": [
+                "creature",
+              ],
+            },
+          },
+          "suffix": {
+            "actor": "you",
+            "does": "control",
+          },
+        },
+      },
+    },
+    "trigger": {
+      "when": {
+        "does": {
+          "enter": "battlefield",
+        },
+        "what": "CARD_NAME",
+      },
+    },
+  },
+]
+`;
+
 exports[`Unambiguous cards: single parse + snapshot > Crop Rotation 1`] = `
 [
   {
@@ -3491,7 +3339,7 @@ exports[`Unambiguous cards: single parse + snapshot > Elspeth, Sun's Champion 1`
       },
     },
     "costs": {
-      "loyalty": -1,
+      "loyalty": 1,
     },
   },
   {
@@ -4358,7 +4206,7 @@ exports[`Unambiguous cards: single parse + snapshot > Frantic Search 1`] = `
       ],
     },
     {
-      "tap": {
+      "untap": {
         "object": {
           "type": {
             "and": [
@@ -4420,6 +4268,89 @@ exports[`Unambiguous cards: single parse + snapshot > Galvanic Blast 1`] = `
         },
       },
       "what": "CARD_NAME",
+    },
+  },
+]
+`;
+
+exports[`Unambiguous cards: single parse + snapshot > Garruk Wildspeaker 1`] = `
+[
+  {
+    "activatedAbility": {
+      "untap": {
+        "object": {
+          "type": {
+            "and": [
+              "land",
+            ],
+          },
+        },
+        "reference": {
+          "targetCount": 2,
+        },
+      },
+    },
+    "costs": {
+      "loyalty": 1,
+    },
+  },
+  {
+    "activatedAbility": {
+      "create": {
+        "amount": 1,
+        "color": "g",
+        "size": {
+          "power": 3,
+          "toughness": 3,
+        },
+        "type": {
+          "and": [
+            "beast",
+            "creature",
+          ],
+        },
+      },
+    },
+    "costs": {
+      "loyalty": -1,
+    },
+  },
+  {
+    "activatedAbility": {
+      "does": {
+        "and": [
+          {
+            "powerToughnessMod": {
+              "powerMod": 3,
+              "toughnessMod": 3,
+            },
+          },
+          {
+            "does": {
+              "gains": "trample",
+            },
+            "duration": {
+              "until": "endOfTurn",
+            },
+          },
+        ],
+      },
+      "what": {
+        "object": {
+          "type": {
+            "and": [
+              "creature",
+            ],
+          },
+        },
+        "suffix": {
+          "actor": "you",
+          "does": "control",
+        },
+      },
+    },
+    "costs": {
+      "loyalty": -4,
     },
   },
 ]
@@ -5517,6 +5448,47 @@ exports[`Unambiguous cards: single parse + snapshot > Laelia, the Blade Reforged
 ]
 `;
 
+exports[`Unambiguous cards: single parse + snapshot > Library of Alexandria 1`] = `
+[
+  {
+    "activatedAbility": {
+      "add": [
+        "c",
+      ],
+    },
+    "costs": "tap",
+  },
+  {
+    "activatedAbility": {
+      "draw": 1,
+    },
+    "costs": "tap",
+    "instructions": {
+      "only": {
+        "condition": {
+          "actor": "you",
+          "does": {
+            "has": {
+              "in": {
+                "zone": "hand",
+              },
+              "what": {
+                "object": "card",
+                "reference": {
+                  "count": {
+                    "eq": 7,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+]
+`;
+
 exports[`Unambiguous cards: single parse + snapshot > Lightning Bolt 1`] = `
 [
   {
@@ -6042,7 +6014,7 @@ exports[`Unambiguous cards: single parse + snapshot > Maze of Ith 1`] = `
   {
     "activatedAbility": [
       {
-        "tap": {
+        "untap": {
           "object": {
             "prefixes": [
               "attacking",
@@ -6441,6 +6413,48 @@ exports[`Unambiguous cards: single parse + snapshot > Mox Jet 1`] = `
       ],
     },
     "costs": "tap",
+  },
+]
+`;
+
+exports[`Unambiguous cards: single parse + snapshot > Mox Opal 1`] = `
+[
+  {
+    "abilityWord": "metalcraft",
+    "activatedAbility": {
+      "addOneOf": [
+        "W",
+        "U",
+        "B",
+        "R",
+        "G",
+      ],
+      "amount": 1,
+    },
+    "costs": "tap",
+    "instructions": {
+      "only": {
+        "condition": {
+          "actor": "you",
+          "does": {
+            "controls": {
+              "object": {
+                "type": {
+                  "and": [
+                    "artifact",
+                  ],
+                },
+              },
+              "reference": {
+                "count": {
+                  "atLeast": 3,
+                },
+              },
+            },
+          },
+        },
+      },
+    },
   },
 ]
 `;
@@ -7998,7 +8012,7 @@ exports[`Unambiguous cards: single parse + snapshot > Snap 1`] = `
       },
     },
     {
-      "tap": {
+      "untap": {
         "object": {
           "type": {
             "and": [
@@ -9650,7 +9664,7 @@ exports[`Unambiguous cards: single parse + snapshot > Wrenn and Six 1`] = `
       },
     },
     "costs": {
-      "loyalty": -1,
+      "loyalty": 1,
     },
   },
   {

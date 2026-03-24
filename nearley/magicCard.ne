@@ -118,7 +118,6 @@ activationInstruction -> "once each turn" {% () => "onceATurn" %}
   | "any time you could cast an instant" {% () => "instantOnly" %}
   | "as a sorcery" {% () => "sorceryOnly" %}
   | "as an instant" {% () => "instantOnly" %}
-  | "if" __ player __ "control" "s":? __ object {% ([, , actor, , , , , controls]) => ({ actor, controls }) %}
   | "only if" __ condition {% ([, , condition]) => ({ condition }) %}
   | "if" __ condition {% ([, , condition]) => ({ condition }) %}
 # TODO: Make into AST
@@ -446,8 +445,8 @@ imperative -> "sacrifice" "s":? __ object {% ([, , , sacrifice]) => ({ sacrifice
   | "shuffle" "s":? {% () => ({ shuffle: "library" }) %}
   | "counter" "s":? __ object {% ([, , counter]) => ({ counter }) %}
   | "tap" "s":? (__ "or untap"):? __ object {% ([, , untap, , tap]) => untap ? { does: { or: ["tap", "untap"] }, to: tap } : { tap } %}
-  | "untap" "s":? (__ "and goad" "s":?):? __ object (__ "during" __ qualifiedPartOfTurn):? {% ([, , goad, , tap, during]) => {
-      const result = during ? { tap, when: during[3] } : { tap };
+  | "untap" "s":? (__ "and goad" "s":?):? __ object (__ "during" __ qualifiedPartOfTurn):? {% ([, , goad, , untap, during]) => {
+      const result = during ? { untap, when: during[3] } : { untap };
       if (goad) result.goad = true;
       return result;
     } %}
@@ -557,7 +556,7 @@ basePlayerVerbPhrase -> gains __ "life equal to" __ itsPossessive __ numericalCh
   | "cycle" __ object {% ([, , cycle]) => ({ cycle }) %}
   | "tap" "s":? __ object __ "for mana" {% ([, , , what]) => ({ tapsForMana: what }) %}
   | "has no cards in hand" {% () => ({ not: { has: { what: "card", in: "hand" } } }) %}
-  | ("have" | "has") __ (countableCount __):? object __ inZone {% ([, , count, what, , inZone]) => count ? { has: { count: count[0], what, ...inZone } } : { has: { what, ...inZone } } %}
+  | ("have" | "has") __ object __ inZone {% ([, , what, , inZone]) => ({ has: { what, ...inZone } }) %}
   | "has" __ object __ objectVerbPhrase {% ([, , what, , does]) => ({ what, does }) %}
 objectVerbPhrase -> connected[modifiedObjectVerbPhrase] {% ([c]) => c %}
   | modifiedObjectVerbPhrase {% ([m]) => m %}
@@ -577,12 +576,8 @@ durationOrDuring -> duration {% ([d]) => ({ duration: d }) %}
 baseObjectVerbPhrase -> ("was" | "is") __ object {% ([, , is]) => ({ is }) %}
   | ("has" | "have") __ acquiredAbility {% ([, , haveAbility]) => ({ haveAbility }) %}
   | ("has" | "have") __ "base power and toughness" __ pt (__ "and" __ ("are" | "is") __ anyType "s":? __ "in addition to" __ itsPossessive __ "other types"):? {% ([, , , , basePowerToughness, andAre]) => andAre ? { basePowerToughness, additionalType: andAre[5] } : { basePowerToughness } %}
-  | gains __ acquiredAbility (__ "and" __ gets __ ptModification):? {% ([, , gains, gets]) => gets ? { gains, ...gets[5] } : { gains } %}
-  | gets __ ptModification (__ "and" __ gains __ acquiredAbility):? {% ([, , powerToughnessMod, gains]) => {
-    const result = { powerToughnessMod };
-    if (gains) result.gains = gains[5];
-    return result;
-  } %}
+  | gains __ acquiredAbility {% ([, , gains]) => ({ gains }) %}
+  | gets __ ptModification {% ([, , powerToughnessMod]) => ({ powerToughnessMod }) %}
   | "enter" "s":? (__ "the battlefield"):? __ "with" __ (englishNumber {% ([n]) => n %} | englishNumber __ "additional" {% ([additional]) => ({ additional }) %}) __ counterKind __ "counter" "s":? __ "on it" (__ forEachClause):? {% ([, , , , , , amount, , counterKind, , , , , , forEach]) => ({ entersWith: forEach ? { amount, counterKind, forEach: forEach[1] } : { amount, counterKind } }) %}
   | "enter" "s":? (__ "the battlefield"):? __ "with a number of" (__ "additional"):? __ counterKind __ "counters on it equal to" __ numberDefinition {% ([, , , , , additional, , counterKind, , , , amount]) => ({ entersWith: additional ? { counterKind, amount, additional: true } : { counterKind, amount } }) %}
   | "enter" "s":? __ "the battlefield" (__ "tapped"):? (__ "under" __ playersPossessive __ "control"):? (__ fromZone):? (__ "and with" __ (englishNumber {% ([n]) => n %} | englishNumber __ "additional" {% ([additional]) => ({ additional }) %}) __ counterKind __ "counter" "s":? __ "on it"):?  {% ([, , , , tapped, control, from, counters]) => {
@@ -909,7 +904,7 @@ cost -> "{t}" {% () => "tap" %}
   | sentence {% ([s]) => s %}
   | manacost {% ([mana]) => ({ mana }) %}
   | loyaltyCost {% ([loyalty]) => ({ loyalty }) %}
-loyaltyCost -> PLUSMINUS integerValue {% ([pm, int]) => pm === "+" ? int : -int %}
+loyaltyCost -> PLUSMINUS integerValue {% ([pm, int]) => '+' === pm.toString() ? int : -int %}
 manacost -> manaSymbol:+ {% ([mg]) => mg %}
   | object SAXON __ "mana cost" (__ "reduced by" __ manacost):? {% ([costOf, , , , reduced]) => reduced ? { costOf, reducedBy: reduced[3] } : { costOf } %}
   | itsPossessive __ "mana cost" (__ "reduced by" __ manacost):? {% ([costOf, , , reduced]) => reduced ? { costOf, reducedBy: reduced[3] } : { costOf } %}
