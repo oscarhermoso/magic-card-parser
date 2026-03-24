@@ -300,7 +300,11 @@ anyEntity -> object {% ([e]) => e %}
 player -> "you" {% () => "you" %}
   | connected[player] {% ([c]) => c %}
   | "they" {% () => "they" %}
-  | (commonReferencingPrefix __):* purePlayer {% ([references, player]) => references.length > 0 ? { references: references.map(([r]) => r), player } : player %}
+  | "that player" {% () => "they" %}
+  | (commonReferencingPrefix __):* purePlayer {% ([references, player]) => {
+    if (references.length === 1 && references[0][0] === "that" && player === "player") return "they";
+    return references.length > 0 ? { references: references.map(([r]) => r), player } : player;
+  } %}
   | "your opponent" "s":? {% ([, plural]) => plural ? "opponent" : "opponents" %}
   | "defending player" {% () => "defendingPlayer" %}
   | itsPossessive __ ("controller" {% () => "control" %} | "owner" {% () => "own" %}) "s":? {% ([whose, , does]) => ({ whose, does })  %}

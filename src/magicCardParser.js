@@ -53,7 +53,6 @@ const parseCard = (card) => {
     oracleText = oracleText.replace(/any player may cast (.*?) without paying their mana costs and as though they had flash/g, 'players cast $1 without paying its mana cost');
     // Turnabout: simplify to choose type + tap/untap all permanents (engine handles tapped/untapped filtering)
     oracleText = oracleText.replace(/tap all untapped permanents of the chosen type target player controls, or untap all tapped permanents of that type that player controls/g, 'tap or untap all permanents target player controls');
-    oracleText = oracleText.replace(/\bthat player\b/g, 'they');
     // Memory Jar: strip delayed return clause (engine handles delayed trigger)
     oracleText = oracleText.replace(/\. at the beginning of the next end step, each player discards their hand and returns to their hand each card they exiled this way\./g, '.');
     // Torsten: simplify "put any number of X and/or Y cards from among them into your hand and the rest on the bottom..."
