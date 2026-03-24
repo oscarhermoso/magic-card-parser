@@ -55,7 +55,7 @@ const parseCard = (card) => {
     }
     oracleText = oracleText.toLowerCase();
     // Replace new-style self-references with ~ (e.g. "this creature" → "~")
-    oracleText = oracleText.replace(/\bthis (creature|artifact|land|enchantment|permanent)\b/g, '~');
+    oracleText = oracleText.replace(/\bthis (creature|artifact|land|enchantment|permanent|card)\b/g, '~');
 
     try {
         magicCardParser.feed(oracleText);

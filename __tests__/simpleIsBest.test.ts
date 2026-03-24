@@ -225,6 +225,8 @@ const successCards: TestCard[] = [
   { name: 'Arclight Phoenix', oracle_text: 'Flying, haste\nAt the beginning of combat on your turn, if you\'ve cast three or more instant and sorcery spells this turn, return Arclight Phoenix from your graveyard to the battlefield.' },
   // Step 1: Infrastructure & simple grammar fixes
   { name: 'Greasewrench Goblin', oracle_text: 'Exhaust — {2}{R}: Discard up to two cards, then draw that many cards. Put a +1/+1 counter on this creature. (Activate each exhaust ability only once.)' },
+  // Step 3: Vengevine — parses unambiguously (second creature spell trigger)
+  { name: 'Vengevine', oracle_text: 'Haste\nWhenever you cast a spell, if it\'s the second creature spell you cast this turn, you may return this card from your graveyard to the battlefield.' },
 ];
 
 describe('Baseline: Successfully parsing cards', () => {
@@ -300,6 +302,8 @@ const ambiguousCards: TestCard[] = [
   { name: 'Gravecrawler', oracle_text: 'This creature can\'t block.\nYou may cast this card from your graveyard as long as you control a Zombie.' },
   { name: 'Snapcaster Mage', oracle_text: 'Flash\nWhen this creature enters, target instant or sorcery card in your graveyard gains flashback until end of turn. The flashback cost is equal to its mana cost. (You may cast that card from your graveyard for its flashback cost. Then exile it.)' },
   { name: 'Past in Flames', oracle_text: 'Each instant and sorcery card in your graveyard gains flashback until end of turn. The flashback cost is equal to its mana cost.\nFlashback {4}{R} (You may cast this card from your graveyard for its flashback cost. Then exile it.)' },
+  // Step 3: Yawgmoth's Will — ambiguous due to compound play/cast structure
+  { name: 'Yawgmoth\'s Will', oracle_text: 'Until end of turn, you may play lands and cast spells from your graveyard.\nIf a card would be put into your graveyard from anywhere this turn, exile that card instead.' },
 ];
 
 describe('Baseline: Ambiguous cards parse with results', () => {

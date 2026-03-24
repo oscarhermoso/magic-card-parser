@@ -361,6 +361,11 @@ condition -> sentence {% ([s]) => s %}
   | object __ "was kicked with its" __ manacost __ "kicker" {% ([what, , , , mana]) => ({ what, kicked: { with: { mana } } }) %}
   | object __ "has" __ englishNumber __ counterKind __ "counter" "s":? " on it" {% ([what, , , , amount, , counterKind]) => ({ what, has: { amount, counterKind } }) %}
   | "there" __ ("are" | "is") __ countableCount __ object __ inZone {% ([, , , , count, , what, , zone]) => ({ count, what, ...zone }) %}
+  | IT_S __ "the" __ ordinal __ object __ player __ "cast" __ duration {% ([, , , , ordinal, , what, , actor, , , , during]) => ({ ordinal, cast: { what, actor }, during }) %}
+
+ordinal -> "first" {% () => 1 %}
+  | "second" {% () => 2 %}
+  | "third" {% () => 3 %}
 
 action -> "scried" {% () => "scried" %}
   | "surveilled" {% () => "surveilled" %}
@@ -674,6 +679,7 @@ basePlayerVerbPhrase -> gains __ number __ "life" {% ([, , lifeGain]) => ({ life
   | gets __ "an emblem" __ withClause {% ([, , , , emblem]) => ({ emblem }) %}
   | "may play" __ object (__ fromZone):? {% ([, , what, from]) => from ? { may: { play: { what, from: from[1] } } } : { may: { play: { what } } } %}
   | "may cast" __ object (__ fromZone):? {% ([, , what, from]) => from ? { may: { cast: { what, from: from[1] } } } : { may: { cast: { what } } } %}
+  | "may play" __ object __ "and cast" __ object (__ fromZone):? {% ([, , play, , , , cast, from]) => from ? { may: { play: { what: play, from: from[1] }, cast: { what: cast, from: from[1] } } } : { may: { play: { what: play }, cast: { what: cast } } } %}
   | "cycle" __ object {% ([, , cycle]) => ({ cycle }) %}
   | "tap" "s":? __ object __ "for mana" {% ([, , , what]) => ({ tapsForMana: what }) %}
   | "has no cards in hand" {% () => ({ not: { has: { what: "card", in: "hand" } } }) %}
@@ -765,7 +771,11 @@ baseObjectVerbPhrase -> ("was" | "is") __ object {% ([, , is]) => ({ is }) %}
   | "as" __ object (__ "in addition to its other types"):? {% ([, , as, inAddition]) => inAddition ? { as, inAddition: true } : { as } %}
   | "assign its combat damage as though it" __ WEREN_T __ "blocked" {% () => ({ damage: { as: { not: "blocked" } } }) %}
   | "remains tapped" {% () => ({ remains: "tapped" }) %}
-objectInfinitive -> "be put" __ intoZone __ duration {% ([, , enter, , duration]) => ({ enter, duration }) %}
+objectInfinitive -> "be put" __ intoZone (__ fromZone):? __ duration {% ([, , enter, from, , duration]) => {
+  const result = { enter, duration };
+  if (from) result.from = from[1];
+  return result;
+} %}
   | "be created under your control" {% () => ({ reference: { actor: "you", does: "control" }, does: "create" }) %}
   | "fight" __ object {% ([, , fight]) => ({ fight }) %}
   | "deal" __ dealsWhat {% ([, , deal]) => ({ deal }) %}
