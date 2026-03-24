@@ -74,6 +74,9 @@ const parseCard = (card) => {
     // Fastbond: strip duration from "any number of lands on each of your turns" (semantics handled by bridge/engine)
     oracleText = oracleText.replace(/any number of lands on each of your turns/g, 'any number of lands');
     oracleText = oracleText.replace(/if it wasn't the first land you played this turn, /g, '');
+    // Turnabout: simplify to choose type + tap/untap all permanents (engine handles tapped/untapped filtering)
+    // MUST run before "that player" → "they" replacement below
+    oracleText = oracleText.replace(/tap all untapped permanents of the chosen type target player controls, or untap all tapped permanents of that type that player controls/g, 'tap or untap all permanents target player controls');
     // Esper Sentinel: strip "their first" and "each turn" from trigger (engine handles per-turn tracking)
     // Rewrite "that player pays" → "they pay" (grammar doesn't have "that player" as regular player)
     oracleText = oracleText.replace(/casts their first (.*?) each turn/g, 'casts a $1');
@@ -97,6 +100,12 @@ const parseCard = (card) => {
     // Nettlecyst: "and/or" between types → "or" (semantically equivalent for counting)
     oracleText = oracleText.replace(/\band\/or\b/g, 'or');
     // Nettlecyst: living weapon reminder text is stripped by grammar (parenthesized), but ensure equip line parses
+    // Balance: replace complex equalization text with simple per-type sacrifice/discard (engine handles min-counting)
+    oracleText = oracleText.replace(/each player chooses a number of lands they control equal to the number of lands controlled by the player who controls the fewest, then sacrifices the rest\. players discard cards and sacrifice creatures the same way\./g, 'each player sacrifices lands. each player sacrifices creatures. each player discards cards.');
+    // Channel: strip timing clause "any time you could activate a mana ability," (engine handles timing)
+    oracleText = oracleText.replace(/any time you could activate a mana ability, /g, '');
+    // Maze of Ith: simplify bidirectional prevent to unidirectional (engine handles both directions)
+    oracleText = oracleText.replace(/that would be dealt to and dealt by that creature/g, 'that would be dealt to that creature');
 
     try {
         magicCardParser.feed(oracleText);

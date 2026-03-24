@@ -240,6 +240,10 @@ const successCards: TestCard[] = [
   // Step 7: Token & copy effects — Fractured Identity, Nettlecyst parse unambiguously
   { name: 'Fractured Identity', oracle_text: 'Exile target nonland permanent. Each player other than its controller creates a token that\'s a copy of it.' },
   { name: 'Nettlecyst', oracle_text: 'Living weapon (When this Equipment enters, create a 0/0 black Phyrexian Germ creature token, then attach this to it.)\nEquipped creature gets +1/+1 for each artifact and/or enchantment you control.\nEquip {2}' },
+  // Step 8: Complex spells — Balance, Turnabout, Maze of Ith parse unambiguously
+  { name: 'Balance', oracle_text: 'Each player chooses a number of lands they control equal to the number of lands controlled by the player who controls the fewest, then sacrifices the rest. Players discard cards and sacrifice creatures the same way.' },
+  { name: 'Turnabout', oracle_text: 'Choose artifact, creature, or land. Tap all untapped permanents of the chosen type target player controls, or untap all tapped permanents of that type that player controls.' },
+  { name: 'Maze of Ith', oracle_text: '{T}: Untap target attacking creature. Prevent all combat damage that would be dealt to and dealt by that creature this turn.' },
 ];
 
 describe('Baseline: Successfully parsing cards', () => {
@@ -328,6 +332,8 @@ const ambiguousCards: TestCard[] = [
   // Step 7: Token & copy effects — Sram's Expertise, Torsten ambiguous
   { name: 'Sram\'s Expertise', oracle_text: 'Create three 1/1 colorless Servo artifact creature tokens. You may cast a spell with mana value 3 or less from your hand without paying its mana cost.' },
   { name: 'Torsten, Founder of Benalia', oracle_text: 'When Torsten enters, reveal the top seven cards of your library. Put any number of creature and/or land cards from among them into your hand and the rest on the bottom of your library in a random order.\nWhen Torsten dies, create seven 1/1 white Soldier creature tokens.' },
+  // Step 8: Channel ambiguous due to duration/condition overlap
+  { name: 'Channel', oracle_text: 'Until end of turn, any time you could activate a mana ability, you may pay 1 life. If you do, add {C}.' },
 ];
 
 describe('Baseline: Ambiguous cards parse with results', () => {
