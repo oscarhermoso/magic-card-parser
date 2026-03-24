@@ -237,6 +237,9 @@ const successCards: TestCard[] = [
   // Step 6: Conditional triggered abilities — Laelia, Scrap Trawler parse unambiguously
   { name: 'Laelia, the Blade Reforged', oracle_text: 'Haste\nWhenever Laelia attacks, exile the top card of your library. You may play that card this turn.\nWhenever one or more cards are put into exile from your library and/or your graveyard, put a +1/+1 counter on Laelia.' },
   { name: 'Scrap Trawler', oracle_text: 'Whenever this creature dies or another artifact you control is put into a graveyard from the battlefield, return to your hand target artifact card in your graveyard with lesser mana value.' },
+  // Step 7: Token & copy effects — Fractured Identity, Nettlecyst parse unambiguously
+  { name: 'Fractured Identity', oracle_text: 'Exile target nonland permanent. Each player other than its controller creates a token that\'s a copy of it.' },
+  { name: 'Nettlecyst', oracle_text: 'Living weapon (When this Equipment enters, create a 0/0 black Phyrexian Germ creature token, then attach this to it.)\nEquipped creature gets +1/+1 for each artifact and/or enchantment you control.\nEquip {2}' },
 ];
 
 describe('Baseline: Successfully parsing cards', () => {
@@ -322,6 +325,9 @@ const ambiguousCards: TestCard[] = [
   // Step 6: Conditional triggered abilities — Esper Sentinel, Land Tax ambiguous
   { name: 'Esper Sentinel', oracle_text: 'Whenever an opponent casts their first noncreature spell each turn, draw a card unless that player pays {X}, where X is this creature\'s power.' },
   { name: 'Land Tax', oracle_text: 'At the beginning of your upkeep, if an opponent controls more lands than you, you may search your library for up to three basic land cards, reveal them, put them into your hand, then shuffle.' },
+  // Step 7: Token & copy effects — Sram's Expertise, Torsten ambiguous
+  { name: 'Sram\'s Expertise', oracle_text: 'Create three 1/1 colorless Servo artifact creature tokens. You may cast a spell with mana value 3 or less from your hand without paying its mana cost.' },
+  { name: 'Torsten, Founder of Benalia', oracle_text: 'When Torsten enters, reveal the top seven cards of your library. Put any number of creature and/or land cards from among them into your hand and the rest on the bottom of your library in a random order.\nWhen Torsten dies, create seven 1/1 white Soldier creature tokens.' },
 ];
 
 describe('Baseline: Ambiguous cards parse with results', () => {

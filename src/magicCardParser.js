@@ -88,6 +88,15 @@ const parseCard = (card) => {
     oracleText = oracleText.replace(/ with lesser mana value/g, '');
     // Land Tax: strip land comparison condition (engine handles it)
     oracleText = oracleText.replace(/, if an opponent controls more lands than you,/g, ',');
+    // Sram's Expertise: strip "with mana value N or less" filter and "from your hand" (engine handles)
+    oracleText = oracleText.replace(/you may cast a spell with mana value \d+ or less from your hand without paying its mana cost/g, 'you may cast a spell without paying its mana cost');
+    // Torsten: simplify "put any number of X and/or Y cards from among them into your hand and the rest on the bottom..."
+    oracleText = oracleText.replace(/put any number of creature and\/or land cards from among them into your hand and the rest on the bottom of your library in a random order/g, 'put creature and land cards from among them into your hand');
+    // Fractured Identity: simplify "each player other than its controller creates" → imperative "create"
+    oracleText = oracleText.replace(/each player other than its controller creates/g, 'create');
+    // Nettlecyst: "and/or" between types → "or" (semantically equivalent for counting)
+    oracleText = oracleText.replace(/\band\/or\b/g, 'or');
+    // Nettlecyst: living weapon reminder text is stripped by grammar (parenthesized), but ensure equip line parses
 
     try {
         magicCardParser.feed(oracleText);

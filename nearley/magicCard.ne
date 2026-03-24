@@ -610,7 +610,7 @@ imperative -> "sacrifice" "s":? __ object {% ([, , , sacrifice]) => ({ sacrifice
     if (from) result.from = from[1];
     if (tapped) result.tapped = true;
     if (control) result.control = control[3];
-    if (additional) result = { and: [result, { put: additonal[3], into: additional[5] }] };
+    if (additional) result = { and: [result, { put:additional[3], into: additional[5] }] };
     if (insteadOf) result.insteadOf = insteadOf[3];
     return result;
   } %}
