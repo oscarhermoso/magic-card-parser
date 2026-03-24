@@ -516,7 +516,6 @@ imperative -> "sacrifice" "s":? __ object {% ([, , , sacrifice]) => ({ sacrifice
   | "spend this mana only to cast" __ object {% ([, , spendOnlyOn]) => ({ spendOnlyOn }) %}
 
 playerVerbPhrase -> modifiedPlayerVerbPhrase {% ([m]) => m %}
-  | modifiedPlayerVerbPhrase ("," | ".") __ "then" __ modifiedPlayerVerbPhrase {% ([p1, , , , , p2]) => ({ and: [p1, p2] }) %}
   | "each" __ modifiedPlayerVerbPhrase {% ([, , each]) => ({ each }) %}
 modifiedPlayerVerbPhrase -> basePlayerVerbPhrase (__ playerVerbModifier):? {% ([does, mod]) => {
     if (!mod) return does;
@@ -532,7 +531,6 @@ basePlayerVerbPhrase -> gains __ "life equal to" __ itsPossessive __ numericalCh
   | controls __ "more" __ object __ "than" __ player {% ([, , , , what, , , , thanWhom]) => ({ controls: { more: what, than: thanWhom } }) %}
   | owns __ object {% ([, , owns]) => ({ owns }) %}
   | ("don't" | "doesn't") "lose this mana as steps and phases end." {% () => "doesntEmpty" %}
-  | "puts" __ object __ intoZone {% ([, , what, , enters]) => ({ what, enters }) %}
   | "surveil" "s":? {% () => "surveil" %}
   | "life total becomes" __ englishNumber {% ([, , lifeTotalBecomes]) => ({ lifeTotalBecomes }) %}
   | "attack" ("s" | "ed"):? (__ player):? (__ "with" __ numericalComparison __ "creatures"):? (__ duration):? {% ([, , who, creatures, duration]) => {
@@ -550,8 +548,6 @@ basePlayerVerbPhrase -> gains __ "life equal to" __ itsPossessive __ numericalCh
   | ("does" | "do") {% () => "do" %}
   | "lose" "s":? __ "the game" {% () => "lose" %}
   | gets __ "an emblem" __ withClause {% ([, , , , emblem]) => ({ emblem }) %}
-  | "may play" __ object (__ fromZone):? {% ([, , what, from]) => from ? { may: { play: { what, from: from[1] } } } : { may: { play: { what } } } %}
-  | "may cast" __ object (__ fromZone):? {% ([, , what, from]) => from ? { may: { cast: { what, from: from[1] } } } : { may: { cast: { what } } } %}
   | "may play" __ object __ "and cast" __ object (__ fromZone):? {% ([, , play, , , , cast, from]) => from ? { may: { play: { what: play, from: from[1] }, cast: { what: cast, from: from[1] } } } : { may: { play: { what: play }, cast: { what: cast } } } %}
   | "cycle" __ object {% ([, , cycle]) => ({ cycle }) %}
   | "tap" "s":? __ object __ "for mana" {% ([, , , what]) => ({ tapsForMana: what }) %}

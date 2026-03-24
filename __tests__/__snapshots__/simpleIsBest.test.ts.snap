@@ -141,76 +141,6 @@ exports[`Ambiguous cards: parses with snapshot > Channel 1`] = `
 ]
 `;
 
-exports[`Ambiguous cards: parses with snapshot > Courser of Kruphix 1`] = `
-[
-  {
-    "playRevealed": {
-      "whose": "your",
-    },
-  },
-  {
-    "actor": "you",
-    "does": {
-      "may": {
-        "play": {
-          "what": {
-            "object": {
-              "type": {
-                "and": [
-                  "land",
-                ],
-              },
-            },
-            "suffix": {
-              "from": {
-                "topOf": {
-                  "what": "library",
-                  "whose": "your",
-                },
-              },
-            },
-          },
-        },
-      },
-    },
-  },
-  {
-    "abilityWord": "landfall",
-    "effect": {
-      "actor": "you",
-      "does": {
-        "gainLife": 1,
-      },
-    },
-    "trigger": {
-      "when": {
-        "does": {
-          "enter": "battlefield",
-        },
-        "what": {
-          "object": {
-            "object": {
-              "type": {
-                "and": [
-                  "land",
-                ],
-              },
-            },
-            "suffix": {
-              "actor": "you",
-              "does": "control",
-            },
-          },
-          "reference": {
-            "count": 1,
-          },
-        },
-      },
-    },
-  },
-]
-`;
-
 exports[`Ambiguous cards: parses with snapshot > Dack Fayden 1`] = `
 [
   {
@@ -505,65 +435,6 @@ exports[`Ambiguous cards: parses with snapshot > Flash 1`] = `
       },
     },
   ],
-]
-`;
-
-exports[`Ambiguous cards: parses with snapshot > Goblin Guide 1`] = `
-[
-  [
-    "haste",
-  ],
-  {
-    "effect": [
-      {
-        "actor": "defendingPlayer",
-        "does": {
-          "reveal": {
-            "from": {
-              "owner": "their",
-              "zone": "library",
-            },
-            "topCards": 1,
-          },
-        },
-      },
-      {
-        "condition": {
-          "is": {
-            "object": {
-              "object": {
-                "object": "card",
-                "types": {
-                  "and": [
-                    "land",
-                  ],
-                },
-              },
-              "reference": {
-                "count": 1,
-              },
-            },
-          },
-        },
-        "effect": {
-          "actor": "they",
-          "does": {
-            "into": {
-              "owner": "their",
-              "zone": "hand",
-            },
-            "put": "it",
-          },
-        },
-      },
-    ],
-    "trigger": {
-      "when": {
-        "does": "attacks",
-        "what": "CARD_NAME",
-      },
-    },
-  },
 ]
 `;
 
@@ -1031,135 +902,6 @@ exports[`Ambiguous cards: parses with snapshot > Narset, Parter of Veils 1`] = `
 ]
 `;
 
-exports[`Ambiguous cards: parses with snapshot > Oracle of Mul Daya 1`] = `
-[
-  {
-    "actor": "you",
-    "does": {
-      "may": {
-        "each": {
-          "partOfTurn": "turn",
-          "qualification": {
-            "whose": "your",
-          },
-        },
-        "play": {
-          "object": {
-            "type": {
-              "and": [
-                "land",
-              ],
-            },
-          },
-          "reference": {
-            "additional": true,
-            "count": 1,
-          },
-        },
-      },
-    },
-  },
-  {
-    "playRevealed": {
-      "whose": "your",
-    },
-  },
-  {
-    "actor": "you",
-    "does": {
-      "may": {
-        "play": {
-          "object": {
-            "type": {
-              "and": [
-                "land",
-              ],
-            },
-          },
-          "suffix": {
-            "from": {
-              "topOf": {
-                "what": "library",
-                "whose": "your",
-              },
-            },
-          },
-        },
-      },
-    },
-  },
-]
-`;
-
-exports[`Ambiguous cards: parses with snapshot > Restoration Angel 1`] = `
-[
-  [
-    "flash",
-  ],
-  [
-    "flying",
-  ],
-  {
-    "effect": {
-      "actor": "you",
-      "does": {
-        "and": [
-          {
-            "may": {
-              "exile": {
-                "object": {
-                  "object": {
-                    "prefixes": [
-                      {
-                        "not": {
-                          "type": {
-                            "and": [
-                              "angel",
-                            ],
-                          },
-                        },
-                      },
-                    ],
-                    "type": {
-                      "and": [
-                        "creature",
-                      ],
-                    },
-                  },
-                  "suffix": {
-                    "actor": "you",
-                    "does": "control",
-                  },
-                },
-                "reference": {
-                  "targetCount": 1,
-                },
-              },
-            },
-          },
-          {
-            "control": "your",
-            "returns": {
-              "object": "card",
-              "reference": "that",
-            },
-            "to": "battlefield",
-          },
-        ],
-      },
-    },
-    "trigger": {
-      "when": {
-        "does": {
-          "enter": "battlefield",
-        },
-        "what": "CARD_NAME",
-      },
-    },
-  },
-]
-`;
-
 exports[`Ambiguous cards: parses with snapshot > Scrap Trawler 1`] = `
 [
   {
@@ -1400,50 +1142,6 @@ exports[`Ambiguous cards: parses with snapshot > Torsten, Founder of Benalia 1`]
         "what": "CARD_NAME",
       },
     },
-  },
-]
-`;
-
-exports[`Ambiguous cards: parses with snapshot > Windfall 1`] = `
-[
-  {
-    "and": [
-      {
-        "actor": {
-          "player": "player",
-          "references": [
-            "each",
-          ],
-        },
-        "does": {
-          "discard": {
-            "what": "hand",
-            "whose": "their",
-          },
-        },
-      },
-      {
-        "draw": {
-          "greatest": {
-            "count": {
-              "object": "card",
-              "suffix": {
-                "actor": {
-                  "player": "player",
-                  "references": [
-                    {
-                      "count": 1,
-                    },
-                  ],
-                },
-                "does": "discard",
-                "reference": "thisWay",
-              },
-            },
-          },
-        },
-      },
-    ],
   },
 ]
 `;
@@ -2839,6 +2537,74 @@ exports[`Unambiguous cards: single parse + snapshot > Counterspell 1`] = `
     "counter": [
       " ",
     ],
+  },
+]
+`;
+
+exports[`Unambiguous cards: single parse + snapshot > Courser of Kruphix 1`] = `
+[
+  {
+    "playRevealed": {
+      "whose": "your",
+    },
+  },
+  {
+    "actor": "you",
+    "does": {
+      "may": {
+        "play": {
+          "object": {
+            "type": {
+              "and": [
+                "land",
+              ],
+            },
+          },
+          "suffix": {
+            "from": {
+              "topOf": {
+                "what": "library",
+                "whose": "your",
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+  {
+    "abilityWord": "landfall",
+    "effect": {
+      "actor": "you",
+      "does": {
+        "gainLife": 1,
+      },
+    },
+    "trigger": {
+      "when": {
+        "does": {
+          "enter": "battlefield",
+        },
+        "what": {
+          "object": {
+            "object": {
+              "type": {
+                "and": [
+                  "land",
+                ],
+              },
+            },
+            "suffix": {
+              "actor": "you",
+              "does": "control",
+            },
+          },
+          "reference": {
+            "count": 1,
+          },
+        },
+      },
+    },
   },
 ]
 `;
@@ -4377,6 +4143,65 @@ exports[`Unambiguous cards: single parse + snapshot > Gitaxian Probe 1`] = `
 ]
 `;
 
+exports[`Unambiguous cards: single parse + snapshot > Goblin Guide 1`] = `
+[
+  [
+    "haste",
+  ],
+  {
+    "effect": [
+      {
+        "actor": "defendingPlayer",
+        "does": {
+          "reveal": {
+            "from": {
+              "owner": "their",
+              "zone": "library",
+            },
+            "topCards": 1,
+          },
+        },
+      },
+      {
+        "condition": {
+          "is": {
+            "object": {
+              "object": {
+                "object": "card",
+                "types": {
+                  "and": [
+                    "land",
+                  ],
+                },
+              },
+              "reference": {
+                "count": 1,
+              },
+            },
+          },
+        },
+        "effect": {
+          "actor": "they",
+          "does": {
+            "into": {
+              "owner": "their",
+              "zone": "hand",
+            },
+            "put": "it",
+          },
+        },
+      },
+    ],
+    "trigger": {
+      "when": {
+        "does": "attacks",
+        "what": "CARD_NAME",
+      },
+    },
+  },
+]
+`;
+
 exports[`Unambiguous cards: single parse + snapshot > Goblin Rabblemaster 1`] = `
 [
   {
@@ -4554,50 +4379,6 @@ exports[`Unambiguous cards: single parse + snapshot > Grave Titan 1`] = `
           ],
         },
         "what": "CARD_NAME",
-      },
-    },
-  },
-]
-`;
-
-exports[`Unambiguous cards: single parse + snapshot > Gravecrawler 1`] = `
-[
-  {
-    "does": {
-      "cant": "block",
-    },
-    "what": "CARD_NAME",
-  },
-  {
-    "actor": "you",
-    "does": {
-      "asLongAs": {
-        "actor": "you",
-        "does": {
-          "controls": {
-            "object": {
-              "type": {
-                "and": [
-                  "zombie",
-                ],
-              },
-            },
-            "reference": {
-              "count": 1,
-            },
-          },
-        },
-      },
-      "does": {
-        "may": {
-          "cast": {
-            "from": {
-              "owner": "your",
-              "zone": "graveyard",
-            },
-            "what": "CARD_NAME",
-          },
-        },
       },
     },
   },
@@ -6756,6 +6537,66 @@ exports[`Unambiguous cards: single parse + snapshot > Ophiomancer 1`] = `
 ]
 `;
 
+exports[`Unambiguous cards: single parse + snapshot > Oracle of Mul Daya 1`] = `
+[
+  {
+    "actor": "you",
+    "does": {
+      "may": {
+        "each": {
+          "partOfTurn": "turn",
+          "qualification": {
+            "whose": "your",
+          },
+        },
+        "play": {
+          "object": {
+            "type": {
+              "and": [
+                "land",
+              ],
+            },
+          },
+          "reference": {
+            "additional": true,
+            "count": 1,
+          },
+        },
+      },
+    },
+  },
+  {
+    "playRevealed": {
+      "whose": "your",
+    },
+  },
+  {
+    "actor": "you",
+    "does": {
+      "may": {
+        "play": {
+          "object": {
+            "type": {
+              "and": [
+                "land",
+              ],
+            },
+          },
+          "suffix": {
+            "from": {
+              "topOf": {
+                "what": "library",
+                "whose": "your",
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+]
+`;
+
 exports[`Unambiguous cards: single parse + snapshot > Oust 1`] = `
 [
   [
@@ -7571,6 +7412,75 @@ exports[`Unambiguous cards: single parse + snapshot > Reprieve 1`] = `
       "draw": 1,
     },
   ],
+]
+`;
+
+exports[`Unambiguous cards: single parse + snapshot > Restoration Angel 1`] = `
+[
+  [
+    "flash",
+  ],
+  [
+    "flying",
+  ],
+  {
+    "effect": {
+      "and": [
+        {
+          "actor": "you",
+          "does": {
+            "may": {
+              "exile": {
+                "object": {
+                  "object": {
+                    "prefixes": [
+                      {
+                        "not": {
+                          "type": {
+                            "and": [
+                              "angel",
+                            ],
+                          },
+                        },
+                      },
+                    ],
+                    "type": {
+                      "and": [
+                        "creature",
+                      ],
+                    },
+                  },
+                  "suffix": {
+                    "actor": "you",
+                    "does": "control",
+                  },
+                },
+                "reference": {
+                  "targetCount": 1,
+                },
+              },
+            },
+          },
+        },
+        {
+          "control": "your",
+          "returns": {
+            "object": "card",
+            "reference": "that",
+          },
+          "to": "battlefield",
+        },
+      ],
+    },
+    "trigger": {
+      "when": {
+        "does": {
+          "enter": "battlefield",
+        },
+        "what": "CARD_NAME",
+      },
+    },
+  },
 ]
 `;
 
@@ -9445,6 +9355,50 @@ exports[`Unambiguous cards: single parse + snapshot > Wild Growth 1`] = `
         },
       },
     },
+  },
+]
+`;
+
+exports[`Unambiguous cards: single parse + snapshot > Windfall 1`] = `
+[
+  {
+    "and": [
+      {
+        "actor": {
+          "player": "player",
+          "references": [
+            "each",
+          ],
+        },
+        "does": {
+          "discard": {
+            "what": "hand",
+            "whose": "their",
+          },
+        },
+      },
+      {
+        "draw": {
+          "greatest": {
+            "count": {
+              "object": "card",
+              "suffix": {
+                "actor": {
+                  "player": "player",
+                  "references": [
+                    {
+                      "count": 1,
+                    },
+                  ],
+                },
+                "does": "discard",
+                "reference": "thisWay",
+              },
+            },
+          },
+        },
+      },
+    ],
   },
 ]
 `;
