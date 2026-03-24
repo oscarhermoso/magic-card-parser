@@ -6571,14 +6571,24 @@ exports[`Unambiguous cards: single parse + snapshot > Laelia, the Blade Reforged
         "does": {
           "enter": "exile",
           "from": {
-            "owner": "your",
-            "zone": "library",
+            "or": [
+              {
+                "owner": "your",
+                "zone": "library",
+              },
+              {
+                "owner": "your",
+                "zone": "graveyard",
+              },
+            ],
           },
         },
         "what": {
           "object": "card",
           "reference": {
-            "count": 1,
+            "count": {
+              "atLeast": 1,
+            },
           },
         },
       },

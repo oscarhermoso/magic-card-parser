@@ -649,7 +649,7 @@ baseObjectVerbPhrase -> ("was" | "is") __ object {% ([, , is]) => ({ is }) %}
   | "enter" "s":? __ "as" __ becomesWhat (__ "on the battlefield"):? {% ([, , , , , becomes]) => ({ enter: "battlefield", as: becomes }) %}
   | "leave" "s":? __ "the battlefield" {% () => ({ leaves: "battlefield" }) %}
   | "die" "s":? {% () => "die" %}
-  | ("is" | "would be") __ "put" __ intoZone (__ fromZone):? {% ([, , , , enter, from]) => from ? { enter, from: from[1] } : { enter } %}
+  | ("is" | "are" | "would be") __ "put" __ intoZone (__ fromZone):? {% ([, , , , enter, from]) => from ? { enter, from: from[1] } : { enter } %}
   | (CAN_T | DON_T | DOESN_T) __ cantClause {% ([, , cant]) => ({ cant }) %}
   | "deal" "s":? __ dealsWhat {% ([, , , deal]) => ({ deal }) %}
   | ("is" | "are") __ isWhat {% ([, , is]) => ({ is }) %}
@@ -911,6 +911,7 @@ zone -> (playersPossessive | "a" (__ "single"):?) __ ownedZone {% ([[owner], , z
   | "it" {% () => "it" %}
   | "anywhere" {% () => "anywhere" %}
   | ownedZone {% ([zone]) => ({ zone }) %}
+  | connected[zone] {% ([c]) => c %}
 ownedZone -> "graveyard" {% () => "graveyard" %}
   | "library" {% () => "library" %}
   | "libraries" {% () => "library" %}
