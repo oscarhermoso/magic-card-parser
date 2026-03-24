@@ -643,6 +643,7 @@ baseObjectVerbPhrase -> ("was" | "is") __ object {% ([, , is]) => ({ is }) %}
     if (notCast) result.condition = { not: "wasCast" };
     return result;
   } %}
+  | "enter" "s":? __ "as" __ becomesWhat (__ "on the battlefield"):? {% ([, , , , , becomes]) => ({ enter: "battlefield", as: becomes }) %}
   | "leave" "s":? __ "the battlefield" {% () => ({ leaves: "battlefield" }) %}
   | "die" "s":? {% () => "die" %}
   | ("is" | "would be") __ "put" __ intoZone (__ fromZone):? {% ([, , , , enter, from]) => from ? { enter, from: from[1] } : { enter } %}

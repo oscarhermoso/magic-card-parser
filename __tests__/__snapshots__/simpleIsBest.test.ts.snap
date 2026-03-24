@@ -2283,39 +2283,60 @@ exports[`Ambiguous cards: parses with snapshot > Phantasmal Shieldback 1`] = `
 exports[`Ambiguous cards: parses with snapshot > Phyrexian Metamorph 1`] = `
 [
   {
+    "actor": "you",
     "does": {
-      "become": {
-        "copyOf": {
-          "object": {
-            "type": {
-              "or": [
-                "artifact",
-                "creature",
+      "may": {
+        "does": {
+          "as": {
+            "copyOf": {
+              "xor": [
+                {
+                  "object": {
+                    "type": {
+                      "and": [
+                        "artifact",
+                      ],
+                    },
+                  },
+                  "reference": "any",
+                },
+                {
+                  "object": {
+                    "type": {
+                      "and": [
+                        "creature",
+                      ],
+                    },
+                  },
+                  "suffix": {
+                    "in": "battlefield",
+                  },
+                },
               ],
             },
-          },
-          "reference": "any",
-        },
-        "except": {
-          "is": {
-            "inAddition": true,
-            "object": {
-              "object": {
-                "type": {
-                  "and": [
-                    "artifact",
-                  ],
+            "except": {
+              "is": {
+                "inAddition": true,
+                "object": {
+                  "object": {
+                    "type": {
+                      "and": [
+                        "artifact",
+                      ],
+                    },
+                  },
+                  "reference": {
+                    "count": 1,
+                  },
                 },
-              },
-              "reference": {
-                "count": 1,
               },
             },
           },
+          "enter": "battlefield",
         },
+        "have": "CARD_NAME",
       },
     },
-    "what": "CARD_NAME",
   },
 ]
 `;

@@ -47,8 +47,6 @@ const parseCard = (card) => {
 
     const magicCardParser = new Parser(compiledMagicCardGrammar);
     let oracleText = replaceCardName(oracle_text, name);
-    // Phyrexian Metamorph: rewrite "may have ~ enter as" → "~ becomes" (semantics handled by bridge/ScryfallParser)
-    oracleText = oracleText.replace(/you may have (~) enter as (a copy of [^,]+) on the battlefield/g, '$1 becomes $2');
     // Ethersworn Canonist: simplify conditional restriction (semantics handled by bridge/engine)
     oracleText = oracleText.replace(/each player who has cast a nonartifact spell this turn can't cast additional nonartifact spells/g, "players can't cast nonartifact spells");
     // Aluren: simplify free-cast clause (semantics handled by bridge/engine)
