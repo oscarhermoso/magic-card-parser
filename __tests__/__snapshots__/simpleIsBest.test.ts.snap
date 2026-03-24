@@ -289,33 +289,6 @@ exports[`Ambiguous cards: parses with snapshot > Land Tax 1`] = `
 ]
 `;
 
-exports[`Ambiguous cards: parses with snapshot > Lightning Helix 1`] = `
-[
-  [
-    {
-      "does": {
-        "deal": {
-          "amount": 3,
-          "damageTo": {
-            "and": [
-              {
-                "object": "target",
-                "reference": "any",
-              },
-              "you",
-            ],
-          },
-        },
-      },
-      "what": "CARD_NAME",
-    },
-    {
-      "gainLife": 3,
-    },
-  ],
-]
-`;
-
 exports[`Ambiguous cards: parses with snapshot > Mine Collapse 1`] = `
 [
   {
@@ -404,9 +377,9 @@ exports[`Ambiguous cards: parses with snapshot > Narset, Parter of Veils 1`] = `
       {
         "actor": "you",
         "does": {
-          "and": [
-            {
-              "may": {
+          "may": {
+            "and": [
+              {
                 "reveal": {
                   "object": {
                     "object": {
@@ -429,15 +402,15 @@ exports[`Ambiguous cards: parses with snapshot > Narset, Parter of Veils 1`] = `
                   },
                 },
               },
-            },
-            {
-              "into": {
-                "owner": "your",
-                "zone": "hand",
+              {
+                "into": {
+                  "owner": "your",
+                  "zone": "hand",
+                },
+                "put": "it",
               },
-              "put": "it",
-            },
-          ],
+            ],
+          },
         },
       },
       {
@@ -458,52 +431,6 @@ exports[`Ambiguous cards: parses with snapshot > Narset, Parter of Veils 1`] = `
       "loyalty": -2,
     },
   },
-]
-`;
-
-exports[`Ambiguous cards: parses with snapshot > Ruin Grinder 1`] = `
-[
-  [
-    "menace",
-  ],
-  {
-    "effect": {
-      "actor": {
-        "each": "player",
-      },
-      "does": {
-        "and": [
-          {
-            "may": {
-              "discard": {
-                "what": "hand",
-                "whose": "their",
-              },
-            },
-          },
-          {
-            "draw": 7,
-          },
-        ],
-      },
-    },
-    "trigger": {
-      "when": {
-        "does": "die",
-        "what": "CARD_NAME",
-      },
-    },
-  },
-  [
-    {
-      "cycling": {
-        "mana": [
-          2,
-        ],
-      },
-      "cyclingType": "mountain",
-    },
-  ],
 ]
 `;
 
@@ -7034,6 +6961,33 @@ exports[`Unambiguous cards: single parse + snapshot > Lightning Bolt 1`] = `
 ]
 `;
 
+exports[`Unambiguous cards: single parse + snapshot > Lightning Helix 1`] = `
+[
+  {
+    "and": [
+      {
+        "does": {
+          "deal": {
+            "amount": 3,
+            "damageTo": {
+              "object": "target",
+              "reference": "any",
+            },
+          },
+        },
+        "what": "CARD_NAME",
+      },
+      {
+        "actor": "you",
+        "does": {
+          "gainLife": 3,
+        },
+      },
+    ],
+  },
+]
+`;
+
 exports[`Unambiguous cards: single parse + snapshot > Lingering Souls 1`] = `
 [
   {
@@ -10330,6 +10284,52 @@ exports[`Unambiguous cards: single parse + snapshot > Rotting Regisaur 1`] = `
       },
     },
   },
+]
+`;
+
+exports[`Unambiguous cards: single parse + snapshot > Ruin Grinder 1`] = `
+[
+  [
+    "menace",
+  ],
+  {
+    "effect": {
+      "actor": {
+        "each": "player",
+      },
+      "does": {
+        "may": {
+          "and": [
+            {
+              "discard": {
+                "what": "hand",
+                "whose": "their",
+              },
+            },
+            {
+              "draw": 7,
+            },
+          ],
+        },
+      },
+    },
+    "trigger": {
+      "when": {
+        "does": "die",
+        "what": "CARD_NAME",
+      },
+    },
+  },
+  [
+    {
+      "cycling": {
+        "mana": [
+          2,
+        ],
+      },
+      "cyclingType": "mountain",
+    },
+  ],
 ]
 `;
 

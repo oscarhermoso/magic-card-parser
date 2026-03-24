@@ -157,7 +157,18 @@ sentence -> singleSentence {% ([ss]) => ss %}
   | singleSentence ("," __ singleSentence):* ",":? __ ("and" {% () => "and" %} | "or" {% () => "xor" %} | "and/or" {% () => "or" %}) __ singleSentence {% ([s1, ss, , , connector, , s2]) => {
     const elements = [s1, ...ss.map(([, , s]) => s), s2];
     if (elements[0] && elements[0].actor && elements.slice(1).every(e => !e || !e.actor && !e.what)) {
-      return { actor: elements[0].actor, does: { [connector]: elements.map(e => e.actor ? e.does : e) } };
+      const actor = elements[0].actor;
+      const firstDoes = elements[0].does;
+      const rest = elements.slice(1);
+      // Propagate "may" if the first element's does is {may: X}
+      if (firstDoes && typeof firstDoes === 'object' && firstDoes.may && !firstDoes.and && !firstDoes.xor) {
+        return { actor, does: { may: { [connector]: [firstDoes.may, ...rest] } } };
+      }
+      // Propagate "can't" if the first element's does is {cant: X}
+      if (firstDoes && typeof firstDoes === 'object' && firstDoes.cant && !firstDoes.and && !firstDoes.xor) {
+        return { actor, does: { cant: { [connector]: [firstDoes.cant, ...rest] } } };
+      }
+      return { actor, does: { [connector]: elements.map(e => e.actor ? e.does : e) } };
     }
     return { [connector]: elements };
   } %}
@@ -792,7 +803,7 @@ dealsWhat -> damageNoun __ "to" __ damageRecipient {% ([damage, , , , to]) => ({
  | "damage equal to" __ numberDefinition __  divideAmongDamageTargets {% ([, , amount, , divideAmong]) => ({ amount, divideAmong }) %}
 
 damageRecipient -> anyEntity {% ([o]) => o %}
-  | ("target" __):? connected[damageRecipient] {% ([target, rs]) => target ? { target: rs } : rs %}
+  | damageRecipient __ "or" __ damageRecipient {% ([r1, , , , r2]) => ({ xor: [r1, r2] }) %}
   | "itself" {% () => "self" %}
 divideAmongDamageTargets -> "divided as you choose among" __ divideTargets {% ([, , divideTargets]) => divideTargets %}
 divideTargets -> "one, two, or three targets" {% () => ({ targetCount: [1, 2, 3] }) %}
