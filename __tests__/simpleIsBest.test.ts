@@ -15,11 +15,15 @@ function parse(card: TestCard) {
 }
 
 // ============================================================================
-// Cards that currently parse successfully (single parse, no error)
-// These MUST NOT regress when grammar changes are made.
+// All cube cards — parsed and snapshot-tested for regression detection.
+// Cards marked `ambiguous: true` may produce multiple parse results.
 // ============================================================================
 
-const successCards: TestCard[] = [
+interface CubeCard extends TestCard {
+  ambiguous?: boolean;
+}
+
+const cubeCards: CubeCard[] = [
   // Mana sources
   { name: 'Black Lotus', oracle_text: '{T}, Sacrifice this artifact: Add three mana of any one color.' },
   { name: 'Mox Pearl', oracle_text: '{T}: Add {W}.' },
@@ -248,302 +252,106 @@ const successCards: TestCard[] = [
   { name: 'Flash', oracle_text: 'You may put a creature card from your hand onto the battlefield. If you do, sacrifice it unless you pay its mana cost reduced by {2}.' },
   { name: 'Sylvan Library', oracle_text: 'At the beginning of your draw step, you may draw two additional cards. If you do, choose two cards in your hand drawn this turn. For each of those cards, pay 4 life or put the card on top of your library.' },
   { name: 'Animate Dead', oracle_text: 'Enchant creature card in a graveyard\nWhen this Aura enters, if it\'s on the battlefield, it loses "enchant creature card in a graveyard" and gains "enchant creature put onto the battlefield with this Aura." Return enchanted creature card to the battlefield under your control and attach this Aura to it. When this Aura leaves the battlefield, that creature\'s controller sacrifices it.\nEnchanted creature gets -1/-0.' },
+  // Ambiguous cards — parse but may produce multiple results
+  { name: 'Force of Will', oracle_text: 'You may pay 1 life and exile a blue card from your hand rather than pay this spell\'s mana cost.\nCounter target spell.', ambiguous: true },
+  { name: 'Young Pyromancer', oracle_text: 'Whenever you cast an instant or sorcery spell, create a 1/1 red Elemental creature token.', ambiguous: true },
+  { name: 'Daze', oracle_text: 'You may return an Island you control to its owner\'s hand rather than pay this spell\'s mana cost.\nCounter target spell.', ambiguous: true },
+  { name: 'Gush', oracle_text: 'You may return two Islands you control to their owner\'s hand rather than pay this spell\'s mana cost.\nDraw two cards.', ambiguous: true },
+  { name: 'Tendrils of Agony', oracle_text: 'Target player loses 2 life and you gain 2 life.\nStorm', ambiguous: true },
+  { name: 'Garruk Wildspeaker', oracle_text: '+1: Untap two target lands.\n−1: Create a 3/3 green Beast creature token.\n−4: Creatures you control get +3/+3 and gain trample until end of turn.', ambiguous: true },
+  { name: 'Bone Shards', oracle_text: 'As an additional cost to cast this spell, sacrifice a creature or discard a card.\nDestroy target creature or planeswalker.', ambiguous: true },
+  { name: 'Reclamation Sage', oracle_text: 'When this creature enters, you may destroy target artifact or enchantment.', ambiguous: true },
+  { name: 'Blade Splicer', oracle_text: 'When this creature enters, create a 3/3 colorless Phyrexian Golem artifact creature token.\nGolems you control have first strike.', ambiguous: true },
+  { name: 'Thragtusk', oracle_text: 'When this creature enters, you gain 5 life.\nWhen this creature leaves the battlefield, create a 3/3 green Beast creature token.', ambiguous: true },
+  { name: 'Craterhoof Behemoth', oracle_text: 'Haste\nWhen this creature enters, creatures you control gain trample and get +X/+X until end of turn, where X is the number of creatures you control.', ambiguous: true },
+  { name: 'Blood Artist', oracle_text: 'Whenever this creature or another creature dies, target player loses 1 life and you gain 1 life.', ambiguous: true },
+  { name: 'Zealous Conscripts', oracle_text: 'Haste\nWhen this creature enters, gain control of target permanent until end of turn. Untap that permanent. It gains haste until end of turn.', ambiguous: true },
+  { name: 'Vampiric Tutor', oracle_text: 'Search your library for a card, then shuffle and put that card on top. You lose 2 life.', ambiguous: true },
+  { name: 'Imperial Seal', oracle_text: 'Search your library for a card, then shuffle and put that card on top. You lose 2 life.', ambiguous: true },
+  { name: 'Enlightened Tutor', oracle_text: 'Search your library for an artifact or enchantment card, reveal it, then shuffle and put that card on top.', ambiguous: true },
+  { name: 'Green Sun\'s Zenith', oracle_text: 'Search your library for a green creature card with mana value X or less, put it onto the battlefield, then shuffle. Shuffle Green Sun\'s Zenith into its owner\'s library.', ambiguous: true },
+  { name: 'Stoneforge Mystic', oracle_text: 'When Stoneforge Mystic enters, you may search your library for an Equipment card, reveal it, put it into your hand, then shuffle.\n{1}{W}, {T}: You may put an Equipment card from your hand onto the battlefield.', ambiguous: true },
+  { name: 'Verdant Catacombs', oracle_text: '{T}, Pay 1 life, Sacrifice Verdant Catacombs: Search your library for a Swamp or Forest card, put it onto the battlefield, then shuffle.', ambiguous: true },
+  { name: 'Scalding Tarn', oracle_text: '{T}, Pay 1 life, Sacrifice Scalding Tarn: Search your library for an Island or Mountain card, put it onto the battlefield, then shuffle.', ambiguous: true },
+  { name: 'Polluted Delta', oracle_text: '{T}, Pay 1 life, Sacrifice Polluted Delta: Search your library for an Island or Swamp card, put it onto the battlefield, then shuffle.', ambiguous: true },
+  { name: 'Flooded Strand', oracle_text: '{T}, Pay 1 life, Sacrifice Flooded Strand: Search your library for a Plains or Island card, put it onto the battlefield, then shuffle.', ambiguous: true },
+  { name: 'Bloodstained Mire', oracle_text: '{T}, Pay 1 life, Sacrifice Bloodstained Mire: Search your library for a Swamp or Mountain card, put it onto the battlefield, then shuffle.', ambiguous: true },
+  { name: 'Wooded Foothills', oracle_text: '{T}, Pay 1 life, Sacrifice Wooded Foothills: Search your library for a Mountain or Forest card, put it onto the battlefield, then shuffle.', ambiguous: true },
+  { name: 'Windswept Heath', oracle_text: '{T}, Pay 1 life, Sacrifice Windswept Heath: Search your library for a Forest or Plains card, put it onto the battlefield, then shuffle.', ambiguous: true },
+  { name: 'Marsh Flats', oracle_text: '{T}, Pay 1 life, Sacrifice Marsh Flats: Search your library for a Plains or Swamp card, put it onto the battlefield, then shuffle.', ambiguous: true },
+  { name: 'Arid Mesa', oracle_text: '{T}, Pay 1 life, Sacrifice Arid Mesa: Search your library for a Mountain or Plains card, put it onto the battlefield, then shuffle.', ambiguous: true },
+  { name: 'Misty Rainforest', oracle_text: '{T}, Pay 1 life, Sacrifice Misty Rainforest: Search your library for a Forest or Island card, put it onto the battlefield, then shuffle.', ambiguous: true },
+  { name: 'Dack Fayden', oracle_text: '+1: Target player draws two cards, then discards two cards.\n−2: Gain control of target artifact.\n−6: You get an emblem with "Whenever you cast a spell that targets one or more permanents, gain control of those permanents."', ambiguous: true },
+  { name: 'Feed the Swarm', oracle_text: 'Destroy target creature or enchantment an opponent controls. You lose life equal to that permanent\'s mana value.', ambiguous: true },
+  { name: 'Library of Alexandria', oracle_text: '{T}: Add {C}.\n{T}: Draw a card. Activate only if you have exactly seven cards in hand.', ambiguous: true },
+  { name: 'Mox Opal', oracle_text: 'Metalcraft — {T}: Add one mana of any color. Activate only if you control three or more artifacts.', ambiguous: true },
+  { name: 'Phantasmal Shieldback', oracle_text: 'When this creature becomes the target of a spell or ability, sacrifice it.\nWhen this creature dies, draw a card.', ambiguous: true },
+  { name: 'Baral, Chief of Compliance', oracle_text: 'Instant and sorcery spells you cast cost {1} less to cast.\nWhenever a spell or ability you control counters a spell, you may draw a card. If you do, discard a card.', ambiguous: true },
+  { name: 'Windfall', oracle_text: 'Each player discards their hand, then draws cards equal to the greatest number of cards a player discarded this way.', ambiguous: true },
+  { name: 'Deep-Cavern Bat', oracle_text: 'Flying, lifelink\nWhen this creature enters, look at target opponent\'s hand. You may exile a nonland card from it until this creature leaves the battlefield.', ambiguous: true },
+  { name: 'Restoration Angel', oracle_text: 'Flash\nFlying\nWhen this creature enters, you may exile target non-Angel creature you control, then return that card to the battlefield under your control.', ambiguous: true },
+  { name: 'Goblin Guide', oracle_text: 'Haste\nWhenever this creature attacks, defending player reveals the top card of their library. If it\'s a land card, that player puts it into their hand.', ambiguous: true },
+  { name: 'Loran of the Third Path', oracle_text: 'Vigilance\nWhen Loran enters, destroy up to one target artifact or enchantment.\n{T}: You and target opponent each draw a card.', ambiguous: true },
+  { name: 'Courser of Kruphix', oracle_text: 'Play with the top card of your library revealed.\nYou may play lands from the top of your library.\nLandfall — Whenever a land you control enters, you gain 1 life.', ambiguous: true },
+  { name: 'Oracle of Mul Daya', oracle_text: 'You may play an additional land on each of your turns.\nPlay with the top card of your library revealed.\nYou may play lands from the top of your library.', ambiguous: true },
+  { name: 'Hazoret the Fervent', oracle_text: 'Indestructible, haste\nHazoret can\'t attack or block unless you have one or fewer cards in hand.\n{2}{R}, Discard a card: Hazoret deals 2 damage to each opponent.', ambiguous: true },
+  { name: 'Narset, Parter of Veils', oracle_text: 'Each opponent can\'t draw more than one card each turn.\n−2: Look at the top four cards of your library. You may reveal a noncreature, nonland card from among them and put it into your hand. Put the rest on the bottom of your library in a random order.', ambiguous: true },
+  { name: 'Irreverent Gremlin', oracle_text: 'Menace\nWhenever another creature you control with power 2 or less enters, you may discard a card. If you do, draw a card. Do this only once each turn.', ambiguous: true },
+  { name: 'Oust', oracle_text: 'Put target creature into its owner\'s library second from the top. Its controller gains 3 life.', ambiguous: true },
+  { name: 'Gravecrawler', oracle_text: 'This creature can\'t block.\nYou may cast this card from your graveyard as long as you control a Zombie.', ambiguous: true },
+  { name: 'Snapcaster Mage', oracle_text: 'Flash\nWhen this creature enters, target instant or sorcery card in your graveyard gains flashback until end of turn. The flashback cost is equal to its mana cost. (You may cast that card from your graveyard for its flashback cost. Then exile it.)', ambiguous: true },
+  { name: 'Past in Flames', oracle_text: 'Each instant and sorcery card in your graveyard gains flashback until end of turn. The flashback cost is equal to its mana cost.\nFlashback {4}{R} (You may cast this card from your graveyard for its flashback cost. Then exile it.)', ambiguous: true },
+  { name: 'Yawgmoth\'s Will', oracle_text: 'Until end of turn, you may play lands and cast spells from your graveyard.\nIf a card would be put into your graveyard from anywhere this turn, exile that card instead.', ambiguous: true },
+  { name: 'Phyrexian Metamorph', oracle_text: '({U/P} can be paid with either {U} or 2 life.)\nYou may have this creature enter as a copy of any artifact or creature on the battlefield, except it\'s an artifact in addition to its other types.', ambiguous: true },
+  { name: 'Aluren', oracle_text: 'Any player may cast creature spells with mana value 3 or less without paying their mana costs and as though they had flash.', ambiguous: true },
+  { name: 'Fastbond', oracle_text: 'You may play any number of lands on each of your turns. Whenever you play a land, if it wasn\'t the first land you played this turn, this enchantment deals 1 damage to you.', ambiguous: true },
+  { name: 'Esper Sentinel', oracle_text: 'Whenever an opponent casts their first noncreature spell each turn, draw a card unless that player pays {X}, where X is this creature\'s power.', ambiguous: true },
+  { name: 'Land Tax', oracle_text: 'At the beginning of your upkeep, if an opponent controls more lands than you, you may search your library for up to three basic land cards, reveal them, put them into your hand, then shuffle.', ambiguous: true },
+  { name: 'Sram\'s Expertise', oracle_text: 'Create three 1/1 colorless Servo artifact creature tokens. You may cast a spell with mana value 3 or less from your hand without paying its mana cost.', ambiguous: true },
+  { name: 'Torsten, Founder of Benalia', oracle_text: 'When Torsten enters, reveal the top seven cards of your library. Put any number of creature and/or land cards from among them into your hand and the rest on the bottom of your library in a random order.\nWhen Torsten dies, create seven 1/1 white Soldier creature tokens.', ambiguous: true },
+  { name: 'Channel', oracle_text: 'Until end of turn, any time you could activate a mana ability, you may pay 1 life. If you do, add {C}.', ambiguous: true },
+  { name: 'Memory Jar', oracle_text: '{T}, Sacrifice this artifact: Each player exiles all cards from their hand face down and draws seven cards. At the beginning of the next end step, each player discards their hand and returns to their hand each card they exiled this way.', ambiguous: true },
 ];
 
-describe('Baseline: Successfully parsing cards', () => {
-  it.each(successCards.map(c => [c.name, c]))('%s parses without error', (_name, card) => {
-    const result = parse(card as TestCard);
+// ============================================================================
+// Snapshot tests — capture full AST for every card for regression detection.
+// ============================================================================
+
+// Build unique test names for cards (handle duplicates with different oracle text)
+const cardTestEntries: [string, CubeCard][] = [];
+const nameCount = new Map<string, number>();
+for (const card of cubeCards) {
+  const count = (nameCount.get(card.name) ?? 0) + 1;
+  nameCount.set(card.name, count);
+  const label = count > 1 ? `${card.name} (${count})` : card.name;
+  cardTestEntries.push([label, card]);
+}
+
+describe('Unambiguous cards: single parse + snapshot', () => {
+  const unambiguous = cardTestEntries.filter(([, c]) => !c.ambiguous);
+  it.each(unambiguous)('%s', (_label, card) => {
+    const result = parse(card);
     expect(result.error).toBeNull();
     expect(result.result).not.toBeNull();
     expect(result.result).toHaveLength(1);
+    expect(result.result![0]).toMatchSnapshot();
   });
 });
 
-// ============================================================================
-// Representative ambiguous cards — these parse but produce multiple results.
-// We verify they at least parse (result is non-null) and have multiple parses.
-// ============================================================================
-
-const ambiguousCards: TestCard[] = [
-  { name: 'Force of Will', oracle_text: 'You may pay 1 life and exile a blue card from your hand rather than pay this spell\'s mana cost.\nCounter target spell.' },
-  { name: 'Young Pyromancer', oracle_text: 'Whenever you cast an instant or sorcery spell, create a 1/1 red Elemental creature token.' },
-  { name: 'Daze', oracle_text: 'You may return an Island you control to its owner\'s hand rather than pay this spell\'s mana cost.\nCounter target spell.' },
-  { name: 'Gush', oracle_text: 'You may return two Islands you control to their owner\'s hand rather than pay this spell\'s mana cost.\nDraw two cards.' },
-  { name: 'Tendrils of Agony', oracle_text: 'Target player loses 2 life and you gain 2 life.\nStorm' },
-  { name: 'Garruk Wildspeaker', oracle_text: '+1: Untap two target lands.\n−1: Create a 3/3 green Beast creature token.\n−4: Creatures you control get +3/+3 and gain trample until end of turn.' },
-  { name: 'Bone Shards', oracle_text: 'As an additional cost to cast this spell, sacrifice a creature or discard a card.\nDestroy target creature or planeswalker.' },
-
-  // New-style "this creature" ETB triggers — still ambiguous
-  { name: 'Reclamation Sage', oracle_text: 'When this creature enters, you may destroy target artifact or enchantment.' },
-  { name: 'Blade Splicer', oracle_text: 'When this creature enters, create a 3/3 colorless Phyrexian Golem artifact creature token.\nGolems you control have first strike.' },
-  { name: 'Thragtusk', oracle_text: 'When this creature enters, you gain 5 life.\nWhen this creature leaves the battlefield, create a 3/3 green Beast creature token.' },
-  { name: 'Craterhoof Behemoth', oracle_text: 'Haste\nWhen this creature enters, creatures you control gain trample and get +X/+X until end of turn, where X is the number of creatures you control.' },
-  { name: 'Blood Artist', oracle_text: 'Whenever this creature or another creature dies, target player loses 1 life and you gain 1 life.' },
-  { name: 'Zealous Conscripts', oracle_text: 'Haste\nWhen this creature enters, gain control of target permanent until end of turn. Untap that permanent. It gains haste until end of turn.' },
-
-  // Search/tutor patterns — still ambiguous
-  { name: 'Vampiric Tutor', oracle_text: 'Search your library for a card, then shuffle and put that card on top. You lose 2 life.' },
-  { name: 'Imperial Seal', oracle_text: 'Search your library for a card, then shuffle and put that card on top. You lose 2 life.' },
-  { name: 'Enlightened Tutor', oracle_text: 'Search your library for an artifact or enchantment card, reveal it, then shuffle and put that card on top.' },
-  { name: 'Green Sun\'s Zenith', oracle_text: 'Search your library for a green creature card with mana value X or less, put it onto the battlefield, then shuffle. Shuffle Green Sun\'s Zenith into its owner\'s library.' },
-  { name: 'Stoneforge Mystic', oracle_text: 'When Stoneforge Mystic enters, you may search your library for an Equipment card, reveal it, put it into your hand, then shuffle.\n{1}{W}, {T}: You may put an Equipment card from your hand onto the battlefield.' },
-  { name: 'Verdant Catacombs', oracle_text: '{T}, Pay 1 life, Sacrifice Verdant Catacombs: Search your library for a Swamp or Forest card, put it onto the battlefield, then shuffle.' },
-  { name: 'Scalding Tarn', oracle_text: '{T}, Pay 1 life, Sacrifice Scalding Tarn: Search your library for an Island or Mountain card, put it onto the battlefield, then shuffle.' },
-  { name: 'Polluted Delta', oracle_text: '{T}, Pay 1 life, Sacrifice Polluted Delta: Search your library for an Island or Swamp card, put it onto the battlefield, then shuffle.' },
-  { name: 'Flooded Strand', oracle_text: '{T}, Pay 1 life, Sacrifice Flooded Strand: Search your library for a Plains or Island card, put it onto the battlefield, then shuffle.' },
-  { name: 'Bloodstained Mire', oracle_text: '{T}, Pay 1 life, Sacrifice Bloodstained Mire: Search your library for a Swamp or Mountain card, put it onto the battlefield, then shuffle.' },
-  { name: 'Wooded Foothills', oracle_text: '{T}, Pay 1 life, Sacrifice Wooded Foothills: Search your library for a Mountain or Forest card, put it onto the battlefield, then shuffle.' },
-  { name: 'Windswept Heath', oracle_text: '{T}, Pay 1 life, Sacrifice Windswept Heath: Search your library for a Forest or Plains card, put it onto the battlefield, then shuffle.' },
-  { name: 'Marsh Flats', oracle_text: '{T}, Pay 1 life, Sacrifice Marsh Flats: Search your library for a Plains or Swamp card, put it onto the battlefield, then shuffle.' },
-  { name: 'Arid Mesa', oracle_text: '{T}, Pay 1 life, Sacrifice Arid Mesa: Search your library for a Mountain or Plains card, put it onto the battlefield, then shuffle.' },
-  { name: 'Misty Rainforest', oracle_text: '{T}, Pay 1 life, Sacrifice Misty Rainforest: Search your library for a Forest or Island card, put it onto the battlefield, then shuffle.' },
-
-  // Planeswalker loyalty abilities (Step 7)
-  { name: 'Dack Fayden', oracle_text: '+1: Target player draws two cards, then discards two cards.\n−2: Gain control of target artifact.\n−6: You get an emblem with "Whenever you cast a spell that targets one or more permanents, gain control of those permanents."' },
-
-  // Step 8: still ambiguous
-  { name: 'Feed the Swarm', oracle_text: 'Destroy target creature or enchantment an opponent controls. You lose life equal to that permanent\'s mana value.' },
-  { name: 'Library of Alexandria', oracle_text: '{T}: Add {C}.\n{T}: Draw a card. Activate only if you have exactly seven cards in hand.' },
-  { name: 'Mox Opal', oracle_text: 'Metalcraft — {T}: Add one mana of any color. Activate only if you control three or more artifacts.' },
-  { name: 'Phantasmal Shieldback', oracle_text: 'When this creature becomes the target of a spell or ability, sacrifice it.\nWhen this creature dies, draw a card.' },
-  { name: 'Baral, Chief of Compliance', oracle_text: 'Instant and sorcery spells you cast cost {1} less to cast.\nWhenever a spell or ability you control counters a spell, you may draw a card. If you do, discard a card.' },
-  { name: 'Windfall', oracle_text: 'Each player discards their hand, then draws cards equal to the greatest number of cards a player discarded this way.' },
-  { name: 'Deep-Cavern Bat', oracle_text: 'Flying, lifelink\nWhen this creature enters, look at target opponent\'s hand. You may exile a nonland card from it until this creature leaves the battlefield.' },
-  { name: 'Restoration Angel', oracle_text: 'Flash\nFlying\nWhen this creature enters, you may exile target non-Angel creature you control, then return that card to the battlefield under your control.' },
-  { name: 'Goblin Guide', oracle_text: 'Haste\nWhenever this creature attacks, defending player reveals the top card of their library. If it\'s a land card, that player puts it into their hand.' },
-  { name: 'Loran of the Third Path', oracle_text: 'Vigilance\nWhen Loran enters, destroy up to one target artifact or enchantment.\n{T}: You and target opponent each draw a card.' },
-  { name: 'Courser of Kruphix', oracle_text: 'Play with the top card of your library revealed.\nYou may play lands from the top of your library.\nLandfall — Whenever a land you control enters, you gain 1 life.' },
-  { name: 'Oracle of Mul Daya', oracle_text: 'You may play an additional land on each of your turns.\nPlay with the top card of your library revealed.\nYou may play lands from the top of your library.' },
-  { name: 'Hazoret the Fervent', oracle_text: 'Indestructible, haste\nHazoret can\'t attack or block unless you have one or fewer cards in hand.\n{2}{R}, Discard a card: Hazoret deals 2 damage to each opponent.' },
-  { name: 'Narset, Parter of Veils', oracle_text: 'Each opponent can\'t draw more than one card each turn.\n−2: Look at the top four cards of your library. You may reveal a noncreature, nonland card from among them and put it into your hand. Put the rest on the bottom of your library in a random order.' },
-  { name: 'Irreverent Gremlin', oracle_text: 'Menace\nWhenever another creature you control with power 2 or less enters, you may discard a card. If you do, draw a card. Do this only once each turn.' },
-  // Step 1: Oust — ambiguous due to "gains N life" matching both imperative and playerVerbPhrase paths
-  { name: 'Oust', oracle_text: 'Put target creature into its owner\'s library second from the top. Its controller gains 3 life.' },
-  // Step 2: Graveyard casting — ambiguous due to "instant or sorcery" / "can't block" type parsing
-  { name: 'Gravecrawler', oracle_text: 'This creature can\'t block.\nYou may cast this card from your graveyard as long as you control a Zombie.' },
-  { name: 'Snapcaster Mage', oracle_text: 'Flash\nWhen this creature enters, target instant or sorcery card in your graveyard gains flashback until end of turn. The flashback cost is equal to its mana cost. (You may cast that card from your graveyard for its flashback cost. Then exile it.)' },
-  { name: 'Past in Flames', oracle_text: 'Each instant and sorcery card in your graveyard gains flashback until end of turn. The flashback cost is equal to its mana cost.\nFlashback {4}{R} (You may cast this card from your graveyard for its flashback cost. Then exile it.)' },
-  // Step 3: Yawgmoth's Will — ambiguous due to compound play/cast structure
-  { name: 'Yawgmoth\'s Will', oracle_text: 'Until end of turn, you may play lands and cast spells from your graveyard.\nIf a card would be put into your graveyard from anywhere this turn, exile that card instead.' },
-  // Step 4: Phyrexian Metamorph — ambiguous due to copy object resolution
-  { name: 'Phyrexian Metamorph', oracle_text: '({U/P} can be paid with either {U} or 2 life.)\nYou may have this creature enter as a copy of any artifact or creature on the battlefield, except it\'s an artifact in addition to its other types.' },
-  // Step 5: Static restrictions — Aluren, Fastbond ambiguous due to type/object overlap
-  { name: 'Aluren', oracle_text: 'Any player may cast creature spells with mana value 3 or less without paying their mana costs and as though they had flash.' },
-  { name: 'Fastbond', oracle_text: 'You may play any number of lands on each of your turns. Whenever you play a land, if it wasn\'t the first land you played this turn, this enchantment deals 1 damage to you.' },
-  // Step 6: Conditional triggered abilities — Esper Sentinel, Land Tax ambiguous
-  { name: 'Esper Sentinel', oracle_text: 'Whenever an opponent casts their first noncreature spell each turn, draw a card unless that player pays {X}, where X is this creature\'s power.' },
-  { name: 'Land Tax', oracle_text: 'At the beginning of your upkeep, if an opponent controls more lands than you, you may search your library for up to three basic land cards, reveal them, put them into your hand, then shuffle.' },
-  // Step 7: Token & copy effects — Sram's Expertise, Torsten ambiguous
-  { name: 'Sram\'s Expertise', oracle_text: 'Create three 1/1 colorless Servo artifact creature tokens. You may cast a spell with mana value 3 or less from your hand without paying its mana cost.' },
-  { name: 'Torsten, Founder of Benalia', oracle_text: 'When Torsten enters, reveal the top seven cards of your library. Put any number of creature and/or land cards from among them into your hand and the rest on the bottom of your library in a random order.\nWhen Torsten dies, create seven 1/1 white Soldier creature tokens.' },
-  // Step 8: Channel ambiguous due to duration/condition overlap
-  { name: 'Channel', oracle_text: 'Until end of turn, any time you could activate a mana ability, you may pay 1 life. If you do, add {C}.' },
-  // Step 9: Memory Jar ambiguous due to exile/draw compound structure
-  { name: 'Memory Jar', oracle_text: '{T}, Sacrifice this artifact: Each player exiles all cards from their hand face down and draws seven cards. At the beginning of the next end step, each player discards their hand and returns to their hand each card they exiled this way.' },
-];
-
-describe('Baseline: Ambiguous cards parse with results', () => {
-  it.each(ambiguousCards.map(c => [c.name, c]))('%s produces parse results', (_name, card) => {
-    const result = parse(card as TestCard);
+describe('Ambiguous cards: parses with snapshot', () => {
+  const ambiguous = cardTestEntries.filter(([, c]) => c.ambiguous);
+  it.each(ambiguous)('%s', (_label, card) => {
+    const result = parse(card);
     expect(result.result).not.toBeNull();
     expect(result.result!.length).toBeGreaterThanOrEqual(1);
+    expect(result.result![0]).toMatchSnapshot();
   });
 });
 
-// ============================================================================
-// AST structure snapshot tests for representative cards
-// These capture the exact AST shape for regression detection.
-// ============================================================================
-
-describe('AST structure snapshots', () => {
-  it('Birds of Paradise: flying + mana ability', () => {
-    const result = parse({ name: 'Birds of Paradise', oracle_text: 'Flying\n{T}: Add one mana of any color.' });
-    expect(result.error).toBeNull();
-    const abilities = result.result![0];
-    expect(abilities).toHaveLength(2);
-    // First ability should be flying keyword
-    expect(abilities[0]).toContain('flying');
-  });
-
-  it('Counterspell: counter effect', () => {
-    const result = parse({ name: 'Counterspell', oracle_text: 'Counter target spell.' });
-    expect(result.error).toBeNull();
-    const abilities = result.result![0];
-    expect(abilities).toHaveLength(1);
-  });
-
-  it('Day of Judgment: destroy all creatures', () => {
-    const result = parse({ name: 'Day of Judgment', oracle_text: 'Destroy all creatures.' });
-    expect(result.error).toBeNull();
-    const abilities = result.result![0];
-    expect(abilities).toHaveLength(1);
-  });
-
-  it('Abrade: modal spell with two options', () => {
-    const result = parse({ name: 'Abrade', oracle_text: 'Choose one —\n• Abrade deals 3 damage to target creature.\n• Destroy target artifact.' });
-    expect(result.error).toBeNull();
-    const abilities = result.result![0];
-    expect(abilities).toHaveLength(1);
-    const modal = abilities[0];
-    // Modal should have options array
-    expect(modal).toHaveProperty('options');
-    expect(modal.options).toHaveLength(2);
-  });
-
-  it('Lingering Souls: token creation + flashback', () => {
-    const result = parse({ name: 'Lingering Souls', oracle_text: 'Create two 1/1 white Spirit creature tokens with flying.\nFlashback {1}{B}' });
-    expect(result.error).toBeNull();
-    const abilities = result.result![0];
-    expect(abilities.length).toBeGreaterThanOrEqual(2);
-  });
-
-  it('Mana Leak: conditional counter', () => {
-    const result = parse({ name: 'Mana Leak', oracle_text: 'Counter target spell unless its controller pays {3}.' });
-    expect(result.error).toBeNull();
-    const abilities = result.result![0];
-    expect(abilities).toHaveLength(1);
-  });
-
-  it('Faithless Looting: draw + discard + flashback', () => {
-    const result = parse({ name: 'Faithless Looting', oracle_text: 'Draw two cards, then discard two cards.\nFlashback {2}{R}' });
-    expect(result.error).toBeNull();
-    const abilities = result.result![0];
-    expect(abilities.length).toBeGreaterThanOrEqual(2);
-  });
-
-  it('Chatterstorm: token creation + storm', () => {
-    const result = parse({ name: 'Chatterstorm', oracle_text: 'Create a 1/1 green Squirrel creature token.\nStorm' });
-    expect(result.error).toBeNull();
-    const abilities = result.result![0];
-    expect(abilities.length).toBeGreaterThanOrEqual(2);
-  });
-
-  it('Strip Mine: mana + activated destroy', () => {
-    const result = parse({ name: 'Strip Mine', oracle_text: '{T}: Add {C}.\n{T}, Sacrifice Strip Mine: Destroy target land.' });
-    expect(result.error).toBeNull();
-    const abilities = result.result![0];
-    expect(abilities).toHaveLength(2);
-  });
-
-  it('Flametongue Kavu: new-style ETB trigger with "this creature enters"', () => {
-    const result = parse({ name: 'Flametongue Kavu', oracle_text: 'When this creature enters, it deals 4 damage to target creature.' });
-    expect(result.error).toBeNull();
-    const abilities = result.result![0];
-    expect(abilities).toHaveLength(1);
-    const triggered = abilities[0];
-    // Should have trigger with CARD_NAME entering battlefield
-    expect(triggered).toHaveProperty('trigger');
-    expect(triggered.trigger).toHaveProperty('when');
-    expect(triggered.trigger.when.what).toBe('CARD_NAME');
-    expect(triggered.trigger.when.does).toEqual({ enter: 'battlefield' });
-    // Should have damage effect
-    expect(triggered).toHaveProperty('effect');
-    expect(triggered.effect.what).toBe('it');
-    expect(triggered.effect.does).toHaveProperty('deal');
-  });
-
-  it('Overgrown Tomb: shockland with "this land enters"', () => {
-    const result = parse({ name: 'Overgrown Tomb', oracle_text: 'As this land enters, you may pay 2 life. If you don\'t, it enters tapped.\n{T}: Add {B} or {G}.' });
-    expect(result.error).toBeNull();
-    const abilities = result.result![0];
-    expect(abilities.length).toBeGreaterThanOrEqual(2);
-  });
-
-  it('Strip Mine new-style: mana + sacrifice this land', () => {
-    const result = parse({ name: 'Strip Mine', oracle_text: '{T}: Add {C}.\n{T}, Sacrifice this land: Destroy target land.' });
-    expect(result.error).toBeNull();
-    const abilities = result.result![0];
-    expect(abilities).toHaveLength(2);
-  });
-
-  it('Swords to Plowshares: exile + life gain', () => {
-    const result = parse({ name: 'Swords to Plowshares', oracle_text: 'Exile target creature. Its controller gains life equal to its power.' });
-    expect(result.error).toBeNull();
-    const abilities = result.result![0];
-    expect(abilities).toHaveLength(1);
-  });
-
-  // Search/tutor/fetchland AST tests (Step 5)
-  it('Demonic Tutor: search for card, put into hand, shuffle', () => {
-    const result = parse({ name: 'Demonic Tutor', oracle_text: 'Search your library for a card, put that card into your hand, then shuffle.' });
-    expect(result.result).not.toBeNull();
-    const abilities = result.result![0];
-    expect(abilities).toHaveLength(1);
-    // First parse should contain search + put + shuffle
-    const effect = abilities[0];
-    // Should contain search with library
-    const flat = JSON.stringify(effect);
-    expect(flat).toContain('"search"');
-    expect(flat).toContain('"library"');
-    expect(flat).toContain('"shuffle"');
-  });
-
-  it('Verdant Catacombs: fetchland with tap/life/sacrifice cost', () => {
-    const result = parse({ name: 'Verdant Catacombs', oracle_text: '{T}, Pay 1 life, Sacrifice Verdant Catacombs: Search your library for a Swamp or Forest card, put it onto the battlefield, then shuffle.' });
-    expect(result.result).not.toBeNull();
-    const abilities = result.result![0];
-    expect(abilities).toHaveLength(1);
-    const ability = abilities[0];
-    // Should be an activated ability with costs
-    expect(ability).toHaveProperty('costs');
-    expect(ability).toHaveProperty('activatedAbility');
-    // Cost should include tap, life payment, and sacrifice
-    const costStr = JSON.stringify(ability.costs);
-    expect(costStr).toContain('"tap"');
-    expect(costStr).toContain('"life"');
-    expect(costStr).toContain('"sacrifice"');
-  });
-
-  it('Tinker: additional cost + search for artifact', () => {
-    const result = parse({ name: 'Tinker', oracle_text: 'As an additional cost to cast this spell, sacrifice an artifact.\nSearch your library for an artifact card, put that card onto the battlefield, then shuffle.' });
-    expect(result.result).not.toBeNull();
-    const abilities = result.result![0];
-    expect(abilities).toHaveLength(2);
-    // First ability should be additional cost
-    expect(abilities[0]).toHaveProperty('additionalCost');
-    // Second ability should contain search
-    const searchStr = JSON.stringify(abilities[1]);
-    expect(searchStr).toContain('"search"');
-    expect(searchStr).toContain('"battlefield"');
-  });
-
-  // Planeswalker AST tests (Step 7)
-  it('Elspeth, Sun\'s Champion: three loyalty abilities', () => {
-    const result = parse({ name: 'Elspeth, Sun\'s Champion', oracle_text: '+1: Create three 1/1 white Soldier creature tokens.\n−3: Destroy all creatures with power 4 or greater.\n−7: You get an emblem with "Creatures you control get +2/+2 and have flying."' });
-    expect(result.result).not.toBeNull();
-    const abilities = result.result![0];
-    // Should have 3 loyalty abilities
-    expect(abilities).toHaveLength(3);
-    // Each should have costs (loyalty cost) and activatedAbility
-    abilities.forEach((a: Record<string, unknown>) => {
-      expect(a).toHaveProperty('costs');
-      expect(a).toHaveProperty('activatedAbility');
-    });
-  });
-
-  it('Dack Fayden: loyalty abilities with draw/discard, control, emblem', () => {
-    const result = parse({ name: 'Dack Fayden', oracle_text: '+1: Target player draws two cards, then discards two cards.\n−2: Gain control of target artifact.\n−6: You get an emblem with "Whenever you cast a spell that targets one or more permanents, gain control of those permanents."' });
-    expect(result.result).not.toBeNull();
-    const abilities = result.result![0];
-    expect(abilities).toHaveLength(3);
-    // +1 should contain draw and discard
-    const plus1 = JSON.stringify(abilities[0]);
-    expect(plus1).toContain('"draw"');
-    expect(plus1).toContain('"discard"');
-  });
-
+describe('Misc', () => {
   it('parseCard works without layout field', () => {
     const result = parseCard({ name: 'Lightning Bolt', oracle_text: 'Lightning Bolt deals 3 damage to any target.' });
     expect(result.result).not.toBeNull();
-  });
-
-  it('Vampiric Tutor: search, shuffle and put on top, lose life', () => {
-    const result = parse({ name: 'Vampiric Tutor', oracle_text: 'Search your library for a card, then shuffle and put that card on top. You lose 2 life.' });
-    expect(result.result).not.toBeNull();
-    const flat = JSON.stringify(result.result![0]);
-    expect(flat).toContain('"search"');
-    expect(flat).toContain('"shuffle"');
-    expect(flat).toContain('"topOf"');
   });
 });
 
