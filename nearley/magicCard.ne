@@ -190,7 +190,6 @@ sentence -> singleSentence {% ([ss]) => ss %}
     return { and: elements };
   } %}
   | "otherwise," __ sentence {% ([, , otherwise]) => ({ otherwise }) %}
-  | singleSentence __ "rather than" __ sentence {% ([does, , , , ratherThan]) => ({ does, ratherThan }) %}
   | sentence __ "instead of" __ sentence {% ([does, , , , insteadOf]) => ({ does, insteadOf }) %}
   | sentence __ "at" __ qualifiedPartOfTurn {% ([does, , , , at]) => ({ does, at }) %}
   | sentence __ "if" __ condition {% ([does, , , , condition]) => ({ does, condition }) %}
@@ -573,6 +572,7 @@ basePlayerVerbPhrase -> gains __ "life equal to" __ itsPossessive __ numericalCh
     if (duration) result.duration = duration[1];
     return result;
   } %}
+  | "may" __ imperative __ "rather than" __ imperative {% ([, , may, , , , ratherThan]) => ({ may, ratherThan }) %}
   | "may" __ imperative {% ([, , may]) => ({ may }) %}
   | imperative {% ([i]) => i %}
   | "can't" __ imperative {% ([, , cant]) => ({ cant }) %}

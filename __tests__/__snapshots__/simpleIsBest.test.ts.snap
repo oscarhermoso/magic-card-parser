@@ -1,63 +1,5 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Ambiguous cards: parses with snapshot > Mine Collapse 1`] = `
-[
-  {
-    "condition": "yourTurn",
-    "effect": {
-      "does": {
-        "actor": "you",
-        "does": {
-          "may": {
-            "sacrifice": {
-              "object": {
-                "type": {
-                  "and": [
-                    "mountain",
-                  ],
-                },
-              },
-              "reference": {
-                "count": 1,
-              },
-            },
-          },
-        },
-      },
-      "ratherThan": {
-        "pay": {
-          "costOf": {
-            "object": "spell",
-            "reference": "this",
-          },
-        },
-      },
-    },
-  },
-  {
-    "does": {
-      "deal": {
-        "amount": 5,
-        "damageTo": {
-          "object": {
-            "type": {
-              "or": [
-                "creature",
-                "planeswalker",
-              ],
-            },
-          },
-          "reference": {
-            "targetCount": 1,
-          },
-        },
-      },
-    },
-    "what": "CARD_NAME",
-  },
-]
-`;
-
 exports[`Ambiguous cards: parses with snapshot > Sylvan Library 1`] = `
 [
   {
@@ -2837,45 +2779,43 @@ exports[`Unambiguous cards: single parse + snapshot > Day of Judgment 1`] = `
 exports[`Unambiguous cards: single parse + snapshot > Daze 1`] = `
 [
   {
+    "actor": "you",
     "does": {
-      "actor": "you",
-      "does": {
-        "may": {
-          "returns": {
+      "may": {
+        "returns": {
+          "object": {
             "object": {
-              "object": {
-                "type": {
-                  "and": [
-                    "island",
-                  ],
-                },
-              },
-              "suffix": {
-                "actor": "you",
-                "does": "control",
+              "type": {
+                "and": [
+                  "island",
+                ],
               },
             },
-            "reference": {
-              "count": 1,
+            "suffix": {
+              "actor": "you",
+              "does": "control",
             },
           },
-          "to": {
-            "owner": {
-              "does": "own",
-              "whose": {
-                "reference": "its",
-              },
-            },
-            "zone": "hand",
+          "reference": {
+            "count": 1,
           },
         },
+        "to": {
+          "owner": {
+            "does": "own",
+            "whose": {
+              "reference": "its",
+            },
+          },
+          "zone": "hand",
+        },
       },
-    },
-    "ratherThan": {
-      "pay": {
-        "costOf": {
-          "object": "spell",
-          "reference": "this",
+      "ratherThan": {
+        "pay": {
+          "costOf": {
+            "object": "spell",
+            "reference": "this",
+          },
         },
       },
     },
@@ -3989,30 +3929,28 @@ exports[`Unambiguous cards: single parse + snapshot > Fell 1`] = `
 exports[`Unambiguous cards: single parse + snapshot > Fireblast 1`] = `
 [
   {
+    "actor": "you",
     "does": {
-      "actor": "you",
-      "does": {
-        "may": {
-          "sacrifice": {
-            "object": {
-              "type": {
-                "and": [
-                  "mountain",
-                ],
-              },
+      "may": {
+        "sacrifice": {
+          "object": {
+            "type": {
+              "and": [
+                "mountain",
+              ],
             },
-            "reference": {
-              "count": 2,
-            },
+          },
+          "reference": {
+            "count": 2,
           },
         },
       },
-    },
-    "ratherThan": {
-      "pay": {
-        "costOf": {
-          "object": "spell",
-          "reference": "this",
+      "ratherThan": {
+        "pay": {
+          "costOf": {
+            "object": "spell",
+            "reference": "this",
+          },
         },
       },
     },
@@ -4287,44 +4225,42 @@ exports[`Unambiguous cards: single parse + snapshot > Flooded Strand 1`] = `
 exports[`Unambiguous cards: single parse + snapshot > Force of Will 1`] = `
 [
   {
+    "actor": "you",
     "does": {
-      "actor": "you",
-      "does": {
-        "may": {
-          "and": [
-            {
-              "pay": {
-                "life": 1,
+      "may": {
+        "and": [
+          {
+            "pay": {
+              "life": 1,
+            },
+          },
+          {
+            "exile": {
+              "object": {
+                "object": "card",
+                "prefixes": [
+                  {
+                    "color": "u",
+                  },
+                ],
+              },
+              "reference": {
+                "count": 1,
               },
             },
-            {
-              "exile": {
-                "object": {
-                  "object": "card",
-                  "prefixes": [
-                    {
-                      "color": "u",
-                    },
-                  ],
-                },
-                "reference": {
-                  "count": 1,
-                },
-              },
-              "from": {
-                "owner": "your",
-                "zone": "hand",
-              },
+            "from": {
+              "owner": "your",
+              "zone": "hand",
             },
-          ],
-        },
+          },
+        ],
       },
-    },
-    "ratherThan": {
-      "pay": {
-        "costOf": {
-          "object": "spell",
-          "reference": "this",
+      "ratherThan": {
+        "pay": {
+          "costOf": {
+            "object": "spell",
+            "reference": "this",
+          },
         },
       },
     },
@@ -5279,45 +5215,43 @@ exports[`Unambiguous cards: single parse + snapshot > Growth Spiral 1`] = `
 exports[`Unambiguous cards: single parse + snapshot > Gush 1`] = `
 [
   {
+    "actor": "you",
     "does": {
-      "actor": "you",
-      "does": {
-        "may": {
-          "returns": {
+      "may": {
+        "returns": {
+          "object": {
             "object": {
-              "object": {
-                "type": {
-                  "and": [
-                    "island",
-                  ],
-                },
-              },
-              "suffix": {
-                "actor": "you",
-                "does": "control",
+              "type": {
+                "and": [
+                  "island",
+                ],
               },
             },
-            "reference": {
-              "count": 2,
+            "suffix": {
+              "actor": "you",
+              "does": "control",
             },
           },
-          "to": {
-            "owner": {
-              "does": "own",
-              "whose": {
-                "reference": "their",
-              },
-            },
-            "zone": "hand",
+          "reference": {
+            "count": 2,
           },
         },
+        "to": {
+          "owner": {
+            "does": "own",
+            "whose": {
+              "reference": "their",
+            },
+          },
+          "zone": "hand",
+        },
       },
-    },
-    "ratherThan": {
-      "pay": {
-        "costOf": {
-          "object": "spell",
-          "reference": "this",
+      "ratherThan": {
+        "pay": {
+          "costOf": {
+            "object": "spell",
+            "reference": "this",
+          },
         },
       },
     },
@@ -7715,6 +7649,62 @@ exports[`Unambiguous cards: single parse + snapshot > Mind Twist 1`] = `
 ]
 `;
 
+exports[`Unambiguous cards: single parse + snapshot > Mine Collapse 1`] = `
+[
+  {
+    "condition": "yourTurn",
+    "effect": {
+      "actor": "you",
+      "does": {
+        "may": {
+          "sacrifice": {
+            "object": {
+              "type": {
+                "and": [
+                  "mountain",
+                ],
+              },
+            },
+            "reference": {
+              "count": 1,
+            },
+          },
+        },
+        "ratherThan": {
+          "pay": {
+            "costOf": {
+              "object": "spell",
+              "reference": "this",
+            },
+          },
+        },
+      },
+    },
+  },
+  {
+    "does": {
+      "deal": {
+        "amount": 5,
+        "damageTo": {
+          "object": {
+            "type": {
+              "or": [
+                "creature",
+                "planeswalker",
+              ],
+            },
+          },
+          "reference": {
+            "targetCount": 1,
+          },
+        },
+      },
+    },
+    "what": "CARD_NAME",
+  },
+]
+`;
+
 exports[`Unambiguous cards: single parse + snapshot > Miscalculation 1`] = `
 [
   {
@@ -9376,35 +9366,33 @@ exports[`Unambiguous cards: single parse + snapshot > Pyroclasm 1`] = `
 exports[`Unambiguous cards: single parse + snapshot > Pyrokinesis 1`] = `
 [
   {
+    "actor": "you",
     "does": {
-      "actor": "you",
-      "does": {
-        "may": {
-          "exile": {
-            "object": {
-              "object": "card",
-              "prefixes": [
-                {
-                  "color": "r",
-                },
-              ],
-            },
-            "reference": {
-              "count": 1,
-            },
+      "may": {
+        "exile": {
+          "object": {
+            "object": "card",
+            "prefixes": [
+              {
+                "color": "r",
+              },
+            ],
           },
-          "from": {
-            "owner": "your",
-            "zone": "hand",
+          "reference": {
+            "count": 1,
           },
         },
+        "from": {
+          "owner": "your",
+          "zone": "hand",
+        },
       },
-    },
-    "ratherThan": {
-      "pay": {
-        "costOf": {
-          "object": "spell",
-          "reference": "this",
+      "ratherThan": {
+        "pay": {
+          "costOf": {
+            "object": "spell",
+            "reference": "this",
+          },
         },
       },
     },

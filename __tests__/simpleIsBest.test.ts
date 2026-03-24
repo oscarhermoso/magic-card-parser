@@ -310,7 +310,7 @@ const cubeCards: CubeCard[] = [
   { name: 'Magma Jet', oracle_text: 'Magma Jet deals 2 damage to any target. Scry 2.' },
   { name: 'Meticulous Archive', oracle_text: '({T}: Add {W} or {U}.)\nThis land enters tapped.\nWhen this land enters, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)' },
   { name: 'Mind\'s Desire', oracle_text: 'Shuffle your library. Then exile the top card of your library. Until end of turn, you may play that card without paying its mana cost.\nStorm (When you cast this spell, copy it for each spell cast before it this turn.)', parseError: true },
-  { name: 'Mine Collapse', oracle_text: 'If it\'s your turn, you may sacrifice a Mountain rather than pay this spell\'s mana cost.\nMine Collapse deals 5 damage to target creature or planeswalker.', ambiguous: true },
+  { name: 'Mine Collapse', oracle_text: 'If it\'s your turn, you may sacrifice a Mountain rather than pay this spell\'s mana cost.\nMine Collapse deals 5 damage to target creature or planeswalker.' },
   { name: 'Mishra\'s Bauble', oracle_text: '{T}, Sacrifice this artifact: Look at the top card of target player\'s library. Draw a card at the beginning of the next turn\'s upkeep.' },
   { name: 'Moat', oracle_text: 'Creatures without flying can\'t attack.' },
   { name: 'Mox Diamond', oracle_text: 'If this artifact would enter, you may discard a land card instead. If you do, put this artifact onto the battlefield. If you don\'t, put it into its owner\'s graveyard.\n{T}: Add one mana of any color.' },
