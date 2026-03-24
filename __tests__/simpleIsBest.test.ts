@@ -223,6 +223,8 @@ const successCards: TestCard[] = [
   { name: 'Eternal Witness', oracle_text: 'When this creature enters, you may return target card from your graveyard to your hand.' },
   { name: 'Recurring Nightmare', oracle_text: 'Sacrifice a creature, Return Recurring Nightmare to its owner\'s hand: Return target creature card from your graveyard to the battlefield. Activate only as a sorcery.' },
   { name: 'Arclight Phoenix', oracle_text: 'Flying, haste\nAt the beginning of combat on your turn, if you\'ve cast three or more instant and sorcery spells this turn, return Arclight Phoenix from your graveyard to the battlefield.' },
+  // Step 1: Infrastructure & simple grammar fixes
+  { name: 'Greasewrench Goblin', oracle_text: 'Exhaust — {2}{R}: Discard up to two cards, then draw that many cards. Put a +1/+1 counter on this creature. (Activate each exhaust ability only once.)' },
 ];
 
 describe('Baseline: Successfully parsing cards', () => {
@@ -292,6 +294,8 @@ const ambiguousCards: TestCard[] = [
   { name: 'Hazoret the Fervent', oracle_text: 'Indestructible, haste\nHazoret can\'t attack or block unless you have one or fewer cards in hand.\n{2}{R}, Discard a card: Hazoret deals 2 damage to each opponent.' },
   { name: 'Narset, Parter of Veils', oracle_text: 'Each opponent can\'t draw more than one card each turn.\n−2: Look at the top four cards of your library. You may reveal a noncreature, nonland card from among them and put it into your hand. Put the rest on the bottom of your library in a random order.' },
   { name: 'Irreverent Gremlin', oracle_text: 'Menace\nWhenever another creature you control with power 2 or less enters, you may discard a card. If you do, draw a card.' },
+  // Step 1: Oust — ambiguous due to "gains N life" matching both imperative and playerVerbPhrase paths
+  { name: 'Oust', oracle_text: 'Put target creature into its owner\'s library second from the top. Its controller gains 3 life.' },
 ];
 
 describe('Baseline: Ambiguous cards parse with results', () => {

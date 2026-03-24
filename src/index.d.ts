@@ -63,6 +63,7 @@ export interface ActivatedAbilityNode {
   costs: CostSpec;
   activatedAbility: EffectNode;
   instructions?: Record<string, unknown>;
+  abilityWord?: string;
 }
 
 /** A triggered ability with trigger condition and effect */
@@ -171,7 +172,7 @@ export type EffectNode =
   | { addOneOf: (string | string[])[]; amount?: number }
   | { amount: number; counterKind: string; putOn: ObjectSpec }
   | { cast: ObjectSpec; withoutPaying?: boolean; duration?: DurationSpec }
-  | { put: ObjectSpec; into: string; tapped?: boolean; control?: string }
+  | { put: ObjectSpec; into: string | { secondFromTop: Record<string, unknown> }; tapped?: boolean; control?: string }
   | { may: EffectNode; ifDo?: EffectNode }
   | { and: EffectNode[] }
   | { or: EffectNode[] }

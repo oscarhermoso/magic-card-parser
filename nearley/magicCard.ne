@@ -253,7 +253,12 @@ landwalkKeyword -> anyType "walk" {% ([landwalk]) => ({ landwalk }) %}
   | "snow landwalk" {% () => ({ landwalk: { type: "snow" } }) %}
 auraSwapKeyword -> "aura swap" __ cost {% ([, , auraSwap]) => ({ auraSwap }) %}
 
-abilityWordAbility -> abilityWord __ DASHDASH __ ability {% ([aw, , , , a]) => a %}
+abilityWordAbility -> abilityWord __ DASHDASH __ ability {% ([aw, , , , a]) => {
+  if (typeof a === 'object' && a !== null && !Array.isArray(a)) {
+    return { ...a, abilityWord: aw };
+  }
+  return a;
+} %}
 activatedAbility -> costs ":" __ effect (("." __ | __ ) activationInstructions):? {% ([costs, , , activatedAbility, i]) => {
   const result = { costs, activatedAbility };
   if (i) result.instructions = i[1];
@@ -976,6 +981,7 @@ ownedZone -> "graveyard" {% () => "graveyard" %}
   | ownedZone "s" {% ([z]) => z %}
   | connected[ownedZone] {% ([c]) => c %}
 intoZone -> "onto the battlefield" {% () => "battlefield" %}
+  | "into" __ zone __ "second from the top" {% ([, , zone]) => ({ secondFromTop: zone }) %}
   | "into" __ zone {% ([, , into]) => into %}
   | "on top of" __ playersPossessive __ "library" {% ([, , whose]) => ({ topOf: { what: "library", whose } }) %}
   | "on top" {% () => ({ topOf: { what: "library" } }) %}
