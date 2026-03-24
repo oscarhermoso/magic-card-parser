@@ -1,66 +1,5 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Ambiguous cards: parses with snapshot > Esper Sentinel 1`] = `
-[
-  {
-    "effect": {
-      "X": {
-        "characteristic": "power",
-        "whose": "CARD_NAME",
-      },
-      "does": {
-        "does": {
-          "draw": 1,
-        },
-        "unless": {
-          "actor": "they",
-          "does": {
-            "pay": [
-              "x",
-            ],
-          },
-        },
-      },
-    },
-    "trigger": {
-      "timing": "eachTurn",
-      "when": {
-        "actor": {
-          "player": "opponents",
-          "references": [
-            {
-              "count": 1,
-            },
-          ],
-        },
-        "does": {
-          "cast": {
-            "object": {
-              "object": "spell",
-              "prefixes": [
-                "first",
-                {
-                  "not": {
-                    "type": {
-                      "and": [
-                        "creature",
-                      ],
-                    },
-                  },
-                },
-              ],
-            },
-            "reference": {
-              "possessive": "their",
-            },
-          },
-        },
-      },
-    },
-  },
-]
-`;
-
 exports[`Ambiguous cards: parses with snapshot > Mine Collapse 1`] = `
 [
   {
@@ -2436,28 +2375,28 @@ exports[`Unambiguous cards: single parse + snapshot > Craterhoof Behemoth 1`] = 
   ],
   {
     "effect": {
-      "X": {
-        "count": {
-          "object": {
-            "type": {
-              "and": [
-                "creature",
-              ],
-            },
-          },
-          "suffix": {
-            "actor": "you",
-            "does": "control",
-          },
-        },
-      },
       "does": {
-        "does": {
-          "and": [
-            {
-              "gains": "trample",
+        "and": [
+          {
+            "gains": "trample",
+          },
+          {
+            "X": {
+              "count": {
+                "object": {
+                  "type": {
+                    "and": [
+                      "creature",
+                    ],
+                  },
+                },
+                "suffix": {
+                  "actor": "you",
+                  "does": "control",
+                },
+              },
             },
-            {
+            "does": {
               "does": {
                 "powerToughnessMod": {
                   "powerMod": "x",
@@ -2468,20 +2407,20 @@ exports[`Unambiguous cards: single parse + snapshot > Craterhoof Behemoth 1`] = 
                 "until": "endOfTurn",
               },
             },
-          ],
+          },
+        ],
+      },
+      "what": {
+        "object": {
+          "type": {
+            "and": [
+              "creature",
+            ],
+          },
         },
-        "what": {
-          "object": {
-            "type": {
-              "and": [
-                "creature",
-              ],
-            },
-          },
-          "suffix": {
-            "actor": "you",
-            "does": "control",
-          },
+        "suffix": {
+          "actor": "you",
+          "does": "control",
         },
       },
     },
@@ -2955,21 +2894,21 @@ exports[`Unambiguous cards: single parse + snapshot > Daze 1`] = `
 exports[`Unambiguous cards: single parse + snapshot > Death's Shadow (2) 1`] = `
 [
   {
-    "X": {
-      "characteristic": "lifeTotal",
-      "whose": {
-        "reference": "your",
-      },
-    },
     "does": {
+      "X": {
+        "characteristic": "lifeTotal",
+        "whose": {
+          "reference": "your",
+        },
+      },
       "does": {
         "powerToughnessMod": {
           "powerMod": NaN,
           "toughnessMod": NaN,
         },
       },
-      "what": "CARD_NAME",
     },
+    "what": "CARD_NAME",
   },
 ]
 `;
@@ -2977,21 +2916,21 @@ exports[`Unambiguous cards: single parse + snapshot > Death's Shadow (2) 1`] = `
 exports[`Unambiguous cards: single parse + snapshot > Death's Shadow 1`] = `
 [
   {
-    "X": {
-      "characteristic": "lifeTotal",
-      "whose": {
-        "reference": "your",
-      },
-    },
     "does": {
+      "X": {
+        "characteristic": "lifeTotal",
+        "whose": {
+          "reference": "your",
+        },
+      },
       "does": {
         "powerToughnessMod": {
           "powerMod": NaN,
           "toughnessMod": NaN,
         },
       },
-      "what": "CARD_NAME",
     },
+    "what": "CARD_NAME",
   },
 ]
 `;
@@ -3553,6 +3492,65 @@ exports[`Unambiguous cards: single parse + snapshot > Entomb 1`] = `
         "shuffle": "library",
       },
     ],
+  },
+]
+`;
+
+exports[`Unambiguous cards: single parse + snapshot > Esper Sentinel 1`] = `
+[
+  {
+    "effect": {
+      "does": {
+        "draw": 1,
+      },
+      "unless": {
+        "actor": "they",
+        "does": {
+          "X": {
+            "characteristic": "power",
+            "whose": "CARD_NAME",
+          },
+          "pay": [
+            "x",
+          ],
+        },
+      },
+    },
+    "trigger": {
+      "timing": "eachTurn",
+      "when": {
+        "actor": {
+          "player": "opponents",
+          "references": [
+            {
+              "count": 1,
+            },
+          ],
+        },
+        "does": {
+          "cast": {
+            "object": {
+              "object": "spell",
+              "prefixes": [
+                "first",
+                {
+                  "not": {
+                    "type": {
+                      "and": [
+                        "creature",
+                      ],
+                    },
+                  },
+                },
+              ],
+            },
+            "reference": {
+              "possessive": "their",
+            },
+          },
+        },
+      },
+    },
   },
 ]
 `;

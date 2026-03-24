@@ -195,7 +195,6 @@ sentence -> singleSentence {% ([ss]) => ss %}
   | sentence __ "at" __ qualifiedPartOfTurn {% ([does, , , , at]) => ({ does, at }) %}
   | sentence __ "if" __ condition {% ([does, , , , condition]) => ({ does, condition }) %}
 singleSentence -> imperative {% ([i]) => i %}
-  | singleSentence ", where x is" __ numberDefinition {% ([does, , , X]) => ({ does, X }) %}
   | object __ objectVerbPhrase {% ([what, , does]) => ({ what, does }) %}
   | "it's" __ isWhat {% ([, , is]) => ({ is }) %}
   | player __ playerVerbPhrase {% ([actor, , does]) => ({ actor, does }) %}
@@ -485,7 +484,11 @@ imperative -> "sacrifice" "s":? __ object {% ([, , , sacrifice]) => ({ sacrifice
     } %}
   | "take" "s":? __ "an extra turn after this one" {% () => "takeExtraTurn" %}
   | "scry" __ number {% ([, , scry]) => ({ scry }) %}
-  | "pay" "s":? __ manacost (__ "rather than pay the mana cost for" __ object):? {% ([, , , pay, rather]) => rather ? { pay, ratherThanCostOf: rather[3] } : { pay } %}
+  | "pay" "s":? __ manacost (__ "rather than pay the mana cost for" __ object):? (", where x is" __ numberDefinition):? {% ([, , , pay, rather, whereX]) => {
+    const result = rather ? { pay, ratherThanCostOf: rather[3] } : { pay };
+    if (whereX) result.X = whereX[2];
+    return result;
+  } %}
   | "pay" "s":? __ numericalNumber __ "life" {% ([, , , life]) => ({ pay: { life } }) %}
   | "add one mana of any color" {% () => ({ addOneOf: ["W", "U", "B", "R", "G"], amount: 1 }) %}
   | "add" "s":? __ englishNumber __ "mana of any one color" {% ([, , , amount]) => ({ addOneOf: ["w", "u", "b", "r", "g"], amount }) %}
@@ -587,10 +590,11 @@ basePlayerVerbPhrase -> gains __ "life equal to" __ itsPossessive __ numericalCh
   | "has" __ object __ objectVerbPhrase {% ([, , what, , does]) => ({ what, does }) %}
 objectVerbPhrase -> connected[modifiedObjectVerbPhrase] {% ([c]) => c %}
   | modifiedObjectVerbPhrase {% ([m]) => m %}
-modifiedObjectVerbPhrase -> baseObjectVerbPhrase (__ forEachClause):? (__ durationOrDuring):? {% ([does, forEach, dur]) => {
+modifiedObjectVerbPhrase -> baseObjectVerbPhrase (__ forEachClause):? (__ durationOrDuring):? (", where x is" __ numberDefinition):? {% ([does, forEach, dur, whereX]) => {
     let result = does;
     if (forEach) result = { does: result, forEach: forEach[1] };
     if (dur) result = { does: result, ...dur[1] };
+    if (whereX) result = { does: result, X: whereX[2] };
     return result;
   } %}
   | baseObjectVerbPhrase (__ durationOrDuring) (__ forEachClause) {% ([does, dur, forEach]) => {
