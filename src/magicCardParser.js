@@ -51,7 +51,6 @@ const parseCard = (card) => {
     oracleText = oracleText.replace(/ except the first one they draw in each of their draw steps/g, '');
     // Lab Maniac: strip while-condition clause and simplify win condition (semantics handled by bridge/ScryfallParser)
     oracleText = oracleText.replace(/ while your library has no cards in it/g, '');
-    oracleText = oracleText.replace(/\bwin the game\b/g, 'win');
     // Phyrexian Metamorph: rewrite "may have ~ enter as" → "~ becomes" (semantics handled by bridge/ScryfallParser)
     oracleText = oracleText.replace(/you may have (~) enter as (a copy of [^,]+) on the battlefield/g, '$1 becomes $2');
     // Ethersworn Canonist: simplify conditional restriction (semantics handled by bridge/engine)

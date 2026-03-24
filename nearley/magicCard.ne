@@ -629,6 +629,7 @@ imperative -> "sacrifice" "s":? __ object {% ([, , , sacrifice]) => ({ sacrifice
   | "transform" __ object {% ([, , transform]) => ({ transform }) %}
   | "flip a coin" {% () => "flipCoin" %}
   | "win the flip" {% () => "winFlip" %}
+  | "win" __ "the" __ "game" {% () => "winGame" %}
   | "win" {% () => "winGame" %}
   | "lose the flip" {% () => "loseFlip" %}
   | "regenerate" __ object {% ([, , regenerate]) => ({ regenerate }) %}
