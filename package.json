@@ -1,6 +1,6 @@
 {
   "name": "@oscarhermoso/magic-card-parser",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "A utility for parsing magic cards into a JSON structure for further processing.",
   "type": "module",
   "main": "./dist/index.cjs",
