@@ -920,6 +920,12 @@ exports[`Ambiguous cards: parses with snapshot > Fastbond 1`] = `
       "actor": "you",
       "does": {
         "may": {
+          "each": {
+            "partOfTurn": "turn",
+            "qualification": {
+              "whose": "your",
+            },
+          },
           "play": {
             "object": {
               "type": {
@@ -937,13 +943,32 @@ exports[`Ambiguous cards: parses with snapshot > Fastbond 1`] = `
     },
     {
       "effect": {
-        "does": {
-          "deal": {
-            "amount": 1,
-            "damageTo": "you",
+        "condition": {
+          "not": {
+            "during": {
+              "reference": "this",
+              "what": "turn",
+            },
+            "ordinal": "first",
+            "what": {
+              "type": {
+                "and": [
+                  "land",
+                ],
+              },
+            },
+            "who": "you",
           },
         },
-        "what": "CARD_NAME",
+        "effect": {
+          "does": {
+            "deal": {
+              "amount": 1,
+              "damageTo": "you",
+            },
+          },
+          "what": "CARD_NAME",
+        },
       },
       "trigger": {
         "when": {

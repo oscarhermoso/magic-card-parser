@@ -273,6 +273,7 @@ condition -> sentence {% ([s]) => s %}
   | ("is" __):? "paired" __ withClause {% ([, , , pairedWith]) => ({ pairedWith }) %}
   | ("is" __):? "untapped" {% () => "untapped" %}
   | object __ "has the chosen name" {% ([what]) => ({ what, has: { reference: "chosen", what: "name" } }) %}
+  | "it" __ ("wasn" AP "t" | "was not") __ "the first" __ object __ player __ "played" __ duration {% ([, , , , , , what, , who, , , , during]) => ({ not: { ordinal: "first", what, who, during } }) %}
   | (numericalComparison {% ([condition]) => ({ condition }) %}| manaSymbol {% ([mana]) => ({ mana }) %}) __ "was spent to cast this spell" {% ([c]) => ({ ...c, value: { what: "mana", reference: { does: "spent", reference: "this", what: "spell" } } }) %}
   | object __ "was kicked with its" __ manacost __ "kicker" {% ([what, , , , mana]) => ({ what, kicked: { with: { mana } } }) %}
   | object __ "has" __ englishNumber __ counterKind __ "counter" "s":? " on it" {% ([what, , , , amount, , counterKind]) => ({ what, has: { amount, counterKind } }) %}
