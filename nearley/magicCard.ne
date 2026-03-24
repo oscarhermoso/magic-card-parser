@@ -180,6 +180,10 @@ sentence -> singleSentence {% ([ss]) => ss %}
     if (elements[0] && elements[0].condition && elements[0].effect) {
       return { condition: elements[0].condition, effect: { [connector]: [elements[0].effect, ...elements.slice(1)] } };
     }
+    // Propagate "for each" if first element has forEach+effect
+    if (elements[0] && elements[0].forEach && elements[0].effect) {
+      return { forEach: elements[0].forEach, effect: { [connector]: [elements[0].effect, ...elements.slice(1)] } };
+    }
     return { [connector]: elements };
   } %}
   | singleSentence ("," __ singleSentence):* "," __ "then" __ singleSentence {% ([s1, ss, , , , , s2]) => {

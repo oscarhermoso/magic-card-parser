@@ -1,84 +1,5 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Ambiguous cards: parses with snapshot > Sylvan Library 1`] = `
-[
-  {
-    "effect": [
-      {
-        "actor": "you",
-        "does": {
-          "may": {
-            "draw": {
-              "additional": 2,
-            },
-          },
-        },
-      },
-      {
-        "condition": {
-          "actor": "you",
-          "does": "do",
-        },
-        "effect": {
-          "choose": {
-            "object": {
-              "object": "card",
-              "suffix": {
-                "drawn": [
-                  " ",
-                ],
-                "in": {
-                  "owner": "your",
-                  "zone": "hand",
-                },
-              },
-            },
-            "reference": {
-              "count": 2,
-            },
-          },
-        },
-      },
-      {
-        "xor": [
-          {
-            "effect": {
-              "pay": {
-                "life": 4,
-              },
-            },
-            "forEach": {
-              "object": "card",
-              "reference": "thsoe",
-            },
-          },
-          {
-            "into": {
-              "topOf": {
-                "what": "library",
-                "whose": "your",
-              },
-            },
-            "put": {
-              "object": "card",
-              "reference": "the",
-            },
-          },
-        ],
-      },
-    ],
-    "trigger": {
-      "turnPhase": {
-        "partOfTurn": "drawStep",
-        "qualification": {
-          "whose": "your",
-        },
-      },
-    },
-  },
-]
-`;
-
 exports[`Unambiguous cards: single parse + snapshot > Abbot of Keral Keep 1`] = `
 [
   [
@@ -11945,6 +11866,85 @@ exports[`Unambiguous cards: single parse + snapshot > Sylvan Caryatid 1`] = `
       "amount": 1,
     },
     "costs": "tap",
+  },
+]
+`;
+
+exports[`Unambiguous cards: single parse + snapshot > Sylvan Library 1`] = `
+[
+  {
+    "effect": [
+      {
+        "actor": "you",
+        "does": {
+          "may": {
+            "draw": {
+              "additional": 2,
+            },
+          },
+        },
+      },
+      {
+        "condition": {
+          "actor": "you",
+          "does": "do",
+        },
+        "effect": {
+          "choose": {
+            "object": {
+              "object": "card",
+              "suffix": {
+                "drawn": [
+                  " ",
+                ],
+                "in": {
+                  "owner": "your",
+                  "zone": "hand",
+                },
+              },
+            },
+            "reference": {
+              "count": 2,
+            },
+          },
+        },
+      },
+      {
+        "effect": {
+          "xor": [
+            {
+              "pay": {
+                "life": 4,
+              },
+            },
+            {
+              "into": {
+                "topOf": {
+                  "what": "library",
+                  "whose": "your",
+                },
+              },
+              "put": {
+                "object": "card",
+                "reference": "the",
+              },
+            },
+          ],
+        },
+        "forEach": {
+          "object": "card",
+          "reference": "thsoe",
+        },
+      },
+    ],
+    "trigger": {
+      "turnPhase": {
+        "partOfTurn": "drawStep",
+        "qualification": {
+          "whose": "your",
+        },
+      },
+    },
   },
 ]
 `;
