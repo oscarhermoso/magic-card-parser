@@ -5,6 +5,7 @@ const { Parser, Grammar } = nearley;
 import magicCardGrammar from './generated/magicCardGrammar.cjs';
 // @ts-ignore — generated CJS grammar files, bundled by tsup
 import typeLineGrammar from './generated/typeLineGrammar.cjs';
+import { replaceCardName } from './nameReplacement.js';
 
 /** @typedef {import('./index.d.ts').CardInput} CardInput */
 /** @typedef {import('./index.d.ts').ParseResult} ParseResult */
@@ -45,17 +46,7 @@ const parseCard = (card) => {
     }
 
     const magicCardParser = new Parser(compiledMagicCardGrammar);
-    const shortenedName = name.split(',')[0];
-    let oracleText = oracle_text.split(name).join('~').split(shortenedName).join('~');
-    // Also replace first-word name references (e.g. "Loran" from "Loran of the Third Path")
-    // Only when the first word is unique enough (not a common MTG word) and appears standalone
-    const firstName = shortenedName.split(' ')[0];
-    if (firstName.length > 3 && firstName !== shortenedName && !/^(goblin|dragon|angel|demon|human|zombie|soldier|knight|wizard|elf|beast|spirit|vampire|bear|cat|dog|bird|snake|spider|wolf|giant|troll|ogre|orc|golem|elemental|artifact|creature|land|enchant|instant|sorcery|planeswalker|legendary|token|tribal|snow|basic|world|forest|island|swamp|mountain|plains)$/i.test(firstName)) {
-      oracleText = oracleText.split(firstName).join('~');
-    }
-    oracleText = oracleText.toLowerCase();
-    // Replace new-style self-references with ~ (e.g. "this creature" → "~")
-    oracleText = oracleText.replace(/\bthis (creature|artifact|land|enchantment|permanent|card)\b/g, '~');
+    let oracleText = replaceCardName(oracle_text, name);
     // Hullbreacher: strip draw exception clause (semantics handled by bridge/ScryfallParser)
     oracleText = oracleText.replace(/ except the first one they draw in each of their draw steps/g, '');
     // Lab Maniac: strip while-condition clause and simplify win condition (semantics handled by bridge/ScryfallParser)
@@ -114,8 +105,6 @@ const parseCard = (card) => {
     // Sylvan Library: strip "additional" (grammar handles "draw N cards" not "draw N additional cards") and "If you do" clause (engine handles)
     oracleText = oracleText.replace(/draw two additional cards/g, 'draw two cards');
     oracleText = oracleText.replace(/\. if you do, choose two cards in your hand drawn this turn\. for each of those cards, pay 4 life or put the card on top of your library\./g, '.');
-    // Animate Dead: add "aura" to self-reference replacements
-    oracleText = oracleText.replace(/\bthis aura\b/g, '~');
     // Animate Dead: strip complex loses/gains text, simplify to ETB reanimate + leaves sacrifice (engine handles)
     oracleText = oracleText.replace(/when ~ enters, if it's on the battlefield, it loses "enchant creature card in a graveyard" and gains "enchant creature put onto the battlefield with ~\." return enchanted creature card to the battlefield under your control and attach ~ to it\. when ~ leaves the battlefield, that creature's controller sacrifices it\./g, 'when ~ enters, return enchanted creature card to the battlefield under your control. when ~ leaves the battlefield, sacrifice enchanted creature.');
 
