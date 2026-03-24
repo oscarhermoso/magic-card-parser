@@ -2725,10 +2725,24 @@ exports[`Ambiguous cards: parses with snapshot > Sram's Expertise 1`] = `
       "does": {
         "may": {
           "cast": {
-            "object": "spell",
+            "object": {
+              "condition": {
+                "with": {
+                  "comparison": {
+                    "lte": 3,
+                  },
+                  "value": "cmc",
+                },
+              },
+              "object": "spell",
+            },
             "reference": {
               "count": 1,
             },
+          },
+          "from": {
+            "owner": "your",
+            "zone": "hand",
           },
           "withoutPaying": true,
         },

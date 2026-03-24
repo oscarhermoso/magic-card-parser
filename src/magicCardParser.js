@@ -58,8 +58,6 @@ const parseCard = (card) => {
     oracleText = oracleText.replace(/~ dies or another artifact you control is put into a graveyard from the battlefield/g, 'an artifact you control is put into a graveyard from the battlefield');
     oracleText = oracleText.replace(/return to your hand target (.*?) in your graveyard/g, 'return target $1 in your graveyard to your hand');
     oracleText = oracleText.replace(/ with lesser mana value/g, '');
-    // Sram's Expertise: strip "with mana value N or less" filter and "from your hand" (engine handles)
-    oracleText = oracleText.replace(/you may cast a spell with mana value \d+ or less from your hand without paying its mana cost/g, 'you may cast a spell without paying its mana cost');
     // Torsten: simplify "put any number of X and/or Y cards from among them into your hand and the rest on the bottom..."
     oracleText = oracleText.replace(/put any number of creature and\/or land cards from among them into your hand and the rest on the bottom of your library in a random order/g, 'put creature and land cards from among them into your hand');
     // Balance: replace complex equalization text with simple per-type sacrifice/discard (engine handles min-counting)
