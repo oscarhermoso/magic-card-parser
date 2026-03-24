@@ -5321,9 +5321,34 @@ exports[`Unambiguous cards: single parse + snapshot > Eternal Witness 1`] = `
 exports[`Unambiguous cards: single parse + snapshot > Ethersworn Canonist 1`] = `
 [
   {
-    "actor": "player",
+    "actor": {
+      "condition": {
+        "cast": {
+          "object": {
+            "object": "spell",
+            "prefixes": [
+              {
+                "not": {
+                  "type": {
+                    "and": [
+                      "artifact",
+                    ],
+                  },
+                },
+              },
+            ],
+          },
+          "reference": {
+            "count": 1,
+          },
+        },
+        "during": "thisTurn",
+      },
+      "each": "player",
+    },
     "does": {
       "cant": {
+        "additional": true,
         "cast": {
           "object": "spell",
           "prefixes": [

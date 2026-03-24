@@ -310,6 +310,7 @@ player -> "you" {% () => "you" %}
   | itsPossessive __ ("controller" {% () => "control" %} | "owner" {% () => "own" %}) "s":? {% ([whose, , does]) => ({ whose, does })  %}
   | "each of" __ player {% ([, , each]) => ({ each }) %}
   | "each opponent" {% () => ({ each: "opponents" }) %}
+  | "each player who has cast" __ object __ "this turn" {% ([, , what]) => ({ each: "player", condition: { cast: what, during: "thisTurn" } }) %}
   | "each player other than" __ itsPossessive __ ("controller" {% () => "control" %} | "owner" {% () => "own" %}) {% ([, , whose, , does]) => ({ each: "player", except: { whose, does } }) %}
   | "your team" {% () => "team" %}
 purePlayer -> "player" "s":? {% () => "player" %}
@@ -482,6 +483,7 @@ imperative -> "sacrifice" "s":? __ object {% ([, , , sacrifice]) => ({ sacrifice
   | gains __ "no life" {% () => ({ lifeGain: 0 }) %}
   | gains __ "control of" __ object (__ untilClause):? {% ([, , , , gainsControlOf, until]) => until ? { gainsControlOf, until } : { gainsControlOf } %}
   | "remove" "s":? __ countableCount __ (counterKind __):? "counter" "s":? __ "from" __ object {% ([, , , count, , counterKind, , , , , , removeCountersFrom]) => counterKind ? { count, removeCountersFrom, counterKind: counterKind[0] } : { count, removeCountersFrom } %}
+  | ("cast" | "play") "s":? __ "additional" __ object {% ([[cp], , , , , cast]) => ({ [cp.toLowerCase()]: cast, additional: true }) %}
   | ("cast" | "play") "s":? __ object __ fromZone __ "without paying its mana cost" {% ([[cp], , , cast, , from, , ]) => ({ [cp.toLowerCase()]: cast, from, withoutPaying: true }) %}
   | ("cast" | "play") "s":? __ object (__ "without paying its mana cost"):? (__ duration):? (__ "only during" __ partOfTurn):? (__ "on each of" __ qualifiedPartOfTurn "s":?):? {% ([[cp], , , cast, withoutPaying, duration, onlyDuring, each]) => {
     const result = { [cp.toLowerCase()]: cast };

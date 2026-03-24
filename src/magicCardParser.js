@@ -47,8 +47,6 @@ const parseCard = (card) => {
 
     const magicCardParser = new Parser(compiledMagicCardGrammar);
     let oracleText = replaceCardName(oracle_text, name);
-    // Ethersworn Canonist: simplify conditional restriction (semantics handled by bridge/engine)
-    oracleText = oracleText.replace(/each player who has cast a nonartifact spell this turn can't cast additional nonartifact spells/g, "players can't cast nonartifact spells");
     // Aluren: simplify free-cast clause (semantics handled by bridge/engine)
     oracleText = oracleText.replace(/any player may cast (.*?) without paying their mana costs and as though they had flash/g, 'players cast $1 without paying its mana cost');
     // Turnabout: simplify to choose type + tap/untap all permanents (engine handles tapped/untapped filtering)
