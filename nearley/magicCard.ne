@@ -342,7 +342,6 @@ singleSentence -> imperative {% ([i]) => i %}
   | "each" __ permanentTypeInner __ "is" __ "a" "n":? __ subType __ "in addition to its other" __ permanentTypeInner __ "types" {% ([, , what, , , , , , , type, , , , , , ]) => ({ each: what, is: { type, inAddition: true } }) %}
 sentenceInstead -> sentence __ "instead" {% ([instead]) => ({ instead }) %}
   | "instead" __ sentence {% ([, ,instead]) => ({ instead }) %}
-
 forEachClause -> "for each" __ pureObject {% ([, , forEach]) => ({ forEach }) %}
  | "for each color of mana spent to cast" __ object {% ([, , forEachColorSpent]) => ({ forEachColorSpent }) %}
 
@@ -630,6 +629,7 @@ imperative -> "sacrifice" "s":? __ object {% ([, , , sacrifice]) => ({ sacrifice
   | "transform" __ object {% ([, , transform]) => ({ transform }) %}
   | "flip a coin" {% () => "flipCoin" %}
   | "win the flip" {% () => "winFlip" %}
+  | "win" {% () => "winGame" %}
   | "lose the flip" {% () => "loseFlip" %}
   | "regenerate" __ object {% ([, , regenerate]) => ({ regenerate }) %}
   | "bolster" __ englishNumber {% ([, , bolster]) => ({ bolster }) %}
@@ -719,9 +719,10 @@ baseObjectVerbPhrase -> ("was" | "is") __ object {% ([, , is]) => ({ is }) %}
     if (counters) result.with = { amount: counters[3], counterKind: counters[5] };
     return result;
   } %}
-  | "enter" "s":? (__ "tapped"):? {% ([, , tapped]) => {
+  | "enter" "s":? (__ "tapped"):? (__ "and it" __ ("wasn" AP "t" | "was not") __ "cast"):? {% ([, , tapped, notCast]) => {
     const result = { enter: "battlefield" }
     if (tapped) result.tapped = true;
+    if (notCast) result.condition = { not: "wasCast" };
     return result;
   } %}
   | "leave" "s":? __ "the battlefield" {% () => ({ leaves: "battlefield" }) %}

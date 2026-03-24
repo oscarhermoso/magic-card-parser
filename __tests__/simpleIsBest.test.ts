@@ -227,6 +227,10 @@ const successCards: TestCard[] = [
   { name: 'Greasewrench Goblin', oracle_text: 'Exhaust — {2}{R}: Discard up to two cards, then draw that many cards. Put a +1/+1 counter on this creature. (Activate each exhaust ability only once.)' },
   // Step 3: Vengevine — parses unambiguously (second creature spell trigger)
   { name: 'Vengevine', oracle_text: 'Haste\nWhenever you cast a spell, if it\'s the second creature spell you cast this turn, you may return this card from your graveyard to the battlefield.' },
+  // Step 4: Replacement effects — Containment Priest, Hullbreacher, Lab Maniac parse unambiguously
+  { name: 'Containment Priest', oracle_text: 'Flash\nIf a nontoken creature would enter and it wasn\'t cast, exile it instead.' },
+  { name: 'Hullbreacher', oracle_text: 'Flash\nIf an opponent would draw a card except the first one they draw in each of their draw steps, instead you create a Treasure token. (It\'s an artifact with "{T}, Sacrifice this token: Add one mana of any color.")' },
+  { name: 'Laboratory Maniac', oracle_text: 'If you would draw a card while your library has no cards in it, you win the game instead.' },
 ];
 
 describe('Baseline: Successfully parsing cards', () => {
@@ -304,6 +308,8 @@ const ambiguousCards: TestCard[] = [
   { name: 'Past in Flames', oracle_text: 'Each instant and sorcery card in your graveyard gains flashback until end of turn. The flashback cost is equal to its mana cost.\nFlashback {4}{R} (You may cast this card from your graveyard for its flashback cost. Then exile it.)' },
   // Step 3: Yawgmoth's Will — ambiguous due to compound play/cast structure
   { name: 'Yawgmoth\'s Will', oracle_text: 'Until end of turn, you may play lands and cast spells from your graveyard.\nIf a card would be put into your graveyard from anywhere this turn, exile that card instead.' },
+  // Step 4: Phyrexian Metamorph — ambiguous due to copy object resolution
+  { name: 'Phyrexian Metamorph', oracle_text: '({U/P} can be paid with either {U} or 2 life.)\nYou may have this creature enter as a copy of any artifact or creature on the battlefield, except it\'s an artifact in addition to its other types.' },
 ];
 
 describe('Baseline: Ambiguous cards parse with results', () => {

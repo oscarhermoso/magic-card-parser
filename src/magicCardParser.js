@@ -56,6 +56,13 @@ const parseCard = (card) => {
     oracleText = oracleText.toLowerCase();
     // Replace new-style self-references with ~ (e.g. "this creature" → "~")
     oracleText = oracleText.replace(/\bthis (creature|artifact|land|enchantment|permanent|card)\b/g, '~');
+    // Hullbreacher: strip draw exception clause (semantics handled by bridge/ScryfallParser)
+    oracleText = oracleText.replace(/ except the first one they draw in each of their draw steps/g, '');
+    // Lab Maniac: strip while-condition clause and simplify win condition (semantics handled by bridge/ScryfallParser)
+    oracleText = oracleText.replace(/ while your library has no cards in it/g, '');
+    oracleText = oracleText.replace(/\bwin the game\b/g, 'win');
+    // Phyrexian Metamorph: rewrite "may have ~ enter as" → "~ becomes" (semantics handled by bridge/ScryfallParser)
+    oracleText = oracleText.replace(/you may have (~) enter as (a copy of [^,]+) on the battlefield/g, '$1 becomes $2');
 
     try {
         magicCardParser.feed(oracleText);
