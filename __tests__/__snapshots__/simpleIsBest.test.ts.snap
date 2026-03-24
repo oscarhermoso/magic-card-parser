@@ -125,89 +125,6 @@ exports[`Ambiguous cards: parses with snapshot > Green Sun's Zenith 1`] = `
 ]
 `;
 
-exports[`Ambiguous cards: parses with snapshot > Land Tax 1`] = `
-[
-  {
-    "effect": {
-      "condition": {
-        "actor": {
-          "player": "opponents",
-          "references": [
-            {
-              "count": 1,
-            },
-          ],
-        },
-        "does": {
-          "controls": {
-            "more": {
-              "type": {
-                "and": [
-                  "land",
-                ],
-              },
-            },
-            "than": "you",
-          },
-        },
-      },
-      "effect": {
-        "and": [
-          {
-            "actor": "you",
-            "does": {
-              "may": {
-                "criteria": {
-                  "object": {
-                    "object": "card",
-                    "types": {
-                      "and": [
-                        "basic",
-                        "land",
-                      ],
-                    },
-                  },
-                  "reference": {
-                    "count": {
-                      "upTo": 3,
-                    },
-                  },
-                },
-                "search": {
-                  "owner": "your",
-                  "zone": "library",
-                },
-              },
-            },
-          },
-          {
-            "reveal": "them",
-          },
-          {
-            "into": {
-              "owner": "your",
-              "zone": "hand",
-            },
-            "put": "them",
-          },
-          {
-            "shuffle": "library",
-          },
-        ],
-      },
-    },
-    "trigger": {
-      "turnPhase": {
-        "partOfTurn": "upkeep",
-        "qualification": {
-          "whose": "your",
-        },
-      },
-    },
-  },
-]
-`;
-
 exports[`Ambiguous cards: parses with snapshot > Mine Collapse 1`] = `
 [
   {
@@ -262,70 +179,6 @@ exports[`Ambiguous cards: parses with snapshot > Mine Collapse 1`] = `
       },
     },
     "what": "CARD_NAME",
-  },
-]
-`;
-
-exports[`Ambiguous cards: parses with snapshot > Scavenging Ooze 1`] = `
-[
-  {
-    "activatedAbility": [
-      {
-        "exile": {
-          "object": "card",
-          "reference": {
-            "targetCount": 1,
-          },
-        },
-        "from": {
-          "owner": "a",
-          "zone": "graveyard",
-        },
-      },
-      {
-        "condition": {
-          "does": {
-            "is": {
-              "object": {
-                "object": "card",
-                "types": {
-                  "and": [
-                    "creature",
-                  ],
-                },
-              },
-              "reference": {
-                "count": 1,
-              },
-            },
-          },
-          "what": "it",
-        },
-        "effect": {
-          "and": [
-            {
-              "amount": 1,
-              "counterKind": {
-                "powerMod": 1,
-                "toughnessMod": 1,
-              },
-              "putOn": "CARD_NAME",
-            },
-            {
-              "actor": "you",
-              "does": {
-                "gainLife": 1,
-              },
-            },
-          ],
-        },
-      },
-    ],
-    "costs": {
-      "mana": [
-        "g",
-      ],
-    },
   },
 ]
 `;
@@ -402,80 +255,6 @@ exports[`Ambiguous cards: parses with snapshot > Sylvan Library 1`] = `
         "partOfTurn": "drawStep",
         "qualification": {
           "whose": "your",
-        },
-      },
-    },
-  },
-]
-`;
-
-exports[`Ambiguous cards: parses with snapshot > Thalia's Lieutenant 1`] = `
-[
-  {
-    "effect": {
-      "amount": 1,
-      "counterKind": {
-        "powerMod": 1,
-        "toughnessMod": 1,
-      },
-      "putOn": {
-        "object": {
-          "object": {
-            "prefixes": [
-              "other",
-            ],
-            "type": {
-              "and": [
-                "human",
-              ],
-            },
-          },
-          "suffix": {
-            "actor": "you",
-            "does": "control",
-          },
-        },
-        "reference": "each",
-      },
-    },
-    "trigger": {
-      "when": {
-        "does": {
-          "enter": "battlefield",
-        },
-        "what": "CARD_NAME",
-      },
-    },
-  },
-  {
-    "effect": {
-      "amount": 1,
-      "counterKind": {
-        "powerMod": 1,
-        "toughnessMod": 1,
-      },
-      "putOn": "CARD_NAME",
-    },
-    "trigger": {
-      "when": {
-        "does": {
-          "enter": "battlefield",
-        },
-        "what": {
-          "object": {
-            "object": {
-              "type": {
-                "and": [
-                  "human",
-                ],
-              },
-            },
-            "suffix": {
-              "actor": "you",
-              "does": "control",
-            },
-          },
-          "reference": "other",
         },
       },
     },
@@ -6718,6 +6497,89 @@ exports[`Unambiguous cards: single parse + snapshot > Laelia, the Blade Reforged
 ]
 `;
 
+exports[`Unambiguous cards: single parse + snapshot > Land Tax 1`] = `
+[
+  {
+    "effect": {
+      "condition": {
+        "actor": {
+          "player": "opponents",
+          "references": [
+            {
+              "count": 1,
+            },
+          ],
+        },
+        "does": {
+          "controls": {
+            "more": {
+              "type": {
+                "and": [
+                  "land",
+                ],
+              },
+            },
+            "than": "you",
+          },
+        },
+      },
+      "effect": {
+        "and": [
+          {
+            "actor": "you",
+            "does": {
+              "may": {
+                "criteria": {
+                  "object": {
+                    "object": "card",
+                    "types": {
+                      "and": [
+                        "basic",
+                        "land",
+                      ],
+                    },
+                  },
+                  "reference": {
+                    "count": {
+                      "upTo": 3,
+                    },
+                  },
+                },
+                "search": {
+                  "owner": "your",
+                  "zone": "library",
+                },
+              },
+            },
+          },
+          {
+            "reveal": "them",
+          },
+          {
+            "into": {
+              "owner": "your",
+              "zone": "hand",
+            },
+            "put": "them",
+          },
+          {
+            "shuffle": "library",
+          },
+        ],
+      },
+    },
+    "trigger": {
+      "turnPhase": {
+        "partOfTurn": "upkeep",
+        "qualification": {
+          "whose": "your",
+        },
+      },
+    },
+  },
+]
+`;
+
 exports[`Unambiguous cards: single parse + snapshot > Languish 1`] = `
 [
   {
@@ -10466,6 +10328,70 @@ exports[`Unambiguous cards: single parse + snapshot > Scalding Tarn 1`] = `
 ]
 `;
 
+exports[`Unambiguous cards: single parse + snapshot > Scavenging Ooze 1`] = `
+[
+  {
+    "activatedAbility": [
+      {
+        "exile": {
+          "object": "card",
+          "reference": {
+            "targetCount": 1,
+          },
+        },
+        "from": {
+          "owner": "a",
+          "zone": "graveyard",
+        },
+      },
+      {
+        "condition": {
+          "does": {
+            "is": {
+              "object": {
+                "object": "card",
+                "types": {
+                  "and": [
+                    "creature",
+                  ],
+                },
+              },
+              "reference": {
+                "count": 1,
+              },
+            },
+          },
+          "what": "it",
+        },
+        "effect": {
+          "and": [
+            {
+              "amount": 1,
+              "counterKind": {
+                "powerMod": 1,
+                "toughnessMod": 1,
+              },
+              "putOn": "CARD_NAME",
+            },
+            {
+              "actor": "you",
+              "does": {
+                "gainLife": 1,
+              },
+            },
+          ],
+        },
+      },
+    ],
+    "costs": {
+      "mana": [
+        "g",
+      ],
+    },
+  },
+]
+`;
+
 exports[`Unambiguous cards: single parse + snapshot > Scrap Trawler 1`] = `
 [
   {
@@ -12105,6 +12031,80 @@ exports[`Unambiguous cards: single parse + snapshot > Tendrils of Agony 1`] = `
   [
     "storm",
   ],
+]
+`;
+
+exports[`Unambiguous cards: single parse + snapshot > Thalia's Lieutenant 1`] = `
+[
+  {
+    "effect": {
+      "amount": 1,
+      "counterKind": {
+        "powerMod": 1,
+        "toughnessMod": 1,
+      },
+      "putOn": {
+        "object": {
+          "object": {
+            "prefixes": [
+              "other",
+            ],
+            "type": {
+              "and": [
+                "human",
+              ],
+            },
+          },
+          "suffix": {
+            "actor": "you",
+            "does": "control",
+          },
+        },
+        "reference": "each",
+      },
+    },
+    "trigger": {
+      "when": {
+        "does": {
+          "enter": "battlefield",
+        },
+        "what": "CARD_NAME",
+      },
+    },
+  },
+  {
+    "effect": {
+      "amount": 1,
+      "counterKind": {
+        "powerMod": 1,
+        "toughnessMod": 1,
+      },
+      "putOn": "CARD_NAME",
+    },
+    "trigger": {
+      "when": {
+        "does": {
+          "enter": "battlefield",
+        },
+        "what": {
+          "object": {
+            "object": {
+              "type": {
+                "and": [
+                  "human",
+                ],
+              },
+            },
+            "suffix": {
+              "actor": "you",
+              "does": "control",
+            },
+          },
+          "reference": "other",
+        },
+      },
+    },
+  },
 ]
 `;
 

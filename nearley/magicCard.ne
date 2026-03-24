@@ -176,9 +176,19 @@ sentence -> singleSentence {% ([ss]) => ss %}
       }
       return { actor, does: { [connector]: elements.map(e => e.actor ? e.does : e) } };
     }
+    // Propagate "if condition" if first element has condition+effect
+    if (elements[0] && elements[0].condition && elements[0].effect) {
+      return { condition: elements[0].condition, effect: { [connector]: [elements[0].effect, ...elements.slice(1)] } };
+    }
     return { [connector]: elements };
   } %}
-  | singleSentence ("," __ singleSentence):* "," __ "then" __ singleSentence {% ([s1, ss, , , , , s2]) => ({ and: [s1, ...ss.map(([, , s]) => s), s2] }) %}
+  | singleSentence ("," __ singleSentence):* "," __ "then" __ singleSentence {% ([s1, ss, , , , , s2]) => {
+    const elements = [s1, ...ss.map(([, , s]) => s), s2];
+    if (elements[0] && elements[0].condition && elements[0].effect) {
+      return { condition: elements[0].condition, effect: { and: [elements[0].effect, ...elements.slice(1)] } };
+    }
+    return { and: elements };
+  } %}
   | "otherwise," __ sentence {% ([, , otherwise]) => ({ otherwise }) %}
   | singleSentence __ "rather than" __ sentence {% ([does, , , , ratherThan]) => ({ does, ratherThan }) %}
   | sentence __ "instead of" __ sentence {% ([does, , , , insteadOf]) => ({ does, insteadOf }) %}
@@ -388,7 +398,6 @@ commonReferencingPrefixInner -> "each" {% () => "each" %}
   | "another" {% () => "other" %}
   | "the chosen" {% () => "chosen" %}
   | "at least" __ englishNumber {% ([, , atLeast]) => ({ atLeast }) %}
-  | "each other" {% () => ({ each: { reference: "other" } }) %}
   | "your" {% () => "your" %}
 prefix -> "first" {% () => "first" %}
   | "attached" {% () => "attached" %}
