@@ -234,6 +234,9 @@ const successCards: TestCard[] = [
   // Step 5: Static restrictions — Ethersworn Canonist, Phyrexian Revoker parse unambiguously
   { name: 'Ethersworn Canonist', oracle_text: 'Each player who has cast a nonartifact spell this turn can\'t cast additional nonartifact spells.' },
   { name: 'Phyrexian Revoker', oracle_text: 'As this creature enters, choose a nonland card name. Activated abilities of sources with the chosen name can\'t be activated.' },
+  // Step 6: Conditional triggered abilities — Laelia, Scrap Trawler parse unambiguously
+  { name: 'Laelia, the Blade Reforged', oracle_text: 'Haste\nWhenever Laelia attacks, exile the top card of your library. You may play that card this turn.\nWhenever one or more cards are put into exile from your library and/or your graveyard, put a +1/+1 counter on Laelia.' },
+  { name: 'Scrap Trawler', oracle_text: 'Whenever this creature dies or another artifact you control is put into a graveyard from the battlefield, return to your hand target artifact card in your graveyard with lesser mana value.' },
 ];
 
 describe('Baseline: Successfully parsing cards', () => {
@@ -302,7 +305,7 @@ const ambiguousCards: TestCard[] = [
   { name: 'Oracle of Mul Daya', oracle_text: 'You may play an additional land on each of your turns.\nPlay with the top card of your library revealed.\nYou may play lands from the top of your library.' },
   { name: 'Hazoret the Fervent', oracle_text: 'Indestructible, haste\nHazoret can\'t attack or block unless you have one or fewer cards in hand.\n{2}{R}, Discard a card: Hazoret deals 2 damage to each opponent.' },
   { name: 'Narset, Parter of Veils', oracle_text: 'Each opponent can\'t draw more than one card each turn.\n−2: Look at the top four cards of your library. You may reveal a noncreature, nonland card from among them and put it into your hand. Put the rest on the bottom of your library in a random order.' },
-  { name: 'Irreverent Gremlin', oracle_text: 'Menace\nWhenever another creature you control with power 2 or less enters, you may discard a card. If you do, draw a card.' },
+  { name: 'Irreverent Gremlin', oracle_text: 'Menace\nWhenever another creature you control with power 2 or less enters, you may discard a card. If you do, draw a card. Do this only once each turn.' },
   // Step 1: Oust — ambiguous due to "gains N life" matching both imperative and playerVerbPhrase paths
   { name: 'Oust', oracle_text: 'Put target creature into its owner\'s library second from the top. Its controller gains 3 life.' },
   // Step 2: Graveyard casting — ambiguous due to "instant or sorcery" / "can't block" type parsing
@@ -316,6 +319,9 @@ const ambiguousCards: TestCard[] = [
   // Step 5: Static restrictions — Aluren, Fastbond ambiguous due to type/object overlap
   { name: 'Aluren', oracle_text: 'Any player may cast creature spells with mana value 3 or less without paying their mana costs and as though they had flash.' },
   { name: 'Fastbond', oracle_text: 'You may play any number of lands on each of your turns. Whenever you play a land, if it wasn\'t the first land you played this turn, this enchantment deals 1 damage to you.' },
+  // Step 6: Conditional triggered abilities — Esper Sentinel, Land Tax ambiguous
+  { name: 'Esper Sentinel', oracle_text: 'Whenever an opponent casts their first noncreature spell each turn, draw a card unless that player pays {X}, where X is this creature\'s power.' },
+  { name: 'Land Tax', oracle_text: 'At the beginning of your upkeep, if an opponent controls more lands than you, you may search your library for up to three basic land cards, reveal them, put them into your hand, then shuffle.' },
 ];
 
 describe('Baseline: Ambiguous cards parse with results', () => {

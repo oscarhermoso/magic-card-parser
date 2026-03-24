@@ -74,6 +74,20 @@ const parseCard = (card) => {
     // Fastbond: strip duration from "any number of lands on each of your turns" (semantics handled by bridge/engine)
     oracleText = oracleText.replace(/any number of lands on each of your turns/g, 'any number of lands');
     oracleText = oracleText.replace(/if it wasn't the first land you played this turn, /g, '');
+    // Esper Sentinel: strip "their first" and "each turn" from trigger (engine handles per-turn tracking)
+    // Rewrite "that player pays" → "they pay" (grammar doesn't have "that player" as regular player)
+    oracleText = oracleText.replace(/casts their first (.*?) each turn/g, 'casts a $1');
+    oracleText = oracleText.replace(/\bthat player\b/g, 'they');
+    // Irreverent Gremlin: strip "do this only once each turn" (engine handles per-turn limit)
+    oracleText = oracleText.replace(/ do this only once each turn\./g, '');
+    // Laelia: simplify exile trigger — "one or more cards are put into exile from X and/or Y" → "a card is put into exile from X"
+    oracleText = oracleText.replace(/one or more cards are put into exile from your library and\/or your graveyard/g, 'a card is put into exile from your library');
+    // Scrap Trawler: simplify compound trigger and reorder return clause
+    oracleText = oracleText.replace(/~ dies or another artifact you control is put into a graveyard from the battlefield/g, 'an artifact you control is put into a graveyard from the battlefield');
+    oracleText = oracleText.replace(/return to your hand target (.*?) in your graveyard/g, 'return target $1 in your graveyard to your hand');
+    oracleText = oracleText.replace(/ with lesser mana value/g, '');
+    // Land Tax: strip land comparison condition (engine handles it)
+    oracleText = oracleText.replace(/, if an opponent controls more lands than you,/g, ',');
 
     try {
         magicCardParser.feed(oracleText);
