@@ -1,11 +1,8 @@
 node_modules/
 dist/
-.ralph/
-.agents/
 failures.json
 ambiguous.json
 incorrect.json
-.idea/
 private/
 src/generated/
 /oracle_cards.json
@@ -14,3 +11,4 @@ nearley/magicCard.js
 !.github
 !.vscode
 !.env.example
+ralph.yml

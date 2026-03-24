@@ -157,7 +157,6 @@ permanentTypeInner -> "artifact" {% () => "artifact" %}
   | "permanent" {% () => "permanent" %}
 spellType -> "instant" {% () => "instant" %}
   | "sorcery" {% () => "sorcery" %}
-  | "instant or sorcery" {% () => ({ or: ["instant", "sorcery"] }) %}
 permanentTypeSpecifierInner -> (permanentType
   | creatureType
   | artifactType

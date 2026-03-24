@@ -1,10 +1,15 @@
 # Based on https://github.com/Soothsilver/mtg-grammar/blob/master/mtg.g4
 @include "./enums.ne"
+
 card -> "\n":* abilityOrRemind ("\n" abilityOrRemind):* "\n":? {% ([, a, as]) => a ? [a, ...as.map(([, a2]) => a2).filter((a) => a)] : [...as.map(([, a2]) => a2).filter((a) => a)] %}
   | "\n":* {% () => [] %}
-abilityOrRemind -> ability {% ([a]) => a %}
+
+abilityOrRemind
+ -> ability {% ([a]) => a %}
   | reminderText {% () => null %}
-ability -> (abilityWordAbility
+
+ability
+ -> (abilityWordAbility
   | activatedAbility
   | additionalCostToCastSpell
   | keywords
@@ -206,6 +211,7 @@ triggerConditionInner -> singleSentence {% ([s]) => s %}
   | player __ gains __ "life" {% ([actor]) => ({ actor, does: "gainsLife" }) %}
   | object __ "is dealt damage" {% ([what]) => ({ what, does: "dealtDamage" }) %}
   | object __ objectVerbPhrase {% ([what, , does]) => ({ what, does }) %}
+  | object __ ("or" {% () => "xor" %} | "and" {% () => "and" %}) __ object __ objectVerbPhrase {% ([what1, , [connector], , what2, , does]) => ({ what: { [connector]: [what1, what2] }, does }) %}
 interveningIfClause -> "if " condition "," {% ([, c]) => c %}
 triggerTiming -> "each turn" {% () => "eachTurn" %}
   | "during each opponent" SAXON __ "turn" {% () => ({ reference: "each", what: { whose: "opponent", what: "turn" } }) %}
@@ -222,10 +228,9 @@ additionalSentence -> sentence {% ([s]) => s %}
   | "do" __ "this" __ "only" __ "once" __ "each" __ "turn" {% () => ({ limit: "onceEachTurn" }) %}
 
 sentence -> singleSentence {% ([ss]) => ss %}
-  | "then" __ sentence {% ([, , s]) => s %}
-  | connected[sentence] {% ([c]) => c %}
+  | connected[singleSentence] {% ([c]) => c %}
   | "otherwise," __ sentence {% ([, , otherwise]) => ({ otherwise }) %}
-  | sentence __ "rather than" __ sentence {% ([does, , , , ratherThan]) => ({ does, ratherThan }) %}
+  | singleSentence __ "rather than" __ sentence {% ([does, , , , ratherThan]) => ({ does, ratherThan }) %}
   | sentence __ "instead of" __ sentence {% ([does, , , , insteadOf]) => ({ does, insteadOf }) %}
   | sentence __ "at" __ qualifiedPartOfTurn {% ([does, , , , at]) => ({ does, at }) %}
   | sentence __ "if" __ condition {% ([does, , , , condition]) => ({ does, condition }) %}
@@ -289,7 +294,7 @@ ordinal -> "first" {% () => 1 %}
 action -> "scried" {% () => "scried" %}
   | "surveilled" {% () => "surveilled" %}
 
-entity -> (object 
+entity -> (object
   | player) {% ([[e]]) => e %}
 anyEntity -> object {% ([e]) => e %}
   | pureObject {% ([e]) => e %}
@@ -323,7 +328,7 @@ objectInner -> "it" {% () => "it" %}
   | "rest" {% () => "rest" %}
   | "this emblem" {% () => "emblem" %}
   | object __ THAT_S __ isWhat {% ([object, , , , condition]) => ({ object, condition }) %}
-  | connected[object] {% ([c]) => c %}
+  | connected[pureObject] {% ([c]) => c %}
   | pureObject {% ([po]) => po %}
   | "each of" __ object {% ([, , each]) => ({ each }) %}
   | "the top" __ englishNumber __ "cards of" __ zone {% ([, , topCards, , , , from]) => ({ topCards, from }) %}
@@ -392,6 +397,7 @@ pureObjectInner -> ("copy" | "copies") (__ "of" __ object):? {% ([, copyOf]) => 
   | "commander" {% () => "commander" %}
   | "token" {% () => "token" %}
   | "target" "s":? {% () => "target" %}
+  | connected[pureObjectInner] {% ([c]) => c %}
 referencingObjectPrefix -> "the sacrificed" {% () => "sacrificed" %}
   | "any of" {% () => "any" %}
   | "the" {% () => "the" %}
@@ -399,7 +405,7 @@ referencingObjectPrefix -> "the sacrificed" {% () => "sacrificed" %}
   | playersPossessive {% ([p]) => ({ possessive: p }) %}
   | commonReferencingPrefix {% ([p]) => p %}
 commonReferencingPrefix -> countableCount (__ "additional"):? (__ commonReferencingPrefixInner):? {% ([count, additional, inner]) => {
-    const result = { count } 
+    const result = { count }
     if (additional) result.additional = true;
     if (inner) result.reference = inner[1];
     return result;
@@ -546,7 +552,6 @@ imperative -> "sacrifice" "s":? __ object {% ([, , , sacrifice]) => ({ sacrifice
     return result;
   } %}
   | gains __ "control of" __ object {% ([, , , , gainControlOf]) => ({ gainControlOf }) %}
-  | "may" __ sentence (". if you do," __ sentence):? {% ([, , may, ifDo]) => ifDo ? { may, ifDo: ifDo[2] } : { may } %}
   | "have" __ object __ (objectInfinitive {% ([property]) => ({ property }) %} | objectVerbPhrase {% ([does]) => ({ does }) %}) {% ([, , have, , property]) => ({ have, ...property }) %}
   | "have" __ player __ playerVerbPhrase {% ([, , actor, , does]) => ({ actor, does }) %}
   | "have your life total become" __ numberDefinition {% ([, , lifeTotalBecomes]) => ({ lifeTotalBecomes }) %}
@@ -587,8 +592,7 @@ playerVerbModifier -> "for each" __ pureObject {% ([, , forEach]) => ({ forEach 
   | "if" __ sentence {% ([, , condition]) => ({ condition }) %}
   | "this way" {% () => ({ reference: "thisWay" }) %}
   | asLongAsClause {% ([asLongAs]) => ({ asLongAs }) %}
-basePlayerVerbPhrase -> gains __ number __ "life" {% ([, , lifeGain]) => ({ lifeGain }) %}
-  | gains __ "life equal to" __ itsPossessive __ numericalCharacteristic {% ([, , , , whose, , value]) => ({ lifeGain: { whose, value } }) %}
+basePlayerVerbPhrase -> gains __ "life equal to" __ itsPossessive __ numericalCharacteristic {% ([, , , , whose, , value]) => ({ lifeGain: { whose, value } }) %}
   | controls __ ("no" __):? object {% ([, , negation, controls]) => negation ? { not: { controls } } : { controls } %}
   | controls __ "more" __ object __ "than" __ player {% ([, , , , what, , , , thanWhom]) => ({ controls: { more: what, than: thanWhom } }) %}
   | owns __ object {% ([, , owns]) => ({ owns }) %}
@@ -604,6 +608,7 @@ basePlayerVerbPhrase -> gains __ number __ "life" {% ([, , lifeGain]) => ({ life
     if (duration) result.duration = duration[1];
     return result;
   } %}
+  | "may" __ imperative (". if you do," __ sentence):? {% ([, , may, ifDo]) => ifDo ? { may, ifDo: ifDo[2] } : { may } %}
   | imperative {% ([i]) => i %}
   | CAN_T __ imperative {% ([, , cant]) => ({ cant }) %}
   | (DOESN_T | DON_T) {% () => { not: "do" } %}
@@ -934,7 +939,7 @@ ownedZone -> "graveyard" {% () => "graveyard" %}
 intoZone -> "onto the battlefield" {% () => "battlefield" %}
   | "into" __ zone __ "second from the top" {% ([, , zone]) => ({ secondFromTop: zone }) %}
   | "into" __ zone {% ([, , into]) => into %}
-  | "on top of" __ playersPossessive __ "library" {% ([, , whose]) => ({ topOf: { what: "library", whose } }) %}
+  | "on top of" __ playersPossessive __ "library" (__ "in" __ ("any" {% () => "any" %} | "a random" {% () => "random" %}) __ "order"):? {% ([, , whose, , , order]) => order ? { topOf: { what: "library", whose }, order: order[3] } : { topOf: { what: "library", whose } } %}
   | "on top" {% () => ({ topOf: { what: "library" } }) %}
   | "on the bottom of" __ zone (__ "in" __  ("any" {% () => "any" %} | "a random" {% () => "random" %}) __ "order"):? {% ([, , bottom, order]) => order ? { bottom, order: order[3] } : { bottom } %}
 inZone -> "on the battlefield" {% () => ({ in: "battlefield" }) %}
