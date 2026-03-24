@@ -1963,6 +1963,7 @@ exports[`Ambiguous cards: parses with snapshot > Memory Jar 1`] = `
                 "count": "all",
               },
             },
+            "faceDown": true,
             "from": {
               "owner": "their",
               "zone": "hand",

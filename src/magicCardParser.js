@@ -58,13 +58,12 @@ const parseCard = (card) => {
     oracleText = oracleText.replace(/~ dies or another artifact you control is put into a graveyard from the battlefield/g, 'an artifact you control is put into a graveyard from the battlefield');
     oracleText = oracleText.replace(/return to your hand target (.*?) in your graveyard/g, 'return target $1 in your graveyard to your hand');
     oracleText = oracleText.replace(/ with lesser mana value/g, '');
+    // Memory Jar: strip delayed return clause (engine handles delayed trigger)
+    oracleText = oracleText.replace(/\. at the beginning of the next end step, each player discards their hand and returns to their hand each card they exiled this way\./g, '.');
     // Torsten: simplify "put any number of X and/or Y cards from among them into your hand and the rest on the bottom..."
     oracleText = oracleText.replace(/put any number of creature and\/or land cards from among them into your hand and the rest on the bottom of your library in a random order/g, 'put creature and land cards from among them into your hand');
     // Balance: replace complex equalization text with simple per-type sacrifice/discard (engine handles min-counting)
     oracleText = oracleText.replace(/each player chooses a number of lands they control equal to the number of lands controlled by the player who controls the fewest, then sacrifices the rest\. players discard cards and sacrifice creatures the same way\./g, 'each player sacrifices lands. each player sacrifices creatures. each player discards cards.');
-    // Memory Jar: strip "face down" and delayed return clause (engine handles delayed trigger)
-    oracleText = oracleText.replace(/ face down/g, '');
-    oracleText = oracleText.replace(/\. at the beginning of the next end step, each player discards their hand and returns to their hand each card they exiled this way\./g, '.');
     // Sylvan Library: strip "additional" (grammar handles "draw N cards" not "draw N additional cards") and "If you do" clause (engine handles)
     oracleText = oracleText.replace(/draw two additional cards/g, 'draw two cards');
     oracleText = oracleText.replace(/\. if you do, choose two cards in your hand drawn this turn\. for each of those cards, pay 4 life or put the card on top of your library\./g, '.');
