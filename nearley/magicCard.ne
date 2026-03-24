@@ -610,7 +610,7 @@ baseObjectVerbPhrase -> ("was" | "is") __ object {% ([, , is]) => ({ is }) %}
       const result = reference ? { mustAttack: reference[1][0] } : "attacks";
       return isntBlocked ? { and: [result, { not: "blocked" }] } : result;
     } %}
-  | "block" "s":? (__ "this" __ "combat if able"):?
+  | "block" "s":? (__ "this" __ "combat if able"):? {% ([, , combat]) => combat ? { mustBlock: "this" } : "block" %}
   | gains __ acquiredAbility {% ([, , gains]) => ({ gains }) %}
   | "untap during" __ qualifiedPartOfTurn {% ([, , untap]) => ({ untap }) %}
   | "blocks" (__ "or becomes blocked by"):? __ object {% ([, becomesBlocked, , blocks]) => becomesBlocked ? { or: [{ blocks }, { blockedBy: blocks}] } : { blocks } %}

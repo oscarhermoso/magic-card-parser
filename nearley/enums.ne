@@ -34,7 +34,7 @@ permanentTypeInner -> "artifact" {% () => "artifact" %}
   | "permanent" {% () => "permanent" %}
 spellType -> "instant" {% () => "instant" %}
   | "sorcery" {% () => "sorcery" %}
-permanentTypeSpecifierInner -> (permanentType
+permanentTypeSpecifierInner -> (permanentTypeInner
   | creatureType
   | artifactType
   | enchantmentType
