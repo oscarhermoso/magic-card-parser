@@ -410,13 +410,8 @@ exports[`Ambiguous cards: parses with snapshot > Channel 1`] = `
       },
       "effect": {
         "actor": "you",
-        "does": {
-          "may": {
-            "pay": {
-              "life": 1,
-            },
-          },
-        },
+        "does": undefined,
+        "timing": "manaAbility",
       },
     },
     {

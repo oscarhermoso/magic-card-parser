@@ -253,6 +253,7 @@ singleSentence -> imperative {% ([i]) => i %}
   | "instead" __ singleSentence {% ([, , instead]) => ({ instead }) %}
   | imperative __ "instead" __ "if" __ condition {% ([instead, , , , , , condition]) => ({ instead, condition }) %}
   | playersPossessive __ "maximum hand size is" __ ("reduced" | "increased") __ "by" __ numberDefinition {% ([whose, , , , handSize, , , , amount])  => ({ whose, handSize, amount }) %}
+  | "any time" __ player __ "could activate a mana ability," __ sentence {% ([, , actor, , , , , , does]) => ({ timing: "manaAbility", actor, does }) %}
   | "skip" __ playersPossessive __ partOfTurn {% ([, , whose, , step]) => ({ skip: { whose, step } }) %}
   | "play with the top card of" __ playersPossessive __ "library revealed" {% ([, , whose]) => ({ playRevealed: { whose } }) %}
   | "each" __ permanentTypeInner __ "is" __ "a" "n":? __ subType __ "in addition to its other" __ permanentTypeInner __ "types" {% ([, , what, , , , , , , type, , , , , , ]) => ({ each: what, is: { type, inAddition: true } }) %}
