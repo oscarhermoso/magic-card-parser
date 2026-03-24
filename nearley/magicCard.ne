@@ -241,6 +241,7 @@ player -> "you" {% () => "you" %}
   | "that player" {% () => "they" %}
   | (commonReferencingPrefix __):* purePlayer {% ([references, player]) => {
     if (references.length === 1 && references[0][0] === "that" && player === "player") return "they";
+    if (references.length === 1 && references[0][0] === "each") return { each: player };
     return references.length > 0 ? { references: references.map(([r]) => r), player } : player;
   } %}
   | "your opponent" "s":? {% ([, plural]) => plural ? "opponent" : "opponents" %}
@@ -442,7 +443,7 @@ imperative -> "sacrifice" "s":? __ object {% ([, , , sacrifice]) => ({ sacrifice
   | "shuffle" "s":? __ zone {% ([, , , shuffle]) => ({ shuffle }) %}
   | "shuffle" "s":? __ (object | zone) __ "into" __ zone {% ([, , , shuffle, , , , into]) => ({ shuffle, into }) %}
   | "shuffle" "s":? {% () => ({ shuffle: "library" }) %}
-  | "counter" "s":? __ object {% ([, , counter]) => ({ counter }) %}
+  | "counter" "s":? __ object {% ([, , , counter]) => ({ counter }) %}
   | "tap" "s":? (__ "or untap"):? __ object {% ([, , untap, , tap]) => untap ? { does: { or: ["tap", "untap"] }, to: tap } : { tap } %}
   | "untap" "s":? (__ "and goad" "s":?):? __ object (__ "during" __ qualifiedPartOfTurn):? {% ([, , goad, , untap, during]) => {
       const result = during ? { untap, when: during[3] } : { untap };
@@ -595,7 +596,7 @@ baseObjectVerbPhrase -> ("was" | "is") __ object {% ([, , is]) => ({ is }) %}
   | "deal" "s":? __ dealsWhat {% ([, , , deal]) => ({ deal }) %}
   | ("is" | "are") __ isWhat {% ([, , is]) => ({ is }) %}
   | "attack" "s":? (__ ("this" | "each") __ "combat if able"):? (__ "and" __ "isn't" __ "blocked"):? {% ([, , reference, isntBlocked]) => {
-      const result = reference ? { mustAttack: reference[1][0] } : "attacks";
+      const result = reference ? { mustAttack: reference[1][0] } : "attack";
       return isntBlocked ? { and: [result, { not: "blocked" }] } : result;
     } %}
   | "block" "s":? (__ "this" __ "combat if able"):? {% ([, , combat]) => combat ? { mustBlock: "this" } : "block" %}
@@ -699,7 +700,6 @@ duration -> "this turn" {% () => ({ reference: "this", what: "turn" }) %}
   | "last turn" {% () => ({ reference: "last", what: "turn" }) %}
   | ("for" __):? asLongAsClause {% ([, asLongAs]) => ({ asLongAs }) %}
   | untilClause {% ([until]) => ({ until }) %}
-  | "each turn" {% () => ({ each: "turn" }) %}
 untilClause -> "until" __ untilClauseInner {% ([, , u]) => u %}
 untilClauseInner -> sentence {% ([s]) => s %}
   | "end of turn" {% () => "endOfTurn" %}
@@ -725,7 +725,7 @@ tokenDescription -> englishNumber (__ pt):? (__ color):? __ permanentTypeSpecifi
   if (state) result.state = state[3];
   return result;
 } %}
-  | "a number of" (__ pt):? (__ color):? __ permanentTypeSpecifier __ "token" "s":? __ "equal to" __ numberDefinition (__ withClause):? (__ ("that's" | "that are") __ tokenState):? {% ([, size, color, , type, , , , , , amount, withClause, state]) => {
+  | "a number of" (__ pt):? (__ color):? __ permanentTypeSpecifier __ "token" "s":? __ "equal to" __ numberDefinition (__ withClause):? (__ ("that's" | "that are") __ tokenState):? {% ([, size, color, , type, , , , , , , amount, withClause, state]) => {
   const result = { amount, type };
   if (size) result.size = size[1];
   if (color) result.color = color[1];
@@ -733,7 +733,7 @@ tokenDescription -> englishNumber (__ pt):? (__ color):? __ permanentTypeSpecifi
   if (state) result.state = state[3];
   return result;
 } %}
-  | englishNumber __ "token" "s":? __ "that" SAXON __ "a copy of" __ object {% ([amount , , , , , , , , , copy]) => ({ amount, copy }) %}
+  | englishNumber __ "token" "s":? __ "that" SAXON __ "a copy of" __ object {% ([amount, , , , , , , , , , copy]) => ({ amount, copy }) %}
   | connected[tokenDescription] {% ([c]) => c %}
 tokenState -> "attacking" {% () => "attacking" %}
   | "blocking" (__ object):? {% ([, target]) => target ? { blocking: target[1] } : "blocking" %}
@@ -834,8 +834,8 @@ countableCount -> "exactly" __ englishNumber {% ([, , eq]) => ({ eq }) %}
 cantClause -> cantClauseInner (__ "unless" __ condition):? {% ([cant, unless]) => unless ? { cant, unless: unless[3] } : cant %}
 cantClauseInner -> "attack" {% () => "attack" %}
   | "block" (__ object):? {% ([, block]) => block ? { block } : "block" %}
-  | "attack or block" {% () => ({ or: ["attack", "block"] }) %}
-  | "attack or block alone" {% () => ({ or: [{ does: "attack", suffix: "alone" }, { does: "block", suffix: "alone" }] }) %}
+  | "attack or block" {% () => ({ xor: ["attack", "block"] }) %}
+  | "attack or block alone" {% () => ({ xor: [{ does: "attack", suffix: "alone" }, { does: "block", suffix: "alone" }] }) %}
   | "attack alone" {% () => ({ does: "attack", suffix: "alone" }) %}
   | "block alone" {% () => ({ does: "block", suffix: "alone" }) %}
   | "be blocked" {% () => "blocked" %}
@@ -850,7 +850,6 @@ cantClauseInner -> "attack" {% () => "attack" %}
 zone -> (playersPossessive | "a" (__ "single"):?) __ ownedZone {% ([[owner], , zone]) => ({ owner, zone }) %}
   | "exile" {% () => "exile" %}
   | "the battlefield" {% () => "battlefield" %}
-  | "it" {% () => "it" %}
   | "anywhere" {% () => "anywhere" %}
   | ownedZone {% ([zone]) => ({ zone }) %}
   | connected[zone] {% ([c]) => c %}
