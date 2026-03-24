@@ -48,5 +48,11 @@ export function replaceCardName(oracleText, name) {
     // Replace self-references
     result = result.replace(SELF_REFERENCE_RE, '~');
 
+    // Normalize Unicode to ASCII equivalents
+    result = result
+        .replace(/\u2019/g, "'")   // right single quote → apostrophe
+        .replace(/\u2014/g, "--")  // em dash → double hyphen
+        .replace(/\u2212/g, "-");  // minus sign → hyphen-minus
+
     return result;
 }

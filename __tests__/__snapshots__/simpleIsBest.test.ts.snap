@@ -55,12 +55,8 @@ exports[`Ambiguous cards: parses with snapshot > Baral, Chief of Compliance 1`] 
         "object": "spell",
         "types": {
           "and": [
-            {
-              "and": [
-                "instant",
-                "sorcery",
-              ],
-            },
+            "instant",
+            "sorcery",
           ],
         },
       },
@@ -338,29 +334,29 @@ exports[`Ambiguous cards: parses with snapshot > Dack Fayden 1`] = `
 [
   {
     "activatedAbility": {
-      "actor": {
-        "player": "player",
-        "references": [
-          {
-            "targetCount": 1,
+      "and": [
+        {
+          "actor": {
+            "player": "player",
+            "references": [
+              {
+                "targetCount": 1,
+              },
+            ],
           },
-        ],
-      },
-      "does": {
-        "and": [
-          {
+          "does": {
             "draw": 2,
           },
-          {
-            "discard": {
-              "object": "card",
-              "reference": {
-                "count": 2,
-              },
+        },
+        {
+          "discard": {
+            "object": "card",
+            "reference": {
+              "count": 2,
             },
           },
-        ],
-      },
+        },
+      ],
     },
     "costs": {
       "loyalty": -1,
@@ -564,56 +560,6 @@ exports[`Ambiguous cards: parses with snapshot > Deep-Cavern Bat 1`] = `
         "what": "CARD_NAME",
       },
     },
-  },
-]
-`;
-
-exports[`Ambiguous cards: parses with snapshot > Enlightened Tutor 1`] = `
-[
-  {
-    "and": [
-      {
-        "criteria": {
-          "object": {
-            "object": "card",
-            "types": {
-              "or": [
-                "artifact",
-                "enchantment",
-              ],
-            },
-          },
-          "reference": {
-            "count": 1,
-          },
-        },
-        "search": {
-          "owner": "your",
-          "zone": "library",
-        },
-      },
-      {
-        "and": [
-          {
-            "reveal": "it",
-          },
-          {
-            "shuffle": "library",
-          },
-        ],
-      },
-      {
-        "into": {
-          "topOf": {
-            "what": "library",
-          },
-        },
-        "put": {
-          "object": "card",
-          "reference": "that",
-        },
-      },
-    ],
   },
 ]
 `;
@@ -1196,53 +1142,6 @@ exports[`Ambiguous cards: parses with snapshot > Hazoret the Fervent 1`] = `
 ]
 `;
 
-exports[`Ambiguous cards: parses with snapshot > Imperial Seal 1`] = `
-[
-  [
-    {
-      "and": [
-        {
-          "and": [
-            {
-              "criteria": {
-                "object": "card",
-                "reference": {
-                  "count": 1,
-                },
-              },
-              "search": {
-                "owner": "your",
-                "zone": "library",
-              },
-            },
-            {
-              "shuffle": "library",
-            },
-          ],
-        },
-        {
-          "into": {
-            "topOf": {
-              "what": "library",
-            },
-          },
-          "put": {
-            "object": "card",
-            "reference": "that",
-          },
-        },
-      ],
-    },
-    {
-      "actor": "you",
-      "does": {
-        "loseLife": 2,
-      },
-    },
-  ],
-]
-`;
-
 exports[`Ambiguous cards: parses with snapshot > Irreverent Gremlin 1`] = `
 [
   [
@@ -1722,9 +1621,9 @@ exports[`Ambiguous cards: parses with snapshot > Restoration Angel 1`] = `
     "effect": {
       "actor": "you",
       "does": {
-        "may": {
-          "and": [
-            {
+        "and": [
+          {
+            "may": {
               "exile": {
                 "object": {
                   "object": {
@@ -1755,16 +1654,16 @@ exports[`Ambiguous cards: parses with snapshot > Restoration Angel 1`] = `
                 },
               },
             },
-            {
-              "control": "your",
-              "returns": {
-                "object": "card",
-                "reference": "that",
-              },
-              "to": "battlefield",
+          },
+          {
+            "control": "your",
+            "returns": {
+              "object": "card",
+              "reference": "that",
             },
-          ],
-        },
+            "to": "battlefield",
+          },
+        ],
       },
     },
     "trigger": {
@@ -1912,100 +1811,6 @@ exports[`Ambiguous cards: parses with snapshot > Sram's Expertise 1`] = `
       },
     },
   ],
-]
-`;
-
-exports[`Ambiguous cards: parses with snapshot > Stoneforge Mystic 1`] = `
-[
-  {
-    "effect": {
-      "and": [
-        {
-          "actor": "you",
-          "does": {
-            "may": {
-              "criteria": {
-                "object": {
-                  "object": "card",
-                  "types": {
-                    "and": [
-                      "equipment",
-                    ],
-                  },
-                },
-                "reference": {
-                  "count": 1,
-                },
-              },
-              "search": {
-                "owner": "your",
-                "zone": "library",
-              },
-            },
-          },
-        },
-        {
-          "reveal": "it",
-        },
-        {
-          "into": {
-            "owner": "your",
-            "zone": "hand",
-          },
-          "put": "it",
-        },
-        {
-          "shuffle": "library",
-        },
-      ],
-    },
-    "trigger": {
-      "when": {
-        "does": {
-          "enter": "battlefield",
-        },
-        "what": "CARD_NAME",
-      },
-    },
-  },
-  {
-    "activatedAbility": {
-      "actor": "you",
-      "does": {
-        "may": {
-          "from": {
-            "owner": "your",
-            "zone": "hand",
-          },
-          "into": "battlefield",
-          "put": {
-            "object": {
-              "object": "card",
-              "types": {
-                "and": [
-                  "equipment",
-                ],
-              },
-            },
-            "reference": {
-              "count": 1,
-            },
-          },
-        },
-      },
-    },
-    "costs": {
-      "and": [
-        {
-          "mana": [
-            1,
-            "w",
-          ],
-        },
-        "tap",
-      ],
-    },
-  },
 ]
 `;
 
@@ -2178,53 +1983,6 @@ exports[`Ambiguous cards: parses with snapshot > Torsten, Founder of Benalia 1`]
       },
     },
   },
-]
-`;
-
-exports[`Ambiguous cards: parses with snapshot > Vampiric Tutor 1`] = `
-[
-  [
-    {
-      "and": [
-        {
-          "and": [
-            {
-              "criteria": {
-                "object": "card",
-                "reference": {
-                  "count": 1,
-                },
-              },
-              "search": {
-                "owner": "your",
-                "zone": "library",
-              },
-            },
-            {
-              "shuffle": "library",
-            },
-          ],
-        },
-        {
-          "into": {
-            "topOf": {
-              "what": "library",
-            },
-          },
-          "put": {
-            "object": "card",
-            "reference": "that",
-          },
-        },
-      ],
-    },
-    {
-      "actor": "you",
-      "does": {
-        "loseLife": 2,
-      },
-    },
-  ],
 ]
 `;
 
@@ -2666,12 +2424,8 @@ exports[`Unambiguous cards: single parse + snapshot > Arclight Phoenix 1`] = `
               "object": "spell",
               "types": {
                 "and": [
-                  {
-                    "and": [
-                      "instant",
-                      "sorcery",
-                    ],
-                  },
+                  "instant",
+                  "sorcery",
                 ],
               },
             },
@@ -4100,6 +3854,56 @@ exports[`Unambiguous cards: single parse + snapshot > Elvish Mystic 1`] = `
 ]
 `;
 
+exports[`Unambiguous cards: single parse + snapshot > Enlightened Tutor 1`] = `
+[
+  {
+    "and": [
+      {
+        "criteria": {
+          "object": {
+            "object": "card",
+            "types": {
+              "or": [
+                "artifact",
+                "enchantment",
+              ],
+            },
+          },
+          "reference": {
+            "count": 1,
+          },
+        },
+        "search": {
+          "owner": "your",
+          "zone": "library",
+        },
+      },
+      {
+        "reveal": "it",
+      },
+      {
+        "and": [
+          {
+            "shuffle": "library",
+          },
+          {
+            "into": {
+              "topOf": {
+                "what": "library",
+              },
+            },
+            "put": {
+              "object": "card",
+              "reference": "that",
+            },
+          },
+        ],
+      },
+    ],
+  },
+]
+`;
+
 exports[`Unambiguous cards: single parse + snapshot > Entomb 1`] = `
 [
   {
@@ -5465,6 +5269,53 @@ exports[`Unambiguous cards: single parse + snapshot > Ignoble Hierarch 1`] = `
     },
     "costs": "tap",
   },
+]
+`;
+
+exports[`Unambiguous cards: single parse + snapshot > Imperial Seal 1`] = `
+[
+  [
+    {
+      "and": [
+        {
+          "criteria": {
+            "object": "card",
+            "reference": {
+              "count": 1,
+            },
+          },
+          "search": {
+            "owner": "your",
+            "zone": "library",
+          },
+        },
+        {
+          "and": [
+            {
+              "shuffle": "library",
+            },
+            {
+              "into": {
+                "topOf": {
+                  "what": "library",
+                },
+              },
+              "put": {
+                "object": "card",
+                "reference": "that",
+              },
+            },
+          ],
+        },
+      ],
+    },
+    {
+      "actor": "you",
+      "does": {
+        "loseLife": 2,
+      },
+    },
+  ],
 ]
 `;
 
@@ -7127,12 +6978,8 @@ exports[`Unambiguous cards: single parse + snapshot > Past in Flames 1`] = `
             "object": "card",
             "types": {
               "and": [
-                {
-                  "and": [
-                    "instant",
-                    "sorcery",
-                  ],
-                },
+                "instant",
+                "sorcery",
               ],
             },
           },
@@ -8467,6 +8314,100 @@ exports[`Unambiguous cards: single parse + snapshot > Stitcher's Supplier 1`] = 
 ]
 `;
 
+exports[`Unambiguous cards: single parse + snapshot > Stoneforge Mystic 1`] = `
+[
+  {
+    "effect": {
+      "and": [
+        {
+          "actor": "you",
+          "does": {
+            "may": {
+              "criteria": {
+                "object": {
+                  "object": "card",
+                  "types": {
+                    "and": [
+                      "equipment",
+                    ],
+                  },
+                },
+                "reference": {
+                  "count": 1,
+                },
+              },
+              "search": {
+                "owner": "your",
+                "zone": "library",
+              },
+            },
+          },
+        },
+        {
+          "reveal": "it",
+        },
+        {
+          "into": {
+            "owner": "your",
+            "zone": "hand",
+          },
+          "put": "it",
+        },
+        {
+          "shuffle": "library",
+        },
+      ],
+    },
+    "trigger": {
+      "when": {
+        "does": {
+          "enter": "battlefield",
+        },
+        "what": "CARD_NAME",
+      },
+    },
+  },
+  {
+    "activatedAbility": {
+      "actor": "you",
+      "does": {
+        "may": {
+          "from": {
+            "owner": "your",
+            "zone": "hand",
+          },
+          "into": "battlefield",
+          "put": {
+            "object": {
+              "object": "card",
+              "types": {
+                "and": [
+                  "equipment",
+                ],
+              },
+            },
+            "reference": {
+              "count": 1,
+            },
+          },
+        },
+      },
+    },
+    "costs": {
+      "and": [
+        {
+          "mana": [
+            1,
+            "w",
+          ],
+        },
+        "tap",
+      ],
+    },
+  },
+]
+`;
+
 exports[`Unambiguous cards: single parse + snapshot > Strip Mine (2) 1`] = `
 [
   {
@@ -9174,6 +9115,53 @@ exports[`Unambiguous cards: single parse + snapshot > Urborg, Tomb of Yawgmoth 1
 ]
 `;
 
+exports[`Unambiguous cards: single parse + snapshot > Vampiric Tutor 1`] = `
+[
+  [
+    {
+      "and": [
+        {
+          "criteria": {
+            "object": "card",
+            "reference": {
+              "count": 1,
+            },
+          },
+          "search": {
+            "owner": "your",
+            "zone": "library",
+          },
+        },
+        {
+          "and": [
+            {
+              "shuffle": "library",
+            },
+            {
+              "into": {
+                "topOf": {
+                  "what": "library",
+                },
+              },
+              "put": {
+                "object": "card",
+                "reference": "that",
+              },
+            },
+          ],
+        },
+      ],
+    },
+    {
+      "actor": "you",
+      "does": {
+        "loseLife": 2,
+      },
+    },
+  ],
+]
+`;
+
 exports[`Unambiguous cards: single parse + snapshot > Vengevine 1`] = `
 [
   [
@@ -9781,12 +9769,8 @@ exports[`Unambiguous cards: single parse + snapshot > Wrenn and Six 1`] = `
                   "object": "card",
                   "types": {
                     "and": [
-                      {
-                        "and": [
-                          "instant",
-                          "sorcery",
-                        ],
-                      },
+                      "instant",
+                      "sorcery",
                     ],
                   },
                 },

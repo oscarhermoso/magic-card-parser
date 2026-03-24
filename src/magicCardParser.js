@@ -71,8 +71,13 @@ const parseCard = (card) => {
  */
 const parseTypeLine = (typeLine) => {
     const typeLineParser = new Parser(compiledTypeLineGrammar);
+    const normalized = typeLine
+        .toLowerCase()
+        .replace(/\u2019/g, "'")
+        .replace(/\u2014/g, "--")
+        .replace(/\u2212/g, "-");
     try {
-        typeLineParser.feed(typeLine);
+        typeLineParser.feed(normalized);
     } catch (/** @type {any} */ error) {
         console.error(typeLine, error);
         return { result: null, error, typeLine };
