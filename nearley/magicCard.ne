@@ -139,7 +139,7 @@ triggerCondition -> ("when" | "whenever") __ triggerConditionInner (__ triggerTi
   | "at end of combat" {% () => ({ turnPhase: "endCombat" }) %}
 triggerConditionInner -> singleSentence {% ([s]) => s %}
   | connected[triggerConditionInner] {% ([c]) => c %}
-  | player __ gains __ "life" {% ([actor]) => ({ actor, does: "gainsLife" }) %}
+  | player __ gains __ "life" {% ([actor]) => ({ actor, does: "gainLife" }) %}
   | object __ "is dealt damage" {% ([what]) => ({ what, does: "dealtDamage" }) %}
   | object __ objectVerbPhrase {% ([what, , does]) => ({ what, does }) %}
   | object __ ("or" {% () => "xor" %} | "and" {% () => "and" %}) __ object __ objectVerbPhrase {% ([what1, , [connector], , what2, , does]) => ({ what: { [connector]: [what1, what2] }, does }) %}
@@ -171,7 +171,6 @@ singleSentence -> imperative {% ([i]) => i %}
   | object __ objectVerbPhrase {% ([what, , does]) => ({ what, does }) %}
   | "it's" __ isWhat {% ([, , is]) => ({ is }) %}
   | player __ playerVerbPhrase {% ([actor, , does]) => ({ actor, does }) %}
-  | "if" __ sentence "," __ replacementEffect {% ([, , condition, , , replacementEffect]) => ({ condition, replacementEffect }) %}
   | "if" __ condition "," __ sentence {% ([, , condition, , , effect]) => ({ condition, effect }) %}
   | "if" __ object __ "would" __ (objectVerbPhrase | objectInfinitive) "," __ sentenceInstead {% ([, , what, , , , [does], , , instead]) => ({ what, does, instead }) %}
   | "if" __ player __ "would" __ playerVerbPhrase (__ exceptClause):? (__ whileClause):? "," __ sentenceInstead {% ([, , actor, , , , would, except, whileC, , , instead]) => {
@@ -546,7 +545,9 @@ basePlayerVerbPhrase -> gains __ "life equal to" __ itsPossessive __ numericalCh
   | ("does" | "do") {% () => "do" %}
   | "lose" "s":? __ "the game" {% () => "lose" %}
   | gets __ "an emblem" __ withClause {% ([, , , , emblem]) => ({ emblem }) %}
-  | "may play" __ object __ "and cast" __ object (__ fromZone):? {% ([, , play, , , , cast, from]) => from ? { may: { play: { what: play, from: from[1] }, cast: { what: cast, from: from[1] } } } : { may: { play: { what: play }, cast: { what: cast } } } %}
+  | "may play" __ object __ fromZone {% ([, , what, , from]) => ({ may: { play: what, from } }) %}
+  | "may cast" __ object __ fromZone {% ([, , what, , from]) => ({ may: { cast: what, from } }) %}
+  | "may play" __ object __ "and cast" __ object __ fromZone {% ([, , play, , , , cast, , from]) => ({ may: { play: play, cast: cast, from } }) %}
   | "cycle" __ object {% ([, , cycle]) => ({ cycle }) %}
   | "tap" "s":? __ object __ "for mana" {% ([, , , what]) => ({ tapsForMana: what }) %}
   | "has no cards in hand" {% () => ({ not: { has: { what: "card", in: "hand" } } }) %}
@@ -636,9 +637,10 @@ baseObjectVerbPhrase -> ("was" | "is") __ object {% ([, , is]) => ({ is }) %}
   | "as" __ object (__ "in addition to its other types"):? {% ([, , as, inAddition]) => inAddition ? { as, inAddition: true } : { as } %}
   | "assign its combat damage as though it" __ "weren't" __ "blocked" {% () => ({ damage: { as: { not: "blocked" } } }) %}
   | "remains tapped" {% () => ({ remains: "tapped" }) %}
-objectInfinitive -> "be put" __ intoZone (__ fromZone):? __ duration {% ([, , enter, from, , duration]) => {
-  const result = { enter, duration };
+objectInfinitive -> "be put" __ intoZone (__ fromZone):? (__ duration):? {% ([, , enter, from, duration]) => {
+  const result = { enter };
   if (from) result.from = from[1];
+  if (duration) result.duration = duration[1];
   return result;
 } %}
   | "be created under your control" {% () => ({ reference: { actor: "you", does: "control" }, does: "create" }) %}
@@ -698,7 +700,6 @@ gains -> "gain" "s":?
 
 duration -> "this turn" {% () => ({ reference: "this", what: "turn" }) %}
   | "last turn" {% () => ({ reference: "last", what: "turn" }) %}
-  | ("for" __):? asLongAsClause {% ([, asLongAs]) => ({ asLongAs }) %}
   | untilClause {% ([until]) => ({ until }) %}
 untilClause -> "until" __ untilClauseInner {% ([, , u]) => u %}
 untilClauseInner -> sentence {% ([s]) => s %}
@@ -858,7 +859,6 @@ ownedZone -> "graveyard" {% () => "graveyard" %}
   | "libraries" {% () => "library" %}
   | "hand" {% () => "hand" %}
   | ownedZone "s" {% ([z]) => z %}
-  | connected[ownedZone] {% ([c]) => c %}
 intoZone -> "onto the battlefield" {% () => "battlefield" %}
   | "into" __ zone __ "second from the top" {% ([, , zone]) => ({ secondFromTop: zone }) %}
   | "into" __ zone {% ([, , into]) => into %}
