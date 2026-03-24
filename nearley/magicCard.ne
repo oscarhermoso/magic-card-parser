@@ -305,6 +305,7 @@ player -> "you" {% () => "you" %}
   | itsPossessive __ ("controller" {% () => "control" %} | "owner" {% () => "own" %}) "s":? {% ([whose, , does]) => ({ whose, does })  %}
   | "each of" __ player {% ([, , each]) => ({ each }) %}
   | "each opponent" {% () => ({ each: "opponents" }) %}
+  | "each player other than" __ itsPossessive __ ("controller" {% () => "control" %} | "owner" {% () => "own" %}) {% ([, , whose, , does]) => ({ each: "player", except: { whose, does } }) %}
   | "your team" {% () => "team" %}
 purePlayer -> "player" "s":? {% () => "player" %}
   | "opponent" "s":? {% () => "opponents" %}

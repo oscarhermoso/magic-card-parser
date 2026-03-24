@@ -64,8 +64,6 @@ const parseCard = (card) => {
     oracleText = oracleText.replace(/you may cast a spell with mana value \d+ or less from your hand without paying its mana cost/g, 'you may cast a spell without paying its mana cost');
     // Torsten: simplify "put any number of X and/or Y cards from among them into your hand and the rest on the bottom..."
     oracleText = oracleText.replace(/put any number of creature and\/or land cards from among them into your hand and the rest on the bottom of your library in a random order/g, 'put creature and land cards from among them into your hand');
-    // Fractured Identity: simplify "each player other than its controller creates" → imperative "create"
-    oracleText = oracleText.replace(/each player other than its controller creates/g, 'create');
     // Balance: replace complex equalization text with simple per-type sacrifice/discard (engine handles min-counting)
     oracleText = oracleText.replace(/each player chooses a number of lands they control equal to the number of lands controlled by the player who controls the fewest, then sacrifices the rest\. players discard cards and sacrifice creatures the same way\./g, 'each player sacrifices lands. each player sacrifices creatures. each player discards cards.');
     // Flash: strip conditional sacrifice clause (engine handles sacrifice-unless-pay)

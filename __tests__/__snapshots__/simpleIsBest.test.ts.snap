@@ -5530,11 +5530,22 @@ exports[`Unambiguous cards: single parse + snapshot > Fractured Identity 1`] = `
       },
     },
     {
-      "create": {
-        "amount": 1,
-        "copy": [
-          " ",
-        ],
+      "actor": {
+        "each": "player",
+        "except": {
+          "does": "control",
+          "whose": {
+            "reference": "its",
+          },
+        },
+      },
+      "does": {
+        "create": {
+          "amount": 1,
+          "copy": [
+            " ",
+          ],
+        },
       },
     },
   ],
