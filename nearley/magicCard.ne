@@ -29,7 +29,7 @@ keyword -> ("deathtouch"
   | "defender"
   | "double strike"
   | enchantKeyword
-  | equipKeyword
+  | costKeyword
   | "first strike"
   | "flash"
   | "flying"
@@ -45,70 +45,40 @@ keyword -> ("deathtouch"
   | "trample"
   | "vigilance"
   | bandingKeyword
-  | rampageKeyword
+  | numberKeyword
   | cumulativeUpkeepKeyword
   | "flanking"
   | "phasing"
-  | buybackKeyword
   | "shadow"
   | cyclingKeyword
-  | echoKeyword
   | "horsemanship"
-  | fadingKeyword
   | kickerKeyword
-  | flashbackKeyword
-  | madnessKeyword
   | "fear"
-  | morphKeyword
-  | amplifyKeyword
   | "provoke"
   | "storm"
   | affinityKeyword
-  | entwineKeyword
-  | modularKeyword
   | "sunburst"
-  | bushidoKeyword
-  | soulshiftKeyword
   | spliceKeyword
   | offeringKeyword
-  | ninjutsuKeyword
   | "epic"
   | "convoke"
-  | dredgeKeyword
-  | transmuteKeyword
   | bloodthirstKeyword
   | "haunt"
-  | replicateKeyword
   | forecastKeyword
-  | graftKeyword
-  | recoverKeyword
-  | rippleKeyword
   | "split second"
   | suspendKeyword
-  | vanishingKeyword
-  | absordKeyword
-  | auraSwapKeyword
   | "delve"
-  | fortifyKeyword
-  | frenzyKeyword
   | "gravestorm"
-  | poisonousKeyword
-  | transfigureKeyword
   | championKeyword
   | "changeling"
-  | evokeKeyword
   | "hideaway"
-  | prowlKeyword
   | reinforceKeyword
   | "conspire"
   | "persist"
   | "wither"
   | "retrace"
-  | devourKeyword
   | "exalted"
-  | unearthKeyword
   | "cascade"
-  | annihilatorKeyword
   | levelUpKeyword
   | "rebound"
   | "totem armor"
@@ -116,54 +86,48 @@ keyword -> ("deathtouch"
   | "battle cry"
   | "living weapon"
   | "undying"
-  | miracleKeyword
   | "soulbond"
-  | overloadKeyword
-  | scavengeKeyword
   | "unleash"
   | "cipher"
   | "evolve"
   | "extort"
   | "fuse"
-  | bestowKeyword
-  | tributeKeyword
   | "dethrone"
   | "hidden agenda"
-  | outlastKeyword
   | "prowess"
-  | dashKeyword
   | "exploit"
   | "menace"
-  | renownKeyword
-  | awakenKeyword
   | "devoid"
   | "ingest"
   | "myriad"
-  | surgeKeyword
   | "skulk"
-  | emergeKeyword
-  | escalateKeyword
   | "melee"
-  | crewKeyword
-  | fabricateKeyword
   | partnerKeyword
   | "undaunted"
   | "improvise"
   | "aftermath"
-  | embalmKeyword
-  | eternalizeKeyword
-  | afflictKeyword
   | "ascend"
   | "assist"
   | "jump-start"
   | "mentor"
-  | afterlifeKeyword
   | "riot"
-  | spectacleKeyword
-  | escapeKeyword
   #  | companionKeyword # TODO: Implement
-  | mutateKeyword
-  | megamorphKeyword) {% ([[keyword]]) => keyword %}
+  | auraSwapKeyword) {% ([[keyword]]) => keyword %}
+
+# Consolidated cost keywords: keyword name __ cost → { name: cost }
+costKeyword -> ("equip" | "escape" | "spectacle" | "eternalize" | "embalm"
+  | "escalate" | "emerge" | "surge" | "awaken" | "dash" | "outlast" | "mutate"
+  | "bestow" | "scavenge" | "overload" | "buyback" | "echo" | "flashback"
+  | "madness" | "morph" | "entwine" | "ninjutsu" | "transmute" | "replicate"
+  | "recover" | "fortify" | "evoke" | "unearth" | "miracle" | "megamorph"
+  | "prowl" | "transfigure") __ cost {% ([[name], , value]) => ({ [name]: value }) %}
+
+# Consolidated number keywords: keyword name __ number → { name: number }
+numberKeyword -> ("afterlife" | "afflict" | "fabricate" | "crew" | "renown"
+  | "tribute" | "rampage" | "fading" | "amplify" | "modular" | "bushido"
+  | "dredge" | "graft" | "ripple" | "vanishing" | "absorb" | "poisonous"
+  | "devour" | "annihilator" | "frenzy" | "soulshift") __ number {% ([[name], , value]) => ({ [name]: value }) %}
+
 cyclingKeyword -> "cycling" __ cost {% ([, , cost]) => ({ cycling: cost }) %}
   | typeCycling __ cost {% ([type, , cost]) => ({ cycling: cost, cyclingType: type }) %}
 typeCycling -> "plainscycling" {% () => "plains" %}
@@ -176,74 +140,20 @@ typeCycling -> "plainscycling" {% () => "plains" %}
   | "slivercycling" {% () => "sliver" %}
   | "basic landcycling" {% () => "basicLand" %}
 enchantKeyword -> "enchant" __ anyEntity {% ([, , entity]) => ({ enchant: entity }) %}
-equipKeyword -> "equip" __ cost {% ([, , cost]) => ({ equip: cost }) %}
 cumulativeUpkeepKeyword -> "cumulative upkeep" __ cost {% ([, , cumulativeUpkeep]) => ({ cumulativeUpkeep }) %}
-escapeKeyword -> "escape" __ cost {% ([, , escape]) => ({ escape }) %}
-spectacleKeyword -> "spectacle" __ cost {% ([, , spectacle]) => ({ spectacle }) %}
-afterlifeKeyword -> "afterlife" __ number {% ([, , afterlife]) => ({ afterlife }) %}
-afflictKeyword -> "afflict" __ number {% ([, , afflict]) => ({ afflict }) %}
-eternalizeKeyword -> "eternalize" __ cost {% ([, , eternalize]) => ({ eternalize }) %}
-embalmKeyword -> "embalm" __ cost {% ([, , embalm]) => ({ embalm }) %}
-fabricateKeyword -> "fabricate" __ number {% ([, , fabricate]) => ({ fabricate }) %}
-crewKeyword -> "crew" __ number {% ([, , crew]) => ({ crew }) %}
-escalateKeyword -> "escalate" __ cost {% ([, , escalate]) => ({ escalate }) %}
-emergeKeyword -> "emerge" __ cost {% ([, , emerge]) => ({ emerge }) %}
-surgeKeyword -> "surge" __ cost {% ([, , surge]) => ({ surge }) %}
-awakenKeyword -> "awaken" __ cost {% ([, , awaken]) => ({ awaken }) %}
-renownKeyword -> "renown" __ number {% ([, , renown]) => ({ renown }) %}
-dashKeyword -> "dash" __ cost {% ([, , dash]) => ({ dash }) %}
-outlastKeyword -> "outlast" __ cost {% ([, , outlast]) => ({ outlast }) %}
-tributeKeyword -> "tribute" __ number {% ([, , tribute]) => ({ tribute }) %}
-mutateKeyword -> "mutate" __ cost {% ([, , mutate]) => ({ mutate }) %}
-bestowKeyword -> "bestow" __ cost {% ([, , bestow]) => ({ bestow }) %}
-scavengeKeyword -> "scavenge" __ cost {% ([, , scavenge]) => ({ scavenge }) %}
-overloadKeyword -> "overload" __ cost {% ([, , overload]) => ({ overload }) %}
-buybackKeyword -> "buyback" __ cost {% ([, , buyback]) => ({ buyback }) %}
-rampageKeyword -> "rampage" __ number {% ([, , rampage]) => ({ rampage }) %}
-echoKeyword -> "echo" __ cost {% ([, , echo]) => ({ echo }) %}
-fadingKeyword -> "fading" __ number {% ([, , fading]) => ({ fading }) %}
 kickerKeyword -> "kicker" __ costs {% ([, , kicker]) => ({ kicker }) %}
-flashbackKeyword -> "flashback" __ cost {% ([, , flashback]) => ({ flashback }) %}
-madnessKeyword -> "madness" __ cost {% ([, , madness]) => ({ madness }) %}
-morphKeyword -> "morph" __ cost {% ([, , morph]) => ({ morph }) %}
-amplifyKeyword -> "amplify" __ number {% ([, , amplify]) => ({ amplify }) %}
-entwineKeyword -> "entwine" __ cost {% ([, , entwine]) => ({ entwine }) %}
-modularKeyword -> "modular" __ number {% ([, , modular]) => ({ modular }) %}
-bushidoKeyword -> "bushido" __ number {% ([, , bushido]) => ({ bushido }) %}
-ninjutsuKeyword -> "ninjutsu" __ cost {% ([, , ninjutsu]) => ({ ninjutsu }) %}
-dredgeKeyword -> "dredge" __ number {% ([, , dredge]) => ({ dredge }) %}
-transmuteKeyword -> "transmute" __ cost {% ([, , transmute]) => ({ transmute }) %}
 bloodthirstKeyword -> "bloodthirsty" __ number {% ([, , bloodthirsty]) => ({ bloodthirsty }) %}
-replicateKeyword -> "replicate" __ cost {% ([, , replicate]) => ({ replicate }) %}
-graftKeyword -> "graft" __ number {% ([, , graft]) => ({ graft }) %}
-recoverKeyword -> "recover" __ cost {% ([, , recover]) => ({ recover }) %}
-rippleKeyword -> "ripple" __ number {% ([, , ripple]) => ({ ripple }) %}
 suspendKeyword -> "suspend" __ number __ DASHDASH __ cost {% ([, , suspend, , , , cost]) => ({ suspend, cost }) %}
-vanishingKeyword -> "vanishing" __ number {% ([, , vanishing]) => ({ vanishing }) %}
-absordKeyword -> "absorb" __ number {% ([, , absorb]) => ({ absorb }) %}
-fortifyKeyword -> "fortify" __ cost {% ([, , fortify]) => ({ fortify }) %}
-frenzy -> "frenzy" __ number {% ([, , frenzy]) => ({ frenzy }) %}
-poisonousKeyword -> "poisonous" __ number {% ([, , poisonous]) => ({ poisonous }) %}
-evokeKeyword -> "evoke" __ cost {% ([, , evoke]) => ({ evoke }) %}
-devourKeyword -> "devour" __ number {% ([, , devour]) => ({ devour }) %}
-unearthKeyword -> "unearth" __ cost {% ([, , unearth]) => ({ unearth }) %}
-annihilatorKeyword -> "annihilator" __ number {% ([, , annihilator]) => ({ annihilator }) %}
 levelUpKeyword -> "level up" __ cost {% ([, , levelUp]) => ({ levelUp }) %}
-miracleKeyword -> "miracle" __ cost {% ([, , miracle]) => ({ miracle }) %}
-megamorphKeyword -> "megamorph" __ cost {% ([, , megamorph]) => ({ megamorph }) %}
 affinityKeyword -> "affinity for" __ object {% ([, , affinityFor]) => ({ affinityFor }) %}
 partnerKeyword -> "partner" {% () => "partner" %}
   | "partner with" __ [^(\n]:+ {% ([, , partnerWith]) => ({ partnerWith: partnerWith.join('') }) %}
 offeringKeyword -> object __ "offering" {% ([offering]) => ({ offering }) %}
-frenzyKeyword -> "frenzy" __ number {% ([, , frenzy]) => ({ frenzy }) %}
-soulshiftKeyword -> "soulshift" __ number {% ([, , soulshift]) => ({ soulshift }) %}
 spliceKeyword -> "splice onto" __ object __ cost {% ([, , spliceOnto, , cost]) => ({ spliceOnto, cost }) %}
 forecastKeyword -> "forecast" __ DASHDASH __ activatedAbility {% ([, , , , forecast]) => ({ forecast }) %}
 championKeyword -> "champion" __ object {% ([, , champion]) => ({ champion }) %}
 protectionKeyword -> "protection from" __ anyEntity {% ([, , protectionFrom]) => ({ protectionFrom }) %}
-prowlKeyword -> "prowl" __ cost {% ([, , prowl]) => ({ prowl }) %}
 reinforceKeyword -> "reinforce" __ number __ DASHDASH __ cost {% ([, , reinforce, , , , cost]) => ({ reinforce, cost }) %}
-transfigureKeyword -> "transfigure" __ cost {% ([, , transfigure]) => ({ transfigure }) %}
 bandingKeyword -> "banding" {% () => ({ bandsWith: "any" }) %}
   | "bands with other legendary creatures" {% () => ({ bandsWith: "legendary" }) %}
   | "bands with other creatures named wolves of the hunt" {% () => ({ bandsWith: "wolves of the hunt" }) %}
