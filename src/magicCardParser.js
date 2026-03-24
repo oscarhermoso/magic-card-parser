@@ -47,20 +47,6 @@ const parseCard = (card) => {
 
     const magicCardParser = new Parser(compiledMagicCardGrammar);
     let oracleText = replaceCardName(oracle_text, name);
-    // Aluren: simplify free-cast clause (semantics handled by bridge/engine)
-    oracleText = oracleText.replace(/any player may cast (.*?) without paying their mana costs and as though they had flash/g, 'players cast $1 without paying its mana cost');
-    // Turnabout: simplify to choose type + tap/untap all permanents (engine handles tapped/untapped filtering)
-    oracleText = oracleText.replace(/tap all untapped permanents of the chosen type target player controls, or untap all tapped permanents of that type that player controls/g, 'tap or untap all permanents target player controls');
-    // Memory Jar: strip delayed return clause (engine handles delayed trigger)
-    oracleText = oracleText.replace(/\. at the beginning of the next end step, each player discards their hand and returns to their hand each card they exiled this way\./g, '.');
-    // Torsten: simplify "put any number of X and/or Y cards from among them into your hand and the rest on the bottom..."
-    oracleText = oracleText.replace(/put any number of creature and\/or land cards from among them into your hand and the rest on the bottom of your library in a random order/g, 'put creature and land cards from among them into your hand');
-    // Balance: replace complex equalization text with simple per-type sacrifice/discard (engine handles min-counting)
-    oracleText = oracleText.replace(/each player chooses a number of lands they control equal to the number of lands controlled by the player who controls the fewest, then sacrifices the rest\. players discard cards and sacrifice creatures the same way\./g, 'each player sacrifices lands. each player sacrifices creatures. each player discards cards.');
-    // Sylvan Library: strip "If you do" clause (engine handles)
-    oracleText = oracleText.replace(/\. if you do, choose two cards in your hand drawn this turn\. for each of those cards, pay 4 life or put the card on top of your library\./g, '.');
-    // Animate Dead: strip complex loses/gains text, simplify to ETB reanimate + leaves sacrifice (engine handles)
-    oracleText = oracleText.replace(/when ~ enters, if it's on the battlefield, it loses "enchant creature card in a graveyard" and gains "enchant creature put onto the battlefield with ~\." return enchanted creature card to the battlefield under your control and attach ~ to it\. when ~ leaves the battlefield, that creature's controller sacrifices it\./g, 'when ~ enters, return enchanted creature card to the battlefield under your control. when ~ leaves the battlefield, sacrifice enchanted creature.');
 
     try {
         magicCardParser.feed(oracleText);
