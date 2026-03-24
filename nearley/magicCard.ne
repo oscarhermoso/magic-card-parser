@@ -490,9 +490,7 @@ imperative -> "sacrifice" "s":? __ object {% ([, , , sacrifice]) => ({ sacrifice
   } %}
   | "put" "s":? __ englishNumber __ counterKind __ "counter" "s":? __ "on" __ object {% ([, , , amount, , counterKind, , , , , , , putOn]) => ({ amount, counterKind, putOn }) %}
   | "choose" "s":? __ object {% ([, , , choose]) => ({ choose }) %}
-  | "look" "s":? __ "at the top" __ englishNumber __ "cards of" __ zone ("," __ "then put them back in any order"):? {% ([, ,  , , , lookAtTop, , , , from, anyOrder]) => anyOrder ? { lookAtTop, from, anyOrder: true } : { lookAtTop, from } %}
-  | "look" "s":? __ "at" __ object {% ([, , , , , lookAt]) => ({ lookAt }) %}
-  | "look" "s":? __ "at" __ zone {% ([, , , , , lookAt]) => ({ lookAt }) %}
+  | "look" "s":? __ "at" __ (object | zone) {% ([, , , , , [lookAt]]) => ({ lookAt }) %}
   | "reveal" "s":? __ (object | zone) (__ "at random" __ fromZone):? {% ([, , , [reveal], random]) => random ? { random: true, from: random[3], reveal } : { reveal } %}
   | "put" "s":? __ object (__ fromZone):? __ intoZone (__ "tapped"):? (__ "and" __ object __ intoZone):? (__ "under" __ playersPossessive __ "control"):? (__ "instead of" __ intoZone):? {% ([, , , put, from, , into, tapped, additional, control, insteadOf]) => {
     let result = { put, into };

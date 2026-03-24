@@ -347,93 +347,6 @@ exports[`Ambiguous cards: parses with snapshot > Mine Collapse 1`] = `
 ]
 `;
 
-exports[`Ambiguous cards: parses with snapshot > Narset, Parter of Veils 1`] = `
-[
-  {
-    "actor": {
-      "each": "opponents",
-    },
-    "does": {
-      "cant": {
-        "draw": {
-          "max": 1,
-        },
-        "duration": {
-          "reference": "each",
-          "what": "turn",
-        },
-      },
-    },
-  },
-  {
-    "activatedAbility": [
-      {
-        "from": {
-          "owner": "your",
-          "zone": "library",
-        },
-        "lookAtTop": 4,
-      },
-      {
-        "actor": "you",
-        "does": {
-          "may": {
-            "and": [
-              {
-                "reveal": {
-                  "object": {
-                    "object": {
-                      "object": "card",
-                      "prefixes": [
-                        {
-                          "not": {
-                            "and": [
-                              "creature",
-                              "land",
-                            ],
-                          },
-                        },
-                      ],
-                    },
-                    "suffix": "amongThem",
-                  },
-                  "reference": {
-                    "count": 1,
-                  },
-                },
-              },
-              {
-                "into": {
-                  "owner": "your",
-                  "zone": "hand",
-                },
-                "put": "it",
-              },
-            ],
-          },
-        },
-      },
-      {
-        "into": {
-          "bottom": {
-            "owner": "your",
-            "zone": "library",
-          },
-          "order": "random",
-        },
-        "put": {
-          "object": "rest",
-          "reference": "the",
-        },
-      },
-    ],
-    "costs": {
-      "loyalty": -2,
-    },
-  },
-]
-`;
-
 exports[`Ambiguous cards: parses with snapshot > Scavenging Ooze 1`] = `
 [
   {
@@ -8483,6 +8396,95 @@ exports[`Unambiguous cards: single parse + snapshot > Mystical Tutor 1`] = `
 ]
 `;
 
+exports[`Unambiguous cards: single parse + snapshot > Narset, Parter of Veils 1`] = `
+[
+  {
+    "actor": {
+      "each": "opponents",
+    },
+    "does": {
+      "cant": {
+        "draw": {
+          "max": 1,
+        },
+        "duration": {
+          "reference": "each",
+          "what": "turn",
+        },
+      },
+    },
+  },
+  {
+    "activatedAbility": [
+      {
+        "lookAt": {
+          "from": {
+            "owner": "your",
+            "zone": "library",
+          },
+          "topCards": 4,
+        },
+      },
+      {
+        "actor": "you",
+        "does": {
+          "may": {
+            "and": [
+              {
+                "reveal": {
+                  "object": {
+                    "object": {
+                      "object": "card",
+                      "prefixes": [
+                        {
+                          "not": {
+                            "and": [
+                              "creature",
+                              "land",
+                            ],
+                          },
+                        },
+                      ],
+                    },
+                    "suffix": "amongThem",
+                  },
+                  "reference": {
+                    "count": 1,
+                  },
+                },
+              },
+              {
+                "into": {
+                  "owner": "your",
+                  "zone": "hand",
+                },
+                "put": "it",
+              },
+            ],
+          },
+        },
+      },
+      {
+        "into": {
+          "bottom": {
+            "owner": "your",
+            "zone": "library",
+          },
+          "order": "random",
+        },
+        "put": {
+          "object": "rest",
+          "reference": "the",
+        },
+      },
+    ],
+    "costs": {
+      "loyalty": -2,
+    },
+  },
+]
+`;
+
 exports[`Unambiguous cards: single parse + snapshot > Natural Order 1`] = `
 [
   {
@@ -9288,32 +9290,6 @@ exports[`Unambiguous cards: single parse + snapshot > Polluted Delta 1`] = `
         },
       ],
     },
-  },
-]
-`;
-
-exports[`Unambiguous cards: single parse + snapshot > Ponder 1`] = `
-[
-  [
-    {
-      "anyOrder": true,
-      "from": {
-        "owner": "your",
-        "zone": "library",
-      },
-      "lookAtTop": 3,
-    },
-    {
-      "actor": "you",
-      "does": {
-        "may": {
-          "shuffle": "library",
-        },
-      },
-    },
-  ],
-  {
-    "draw": 1,
   },
 ]
 `;
