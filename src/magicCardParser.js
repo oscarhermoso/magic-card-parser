@@ -60,8 +60,7 @@ const parseCard = (card) => {
     oracleText = oracleText.replace(/put any number of creature and\/or land cards from among them into your hand and the rest on the bottom of your library in a random order/g, 'put creature and land cards from among them into your hand');
     // Balance: replace complex equalization text with simple per-type sacrifice/discard (engine handles min-counting)
     oracleText = oracleText.replace(/each player chooses a number of lands they control equal to the number of lands controlled by the player who controls the fewest, then sacrifices the rest\. players discard cards and sacrifice creatures the same way\./g, 'each player sacrifices lands. each player sacrifices creatures. each player discards cards.');
-    // Sylvan Library: strip "additional" (grammar handles "draw N cards" not "draw N additional cards") and "If you do" clause (engine handles)
-    oracleText = oracleText.replace(/draw two additional cards/g, 'draw two cards');
+    // Sylvan Library: strip "If you do" clause (engine handles)
     oracleText = oracleText.replace(/\. if you do, choose two cards in your hand drawn this turn\. for each of those cards, pay 4 life or put the card on top of your library\./g, '.');
     // Animate Dead: strip complex loses/gains text, simplify to ETB reanimate + leaves sacrifice (engine handles)
     oracleText = oracleText.replace(/when ~ enters, if it's on the battlefield, it loses "enchant creature card in a graveyard" and gains "enchant creature put onto the battlefield with ~\." return enchanted creature card to the battlefield under your control and attach ~ to it\. when ~ leaves the battlefield, that creature's controller sacrifices it\./g, 'when ~ enters, return enchanted creature card to the battlefield under your control. when ~ leaves the battlefield, sacrifice enchanted creature.');

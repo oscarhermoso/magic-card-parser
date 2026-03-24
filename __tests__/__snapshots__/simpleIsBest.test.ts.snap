@@ -9123,7 +9123,9 @@ exports[`Unambiguous cards: single parse + snapshot > Sylvan Library 1`] = `
       "actor": "you",
       "does": {
         "may": {
-          "draw": 2,
+          "draw": {
+            "additional": 2,
+          },
         },
       },
     },

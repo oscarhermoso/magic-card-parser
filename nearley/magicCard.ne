@@ -490,7 +490,7 @@ imperative -> "sacrifice" "s":? __ object {% ([, , , sacrifice]) => ({ sacrifice
   | "surveil" __ number {% ([, , surveil]) => ({ surveil }) %}
   | "search" "es":? __ zone (__ "for" __ object):? {% ([, , , search, criteria]) => criteria ? { search, criteria: criteria[3] } : search %}
   | "choose" "s":? __ (object {% ([o]) => o %} | "a" __ anyType __ "type" {% ([, , type]) => ({ type }) %} | "not to" __ imperative {% ([, , not]) => ({ not }) %} | "a" (__ "nonland"):? __ "card name" {% ([, nonland]) => nonland ? { cardName: { not: "land" } } : "cardName" %} | "a color" {% () => "color" %} | "a" __ object __ "of each basic land type" {% ([, , what]) => ({ what, ofEach: "basicLandType" }) %}) {% ([, , , choose]) => ({ choose }) %}
-  | "draw" "s":? __ ("a" __ "card" {% () => 1 %} | "an additional card" {% () => 1 %} | englishNumber __ "card" "s" {% ([n]) => n %}) {% ([, , , draw]) => ({ draw }) %}
+  | "draw" "s":? __ ("a" __ "card" {% () => 1 %} | "an additional card" {% () => 1 %} | englishNumber __ "additional" __ "card" "s" {% ([n]) => ({ additional: n }) %} | englishNumber __ "card" "s" {% ([n]) => n %}) {% ([, , , draw]) => ({ draw }) %}
   | "draw" "s":? __ "cards equal to" __ numberDefinition {% ([, , , , , draw]) => ({ draw }) %}
   | "draw" "s":? __ "more than" __ englishNumber __ "card" "s":? (__ "each" __ "turn"):? {% ([, , , , , max, , , , duration]) => ({ draw: { max }, duration: duration ? { reference: "each", what: "turn" } : null }) %}
   | "shuffle" "s":? __ zone {% ([, , , shuffle]) => ({ shuffle }) %}
