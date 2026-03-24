@@ -1,147 +1,5 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Ambiguous cards: parses with snapshot > Abiding Grace 1`] = `
-[
-  {
-    "effect": {
-      "options": [
-        {
-          "actor": "you",
-          "does": {
-            "gainLife": 1,
-          },
-        },
-        {
-          "from": {
-            "owner": "your",
-            "zone": "graveyard",
-          },
-          "returns": {
-            "object": {
-              "object": {
-                "condition": {
-                  "with": {
-                    "comparison": 1,
-                    "value": "cmc",
-                  },
-                },
-                "object": "card",
-              },
-              "types": {
-                "and": [
-                  "creature",
-                ],
-              },
-            },
-            "reference": {
-              "targetCount": 1,
-            },
-          },
-          "to": "battlefield",
-        },
-      ],
-      "quantifier": [
-        1,
-      ],
-    },
-    "trigger": {
-      "turnPhase": {
-        "partOfTurn": "end",
-        "qualification": {
-          "whose": "your",
-        },
-      },
-    },
-  },
-]
-`;
-
-exports[`Ambiguous cards: parses with snapshot > Aluren 1`] = `
-[
-  {
-    "actor": {
-      "player": "player",
-      "references": [
-        "any",
-      ],
-    },
-    "does": {
-      "may": {
-        "asThough": {
-          "had": "flash",
-          "who": "they",
-        },
-        "cast": {
-          "object": {
-            "condition": {
-              "with": {
-                "comparison": {
-                  "lte": 3,
-                },
-                "value": "cmc",
-              },
-            },
-            "object": "spell",
-          },
-          "types": {
-            "and": [
-              "creature",
-            ],
-          },
-        },
-        "withoutPaying": true,
-      },
-    },
-  },
-]
-`;
-
-exports[`Ambiguous cards: parses with snapshot > Auriok Salvagers 1`] = `
-[
-  {
-    "activatedAbility": {
-      "from": {
-        "owner": "your",
-        "zone": "graveyard",
-      },
-      "returns": {
-        "object": {
-          "condition": {
-            "with": {
-              "comparison": {
-                "lte": 1,
-              },
-              "value": "cmc",
-            },
-          },
-          "object": {
-            "object": "card",
-            "types": {
-              "and": [
-                "artifact",
-              ],
-            },
-          },
-        },
-        "reference": {
-          "targetCount": 1,
-        },
-      },
-      "to": {
-        "owner": "your",
-        "zone": "hand",
-      },
-    },
-    "costs": {
-      "mana": [
-        1,
-        "w",
-      ],
-    },
-  },
-]
-`;
-
 exports[`Ambiguous cards: parses with snapshot > Baral, Chief of Compliance 1`] = `
 [
   {
@@ -292,17 +150,15 @@ exports[`Ambiguous cards: parses with snapshot > Green Sun's Zenith 1`] = `
         {
           "criteria": {
             "object": {
-              "object": {
-                "condition": {
-                  "with": {
-                    "comparison": {
-                      "lte": "x",
-                    },
-                    "value": "cmc",
+              "condition": {
+                "with": {
+                  "comparison": {
+                    "lte": "x",
                   },
+                  "value": "cmc",
                 },
-                "object": "card",
               },
+              "object": "card",
               "prefixes": [
                 {
                   "color": "g",
@@ -345,77 +201,6 @@ exports[`Ambiguous cards: parses with snapshot > Green Sun's Zenith 1`] = `
       "shuffle": [
         "CARD_NAME",
       ],
-    },
-  ],
-]
-`;
-
-exports[`Ambiguous cards: parses with snapshot > Inquisition of Kozilek 1`] = `
-[
-  [
-    {
-      "actor": {
-        "player": "player",
-        "references": [
-          {
-            "targetCount": 1,
-          },
-        ],
-      },
-      "does": {
-        "reveal": {
-          "owner": "their",
-          "zone": "hand",
-        },
-      },
-    },
-    {
-      "actor": "you",
-      "does": {
-        "choose": {
-          "object": {
-            "object": {
-              "condition": {
-                "with": {
-                  "comparison": {
-                    "lte": 3,
-                  },
-                  "value": "cmc",
-                },
-              },
-              "object": {
-                "object": "card",
-                "suffix": {
-                  "from": "it",
-                },
-              },
-            },
-            "prefixes": [
-              {
-                "not": {
-                  "type": {
-                    "and": [
-                      "land",
-                    ],
-                  },
-                },
-              },
-            ],
-          },
-          "reference": {
-            "count": 1,
-          },
-        },
-      },
-    },
-    {
-      "actor": "they",
-      "does": {
-        "discard": {
-          "object": "card",
-          "reference": "that",
-        },
-      },
     },
   ],
 ]
@@ -570,27 +355,17 @@ exports[`Ambiguous cards: parses with snapshot > Mine Collapse 1`] = `
       "deal": {
         "amount": 5,
         "damageTo": {
-          "xor": [
-            {
-              "object": {
-                "type": {
-                  "and": [
-                    "creature",
-                  ],
-                },
-              },
-              "reference": {
-                "targetCount": 1,
-              },
+          "object": {
+            "type": {
+              "or": [
+                "creature",
+                "planeswalker",
+              ],
             },
-            {
-              "type": {
-                "and": [
-                  "planeswalker",
-                ],
-              },
-            },
-          ],
+          },
+          "reference": {
+            "targetCount": 1,
+          },
         },
       },
     },
@@ -681,77 +456,6 @@ exports[`Ambiguous cards: parses with snapshot > Narset, Parter of Veils 1`] = `
     ],
     "costs": {
       "loyalty": -2,
-    },
-  },
-]
-`;
-
-exports[`Ambiguous cards: parses with snapshot > Portable Hole 1`] = `
-[
-  {
-    "effect": {
-      "does": {
-        "exile": {
-          "object": {
-            "condition": {
-              "with": {
-                "comparison": {
-                  "lte": 2,
-                },
-                "value": "cmc",
-              },
-            },
-            "object": {
-              "object": {
-                "prefixes": [
-                  {
-                    "not": {
-                      "type": {
-                        "and": [
-                          "land",
-                        ],
-                      },
-                    },
-                  },
-                ],
-                "type": {
-                  "and": [
-                    "permanent",
-                  ],
-                },
-              },
-              "suffix": {
-                "actor": {
-                  "player": "opponents",
-                  "references": [
-                    {
-                      "count": 1,
-                    },
-                  ],
-                },
-                "does": "control",
-              },
-            },
-          },
-          "reference": {
-            "targetCount": 1,
-          },
-        },
-      },
-      "until": {
-        "does": {
-          "leaves": "battlefield",
-        },
-        "what": "CARD_NAME",
-      },
-    },
-    "trigger": {
-      "when": {
-        "does": {
-          "enter": "battlefield",
-        },
-        "what": "CARD_NAME",
-      },
     },
   },
 ]
@@ -867,149 +571,6 @@ exports[`Ambiguous cards: parses with snapshot > Scavenging Ooze 1`] = `
 ]
 `;
 
-exports[`Ambiguous cards: parses with snapshot > Scrap Trawler 1`] = `
-[
-  {
-    "effect": {
-      "returns": {
-        "object": {
-          "object": {
-            "condition": {
-              "with": {
-                "lesser": "cmc",
-              },
-            },
-            "object": {
-              "object": "card",
-              "suffix": {
-                "in": {
-                  "owner": "your",
-                  "zone": "graveyard",
-                },
-              },
-            },
-          },
-          "types": {
-            "and": [
-              "artifact",
-            ],
-          },
-        },
-        "reference": {
-          "targetCount": 1,
-        },
-      },
-      "to": {
-        "owner": "your",
-        "zone": "hand",
-      },
-    },
-    "trigger": {
-      "when": {
-        "xor": [
-          {
-            "does": "die",
-            "what": "CARD_NAME",
-          },
-          {
-            "does": {
-              "enter": {
-                "owner": "a",
-                "zone": "graveyard",
-              },
-              "from": "battlefield",
-            },
-            "what": {
-              "object": {
-                "object": {
-                  "type": {
-                    "and": [
-                      "artifact",
-                    ],
-                  },
-                },
-                "suffix": {
-                  "actor": "you",
-                  "does": "control",
-                },
-              },
-              "reference": "other",
-            },
-          },
-        ],
-      },
-    },
-  },
-]
-`;
-
-exports[`Ambiguous cards: parses with snapshot > Spellseeker 1`] = `
-[
-  {
-    "effect": {
-      "and": [
-        {
-          "actor": "you",
-          "does": {
-            "may": {
-              "criteria": {
-                "object": {
-                  "condition": {
-                    "with": {
-                      "comparison": {
-                        "lte": 2,
-                      },
-                      "value": "cmc",
-                    },
-                  },
-                  "object": {
-                    "object": "card",
-                    "types": {
-                      "or": [
-                        "instant",
-                        "sorcery",
-                      ],
-                    },
-                  },
-                },
-                "reference": {
-                  "count": 1,
-                },
-              },
-              "search": {
-                "owner": "your",
-                "zone": "library",
-              },
-            },
-          },
-        },
-        {
-          "reveal": "it",
-        },
-        {
-          "into": {
-            "owner": "your",
-            "zone": "hand",
-          },
-          "put": "it",
-        },
-        {
-          "shuffle": "library",
-        },
-      ],
-    },
-    "trigger": {
-      "when": {
-        "does": {
-          "enter": "battlefield",
-        },
-        "what": "CARD_NAME",
-      },
-    },
-  },
-]
-`;
-
 exports[`Ambiguous cards: parses with snapshot > Sylvan Library 1`] = `
 [
   {
@@ -1101,6 +662,9 @@ exports[`Ambiguous cards: parses with snapshot > Thalia's Lieutenant 1`] = `
       "putOn": {
         "object": {
           "object": {
+            "prefixes": [
+              "other",
+            ],
             "type": {
               "and": [
                 "human",
@@ -1112,11 +676,7 @@ exports[`Ambiguous cards: parses with snapshot > Thalia's Lieutenant 1`] = `
             "does": "control",
           },
         },
-        "reference": {
-          "each": {
-            "reference": "other",
-          },
-        },
+        "reference": "each",
       },
     },
     "trigger": {
@@ -1164,50 +724,6 @@ exports[`Ambiguous cards: parses with snapshot > Thalia's Lieutenant 1`] = `
 ]
 `;
 
-exports[`Ambiguous cards: parses with snapshot > Unearth 1`] = `
-[
-  {
-    "from": {
-      "owner": "your",
-      "zone": "graveyard",
-    },
-    "returns": {
-      "object": {
-        "object": {
-          "condition": {
-            "with": {
-              "comparison": {
-                "lte": 3,
-              },
-              "value": "cmc",
-            },
-          },
-          "object": "card",
-        },
-        "types": {
-          "and": [
-            "creature",
-          ],
-        },
-      },
-      "reference": {
-        "targetCount": 1,
-      },
-    },
-    "to": "battlefield",
-  },
-  [
-    {
-      "cycling": {
-        "mana": [
-          2,
-        ],
-      },
-    },
-  ],
-]
-`;
-
 exports[`Unambiguous cards: single parse + snapshot > Abbot of Keral Keep 1`] = `
 [
   [
@@ -1247,6 +763,60 @@ exports[`Unambiguous cards: single parse + snapshot > Abbot of Keral Keep 1`] = 
           "enter": "battlefield",
         },
         "what": "CARD_NAME",
+      },
+    },
+  },
+]
+`;
+
+exports[`Unambiguous cards: single parse + snapshot > Abiding Grace 1`] = `
+[
+  {
+    "effect": {
+      "options": [
+        {
+          "actor": "you",
+          "does": {
+            "gainLife": 1,
+          },
+        },
+        {
+          "from": {
+            "owner": "your",
+            "zone": "graveyard",
+          },
+          "returns": {
+            "object": {
+              "condition": {
+                "with": {
+                  "comparison": 1,
+                  "value": "cmc",
+                },
+              },
+              "object": "card",
+              "types": {
+                "and": [
+                  "creature",
+                ],
+              },
+            },
+            "reference": {
+              "targetCount": 1,
+            },
+          },
+          "to": "battlefield",
+        },
+      ],
+      "quantifier": [
+        1,
+      ],
+    },
+    "trigger": {
+      "turnPhase": {
+        "partOfTurn": "end",
+        "qualification": {
+          "whose": "your",
+        },
       },
     },
   },
@@ -1447,6 +1017,44 @@ exports[`Unambiguous cards: single parse + snapshot > Aether Spellbomb 1`] = `
           "sacrifice": "CARD_NAME",
         },
       ],
+    },
+  },
+]
+`;
+
+exports[`Unambiguous cards: single parse + snapshot > Aluren 1`] = `
+[
+  {
+    "actor": {
+      "player": "player",
+      "references": [
+        "any",
+      ],
+    },
+    "does": {
+      "may": {
+        "asThough": {
+          "had": "flash",
+          "who": "they",
+        },
+        "cast": {
+          "condition": {
+            "with": {
+              "comparison": {
+                "lte": 3,
+              },
+              "value": "cmc",
+            },
+          },
+          "object": "spell",
+          "types": {
+            "and": [
+              "creature",
+            ],
+          },
+        },
+        "withoutPaying": true,
+      },
     },
   },
 ]
@@ -1874,6 +1482,50 @@ exports[`Unambiguous cards: single parse + snapshot > Assassin's Trophy 1`] = `
       ],
     },
   ],
+]
+`;
+
+exports[`Unambiguous cards: single parse + snapshot > Auriok Salvagers 1`] = `
+[
+  {
+    "activatedAbility": {
+      "from": {
+        "owner": "your",
+        "zone": "graveyard",
+      },
+      "returns": {
+        "object": {
+          "condition": {
+            "with": {
+              "comparison": {
+                "lte": 1,
+              },
+              "value": "cmc",
+            },
+          },
+          "object": "card",
+          "types": {
+            "and": [
+              "artifact",
+            ],
+          },
+        },
+        "reference": {
+          "targetCount": 1,
+        },
+      },
+      "to": {
+        "owner": "your",
+        "zone": "hand",
+      },
+    },
+    "costs": {
+      "mana": [
+        1,
+        "w",
+      ],
+    },
+  },
 ]
 `;
 
@@ -4174,12 +3826,10 @@ exports[`Unambiguous cards: single parse + snapshot > Elspeth, Sun's Champion 1`
               "value": "power",
             },
           },
-          "object": {
-            "type": {
-              "and": [
-                "creature",
-              ],
-            },
+          "type": {
+            "and": [
+              "creature",
+            ],
           },
         },
         "reference": {
@@ -6768,6 +6418,75 @@ exports[`Unambiguous cards: single parse + snapshot > Infernal Grasp 1`] = `
 ]
 `;
 
+exports[`Unambiguous cards: single parse + snapshot > Inquisition of Kozilek 1`] = `
+[
+  [
+    {
+      "actor": {
+        "player": "player",
+        "references": [
+          {
+            "targetCount": 1,
+          },
+        ],
+      },
+      "does": {
+        "reveal": {
+          "owner": "their",
+          "zone": "hand",
+        },
+      },
+    },
+    {
+      "actor": "you",
+      "does": {
+        "choose": {
+          "object": {
+            "condition": {
+              "with": {
+                "comparison": {
+                  "lte": 3,
+                },
+                "value": "cmc",
+              },
+            },
+            "object": {
+              "object": "card",
+              "prefixes": [
+                {
+                  "not": {
+                    "type": {
+                      "and": [
+                        "land",
+                      ],
+                    },
+                  },
+                },
+              ],
+            },
+            "suffix": {
+              "from": "it",
+            },
+          },
+          "reference": {
+            "count": 1,
+          },
+        },
+      },
+    },
+    {
+      "actor": "they",
+      "does": {
+        "discard": {
+          "object": "card",
+          "reference": "that",
+        },
+      },
+    },
+  ],
+]
+`;
+
 exports[`Unambiguous cards: single parse + snapshot > Irreverent Gremlin 1`] = `
 [
   [
@@ -6817,17 +6536,15 @@ exports[`Unambiguous cards: single parse + snapshot > Irreverent Gremlin 1`] = `
               },
             },
             "object": {
-              "object": {
-                "type": {
-                  "and": [
-                    "creature",
-                  ],
-                },
+              "type": {
+                "and": [
+                  "creature",
+                ],
               },
-              "suffix": {
-                "actor": "you",
-                "does": "control",
-              },
+            },
+            "suffix": {
+              "actor": "you",
+              "does": "control",
             },
           },
           "reference": "other",
@@ -8440,12 +8157,10 @@ exports[`Unambiguous cards: single parse + snapshot > Moat 1`] = `
       "cant": "attack",
     },
     "what": {
-      "object": {
-        "type": {
-          "and": [
-            "creature",
-          ],
-        },
+      "type": {
+        "and": [
+          "creature",
+        ],
       },
       "without": "flying",
     },
@@ -9649,6 +9364,75 @@ exports[`Unambiguous cards: single parse + snapshot > Ponder 1`] = `
 ]
 `;
 
+exports[`Unambiguous cards: single parse + snapshot > Portable Hole 1`] = `
+[
+  {
+    "effect": {
+      "does": {
+        "exile": {
+          "object": {
+            "condition": {
+              "with": {
+                "comparison": {
+                  "lte": 2,
+                },
+                "value": "cmc",
+              },
+            },
+            "object": {
+              "prefixes": [
+                {
+                  "not": {
+                    "type": {
+                      "and": [
+                        "land",
+                      ],
+                    },
+                  },
+                },
+              ],
+              "type": {
+                "and": [
+                  "permanent",
+                ],
+              },
+            },
+            "suffix": {
+              "actor": {
+                "player": "opponents",
+                "references": [
+                  {
+                    "count": 1,
+                  },
+                ],
+              },
+              "does": "control",
+            },
+          },
+          "reference": {
+            "targetCount": 1,
+          },
+        },
+      },
+      "until": {
+        "does": {
+          "leaves": "battlefield",
+        },
+        "what": "CARD_NAME",
+      },
+    },
+    "trigger": {
+      "when": {
+        "does": {
+          "enter": "battlefield",
+        },
+        "what": "CARD_NAME",
+      },
+    },
+  },
+]
+`;
+
 exports[`Unambiguous cards: single parse + snapshot > Preordain 1`] = `
 [
   {
@@ -10706,6 +10490,80 @@ exports[`Unambiguous cards: single parse + snapshot > Scalding Tarn 1`] = `
 ]
 `;
 
+exports[`Unambiguous cards: single parse + snapshot > Scrap Trawler 1`] = `
+[
+  {
+    "effect": {
+      "returns": {
+        "object": {
+          "condition": {
+            "with": {
+              "lesser": "cmc",
+            },
+          },
+          "object": {
+            "object": "card",
+            "types": {
+              "and": [
+                "artifact",
+              ],
+            },
+          },
+          "suffix": {
+            "in": {
+              "owner": "your",
+              "zone": "graveyard",
+            },
+          },
+        },
+        "reference": {
+          "targetCount": 1,
+        },
+      },
+      "to": {
+        "owner": "your",
+        "zone": "hand",
+      },
+    },
+    "trigger": {
+      "when": {
+        "xor": [
+          {
+            "does": "die",
+            "what": "CARD_NAME",
+          },
+          {
+            "does": {
+              "enter": {
+                "owner": "a",
+                "zone": "graveyard",
+              },
+              "from": "battlefield",
+            },
+            "what": {
+              "object": {
+                "object": {
+                  "type": {
+                    "and": [
+                      "artifact",
+                    ],
+                  },
+                },
+                "suffix": {
+                  "actor": "you",
+                  "does": "control",
+                },
+              },
+              "reference": "other",
+            },
+          },
+        ],
+      },
+    },
+  },
+]
+`;
+
 exports[`Unambiguous cards: single parse + snapshot > Scrapwork Mutt 1`] = `
 [
   {
@@ -11405,6 +11263,71 @@ exports[`Unambiguous cards: single parse + snapshot > Spell Pierce 1`] = `
         "pay": [
           2,
         ],
+      },
+    },
+  },
+]
+`;
+
+exports[`Unambiguous cards: single parse + snapshot > Spellseeker 1`] = `
+[
+  {
+    "effect": {
+      "and": [
+        {
+          "actor": "you",
+          "does": {
+            "may": {
+              "criteria": {
+                "object": {
+                  "condition": {
+                    "with": {
+                      "comparison": {
+                        "lte": 2,
+                      },
+                      "value": "cmc",
+                    },
+                  },
+                  "object": "card",
+                  "types": {
+                    "or": [
+                      "instant",
+                      "sorcery",
+                    ],
+                  },
+                },
+                "reference": {
+                  "count": 1,
+                },
+              },
+              "search": {
+                "owner": "your",
+                "zone": "library",
+              },
+            },
+          },
+        },
+        {
+          "reveal": "it",
+        },
+        {
+          "into": {
+            "owner": "your",
+            "zone": "hand",
+          },
+          "put": "it",
+        },
+        {
+          "shuffle": "library",
+        },
+      ],
+    },
+    "trigger": {
+      "when": {
+        "does": {
+          "enter": "battlefield",
+        },
+        "what": "CARD_NAME",
       },
     },
   },
@@ -13124,6 +13047,48 @@ exports[`Unambiguous cards: single parse + snapshot > Underground Mortuary 1`] =
 `;
 
 exports[`Unambiguous cards: single parse + snapshot > Underground Sea 1`] = `[]`;
+
+exports[`Unambiguous cards: single parse + snapshot > Unearth 1`] = `
+[
+  {
+    "from": {
+      "owner": "your",
+      "zone": "graveyard",
+    },
+    "returns": {
+      "object": {
+        "condition": {
+          "with": {
+            "comparison": {
+              "lte": 3,
+            },
+            "value": "cmc",
+          },
+        },
+        "object": "card",
+        "types": {
+          "and": [
+            "creature",
+          ],
+        },
+      },
+      "reference": {
+        "targetCount": 1,
+      },
+    },
+    "to": "battlefield",
+  },
+  [
+    {
+      "cycling": {
+        "mana": [
+          2,
+        ],
+      },
+    },
+  ],
+]
+`;
 
 exports[`Unambiguous cards: single parse + snapshot > Upheaval 1`] = `
 [

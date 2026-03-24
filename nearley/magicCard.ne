@@ -305,7 +305,15 @@ objectAction -> "sacrificed" {% () => "sacrifice" %}
   | "returned" {% () => "return" %}
   | "discarded" {% () => "discard" %}
   | "exiled" {% () => "exile" %}
-pureObject -> pureObject1 (__ suffix):?{% ([o, suffix]) => suffix ? { object: o, suffix: suffix[1] } : o %}
+pureObject -> pureObject1 (__ suffix):? (__ withClause | __ "without" __ keyword):? {% ([o, suffix, mod]) => {
+  let result = suffix ? { object: o, suffix: suffix[1] } : o;
+  if (mod) {
+    if (typeof result !== 'object' || result === null) result = { object: result };
+    if (mod[1] === "without") result.without = mod[3];
+    else result.condition = mod[1];
+  }
+  return result;
+} %}
 pureObject1 -> (prefix __):* (anyType __):? pureObjectInner {% ([prefixes, types, object, suffix]) => {
   if (prefixes.length === 0 && !suffix && !types) return object;
   const result = { object };
@@ -323,8 +331,7 @@ pureObjectInner -> ("copy" | "copies") (__ "of" __ object):? {% ([, copyOf]) => 
   | "card" "s":? {% () => "card" %}
   | "spell" "s":? {% () => "spell" %}
   | "type" "s":? {% () => "type" %}
-  | pureObject __ "without" __ keyword {% ([object, , , , without]) => ({ object, without }) %}
-  | pureObject __ withClause {% ([object, , condition]) => ({ object, condition }) %}
+  | pureObjectInner __ "without" __ keyword {% ([object, , , , without]) => ({ object, without }) %}
   | CARD_NAME {% ([c]) => c %}
   | "ability" {% () => "ability" %}
   | "abilities" {% () => "abilities" %}
