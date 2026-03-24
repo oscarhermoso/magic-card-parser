@@ -125,7 +125,7 @@ costKeyword -> ("equip" | "escape" | "spectacle" | "eternalize" | "embalm"
   | "bestow" | "scavenge" | "overload" | "buyback" | "echo" | "flashback"
   | "madness" | "morph" | "entwine" | "ninjutsu" | "transmute" | "replicate"
   | "recover" | "fortify" | "evoke" | "unearth" | "miracle" | "megamorph"
-  | "prowl" | "transfigure") __ cost {% ([[name], , value]) => ({ [name]: value }) %}
+  | "prowl" | "transfigure" | "multikicker") __ cost {% ([[name], , value]) => ({ [name]: value }) %}
 
 # Consolidated number keywords: keyword name __ number → { name: number }
 numberKeyword -> ("afterlife" | "afflict" | "fabricate" | "crew" | "renown"
@@ -252,6 +252,7 @@ singleSentence -> imperative {% ([i]) => i %}
   | duration "," __ sentence {% ([duration, , , effect]) => ({ duration, effect }) %}
   | duration "," __ triggeredAbility {% ([duration, , , effect]) => ({ duration, effect }) %}
   | "for each" __ object "," __ sentence {% ([, , forEach, , , effect]) => ({ forEach, effect }) %}
+  | "for each of" __ object "," __ sentence {% ([, , forEach, , , effect]) => ({ forEach, effect }) %}
   | activatedAbilities __ activatedAbilitiesVP (__ duration):? {% ([abilities, , effect, duration]) => duration ? { ...abilities, ...effect, duration: duration[1] } : { ...abilities, ...effect } %}
   | itsPossessive __ numericalCharacteristic __ ("is" | "are each") __ "equal to" __ numberDefinition {% ([what, , characteristic, , , , , , setTo]) => ({ what, characteristic, setTo }) %}
   | "the flashback cost is equal to" __ itsPossessive __ "mana cost" {% ([, , whose]) => ({ flashbackCost: { whose } }) %}
@@ -336,6 +337,7 @@ objectInner -> "it" {% () => "it" %}
   | "the top card of" __ zone {% ([, , from]) => ({ topCards: 1, from }) %}
   | (counterKind __):? "counter" "s":? __ "on" __ object {% ([kind, , , , , , countersOn]) => kind ? { counterType: kind[0], countersOn } : { countersOn } %}
 suffix -> player __ ((DON_T | DOESN_T) __):? ("control" | "own") "s":? {% ([actor, negate, , [does]]) => !negate ? { actor, does: { not: does } } : { actor, does } %}
+  | "in" __ zone __ "drawn" __ duration {% ([, , zone, , , when]) => ({ in: zone, drawn: when }) %}
   | "in" __ zone (__ "and in" __ zone):? {% ([, , zone, zone2]) => zone2 ? { and: [{ in: zone}, {in: zone2[3]}] } : { in: zone } %}
   | "not" __ suffix {% ([, , not]) => ({ not }) %}
   | "revealed this way" {% () => ({ reference: "thisWay", does: "reveal" }) %}
@@ -370,6 +372,7 @@ suffix -> player __ ((DON_T | DOESN_T) __):? ("control" | "own") "s":? {% ([acto
 objectAction -> "sacrificed" {% () => "sacrifice" %}
   | "returned" {% () => "return" %}
   | "discarded" {% () => "discard" %}
+  | "exiled" {% () => "exile" %}
 pureObject -> pureObject1 (__ suffix):?{% ([o, suffix]) => suffix ? { object: o, suffix: suffix[1] } : o %}
 pureObject1 -> (prefix __):* (anyType __):? pureObjectInner {% ([prefixes, types, object, suffix]) => {
   if (prefixes.length === 0 && !suffix && !types) return object;
@@ -491,9 +494,10 @@ imperative -> "sacrifice" "s":? __ object {% ([, , , sacrifice]) => ({ sacrifice
   | "remove" "s":? __ countableCount __ (counterKind __):? "counter" "s":? __ "from" __ object {% ([, , , count, , counterKind, , , , , , removeCountersFrom]) => counterKind ? { count, removeCountersFrom, counterKind: counterKind[0] } : { count, removeCountersFrom } %}
   | ("cast" | "play") "s":? __ "additional" __ object {% ([[cp], , , , , cast]) => ({ [cp.toLowerCase()]: cast, additional: true }) %}
   | ("cast" | "play") "s":? __ object __ fromZone __ "without paying its mana cost" {% ([[cp], , , cast, , from, , ]) => ({ [cp.toLowerCase()]: cast, from, withoutPaying: true }) %}
-  | ("cast" | "play") "s":? __ object (__ "without paying its mana cost"):? (__ duration):? (__ "only during" __ partOfTurn):? (__ "on each of" __ qualifiedPartOfTurn "s":?):? {% ([[cp], , , cast, withoutPaying, duration, onlyDuring, each]) => {
+  | ("cast" | "play") "s":? __ object (__ "without paying" __ ("its" | playersPossessive) __ "mana cost" "s":?):? (__ "and" __ asThoughClause):? (__ duration):? (__ "only during" __ partOfTurn):? (__ "on each of" __ qualifiedPartOfTurn "s":?):? {% ([[cp], , , cast, withoutPaying, asThough, duration, onlyDuring, each]) => {
     const result = { [cp.toLowerCase()]: cast };
     if (withoutPaying) result.withoutPaying = true;
+    if (asThough) result.asThough = asThough[3];
     if (duration) result.duration = duration[1];
     if (onlyDuring) result.onlyDuring = onlyDuring[3];
     if (each) result.each = each[3];
@@ -956,6 +960,8 @@ anyTypeInner -> permanentTypeInner {% ([t]) => t %}
   | spellType {% ([t]) => t %}
   | superType {% ([t]) => t %}
   | subType {% ([t]) => t %}
+
+asThoughClause -> "as though" __ player __ ("had" | "have" | "were") __ acquiredAbility {% ([, , who, , , , had]) => ({ who, had }) %}
 
 asLongAsClause -> "as long as" __ condition {% ([, , c]) => c %}
 

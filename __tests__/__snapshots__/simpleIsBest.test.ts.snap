@@ -1,5 +1,45 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`Ambiguous cards: parses with snapshot > Aluren 1`] = `
+[
+  {
+    "actor": {
+      "player": "player",
+      "references": [
+        "any",
+      ],
+    },
+    "does": {
+      "may": {
+        "asThough": {
+          "had": "flash",
+          "who": "they",
+        },
+        "cast": {
+          "condition": {
+            "with": {
+              "comparison": {
+                "lte": 3,
+              },
+              "value": "cmc",
+            },
+          },
+          "object": {
+            "object": "spell",
+            "types": {
+              "and": [
+                "creature",
+              ],
+            },
+          },
+        },
+        "withoutPaying": true,
+      },
+    },
+  },
+]
+`;
+
 exports[`Ambiguous cards: parses with snapshot > Arid Mesa 1`] = `
 [
   {
@@ -1810,6 +1850,96 @@ exports[`Ambiguous cards: parses with snapshot > Marsh Flats 1`] = `
 ]
 `;
 
+exports[`Ambiguous cards: parses with snapshot > Memory Jar 1`] = `
+[
+  {
+    "activatedAbility": [
+      {
+        "and": [
+          {
+            "actor": {
+              "player": "player",
+              "references": [
+                "each",
+              ],
+            },
+            "does": {
+              "exile": {
+                "object": "card",
+                "reference": {
+                  "count": "all",
+                },
+              },
+              "faceDown": true,
+              "from": {
+                "owner": "their",
+                "zone": "hand",
+              },
+            },
+          },
+          {
+            "draw": 7,
+          },
+        ],
+      },
+      {
+        "effect": {
+          "and": [
+            {
+              "actor": {
+                "player": "player",
+                "references": [
+                  "each",
+                ],
+              },
+              "does": {
+                "discard": {
+                  "what": "hand",
+                  "whose": "their",
+                },
+              },
+            },
+            {
+              "returns": {
+                "object": {
+                  "object": "card",
+                  "suffix": {
+                    "actor": "they",
+                    "does": "exile",
+                    "reference": "thisWay",
+                  },
+                },
+                "reference": "each",
+              },
+              "to": {
+                "owner": "their",
+                "zone": "hand",
+              },
+            },
+          ],
+        },
+        "trigger": {
+          "turnPhase": {
+            "partOfTurn": "end",
+            "qualification": {
+              "whose": "the",
+            },
+          },
+        },
+      },
+    ],
+    "costs": {
+      "and": [
+        "tap",
+        {
+          "sacrifice": "CARD_NAME",
+        },
+      ],
+    },
+  },
+]
+`;
+
 exports[`Ambiguous cards: parses with snapshot > Misty Rainforest 1`] = `
 [
   {
@@ -2720,6 +2850,85 @@ exports[`Ambiguous cards: parses with snapshot > Stoneforge Mystic 1`] = `
 ]
 `;
 
+exports[`Ambiguous cards: parses with snapshot > Sylvan Library 1`] = `
+[
+  {
+    "effect": [
+      {
+        "actor": "you",
+        "does": {
+          "may": {
+            "draw": {
+              "additional": 2,
+            },
+          },
+        },
+      },
+      {
+        "condition": {
+          "actor": "you",
+          "does": "do",
+        },
+        "effect": {
+          "choose": {
+            "object": {
+              "object": "card",
+              "suffix": {
+                "drawn": [
+                  " ",
+                ],
+                "in": {
+                  "owner": "your",
+                  "zone": "hand",
+                },
+              },
+            },
+            "reference": {
+              "count": 2,
+            },
+          },
+        },
+      },
+      {
+        "xor": [
+          {
+            "effect": {
+              "pay": {
+                "life": 4,
+              },
+            },
+            "forEach": {
+              "object": "card",
+              "reference": "thsoe",
+            },
+          },
+          {
+            "into": {
+              "topOf": {
+                "what": "library",
+                "whose": "your",
+              },
+            },
+            "put": {
+              "object": "card",
+              "reference": "the",
+            },
+          },
+        ],
+      },
+    ],
+    "trigger": {
+      "turnPhase": {
+        "partOfTurn": "drawStep",
+        "qualification": {
+          "whose": "your",
+        },
+      },
+    },
+  },
+]
+`;
+
 exports[`Ambiguous cards: parses with snapshot > Torsten, Founder of Benalia 1`] = `
 [
   {
@@ -3194,23 +3403,13 @@ exports[`Ambiguous cards: parses with snapshot > Young Pyromancer 1`] = `
         "does": {
           "cast": {
             "object": {
-              "xor": [
-                {
-                  "type": {
-                    "and": [
-                      "instant",
-                    ],
-                  },
-                },
-                {
-                  "object": "spell",
-                  "types": {
-                    "and": [
-                      "sorcery",
-                    ],
-                  },
-                },
-              ],
+              "object": "spell",
+              "types": {
+                "or": [
+                  "instant",
+                  "sorcery",
+                ],
+              },
             },
             "reference": {
               "count": 1,

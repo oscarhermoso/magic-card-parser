@@ -251,7 +251,7 @@ const cubeCards: CubeCard[] = [
   { name: 'Maze of Ith', oracle_text: '{T}: Untap target attacking creature. Prevent all combat damage that would be dealt to and dealt by that creature this turn.' },
   // Step 9: Complex spells part 2 — Flash, Sylvan Library, Animate Dead
   { name: 'Flash', oracle_text: 'You may put a creature card from your hand onto the battlefield. If you do, sacrifice it unless you pay its mana cost reduced by {2}.', ambiguous: true },
-  { name: 'Sylvan Library', oracle_text: 'At the beginning of your draw step, you may draw two additional cards. If you do, choose two cards in your hand drawn this turn. For each of those cards, pay 4 life or put the card on top of your library.', parseError: true },
+  { name: 'Sylvan Library', oracle_text: 'At the beginning of your draw step, you may draw two additional cards. If you do, choose two cards in your hand drawn this turn. For each of those cards, pay 4 life or put the card on top of your library.', ambiguous: true },
   { name: 'Animate Dead', oracle_text: 'Enchant creature card in a graveyard\nWhen this Aura enters, if it\'s on the battlefield, it loses "enchant creature card in a graveyard" and gains "enchant creature put onto the battlefield with this Aura." Return enchanted creature card to the battlefield under your control and attach this Aura to it. When this Aura leaves the battlefield, that creature\'s controller sacrifices it.\nEnchanted creature gets -1/-0.', parseError: true },
   // Ambiguous cards — parse but may produce multiple results
   { name: 'Force of Will', oracle_text: 'You may pay 1 life and exile a blue card from your hand rather than pay this spell\'s mana cost.\nCounter target spell.' },
@@ -304,14 +304,14 @@ const cubeCards: CubeCard[] = [
   { name: 'Past in Flames', oracle_text: 'Each instant and sorcery card in your graveyard gains flashback until end of turn. The flashback cost is equal to its mana cost.\nFlashback {4}{R} (You may cast this card from your graveyard for its flashback cost. Then exile it.)', ambiguous: true },
   { name: 'Yawgmoth\'s Will', oracle_text: 'Until end of turn, you may play lands and cast spells from your graveyard.\nIf a card would be put into your graveyard from anywhere this turn, exile that card instead.', ambiguous: true },
   { name: 'Phyrexian Metamorph', oracle_text: '({U/P} can be paid with either {U} or 2 life.)\nYou may have this creature enter as a copy of any artifact or creature on the battlefield, except it\'s an artifact in addition to its other types.', ambiguous: true },
-  { name: 'Aluren', oracle_text: 'Any player may cast creature spells with mana value 3 or less without paying their mana costs and as though they had flash.', parseError: true },
+  { name: 'Aluren', oracle_text: 'Any player may cast creature spells with mana value 3 or less without paying their mana costs and as though they had flash.', ambiguous: true },
   { name: 'Fastbond', oracle_text: 'You may play any number of lands on each of your turns. Whenever you play a land, if it wasn\'t the first land you played this turn, this enchantment deals 1 damage to you.', ambiguous: true },
   { name: 'Esper Sentinel', oracle_text: 'Whenever an opponent casts their first noncreature spell each turn, draw a card unless that player pays {X}, where X is this creature\'s power.', ambiguous: true },
   { name: 'Land Tax', oracle_text: 'At the beginning of your upkeep, if an opponent controls more lands than you, you may search your library for up to three basic land cards, reveal them, put them into your hand, then shuffle.', ambiguous: true },
   { name: 'Sram\'s Expertise', oracle_text: 'Create three 1/1 colorless Servo artifact creature tokens. You may cast a spell with mana value 3 or less from your hand without paying its mana cost.', ambiguous: true },
   { name: 'Torsten, Founder of Benalia', oracle_text: 'When Torsten enters, reveal the top seven cards of your library. Put any number of creature and/or land cards from among them into your hand and the rest on the bottom of your library in a random order.\nWhen Torsten dies, create seven 1/1 white Soldier creature tokens.', ambiguous: true },
   { name: 'Channel', oracle_text: 'Until end of turn, any time you could activate a mana ability, you may pay 1 life. If you do, add {C}.', ambiguous: true },
-  { name: 'Memory Jar', oracle_text: '{T}, Sacrifice this artifact: Each player exiles all cards from their hand face down and draws seven cards. At the beginning of the next end step, each player discards their hand and returns to their hand each card they exiled this way.', parseError: true },
+  { name: 'Memory Jar', oracle_text: '{T}, Sacrifice this artifact: Each player exiles all cards from their hand face down and draws seven cards. At the beginning of the next end step, each player discards their hand and returns to their hand each card they exiled this way.', ambiguous: true },
 ];
 
 // ============================================================================
