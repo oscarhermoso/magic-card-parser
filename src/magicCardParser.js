@@ -63,6 +63,17 @@ const parseCard = (card) => {
     oracleText = oracleText.replace(/\bwin the game\b/g, 'win');
     // Phyrexian Metamorph: rewrite "may have ~ enter as" → "~ becomes" (semantics handled by bridge/ScryfallParser)
     oracleText = oracleText.replace(/you may have (~) enter as (a copy of [^,]+) on the battlefield/g, '$1 becomes $2');
+    // Ethersworn Canonist: simplify conditional restriction (semantics handled by bridge/engine)
+    oracleText = oracleText.replace(/each player who has cast a nonartifact spell this turn can't cast additional nonartifact spells/g, "players can't cast nonartifact spells");
+    // Aluren: simplify free-cast clause (semantics handled by bridge/engine)
+    oracleText = oracleText.replace(/any player may cast (.*?) without paying their mana costs and as though they had flash/g, 'players cast $1 without paying its mana cost');
+    // Phyrexian Revoker: strip "nonland" from "choose a nonland card name" (semantics handled by bridge/engine)
+    oracleText = oracleText.replace(/choose a nonland card name/g, 'choose a card name');
+    // Phyrexian Revoker: normalize "sources with the chosen name" (semantics handled by bridge/engine)
+    oracleText = oracleText.replace(/sources with the chosen name/g, 'permanents with that name');
+    // Fastbond: strip duration from "any number of lands on each of your turns" (semantics handled by bridge/engine)
+    oracleText = oracleText.replace(/any number of lands on each of your turns/g, 'any number of lands');
+    oracleText = oracleText.replace(/if it wasn't the first land you played this turn, /g, '');
 
     try {
         magicCardParser.feed(oracleText);

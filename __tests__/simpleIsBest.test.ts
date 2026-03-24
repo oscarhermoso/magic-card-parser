@@ -231,6 +231,9 @@ const successCards: TestCard[] = [
   { name: 'Containment Priest', oracle_text: 'Flash\nIf a nontoken creature would enter and it wasn\'t cast, exile it instead.' },
   { name: 'Hullbreacher', oracle_text: 'Flash\nIf an opponent would draw a card except the first one they draw in each of their draw steps, instead you create a Treasure token. (It\'s an artifact with "{T}, Sacrifice this token: Add one mana of any color.")' },
   { name: 'Laboratory Maniac', oracle_text: 'If you would draw a card while your library has no cards in it, you win the game instead.' },
+  // Step 5: Static restrictions — Ethersworn Canonist, Phyrexian Revoker parse unambiguously
+  { name: 'Ethersworn Canonist', oracle_text: 'Each player who has cast a nonartifact spell this turn can\'t cast additional nonartifact spells.' },
+  { name: 'Phyrexian Revoker', oracle_text: 'As this creature enters, choose a nonland card name. Activated abilities of sources with the chosen name can\'t be activated.' },
 ];
 
 describe('Baseline: Successfully parsing cards', () => {
@@ -310,6 +313,9 @@ const ambiguousCards: TestCard[] = [
   { name: 'Yawgmoth\'s Will', oracle_text: 'Until end of turn, you may play lands and cast spells from your graveyard.\nIf a card would be put into your graveyard from anywhere this turn, exile that card instead.' },
   // Step 4: Phyrexian Metamorph — ambiguous due to copy object resolution
   { name: 'Phyrexian Metamorph', oracle_text: '({U/P} can be paid with either {U} or 2 life.)\nYou may have this creature enter as a copy of any artifact or creature on the battlefield, except it\'s an artifact in addition to its other types.' },
+  // Step 5: Static restrictions — Aluren, Fastbond ambiguous due to type/object overlap
+  { name: 'Aluren', oracle_text: 'Any player may cast creature spells with mana value 3 or less without paying their mana costs and as though they had flash.' },
+  { name: 'Fastbond', oracle_text: 'You may play any number of lands on each of your turns. Whenever you play a land, if it wasn\'t the first land you played this turn, this enchantment deals 1 damage to you.' },
 ];
 
 describe('Baseline: Ambiguous cards parse with results', () => {
