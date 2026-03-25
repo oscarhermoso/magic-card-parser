@@ -257,8 +257,6 @@ ordinal -> "first" {% () => 1 %}
 action -> "scried" {% () => "scried" %}
   | "surveilled" {% () => "surveilled" %}
 
-entity -> (object
-  | player) {% ([[e]]) => e %}
 anyEntity -> object {% ([e]) => e %}
   | pureObject {% ([e]) => e %}
   | player {% ([e]) => e %}
@@ -915,8 +913,6 @@ inZone -> "on the battlefield" {% () => ({ in: "battlefield" }) %}
   | "in" __ zone {% ([, , inZone]) => ({ in: inZone }) %}
 fromZone -> "from" __ zone {% ([, , z]) => z %}
 
-permanentType -> permanentTypeInner (__ permanentTypeInner):* {% ([t1, ts]) => ({ and: [t1, ...ts.map(([, t]) => t)] }) %}
-  | connected[permanentType] {% ([c]) => c %}
 permanentTypeSpecifier -> permanentTypeSpecifierInner (__ permanentTypeSpecifierInner):* {% ([t1, ts]) => ({ and: [t1, ...ts.map(([, t]) => t)] }) %}
 anyType -> anyTypeInner (__ anyTypeInner):* {% ([t1, ts]) => ({ and: [t1, ...ts.map(([, t]) => t)] }) %}
   | anyTypeInner __ "or" __ anyTypeInner {% ([t1, , , , t2]) => ({ or: [t1, t2] }) %}
@@ -935,8 +931,6 @@ whileClause -> "while" __ condition {% ([, , c]) => c %}
 
 exceptClause -> "except the first one" __ player __ "draw in each of" __ playersPossessive __ partOfTurn "s":? {% ([, , who, , , , whose, , step]) => ({ who, does: "draw", during: { each: { whose, step } } }) %}
 
-replacementEffect -> sentence __ "instead of putting it" __ intoZone {% ([instead, , , , enters]) => ({ enters, instead }) %}
-  | sentenceInstead {% ([s]) => s %}
 
 costs -> cost ("," __ cost):* {% ([c, cs]) => cs.length > 0 ? { and: [c, ...cs.map(([, , c2]) => c2)] } : c %}
 cost -> "{t}" {% () => "tap" %}
