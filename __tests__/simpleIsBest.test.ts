@@ -271,7 +271,7 @@ const cubeCards: CubeCard[] = [
   { name: 'Burning of Xinye', oracle_text: 'You destroy four lands you control, then target opponent destroys four lands they control. Then Burning of Xinye deals 4 damage to each creature.' },
   { name: 'Champion of the Parish', oracle_text: 'Whenever another Human you control enters, put a +1/+1 counter on this creature.' },
   { name: 'Chromatic Lantern', oracle_text: 'Lands you control have "{T}: Add one mana of any color."\n{T}: Add one mana of any color.' },
-  { name: 'Chrome Mox', oracle_text: 'Imprint — When this artifact enters, you may exile a nonartifact, nonland card from your hand.\n{T}: Add one mana of any of the exiled card\'s colors.', parseError: true },
+  { name: 'Chrome Mox', oracle_text: 'Imprint — When this artifact enters, you may exile a nonartifact, nonland card from your hand.\n{T}: Add one mana of any of the exiled card\'s colors.' },
   { name: 'Commercial District', oracle_text: '({T}: Add {R} or {G}.)\nThis land enters tapped.\nWhen this land enters, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)' },
   { name: 'Crucible of Worlds', oracle_text: 'You may play lands from your graveyard.' },
   { name: 'Cut Down', oracle_text: 'Destroy target creature with total power and toughness 5 or less.' },

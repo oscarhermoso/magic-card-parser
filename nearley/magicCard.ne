@@ -489,6 +489,7 @@ imperative -> "sacrifice" "s":? __ object {% ([, , , sacrifice]) => ({ sacrifice
   } %}
   | "add" "s":? __ "an additional" __ manaSymbols {% ([, , , , , add]) => ({ add, additional: true }) %}
   | "add" "s":? __ "one mana of any type that" __ object __ "produced" {% ([, , , , , source]) => ({ addOneOf: "anyProduced", source }) %}
+  | "add" "s":? __ "one mana of any of" __ itsPossessive __ "colors" {% ([, , , , , whose]) => ({ addOneOf: "anyColor", source: whose }) %}
   | "add" "s":? __ "an amount of" __ manaSymbols __ "equal to" __ numberDefinition {% ([, , , , , mana, , , , amount]) => ({ add: mana, amount }) %}
   | "prevent" __ damagePreventionAmount __ damageNoun __ (object __ "would deal" {% ([from]) => ({ from }) %} | "that would be dealt to" __ "and dealt by" __ anyEntity {% ([, , , , target]) => ({ to: target, by: target }) %} | "that would be dealt" (__ "to" __ anyEntity):? {% ([, to]) => to ? { to: to[3] } : { to: "any" } %}) (__ duration):?{% ([, , amount, , prevent, , to, duration]) => {
     const result = to ? { amount, prevent, ...to } : { amount, prevent };

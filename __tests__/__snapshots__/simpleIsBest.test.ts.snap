@@ -2047,6 +2047,66 @@ exports[`Unambiguous cards: single parse + snapshot > Chromatic Star 1`] = `
 ]
 `;
 
+exports[`Unambiguous cards: single parse + snapshot > Chrome Mox 1`] = `
+[
+  {
+    "abilityWord": "imprint",
+    "effect": {
+      "actor": "you",
+      "does": {
+        "may": {
+          "exile": {
+            "object": {
+              "object": "card",
+              "prefixes": [
+                {
+                  "not": {
+                    "and": [
+                      "artifact",
+                      "land",
+                    ],
+                  },
+                },
+              ],
+            },
+            "reference": {
+              "count": 1,
+            },
+          },
+          "from": {
+            "owner": "your",
+            "zone": "hand",
+          },
+        },
+      },
+    },
+    "trigger": {
+      "when": {
+        "does": {
+          "enter": "battlefield",
+        },
+        "what": "CARD_NAME",
+      },
+    },
+  },
+  {
+    "activatedAbility": {
+      "addOneOf": "anyColor",
+      "source": {
+        "object": {
+          "object": "card",
+          "prefixes": [
+            "exiled",
+          ],
+        },
+        "reference": "the",
+      },
+    },
+    "costs": "tap",
+  },
+]
+`;
+
 exports[`Unambiguous cards: single parse + snapshot > City of Brass 1`] = `
 [
   {
