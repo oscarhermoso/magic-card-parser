@@ -195,7 +195,7 @@ sentence -> singleSentence {% ([ss]) => ss %}
     return { and: elements };
   } %}
   | "otherwise," __ sentence {% ([, , otherwise]) => ({ otherwise }) %}
-  | sentence __ "instead of" __ sentence {% ([does, , , , insteadOf]) => ({ does, insteadOf }) %}
+  | singleSentence __ "instead of" __ singleSentence {% ([does, , , , insteadOf]) => ({ does, insteadOf }) %}
   | sentence __ "at" __ qualifiedPartOfTurn {% ([does, , , , at]) => ({ does, at }) %}
   | sentence __ "if" __ condition {% ([does, , , , condition]) => ({ does, condition }) %}
 singleSentence -> imperative {% ([i]) => i %}
@@ -731,7 +731,6 @@ itsPossessive -> object SAXON {% ([o]) => o %}
 
 acquiredAbility -> keyword {% ([k]) => k %}
   | "\"" ability "\"" {% ([, a]) => a %}
-  | "“" ability "”" {% ([, a]) => a %}
   | acquiredAbility __ "and" __ acquiredAbility {% ([a1, , , , a2]) => ({ and: [a1, a2] }) %}
   | "this ability" {% () => "thisAbility" %}
   | "flashback" {% () => "flashback" %}
