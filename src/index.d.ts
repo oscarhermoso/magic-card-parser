@@ -41,11 +41,10 @@ export type ManaCostValue = (string | number)[];
 
 /**
  * A node in the parsed ability AST.
- * Can be a keyword string array, a keyword object, or a structured ability/effect.
+ * Keywords are flattened as individual strings in the top-level array.
  */
 export type AbilityNode =
   | string
-  | string[]
   | KeywordObject
   | ActivatedAbilityNode
   | TriggeredAbilityNode
@@ -61,7 +60,7 @@ export type KeywordObject = {
 /** An activated ability with costs and effect */
 export interface ActivatedAbilityNode {
   costs: CostSpec;
-  activatedAbility: EffectNode;
+  activatedAbility: EffectNode | EffectNode[];
   instructions?: Record<string, unknown>;
   abilityWord?: string;
 }
@@ -70,7 +69,6 @@ export interface ActivatedAbilityNode {
 export interface TriggeredAbilityNode {
   trigger: TriggerSpec;
   effect: EffectNode;
-  ifClause?: ConditionNode;
 }
 
 /** A modal spell/ability with choices */
@@ -129,8 +127,8 @@ export type ObjectSpec =
       [key: string]: unknown;
     };
 
-/** Type filter - typically { and: string[] } */
-export type TypeFilter = { and: string[] } | string;
+/** Type filter — single types are plain strings, multi-types use and/or */
+export type TypeFilter = string | { and: string[] } | { or: string[] };
 
 /** Object filter used in prefixes/suffixes */
 export type ObjectFilter =
@@ -155,7 +153,7 @@ export type EffectNode =
   | { sacrifice: ObjectSpec }
   | { discard: ObjectSpec; random?: boolean }
   | { create: TokenSpec }
-  | { counter: ObjectSpec | string[] }
+  | { counter: ObjectSpec }
   | { loseLife: number }
   | { gainLife: number }
   | { lifeGain: { whose?: ObjectSpec; value?: string | number } }
@@ -167,7 +165,7 @@ export type EffectNode =
   | { returns: ObjectSpec; to: string; tapped?: boolean }
   | { search: string | ObjectSpec; criteria?: ObjectSpec }
   | { addOneOf: (string | string[])[]; amount?: number }
-  | { amount: number; counterKind: string; putOn: ObjectSpec }
+  | { amount: number; counterKind: string | PTModification; putOn: ObjectSpec }
   | { cast: ObjectSpec; withoutPaying?: boolean; duration?: DurationSpec }
   | {
       put: ObjectSpec;
@@ -175,7 +173,7 @@ export type EffectNode =
       tapped?: boolean;
       control?: string;
     }
-  | { may: EffectNode; ifDo?: EffectNode }
+  | { may: EffectNode }
   | { and: EffectNode[] }
   | { or: EffectNode[] }
   | { what: string | ObjectSpec; does: VerbPhrase }
@@ -191,8 +189,38 @@ export type EffectNode =
   | { does: EffectNode; unless?: EffectNode; forEach?: ObjectSpec }
   | { asLongAs: ConditionNode; effect: EffectNode }
   | { duration: DurationSpec; effect: EffectNode }
+  | { add: string[]; instead?: EffectNode }
+  | { enchant: ObjectSpec | { condition: Record<string, unknown> } }
+  | { attach: string; to: string }
+  | { shuffle: string }
+  | { reveal: ObjectSpec; from?: ObjectSpec }
+  | { lookAt: ObjectSpec }
+  | { separate: ObjectSpec; into: Record<string, unknown> }
+  | { putBack: boolean; anyOrder?: boolean }
+  | { gains: string | EffectNode[] }
+  | { loses: string | EffectNode[] }
+  | { cant: string | Record<string, unknown> }
+  | { prevent: Record<string, unknown> }
+  | { ratherThan: Record<string, unknown> }
+  | { xor: EffectNode[] }
+  | { addCombinationOf: string[]; amount?: number }
+  | { protectionFrom: ObjectSpec }
+  | { each: ObjectSpec; is: string | ObjectSpec }
+  | { skip: string }
+  | { choose: string | ObjectSpec }
+  | { would: string | Record<string, unknown>; instead?: EffectNode; except?: EffectNode; while?: ConditionNode }
+  | { playRevealed: ObjectSpec }
+  | { whose: ObjectSpec; activatedAbilities?: EffectNode }
+  | { characteristic: string; setTo: Record<string, unknown> }
+  | { flashbackCost: Record<string, unknown> }
   | EffectNode[]
   | Record<string, unknown>;
+
+/** P/T modification, used for +1/+1 and -1/-1 counters */
+export interface PTModification {
+  powerMod: number;
+  toughnessMod: number;
+}
 
 /** Damage specification */
 export interface DamageSpec {
