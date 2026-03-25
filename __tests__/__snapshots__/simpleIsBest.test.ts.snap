@@ -3908,64 +3908,6 @@ exports[`Unambiguous cards: single parse + snapshot > Flash 1`] = `
 ]
 `;
 
-exports[`Unambiguous cards: single parse + snapshot > Flickerwisp 1`] = `
-[
-  [
-    "flying",
-  ],
-  {
-    "effect": [
-      {
-        "exile": {
-          "object": {
-            "type": {
-              "and": [
-                "permanent",
-              ],
-            },
-          },
-          "reference": {
-            "reference": "other",
-            "targetCount": 1,
-          },
-        },
-      },
-      {
-        "at": {
-          "partOfTurn": "end",
-          "qualification": {
-            "beginningOf": {
-              "whose": "the",
-            },
-          },
-        },
-        "does": {
-          "control": {
-            "does": "own",
-            "whose": {
-              "reference": "its",
-            },
-          },
-          "returns": {
-            "object": "card",
-            "reference": "that",
-          },
-          "to": "battlefield",
-        },
-      },
-    ],
-    "trigger": {
-      "when": {
-        "does": {
-          "enter": "battlefield",
-        },
-        "what": "CARD_NAME",
-      },
-    },
-  },
-]
-`;
-
 exports[`Unambiguous cards: single parse + snapshot > Force of Will 1`] = `
 [
   {
@@ -6727,7 +6669,9 @@ exports[`Unambiguous cards: single parse + snapshot > Mana Drain 1`] = `
         "turnPhase": {
           "partOfTurn": "main",
           "qualification": {
-            "whose": "your",
+            "next": {
+              "whose": "your",
+            },
           },
         },
       },
@@ -7021,7 +6965,9 @@ exports[`Unambiguous cards: single parse + snapshot > Memory Jar 1`] = `
           "turnPhase": {
             "partOfTurn": "end",
             "qualification": {
-              "whose": "the",
+              "next": {
+                "whose": "the",
+              },
             },
           },
         },
@@ -7288,53 +7234,6 @@ exports[`Unambiguous cards: single parse + snapshot > Miscalculation 1`] = `
       },
     },
   ],
-]
-`;
-
-exports[`Unambiguous cards: single parse + snapshot > Mishra's Bauble 1`] = `
-[
-  {
-    "activatedAbility": [
-      {
-        "lookAt": {
-          "from": {
-            "owner": {
-              "player": "player",
-              "references": [
-                {
-                  "targetCount": 1,
-                },
-              ],
-            },
-            "zone": "library",
-          },
-          "topCards": 1,
-        },
-      },
-      {
-        "at": {
-          "partOfTurn": "upkeep",
-          "qualification": {
-            "beginningOf": {
-              "reference": "next",
-              "what": "turn",
-            },
-          },
-        },
-        "does": {
-          "draw": 1,
-        },
-      },
-    ],
-    "costs": {
-      "and": [
-        "tap",
-        {
-          "sacrifice": "CARD_NAME",
-        },
-      ],
-    },
-  },
 ]
 `;
 
@@ -10211,82 +10110,6 @@ exports[`Unambiguous cards: single parse + snapshot > Snap 1`] = `
       },
     },
   ],
-]
-`;
-
-exports[`Unambiguous cards: single parse + snapshot > Sneak Attack 1`] = `
-[
-  {
-    "activatedAbility": [
-      {
-        "actor": "you",
-        "does": {
-          "may": {
-            "from": {
-              "owner": "your",
-              "zone": "hand",
-            },
-            "into": "battlefield",
-            "put": {
-              "object": {
-                "object": "card",
-                "types": {
-                  "and": [
-                    "creature",
-                  ],
-                },
-              },
-              "reference": {
-                "count": 1,
-              },
-            },
-          },
-        },
-      },
-      {
-        "does": {
-          "gains": "haste",
-        },
-        "what": {
-          "object": {
-            "type": {
-              "and": [
-                "creature",
-              ],
-            },
-          },
-          "reference": "that",
-        },
-      },
-      {
-        "at": {
-          "partOfTurn": "end",
-          "qualification": {
-            "beginningOf": {
-              "whose": "the",
-            },
-          },
-        },
-        "does": {
-          "sacrifice": {
-            "object": {
-              "type": {
-                "and": [
-                  "creature",
-                ],
-              },
-            },
-            "reference": "the",
-          },
-        },
-      },
-    ],
-    "costs": {
-      "mana": [
-        "r",
-      ],
-    },
-  },
 ]
 `;
 

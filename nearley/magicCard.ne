@@ -947,13 +947,12 @@ qualifiedPartOfTurn -> turnQualification __ partOfTurn "s":? {% ([qualification,
   | "combat on your turn" {% () => ({ qualification: "yourTurn", partOfTurn: "combat" }) %}
   | "combat" {% () => ({ partOfTurn: "combat" }) %}
   | "end of combat" {% () => ({ partOfTurn: "endCombat" }) %}
-turnQualification -> (playersPossessive | "the") (__ "next"):? {% ([[whose, next]]) => next ? { next: { whose } } : { whose } %}
+turnQualification -> (playersPossessive | "the") (__ "next"):? {% ([[whose], next]) => next ? { next: { whose } } : { whose } %}
   | "this" {% () => "this" %}
   | "each" {% () => "each" %}
   | "this turn" SAXON {% () => ({ reference: "this", what: "turn" }) %}
-  | "that turn" SAXON {% () => ({ refernce: "that", what: "turn" }) %}
+  | "that turn" SAXON {% () => ({ reference: "that", what: "turn" }) %}
   | "the next turn" SAXON {% () => ({ reference: "next", what: "turn" }) %}
-  | "the beginning of" __ turnQualification {% ([, , beginningOf]) => ({ beginningOf }) %}
 
 playersPossessive -> "your" {% () => "your" %}
   | "their" {% () => "their" %}
