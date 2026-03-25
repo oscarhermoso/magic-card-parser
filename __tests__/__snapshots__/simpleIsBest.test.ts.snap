@@ -1,168 +1,5 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Ambiguous cards: parses with snapshot > Animate Dead 1`] = `
-[
-  [
-    {
-      "enchant": {
-        "object": {
-          "object": "card",
-          "types": {
-            "and": [
-              "creature",
-            ],
-          },
-        },
-        "suffix": {
-          "in": {
-            "owner": "a",
-            "zone": "graveyard",
-          },
-        },
-      },
-    },
-  ],
-  {
-    "effect": [
-      {
-        "condition": {
-          "is": {
-            "inZone": {
-              "in": "battlefield",
-            },
-          },
-        },
-        "effect": {
-          "does": {
-            "and": [
-              {
-                "loses": [
-                  {
-                    "enchant": {
-                      "object": {
-                        "object": "card",
-                        "types": {
-                          "and": [
-                            "creature",
-                          ],
-                        },
-                      },
-                      "suffix": {
-                        "in": {
-                          "owner": "a",
-                          "zone": "graveyard",
-                        },
-                      },
-                    },
-                  },
-                ],
-              },
-              {
-                "gains": [
-                  {
-                    "enchant": {
-                      "object": {
-                        "type": {
-                          "and": [
-                            "creature",
-                          ],
-                        },
-                      },
-                      "suffix": {
-                        "does": "putOntoBattlefield",
-                        "with": "CARD_NAME",
-                      },
-                    },
-                  },
-                ],
-              },
-            ],
-          },
-          "what": "it",
-        },
-      },
-      {
-        "and": [
-          {
-            "control": "your",
-            "returns": {
-              "object": {
-                "object": "card",
-                "types": {
-                  "and": [
-                    "creature",
-                  ],
-                },
-              },
-              "reference": "enchanted",
-            },
-            "to": "battlefield",
-          },
-          {
-            "attach": "CARD_NAME",
-            "to": "it",
-          },
-        ],
-      },
-      {
-        "effect": {
-          "actor": {
-            "does": "control",
-            "whose": {
-              "object": {
-                "type": {
-                  "and": [
-                    "creature",
-                  ],
-                },
-              },
-              "reference": "that",
-            },
-          },
-          "does": {
-            "sacrifice": "it",
-          },
-        },
-        "trigger": {
-          "when": {
-            "does": {
-              "leaves": "battlefield",
-            },
-            "what": "CARD_NAME",
-          },
-        },
-      },
-    ],
-    "trigger": {
-      "when": {
-        "does": {
-          "enter": "battlefield",
-        },
-        "what": "CARD_NAME",
-      },
-    },
-  },
-  {
-    "does": {
-      "powerToughnessMod": {
-        "powerMod": -1,
-        "toughnessMod": -0,
-      },
-    },
-    "what": {
-      "object": {
-        "type": {
-          "and": [
-            "creature",
-          ],
-        },
-      },
-      "reference": "enchanted",
-    },
-  },
-]
-`;
-
 exports[`Unambiguous cards: single parse + snapshot > Abbot of Keral Keep 1`] = `
 [
   [
@@ -624,6 +461,173 @@ exports[`Unambiguous cards: single parse + snapshot > Anger 1`] = `
           "does": "control",
         },
       },
+    },
+  },
+]
+`;
+
+exports[`Unambiguous cards: single parse + snapshot > Animate Dead 1`] = `
+[
+  [
+    {
+      "enchant": {
+        "object": {
+          "object": "card",
+          "types": {
+            "and": [
+              "creature",
+            ],
+          },
+        },
+        "suffix": {
+          "in": {
+            "owner": "a",
+            "zone": "graveyard",
+          },
+        },
+      },
+    },
+  ],
+  {
+    "effect": [
+      {
+        "condition": {
+          "is": {
+            "inZone": {
+              "in": "battlefield",
+            },
+          },
+        },
+        "effect": {
+          "does": {
+            "and": [
+              {
+                "loses": [
+                  {
+                    "enchant": {
+                      "object": {
+                        "object": "card",
+                        "types": {
+                          "and": [
+                            "creature",
+                          ],
+                        },
+                      },
+                      "suffix": {
+                        "in": {
+                          "owner": "a",
+                          "zone": "graveyard",
+                        },
+                      },
+                    },
+                  },
+                ],
+              },
+              {
+                "gains": [
+                  {
+                    "enchant": {
+                      "condition": {
+                        "with": {
+                          "object": "CARD_NAME",
+                        },
+                      },
+                      "object": {
+                        "type": {
+                          "and": [
+                            "creature",
+                          ],
+                        },
+                      },
+                      "suffix": {
+                        "does": "putOntoBattlefield",
+                      },
+                    },
+                  },
+                ],
+              },
+            ],
+          },
+          "what": "it",
+        },
+      },
+      {
+        "and": [
+          {
+            "control": "your",
+            "returns": {
+              "object": {
+                "object": "card",
+                "types": {
+                  "and": [
+                    "creature",
+                  ],
+                },
+              },
+              "reference": "enchanted",
+            },
+            "to": "battlefield",
+          },
+          {
+            "attach": "CARD_NAME",
+            "to": "it",
+          },
+        ],
+      },
+      {
+        "effect": {
+          "actor": {
+            "does": "control",
+            "whose": {
+              "object": {
+                "type": {
+                  "and": [
+                    "creature",
+                  ],
+                },
+              },
+              "reference": "that",
+            },
+          },
+          "does": {
+            "sacrifice": "it",
+          },
+        },
+        "trigger": {
+          "when": {
+            "does": {
+              "leaves": "battlefield",
+            },
+            "what": "CARD_NAME",
+          },
+        },
+      },
+    ],
+    "trigger": {
+      "when": {
+        "does": {
+          "enter": "battlefield",
+        },
+        "what": "CARD_NAME",
+      },
+    },
+  },
+  {
+    "does": {
+      "powerToughnessMod": {
+        "powerMod": -1,
+        "toughnessMod": -0,
+      },
+    },
+    "what": {
+      "object": {
+        "type": {
+          "and": [
+            "creature",
+          ],
+        },
+      },
+      "reference": "enchanted",
     },
   },
 ]

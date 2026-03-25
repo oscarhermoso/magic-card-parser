@@ -298,7 +298,7 @@ suffix -> player __ (("don't" | "doesn't") __):? ("control" | "own") "s":? {% ([
   | ("destroyed" {% () => "destroy" %} | "exiled" {% () => "exile" %}) __ (fromZone __):? "this way" {% ([does, , from]) => from ? { from: from[0], reference: "thisWay", does } : { reference: "thisWay", does } %}
   | "of the" __ anyType __ "type of" __ playersPossessive __ "choice" {% ([, , type, , , , actor]) => ({ type, actor, does: "choose" }) %}
   | "on the battlefield" {% () => ({ in: "battlefield" }) %}
-  | "put onto the battlefield" (__ "with" __ object):? {% ([, w]) => w ? { does: "putOntoBattlefield", with: w[3] } : { does: "putOntoBattlefield" } %}
+  | "put onto the battlefield" {% () => ({ does: "putOntoBattlefield" }) %}
   | "of the chosen color" {% () => ({ color: "chosen" }) %}
   | object __ "could target" {% ([couldTarget]) => ({ couldTarget }) %}
   | "able to block" __ object {% ([, , canBlock]) => ({ canBlock }) %}
