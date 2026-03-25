@@ -53,7 +53,8 @@ export function replaceCardName(oracleText, name) {
         .replace(/\u2019/g, "'")   // right single quote → apostrophe
         .replace(/\u2014/g, "--")  // em dash → double hyphen
         .replace(/\u2212/g, "-")   // minus sign → hyphen-minus
-        .replace(/[\u201c\u201d]/g, '"');  // smart double quotes → straight quotes
+        .replace(/[\u201c\u201d]/g, '"')  // smart double quotes → straight quotes
+        .replace(/\bsimultaneously /g, '');  // remove adverb (no grammatical effect)
 
     return result;
 }

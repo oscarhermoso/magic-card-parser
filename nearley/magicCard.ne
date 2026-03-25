@@ -237,6 +237,7 @@ condition -> sentence {% ([s]) => s %}
   | object __ "has" __ englishNumber __ counterKind __ "counter" "s":? " on it" {% ([what, , , , amount, , counterKind]) => ({ what, has: { amount, counterKind } }) %}
   | "there" __ ("are" | "is") __ countableCount __ object __ inZone {% ([, , , , count, , what, , zone]) => ({ count, what, ...zone }) %}
   | "it's" __ "the" __ ordinal __ object __ player __ "cast" __ duration {% ([, , , , ordinal, , what, , actor, , , , during]) => ({ ordinal, cast: { what, actor }, during }) %}
+  | "both targets are still legal as this ability resolves" {% () => "bothTargetsLegal" %}
 
 ordinal -> "first" {% () => 1 %}
   | "second" {% () => 2 %}
