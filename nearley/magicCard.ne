@@ -156,6 +156,7 @@ effect -> (sentenceDot
 
 sentenceDot -> sentence (".":? __ additionalSentence):* ".":? {% ([s, ss]) => ss.length > 0 ? [s, ...ss.map(([, , s2]) => s2)] : s %}
 additionalSentence -> sentence {% ([s]) => s %}
+  | "then" __ sentence {% ([, , s]) => s %}
   | triggeredAbility {% ([t]) => t %}
   | "do" __ "this" __ "only" __ "once" __ "each" __ "turn" {% () => ({ limit: "onceEachTurn" }) %}
 
@@ -369,6 +370,7 @@ pureObjectInner -> ("copy" | "copies") (__ "of" __ object):? {% ([, copyOf]) => 
   | "token" {% () => "token" %}
   | "target" "s":? {% () => "target" %}
   | "spell or ability" {% () => ({ or: ["spell", "ability"] }) %}
+  | "spell or permanent" {% () => ({ or: ["spell", "permanent"] }) %}
 referencingObjectPrefix -> "the sacrificed" {% () => "sacrificed" %}
   | "any of" {% () => "any" %}
   | "the" {% () => "the" %}
@@ -512,6 +514,7 @@ imperative -> "sacrifice" "s":? __ object {% ([, , , sacrifice]) => ({ sacrifice
   | "put" "s":? __ englishNumber __ counterKind __ "counter" "s":? __ "on" __ object {% ([, , , amount, , counterKind, , , , , , , putOn]) => ({ amount, counterKind, putOn }) %}
   | "choose" "s":? __ object {% ([, , , choose]) => ({ choose }) %}
   | "look" "s":? __ "at" __ (object | zone) {% ([, , , , , [lookAt]]) => ({ lookAt }) %}
+  | "put them back in any order" {% () => ({ putBack: true, anyOrder: true }) %}
   | "reveal" "s":? __ (object | zone) (__ "at random" __ fromZone):? {% ([, , , [reveal], random]) => random ? { random: true, from: random[3], reveal } : { reveal } %}
   | "put" "s":? __ object (__ fromZone):? __ intoZone (__ "tapped"):? (__ "and" __ object __ intoZone):? (__ "under" __ playersPossessive __ "control"):? (__ "instead of" __ intoZone):? {% ([, , , put, from, , into, tapped, additional, control, insteadOf]) => {
     let result = { put, into };
@@ -919,6 +922,7 @@ permanentTypeSpecifier -> permanentTypeSpecifierInner (__ permanentTypeSpecifier
 anyType -> anyTypeInner (__ anyTypeInner):* {% ([t1, ts]) => ({ and: [t1, ...ts.map(([, t]) => t)] }) %}
   | anyTypeInner __ "or" __ anyTypeInner {% ([t1, , , , t2]) => ({ or: [t1, t2] }) %}
   | anyTypeInner __ ("and/or" {% () => "or" %} | "and" {% () => "and" %}) __ anyTypeInner {% ([t1, , connector, , t2]) => ({ [connector]: [t1, t2] }) %}
+  | anyTypeInner ("," __ anyTypeInner):+ ",":? __ "or" __ anyTypeInner {% ([t1, ts, , , , , tLast]) => ({ or: [t1, ...ts.map(([, , t]) => t), tLast] }) %}
 anyTypeInner -> permanentTypeInner {% ([t]) => t %}
   | spellType {% ([t]) => t %}
   | superType {% ([t]) => t %}

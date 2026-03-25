@@ -1468,6 +1468,47 @@ exports[`Unambiguous cards: single parse + snapshot > Bonesplitter 1`] = `
 ]
 `;
 
+exports[`Unambiguous cards: single parse + snapshot > Braids, Cabal Minion 1`] = `
+[
+  {
+    "effect": {
+      "actor": "they",
+      "does": {
+        "sacrifice": {
+          "object": {
+            "object": {
+              "type": {
+                "or": [
+                  "artifact",
+                  "creature",
+                  "land",
+                ],
+              },
+            },
+            "suffix": {
+              "choice": "their",
+            },
+          },
+          "reference": {
+            "count": 1,
+          },
+        },
+      },
+    },
+    "trigger": {
+      "turnPhase": {
+        "partOfTurn": "upkeep",
+        "qualification": {
+          "whose": {
+            "each": "player",
+          },
+        },
+      },
+    },
+  },
+]
+`;
+
 exports[`Unambiguous cards: single parse + snapshot > Brain Freeze 1`] = `
 [
   {
@@ -1631,6 +1672,88 @@ exports[`Unambiguous cards: single parse + snapshot > Brimaz, King of Oreskos 1`
       },
     },
   },
+]
+`;
+
+exports[`Unambiguous cards: single parse + snapshot > Burning of Xinye 1`] = `
+[
+  [
+    {
+      "and": [
+        {
+          "actor": "you",
+          "does": {
+            "destroy": {
+              "object": {
+                "object": {
+                  "type": {
+                    "and": [
+                      "land",
+                    ],
+                  },
+                },
+                "suffix": {
+                  "actor": "you",
+                  "does": "control",
+                },
+              },
+              "reference": {
+                "count": 4,
+              },
+            },
+          },
+        },
+        {
+          "actor": {
+            "player": "opponents",
+            "references": [
+              {
+                "targetCount": 1,
+              },
+            ],
+          },
+          "does": {
+            "destroy": {
+              "object": {
+                "object": {
+                  "type": {
+                    "and": [
+                      "land",
+                    ],
+                  },
+                },
+                "suffix": {
+                  "actor": "they",
+                  "does": "control",
+                },
+              },
+              "reference": {
+                "count": 4,
+              },
+            },
+          },
+        },
+      ],
+    },
+    {
+      "does": {
+        "deal": {
+          "amount": 4,
+          "damageTo": {
+            "object": {
+              "type": {
+                "and": [
+                  "creature",
+                ],
+              },
+            },
+            "reference": "each",
+          },
+        },
+      },
+      "what": "CARD_NAME",
+    },
+  ],
 ]
 `;
 
@@ -7570,6 +7693,48 @@ exports[`Unambiguous cards: single parse + snapshot > Mind Twist 1`] = `
 ]
 `;
 
+exports[`Unambiguous cards: single parse + snapshot > Mind's Desire 1`] = `
+[
+  [
+    {
+      "shuffle": {
+        "owner": "your",
+        "zone": "library",
+      },
+    },
+    {
+      "exile": {
+        "from": {
+          "owner": "your",
+          "zone": "library",
+        },
+        "topCards": 1,
+      },
+    },
+    {
+      "duration": {
+        "until": "endOfTurn",
+      },
+      "effect": {
+        "actor": "you",
+        "does": {
+          "may": {
+            "play": {
+              "object": "card",
+              "reference": "that",
+            },
+            "withoutPaying": true,
+          },
+        },
+      },
+    },
+  ],
+  [
+    "storm",
+  ],
+]
+`;
+
 exports[`Unambiguous cards: single parse + snapshot > Mine Collapse 1`] = `
 [
   {
@@ -8533,6 +8698,54 @@ exports[`Unambiguous cards: single parse + snapshot > Ophiomancer 1`] = `
 ]
 `;
 
+exports[`Unambiguous cards: single parse + snapshot > Opposition 1`] = `
+[
+  {
+    "activatedAbility": {
+      "tap": {
+        "object": {
+          "type": {
+            "or": [
+              "artifact",
+              "creature",
+              "land",
+            ],
+          },
+        },
+        "reference": {
+          "targetCount": 1,
+        },
+      },
+    },
+    "costs": {
+      "tap": {
+        "object": {
+          "object": {
+            "prefixes": [
+              {
+                "not": "tapped",
+              },
+            ],
+            "type": {
+              "and": [
+                "creature",
+              ],
+            },
+          },
+          "suffix": {
+            "actor": "you",
+            "does": "control",
+          },
+        },
+        "reference": {
+          "count": 1,
+        },
+      },
+    },
+  },
+]
+`;
+
 exports[`Unambiguous cards: single parse + snapshot > Oracle of Mul Daya 1`] = `
 [
   {
@@ -9061,6 +9274,41 @@ exports[`Unambiguous cards: single parse + snapshot > Polluted Delta 1`] = `
         },
       ],
     },
+  },
+]
+`;
+
+exports[`Unambiguous cards: single parse + snapshot > Ponder 1`] = `
+[
+  [
+    {
+      "and": [
+        {
+          "lookAt": {
+            "from": {
+              "owner": "your",
+              "zone": "library",
+            },
+            "topCards": 3,
+          },
+        },
+        {
+          "anyOrder": true,
+          "putBack": true,
+        },
+      ],
+    },
+    {
+      "actor": "you",
+      "does": {
+        "may": {
+          "shuffle": "library",
+        },
+      },
+    },
+  ],
+  {
+    "draw": 1,
   },
 ]
 `;
@@ -10679,6 +10927,41 @@ exports[`Unambiguous cards: single parse + snapshot > Shivan Devastator 1`] = `
 ]
 `;
 
+exports[`Unambiguous cards: single parse + snapshot > Show and Tell 1`] = `
+[
+  {
+    "actor": {
+      "each": "player",
+    },
+    "does": {
+      "may": {
+        "from": {
+          "owner": "their",
+          "zone": "hand",
+        },
+        "into": "battlefield",
+        "put": {
+          "object": {
+            "object": "card",
+            "types": {
+              "or": [
+                "artifact",
+                "creature",
+                "enchantment",
+                "land",
+              ],
+            },
+          },
+          "reference": {
+            "count": 1,
+          },
+        },
+      },
+    },
+  },
+]
+`;
+
 exports[`Unambiguous cards: single parse + snapshot > Simian Spirit Guide 1`] = `
 [
   {
@@ -11208,6 +11491,59 @@ exports[`Unambiguous cards: single parse + snapshot > Split Up 1`] = `
     "quantifier": [
       1,
     ],
+  },
+]
+`;
+
+exports[`Unambiguous cards: single parse + snapshot > Splitskin Doll 1`] = `
+[
+  {
+    "effect": [
+      {
+        "draw": 1,
+      },
+      {
+        "does": {
+          "discard": {
+            "object": "card",
+            "reference": {
+              "count": 1,
+            },
+          },
+        },
+        "unless": {
+          "actor": "you",
+          "does": {
+            "controls": {
+              "object": {
+                "condition": {
+                  "with": {
+                    "comparison": {
+                      "lte": 2,
+                    },
+                    "value": "power",
+                  },
+                },
+                "type": {
+                  "and": [
+                    "creature",
+                  ],
+                },
+              },
+              "reference": "other",
+            },
+          },
+        },
+      },
+    ],
+    "trigger": {
+      "when": {
+        "does": {
+          "enter": "battlefield",
+        },
+        "what": "CARD_NAME",
+      },
+    },
   },
 ]
 `;
@@ -13189,6 +13525,46 @@ exports[`Unambiguous cards: single parse + snapshot > Vengevine 1`] = `
             },
           },
         },
+      },
+    },
+  },
+]
+`;
+
+exports[`Unambiguous cards: single parse + snapshot > Venser, Shaper Savant 1`] = `
+[
+  [
+    "flash",
+  ],
+  {
+    "effect": {
+      "returns": {
+        "object": {
+          "or": [
+            "spell",
+            "permanent",
+          ],
+        },
+        "reference": {
+          "targetCount": 1,
+        },
+      },
+      "to": {
+        "owner": {
+          "does": "own",
+          "whose": {
+            "reference": "its",
+          },
+        },
+        "zone": "hand",
+      },
+    },
+    "trigger": {
+      "when": {
+        "does": {
+          "enter": "battlefield",
+        },
+        "what": "CARD_NAME",
       },
     },
   },

@@ -267,8 +267,8 @@ const cubeCards: CubeCard[] = [
   { name: 'Bitterblossom', oracle_text: 'At the beginning of your upkeep, you lose 1 life and create a 1/1 black Faerie Rogue creature token with flying.' },
   { name: 'Blood Crypt', oracle_text: '({T}: Add {B} or {R}.)\nAs this land enters, you may pay 2 life. If you don\'t, it enters tapped.' },
   { name: 'Bonesplitter', oracle_text: 'Equipped creature gets +2/+0.\nEquip {1}' },
-  { name: 'Braids, Cabal Minion', oracle_text: 'At the beginning of each player\'s upkeep, that player sacrifices an artifact, creature, or land of their choice.', parseError: true },
-  { name: 'Burning of Xinye', oracle_text: 'You destroy four lands you control, then target opponent destroys four lands they control. Then Burning of Xinye deals 4 damage to each creature.', parseError: true },
+  { name: 'Braids, Cabal Minion', oracle_text: 'At the beginning of each player\'s upkeep, that player sacrifices an artifact, creature, or land of their choice.' },
+  { name: 'Burning of Xinye', oracle_text: 'You destroy four lands you control, then target opponent destroys four lands they control. Then Burning of Xinye deals 4 damage to each creature.' },
   { name: 'Champion of the Parish', oracle_text: 'Whenever another Human you control enters, put a +1/+1 counter on this creature.' },
   { name: 'Chromatic Lantern', oracle_text: 'Lands you control have "{T}: Add one mana of any color."\n{T}: Add one mana of any color.' },
   { name: 'Chrome Mox', oracle_text: 'Imprint — When this artifact enters, you may exile a nonartifact, nonland card from your hand.\n{T}: Add one mana of any of the exiled card\'s colors.', parseError: true },
@@ -309,7 +309,7 @@ const cubeCards: CubeCard[] = [
   { name: 'Lush Portico', oracle_text: '({T}: Add {G} or {W}.)\nThis land enters tapped.\nWhen this land enters, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)' },
   { name: 'Magma Jet', oracle_text: 'Magma Jet deals 2 damage to any target. Scry 2.' },
   { name: 'Meticulous Archive', oracle_text: '({T}: Add {W} or {U}.)\nThis land enters tapped.\nWhen this land enters, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)' },
-  { name: 'Mind\'s Desire', oracle_text: 'Shuffle your library. Then exile the top card of your library. Until end of turn, you may play that card without paying its mana cost.\nStorm (When you cast this spell, copy it for each spell cast before it this turn.)', parseError: true },
+  { name: 'Mind\'s Desire', oracle_text: 'Shuffle your library. Then exile the top card of your library. Until end of turn, you may play that card without paying its mana cost.\nStorm (When you cast this spell, copy it for each spell cast before it this turn.)' },
   { name: 'Mine Collapse', oracle_text: 'If it\'s your turn, you may sacrifice a Mountain rather than pay this spell\'s mana cost.\nMine Collapse deals 5 damage to target creature or planeswalker.' },
   { name: 'Mishra\'s Bauble', oracle_text: '{T}, Sacrifice this artifact: Look at the top card of target player\'s library. Draw a card at the beginning of the next turn\'s upkeep.' },
   { name: 'Moat', oracle_text: 'Creatures without flying can\'t attack.' },
@@ -317,7 +317,7 @@ const cubeCards: CubeCard[] = [
   { name: 'Mystical Tutor', oracle_text: 'Search your library for an instant or sorcery card, reveal it, then shuffle and put that card on top.' },
   { name: 'Natural Order', oracle_text: 'As an additional cost to cast this spell, sacrifice a green creature.\nSearch your library for a green creature card, put it onto the battlefield, then shuffle.' },
   { name: 'Night\'s Whisper', oracle_text: 'You draw two cards and lose 2 life.' },
-  { name: 'Opposition', oracle_text: 'Tap an untapped creature you control: Tap target artifact, creature, or land.', parseError: true },
+  { name: 'Opposition', oracle_text: 'Tap an untapped creature you control: Tap target artifact, creature, or land.' },
   { name: 'Pack Rat', oracle_text: 'Pack Rat\'s power and toughness are each equal to the number of Rats you control.\n{2}{B}, Discard a card: Create a token that\'s a copy of this creature.' },
   { name: 'Path to Exile', oracle_text: 'Exile target creature. Its controller may search their library for a basic land card, put that card onto the battlefield tapped, then shuffle.' },
   { name: 'Ponder', oracle_text: 'Look at the top three cards of your library, then put them back in any order. You may shuffle.\nDraw a card.' },
@@ -338,13 +338,13 @@ const cubeCards: CubeCard[] = [
   { name: 'Scrapwork Mutt', oracle_text: 'When this creature enters, you may discard a card. If you do, draw a card.\nUnearth {1}{R} ({1}{R}: Return this card from your graveyard to the battlefield. It gains haste. Exile it at the beginning of the next end step or if it would leave the battlefield. Unearth only as a sorcery.)' },
   { name: 'Shadowy Backstreet', oracle_text: '({T}: Add {W} or {B}.)\nThis land enters tapped.\nWhen this land enters, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)' },
   { name: 'Sheoldred, the Apocalypse', oracle_text: 'Deathtouch\nWhenever you draw a card, you gain 2 life.\nWhenever an opponent draws a card, they lose 2 life.' },
-  { name: 'Show and Tell', oracle_text: 'Each player may put an artifact, creature, enchantment, or land card from their hand onto the battlefield.', parseError: true },
+  { name: 'Show and Tell', oracle_text: 'Each player may put an artifact, creature, enchantment, or land card from their hand onto the battlefield.' },
   { name: 'Sneak Attack', oracle_text: '{R}: You may put a creature card from your hand onto the battlefield. That creature gains haste. Sacrifice the creature at the beginning of the next end step.' },
   { name: 'Solemn Simulacrum', oracle_text: 'When this creature enters, you may search your library for a basic land card, put that card onto the battlefield tapped, then shuffle.\nWhen this creature dies, you may draw a card.' },
   { name: 'Spara\'s Headquarters', oracle_text: '({T}: Add {G}, {W}, or {U}.)\nThis land enters tapped.\nCycling {3} ({3}, Discard this card: Draw a card.)' },
   { name: 'Spellseeker', oracle_text: 'When this creature enters, you may search your library for an instant or sorcery card with mana value 2 or less, reveal it, put it into your hand, then shuffle.' },
   { name: 'Spirit of the Labyrinth', oracle_text: 'Each player can\'t draw more than one card each turn.' },
-  { name: 'Splitskin Doll', oracle_text: 'When this creature enters, draw a card. Then discard a card unless you control another creature with power 2 or less.', parseError: true },
+  { name: 'Splitskin Doll', oracle_text: 'When this creature enters, draw a card. Then discard a card unless you control another creature with power 2 or less.' },
   { name: 'Steam Vents', oracle_text: '({T}: Add {U} or {R}.)\nAs this land enters, you may pay 2 life. If you don\'t, it enters tapped.' },
   { name: 'Stomping Ground', oracle_text: '({T}: Add {R} or {G}.)\nAs this land enters, you may pay 2 life. If you don\'t, it enters tapped.' },
   { name: 'Stormfist Crusader', oracle_text: 'Menace\nAt the beginning of your upkeep, each player draws a card and loses 1 life.' },
@@ -365,7 +365,7 @@ const cubeCards: CubeCard[] = [
   { name: 'Undercity Sewers', oracle_text: '({T}: Add {U} or {B}.)\nThis land enters tapped.\nWhen this land enters, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)' },
   { name: 'Underground Mortuary', oracle_text: '({T}: Add {B} or {G}.)\nThis land enters tapped.\nWhen this land enters, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)' },
   { name: 'Unearth', oracle_text: 'Return target creature card with mana value 3 or less from your graveyard to the battlefield.\nCycling {2} ({2}, Discard this card: Draw a card.)' },
-  { name: 'Venser, Shaper Savant', oracle_text: 'Flash (You may cast this spell any time you could cast an instant.)\nWhen Venser enters, return target spell or permanent to its owner\'s hand.', parseError: true },
+  { name: 'Venser, Shaper Savant', oracle_text: 'Flash (You may cast this spell any time you could cast an instant.)\nWhen Venser enters, return target spell or permanent to its owner\'s hand.' },
   { name: 'Watery Grave', oracle_text: '({T}: Add {U} or {B}.)\nAs this land enters, you may pay 2 life. If you don\'t, it enters tapped.' },
   { name: 'Wheel of Fortune', oracle_text: 'Each player discards their hand, then draws seven cards.' },
   { name: 'Wildfire', oracle_text: 'Each player sacrifices four lands of their choice. Wildfire deals 4 damage to each creature.' },
@@ -462,12 +462,18 @@ describe('Unambiguous cards: single parse + snapshot', () => {
 
 describe('Ambiguous cards: parses with snapshot', () => {
   const ambiguous = cardTestEntries.filter(([, c]) => c.ambiguous && !c.parseError);
-  it.each(ambiguous)('%s', (_label, card) => {
-    const result = parse(card);
-    expect(result.result).not.toBeNull();
-    expect(result.result!.length).toBeGreaterThanOrEqual(1);
-    expect(result.result![0]).toMatchSnapshot();
-  });
+  if (ambiguous.length === 0) {
+    it('no ambiguous cards remaining', () => {
+      expect(ambiguous).toHaveLength(0);
+    });
+  } else {
+    it.each(ambiguous)('%s', (_label, card) => {
+      const result = parse(card);
+      expect(result.result).not.toBeNull();
+      expect(result.result!.length).toBeGreaterThanOrEqual(1);
+      expect(result.result![0]).toMatchSnapshot();
+    });
+  }
 });
 
 describe('Known parse failures: grammar too complex', () => {
