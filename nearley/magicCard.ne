@@ -570,7 +570,7 @@ basePlayerVerbPhrase -> gains __ "life equal to" __ itsPossessive __ numericalCh
   } %}
   | "may" __ imperative __ "rather than" __ imperative {% ([, , may, , , , ratherThan]) => ({ may, ratherThan }) %}
   | "may" __ imperative {% ([, , may]) => ({ may }) %}
-  | imperative {% ([i]) => i %}
+  | ("simultaneously" __):? imperative {% ([, i]) => i %}
   | "can't" __ imperative {% ([, , cant]) => ({ cant }) %}
   | ("doesn't" | "don't") {% () => { not: "do" } %}
   | ("does" | "do") {% () => "do" %}
