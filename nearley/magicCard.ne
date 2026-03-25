@@ -298,7 +298,6 @@ suffix -> player __ (("don't" | "doesn't") __):? ("control" | "own") "s":? {% ([
   | ("destroyed" {% () => "destroy" %} | "exiled" {% () => "exile" %}) __ (fromZone __):? "this way" {% ([does, , from]) => from ? { from: from[0], reference: "thisWay", does } : { reference: "thisWay", does } %}
   | "of the" __ anyType __ "type of" __ playersPossessive __ "choice" {% ([, , type, , , , actor]) => ({ type, actor, does: "choose" }) %}
   | "on the battlefield" {% () => ({ in: "battlefield" }) %}
-  | "put onto the battlefield with" __ object {% ([, , by]) => ({ does: "putOntoBattlefield", by }) %}
   | "of the chosen color" {% () => ({ color: "chosen" }) %}
   | object __ "could target" {% ([couldTarget]) => ({ couldTarget }) %}
   | "able to block" __ object {% ([, , canBlock]) => ({ canBlock }) %}
@@ -322,11 +321,12 @@ objectAction -> "sacrificed" {% () => "sacrifice" %}
   | "returned" {% () => "return" %}
   | "discarded" {% () => "discard" %}
   | "exiled" {% () => "exile" %}
-pureObject -> pureObject1 (__ suffix):? (__ withClause | __ "without" __ keyword):? {% ([o, suffix, mod]) => {
+pureObject -> pureObject1 (__ suffix):? (__ withClause | __ "without" __ keyword | __ "put onto the battlefield with" __ object):? {% ([o, suffix, mod]) => {
   let result = suffix ? { object: o, suffix: suffix[1] } : o;
   if (mod) {
     if (typeof result !== 'object' || result === null) result = { object: result };
     if (mod[1] === "without") result.without = mod[3];
+    else if (mod[1] === "put onto the battlefield with") result.condition = { with: { putOntoBattlefieldBy: mod[3] } };
     else result.condition = mod[1];
   }
   return result;
