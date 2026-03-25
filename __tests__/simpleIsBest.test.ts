@@ -247,7 +247,7 @@ const cubeCards: CubeCard[] = [
   { name: 'Nettlecyst', oracle_text: 'Living weapon (When this Equipment enters, create a 0/0 black Phyrexian Germ creature token, then attach this to it.)\nEquipped creature gets +1/+1 for each artifact and/or enchantment you control.\nEquip {2}' },
   // Step 8: Complex spells — Balance, Turnabout, Maze of Ith
   { name: 'Balance', oracle_text: 'Each player chooses a number of lands they control equal to the number of lands controlled by the player who controls the fewest, then sacrifices the rest. Players discard cards and sacrifice creatures the same way.', parseError: true },
-  { name: 'Turnabout', oracle_text: 'Choose artifact, creature, or land. Tap all untapped permanents of the chosen type target player controls, or untap all tapped permanents of that type that player controls.', parseError: true },
+  { name: 'Turnabout', oracle_text: 'Choose artifact, creature, or land. Tap all untapped permanents of the chosen type target player controls, or untap all tapped permanents of that type that player controls.' },
   { name: 'Maze of Ith', oracle_text: '{T}: Untap target attacking creature. Prevent all combat damage that would be dealt to and dealt by that creature this turn.' },
   // Step 9: Complex spells part 2 — Flash, Sylvan Library, Animate Dead
   { name: 'Flash', oracle_text: 'You may put a creature card from your hand onto the battlefield. If you do, sacrifice it unless you pay its mana cost reduced by {2}.' },

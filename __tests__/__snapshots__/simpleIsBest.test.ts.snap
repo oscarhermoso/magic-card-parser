@@ -12442,6 +12442,85 @@ exports[`Unambiguous cards: single parse + snapshot > Tropical Island 1`] = `[]`
 
 exports[`Unambiguous cards: single parse + snapshot > Tundra 1`] = `[]`;
 
+exports[`Unambiguous cards: single parse + snapshot > Turnabout 1`] = `
+[
+  [
+    {
+      "choose": {
+        "type": {
+          "or": [
+            "artifact",
+            "creature",
+            "land",
+          ],
+        },
+      },
+    },
+    {
+      "xor": [
+        {
+          "tap": {
+            "object": {
+              "object": {
+                "prefixes": [
+                  {
+                    "not": "tapped",
+                  },
+                ],
+                "type": {
+                  "and": [
+                    "permanent",
+                  ],
+                },
+              },
+              "suffix": {
+                "actor": {
+                  "player": "player",
+                  "references": [
+                    {
+                      "targetCount": 1,
+                    },
+                  ],
+                },
+                "does": "control",
+                "ofType": "chosen",
+              },
+            },
+            "reference": {
+              "count": "all",
+            },
+          },
+        },
+        {
+          "untap": {
+            "object": {
+              "object": {
+                "prefixes": [
+                  "tapped",
+                ],
+                "type": {
+                  "and": [
+                    "permanent",
+                  ],
+                },
+              },
+              "suffix": {
+                "actor": "they",
+                "does": "control",
+                "ofType": "chosen",
+              },
+            },
+            "reference": {
+              "count": "all",
+            },
+          },
+        },
+      ],
+    },
+  ],
+]
+`;
+
 exports[`Unambiguous cards: single parse + snapshot > Ulamog, the Infinite Gyre 1`] = `
 [
   {

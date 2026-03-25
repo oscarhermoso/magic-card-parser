@@ -286,6 +286,7 @@ objectInner -> "it" {% () => "it" %}
   | "the top card of" __ zone {% ([, , from]) => ({ topCards: 1, from }) %}
   | (counterKind __):? "counter" "s":? __ "on" __ object {% ([kind, , , , , , countersOn]) => kind ? { counterType: kind[0], countersOn } : { countersOn } %}
 suffix -> player __ (("don't" | "doesn't") __):? ("control" | "own") "s":? {% ([actor, negate, , [does]]) => !negate ? { actor, does: { not: does } } : { actor, does } %}
+  | ("of the chosen type" | "of that type") (__ suffix):? {% ([, s]) => s ? { ofType: "chosen", ...s[1] } : { ofType: "chosen" } %}
   | "in" __ zone __ "drawn" __ duration {% ([, , zone, , , when]) => ({ in: zone, drawn: when }) %}
   | "in" __ zone (__ "and in" __ zone):? {% ([, , zone, zone2]) => zone2 ? { and: [{ in: zone}, {in: zone2[3]}] } : { in: zone } %}
   | "not" __ suffix {% ([, , not]) => ({ not }) %}
