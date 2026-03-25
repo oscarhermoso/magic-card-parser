@@ -1,54 +1,5 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Ambiguous cards: parses with snapshot > Thalia, Heretic Cathar 1`] = `
-[
-  [
-    "first strike",
-  ],
-  {
-    "does": {
-      "enter": "battlefield",
-      "tapped": true,
-    },
-    "what": {
-      "and": [
-        {
-          "type": {
-            "and": [
-              "creature",
-            ],
-          },
-        },
-        {
-          "object": {
-            "prefixes": [
-              {
-                "not": {
-                  "type": {
-                    "and": [
-                      "basic",
-                    ],
-                  },
-                },
-              },
-            ],
-            "type": {
-              "and": [
-                "land",
-              ],
-            },
-          },
-          "suffix": {
-            "actor": "opponent",
-            "does": "control",
-          },
-        },
-      ],
-    },
-  },
-]
-`;
-
 exports[`Unambiguous cards: single parse + snapshot > Abbot of Keral Keep 1`] = `
 [
   [
@@ -12503,6 +12454,60 @@ exports[`Unambiguous cards: single parse + snapshot > Thalia, Guardian of Thrabe
                 "creature",
               ],
             },
+          },
+        },
+      ],
+    },
+  },
+]
+`;
+
+exports[`Unambiguous cards: single parse + snapshot > Thalia, Heretic Cathar 1`] = `
+[
+  [
+    "first strike",
+  ],
+  {
+    "does": {
+      "enter": "battlefield",
+      "tapped": true,
+    },
+    "what": {
+      "and": [
+        {
+          "type": {
+            "and": [
+              "creature",
+            ],
+          },
+        },
+        {
+          "object": {
+            "prefixes": [
+              {
+                "not": {
+                  "type": {
+                    "and": [
+                      "basic",
+                    ],
+                  },
+                },
+              },
+            ],
+            "type": {
+              "and": [
+                "land",
+              ],
+            },
+          },
+          "suffix": {
+            "actor": {
+              "player": "opponents",
+              "references": [
+                "your",
+              ],
+            },
+            "does": "control",
           },
         },
       ],

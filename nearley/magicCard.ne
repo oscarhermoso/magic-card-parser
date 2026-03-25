@@ -259,7 +259,7 @@ player -> "you" {% () => "you" %}
     if (references.length === 1 && references[0][0] === "each") return { each: player };
     return references.length > 0 ? { references: references.map(([r]) => r), player } : player;
   } %}
-  | "your opponent" "s":? {% ([, plural]) => plural ? "opponent" : "opponents" %}
+  | "your opponent" "s":? {% () => ({ references: ["your"], player: "opponents" }) %}
   | "defending player" {% () => "defendingPlayer" %}
   | itsPossessive __ ("controller" {% () => "control" %} | "owner" {% () => "own" %}) "s":? {% ([whose, , does]) => ({ whose, does })  %}
   | "each of" __ player {% ([, , each]) => ({ each }) %}
