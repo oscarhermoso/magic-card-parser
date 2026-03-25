@@ -309,6 +309,7 @@ suffix -> player __ (("don't" | "doesn't") __):? ("control" | "own") "s":? {% ([
   | "attached to" __ object {% ([, , attachedTo]) => ({ attachedTo }) %}
   | "it targets" {% () => ({ what: "it", does: "targets" }) %}
   | "other than" __ object {% ([, , not]) => ({ not }) %}
+  | "in the pile of" __ playersPossessive __ "choice" {% ([, , whose]) => ({ pile: { choice: whose } }) %}
   | objectAction __ "this way" {% ([does]) => ({ reference: "thisWay", does }) %}
   | player __ objectAction __ "this way" {% ([actor, , does]) => ({ actor, reference: "thisWay", does }) %}
   | "of" __ playersPossessive __ "choice" {% ([, , whose]) => ({ choice: whose }) %}
@@ -536,6 +537,7 @@ imperative -> "sacrifice" "s":? __ object {% ([, , , sacrifice]) => ({ sacrifice
   | "support" __ number {% ([, , support]) => ({ support }) %}
   | "attach" __ object __ "to" __ object {% ([, , attach, , , , to]) => ({ attach, to }) %}
   | "end the turn" {% () => "endTurn" %}
+  | "separate" __ object __ "into" __ englishNumber __ "piles" {% ([, , separate, , , , count]) => ({ separate, into: { piles: count } }) %}
   | "cast" __ numericalComparison __ "spell" __ duration {% ([, , comparison, , what, , duration]) => ({ cast: { comparison, what, duration } }) %}
   | "spend this mana only to cast" __ object {% ([, , spendOnlyOn]) => ({ spendOnlyOn }) %}
 

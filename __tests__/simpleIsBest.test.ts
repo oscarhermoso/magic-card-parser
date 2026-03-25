@@ -303,7 +303,7 @@ const cubeCards: CubeCard[] = [
   { name: 'Languish', oracle_text: 'All creatures get -4/-4 until end of turn.' },
   { name: 'Legion Extruder', oracle_text: 'When this artifact enters, it deals 2 damage to any target.\n{2}, {T}, Sacrifice another artifact: Create a 3/3 colorless Golem artifact creature token.' },
   { name: 'Lightning Helix', oracle_text: 'Lightning Helix deals 3 damage to any target and you gain 3 life.' },
-  { name: 'Liliana of the Veil', oracle_text: '+1: Each player discards a card.\n−2: Target player sacrifices a creature.\n−6: Separate all permanents target player controls into two piles. That player sacrifices all permanents in the pile of their choice.', parseError: true },
+  { name: 'Liliana of the Veil', oracle_text: '+1: Each player discards a card.\n−2: Target player sacrifices a creature.\n−6: Separate all permanents target player controls into two piles. That player sacrifices all permanents in the pile of their choice.' },
   { name: 'Lotus Cobra', oracle_text: 'Landfall — Whenever a land you control enters, add one mana of any color.' },
   { name: 'Luminarch Aspirant', oracle_text: 'At the beginning of combat on your turn, put a +1/+1 counter on target creature you control.' },
   { name: 'Lush Portico', oracle_text: '({T}: Add {G} or {W}.)\nThis land enters tapped.\nWhen this land enters, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)' },

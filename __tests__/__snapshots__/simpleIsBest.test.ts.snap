@@ -6531,6 +6531,119 @@ exports[`Unambiguous cards: single parse + snapshot > Lightning Helix 1`] = `
 ]
 `;
 
+exports[`Unambiguous cards: single parse + snapshot > Liliana of the Veil 1`] = `
+[
+  {
+    "activatedAbility": {
+      "actor": {
+        "each": "player",
+      },
+      "does": {
+        "discard": {
+          "object": "card",
+          "reference": {
+            "count": 1,
+          },
+        },
+      },
+    },
+    "costs": {
+      "loyalty": 1,
+    },
+  },
+  {
+    "activatedAbility": {
+      "actor": {
+        "player": "player",
+        "references": [
+          {
+            "targetCount": 1,
+          },
+        ],
+      },
+      "does": {
+        "sacrifice": {
+          "object": {
+            "type": {
+              "and": [
+                "creature",
+              ],
+            },
+          },
+          "reference": {
+            "count": 1,
+          },
+        },
+      },
+    },
+    "costs": {
+      "loyalty": -2,
+    },
+  },
+  {
+    "activatedAbility": [
+      {
+        "into": {
+          "piles": 2,
+        },
+        "separate": {
+          "object": {
+            "object": {
+              "type": {
+                "and": [
+                  "permanent",
+                ],
+              },
+            },
+            "suffix": {
+              "actor": {
+                "player": "player",
+                "references": [
+                  {
+                    "targetCount": 1,
+                  },
+                ],
+              },
+              "does": "control",
+            },
+          },
+          "reference": {
+            "count": "all",
+          },
+        },
+      },
+      {
+        "actor": "they",
+        "does": {
+          "sacrifice": {
+            "object": {
+              "object": {
+                "type": {
+                  "and": [
+                    "permanent",
+                  ],
+                },
+              },
+              "suffix": {
+                "pile": {
+                  "choice": "their",
+                },
+              },
+            },
+            "reference": {
+              "count": "all",
+            },
+          },
+        },
+      },
+    ],
+    "costs": {
+      "loyalty": -6,
+    },
+  },
+]
+`;
+
 exports[`Unambiguous cards: single parse + snapshot > Lingering Souls 1`] = `
 [
   {
