@@ -1,7 +1,10 @@
 # Based on https://github.com/Soothsilver/mtg-grammar/blob/master/mtg.g4
 @include "./enums.ne"
 
-card -> "\n":* abilityOrRemind ("\n" abilityOrRemind):* "\n":? {% ([, a, as]) => a ? [a, ...as.map(([, a2]) => a2).filter((a) => a)] : [...as.map(([, a2]) => a2).filter((a) => a)] %}
+card -> "\n":* abilityOrRemind ("\n" abilityOrRemind):* "\n":? {% ([, a, as]) => {
+  const all = [a, ...as.map(([, a2]) => a2)].filter(a => a);
+  return all.flatMap(a => Array.isArray(a) ? a : [a]);
+} %}
   | "\n":* {% () => [] %}
 
 abilityOrRemind
@@ -466,7 +469,7 @@ imperative -> "sacrifice" "s":? __ object {% ([, , , sacrifice]) => ({ sacrifice
   | "draw" "s":? __ "cards equal to" __ numberDefinition {% ([, , , , , draw]) => ({ draw }) %}
   | "draw" "s":? __ "more than" __ englishNumber __ "card" "s":? (__ "each" __ "turn"):? {% ([, , , , , max, , , , duration]) => ({ draw: { max }, duration: duration ? { reference: "each", what: "turn" } : null }) %}
   | "shuffle" "s":? __ zone {% ([, , , shuffle]) => ({ shuffle }) %}
-  | "shuffle" "s":? __ (object | zone) __ "into" __ zone {% ([, , , shuffle, , , , into]) => ({ shuffle, into }) %}
+  | "shuffle" "s":? __ (object | zone) __ "into" __ zone {% ([, , , [shuffle], , , , into]) => ({ shuffle, into }) %}
   | "shuffle" "s":? {% () => ({ shuffle: "library" }) %}
   | "counter" "s":? __ object {% ([, , , counter]) => ({ counter }) %}
   | "tap" "s":? (__ "or untap"):? __ object {% ([, , untap, , tap]) => untap ? { does: { or: ["tap", "untap"] }, to: tap } : { tap } %}
@@ -906,7 +909,7 @@ inZone -> "on the battlefield" {% () => ({ in: "battlefield" }) %}
 fromZone -> "from" __ zone {% ([, , z]) => z %}
 
 permanentTypeSpecifier -> permanentTypeSpecifierInner (__ permanentTypeSpecifierInner):* {% ([t1, ts]) => ({ and: [t1, ...ts.map(([, t]) => t)] }) %}
-anyType -> anyTypeInner (__ anyTypeInner):* {% ([t1, ts]) => ({ and: [t1, ...ts.map(([, t]) => t)] }) %}
+anyType -> anyTypeInner (__ anyTypeInner):* {% ([t1, ts]) => ts.length > 0 ? { and: [t1, ...ts.map(([, t]) => t)] } : t1 %}
   | anyTypeInner __ "or" __ anyTypeInner {% ([t1, , , , t2]) => ({ or: [t1, t2] }) %}
   | anyTypeInner __ ("and/or" {% () => "or" %} | "and" {% () => "and" %}) __ anyTypeInner {% ([t1, , connector, , t2]) => ({ [connector]: [t1, t2] }) %}
   | anyTypeInner ("," __ anyTypeInner):+ ",":? __ "or" __ anyTypeInner {% ([t1, ts, , , , , tLast]) => ({ or: [t1, ...ts.map(([, , t]) => t), tLast] }) %}
