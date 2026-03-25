@@ -6,6 +6,13 @@ const ABILITY_WORDS = new Set(["adamant","addendum","battalion","bloodrush","cha
 const SIMPLE_KEYWORDS = new Set(["deathtouch","defender","flash","flying","haste","hexproof","indestructible","intimidate","lifelink","reach","shroud","trample","vigilance","flanking","phasing","shadow","horsemanship","fear","provoke","storm","sunburst","epic","convoke","haunt","delve","gravestorm","changeling","hideaway","conspire","persist","wither","retrace","exalted","cascade","rebound","infect","undying","soulbond","unleash","cipher","evolve","extort","fuse","dethrone","prowess","exploit","menace","devoid","ingest","myriad","skulk","melee","undaunted","improvise","aftermath","ascend","assist","mentor","riot","partner"]);
 const COST_KEYWORDS = new Set(["equip","escape","spectacle","eternalize","embalm","escalate","emerge","surge","awaken","dash","outlast","mutate","bestow","scavenge","overload","buyback","echo","flashback","madness","morph","entwine","ninjutsu","transmute","replicate","recover","fortify","evoke","unearth","miracle","megamorph","prowl","transfigure","multikicker"]);
 const NUMBER_KEYWORDS = new Set(["afterlife","afflict","fabricate","crew","renown","tribute","rampage","fading","amplify","modular","bushido","dredge","graft","ripple","vanishing","absorb","poisonous","devour","annihilator","frenzy","soulshift"]);
+const objHasMods = (o) => o?.prefixes||o?.suffix||o?.condition||o?.without||o?.object?.prefixes||o?.object?.suffix;
+const pluralTypeList = (p1, t1, c, p2, t2) => {
+  const result = { type: { [c]: [t1, t2] } };
+  const all = [...p1.map(([p]) => p), ...p2.map(([p]) => p)];
+  if (all.length > 0) result.prefixes = all;
+  return result;
+};
 %}
 
 _ -> " ":?
@@ -19,9 +26,10 @@ superType -> "basic" {% () => "basic" %}
   | "snow" {% () => "snow" %}
   | "ongoing" {% () => "ongoing" %}
   | "world" {% () => "world" %}
-# enchantmentType and spellSubType temporarily removed — unused by test cards
+# spellSubType temporarily removed — unused by test cards
 subType -> creatureType {% ([t]) => t %}
   | artifactType {% ([t]) => t %}
+  | "aura" {% () => "aura" %}
   # | spellSubType {% ([t]) => t %}
   # | enchantmentType {% ([t]) => t %}
   | planeswalkerType {% ([t]) => t %}

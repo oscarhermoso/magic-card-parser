@@ -1,7 +1,31 @@
 # Magic Card Parser
-This is a project to implement a parser that will support parsing most Magic
-the Gathering card texts. The current goal is to parse 80% of cards
-successfully.
+
+A [Nearley](https://nearley.js.org/) grammar parser for Magic: The Gathering oracle text. Parses card text into a structured AST for programmatic use.
+
+### Current Compatibility
+
+Tested against the top 1000 most-cubed cards on [CubeCobra](https://cubecobra.com/) (excluding un-cards):
+
+| | Count | % of testable |
+|---|---|---|
+| Parsed OK | 650 | 67.4% |
+| Ambiguous parse | 66 | 6.8% |
+| Parse error | 248 | 25.7% |
+| Skipped (non-normal layout) | 36 | — |
+
+The parser currently supports `normal` layout cards only (no split, transform, adventure, saga, or leveler layouts).
+
+Top categories of unsupported patterns:
+
+| Pattern | Cards |
+|---|---|
+| Enters tapped unless | 21 |
+| X / equal to expressions | 16 |
+| Copy / becomes | 13 |
+| Keyword alternate costs (affinity, evoke, companion) | 12 |
+| Protection from | 9 |
+| Choose N (modal commands) | 8 |
+| Devotion / card types among | 8 |
 
 ## Installation
 
@@ -43,8 +67,6 @@ in the oracle text and convert to lowercase before parsing. The return value is
 an object like the following:
 ```json
 {
-  "error": null,
-  "oracleText": "{t}: create a 1/1 white human creature token.\nfateful hour — as long as you have 5 or less life, other creatures you control get +2/+2.",
   "result": [
     [
       {
@@ -61,33 +83,25 @@ an object like the following:
       {
         "asLongAs": {
           "actor": "you",
-          "does": {
-            "comparison": { "lte": 5 },
-            "value": "life"
-          }
+          "does": { "comparison": { "lte": 5 }, "value": "life" }
         },
         "effect": {
           "what": {
-            "type": "creature",
-            "prefixes": ["other"],
-            "suffix": {
-              "actor": "you",
-              "does": "control"
-            }
+            "object": { "type": "creature", "prefixes": ["other"] },
+            "suffix": { "actor": "you", "does": "control" }
           },
-          "does": {
-            "powerToughnessMod": {
-              "powerMod": 2,
-              "toughnessMod": 2
-            }
-          }
-        }
+          "does": { "powerToughnessMod": { "powerMod": 2, "toughnessMod": 2 } }
+        },
+        "abilityWord": "fateful hour"
       }
     ]
   ],
+  "error": null,
+  "oracleText": "{t}: create a 1/1 white human creature token.\nfateful hour -- as long as you have 5 or less life, other creatures you control get +2/+2.",
   "card": {
     "name": "Thraben Doomsayer",
-    "oracle_text": "{T}: create a 1/1 white Human creature token.\nFateful hour — as long as you have 5 or less life, other creatures you control get +2/+2."
+    "oracle_text": "{T}: Create a 1/1 white Human creature token.\nFateful hour — As long as you have 5 or less life, other creatures you control get +2/+2.",
+    "layout": "normal"
   }
 }
 ```
@@ -105,14 +119,23 @@ and fix any errors we discover from those, so we have high confidence that the
 vast majority of the parses are correct.
 
 ## Contributor Guide
-We greatly appreciate any contributions. You can check the [issue
-tracker](https://github.com/ruler501/magic-card-parser/issues) for active bugs
-and TODO items. You can also run `npm run assess` to get a list of cards that
-are failing to parse and try getting those to parse, before running this you 
-need to update submodules, setup the CubeCobra `.env` file according to their
-README and run `npm i && npm setup` in the `extern/CubeCobra` folder. It is
-also appreciated if you improve the JSON output to make it more machine-readable,
-so our users can better utilize it. When making commits that change the number
-of cards "successfully," correctly or ambiguously, parsed please include
-`Parses <amount>/<cardCount>.` in your commit message. If you change how the
-example would parse please update the README with the new version as well.
+
+Contributions are welcome. The grammar lives in `nearley/magicCard.ne` and compiles with nearleyc.
+
+### Testing
+
+```bash
+npm test                        # run test suite (vitest)
+node scripts/coverage.mjs       # grammar rule coverage analysis
+node scripts/topCardsTest.mjs   # compatibility test against top 1000 cubed cards
+```
+
+### Key files
+
+- `nearley/magicCard.ne` — Main grammar (Nearley/Earley parser)
+- `nearley/enums.ne` — Type enums (creature types, keywords, etc.)
+- `src/magicCardParser.js` — Parser entry point
+- `src/nameReplacement.js` — Preprocessor (name substitution, Unicode normalization)
+- `src/index.d.ts` — TypeScript type definitions for the AST
+- `__tests__/simpleIsBest.test.ts` — 368-card test suite with snapshots
+- `__tests__/astValidator.test.ts` — Validates AST shapes match type definitions
