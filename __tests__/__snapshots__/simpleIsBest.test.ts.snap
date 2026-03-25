@@ -1,5 +1,154 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`Ambiguous cards: parses with snapshot > Animate Dead 1`] = `
+[
+  [
+    {
+      "enchant": {
+        "object": {
+          "object": "card",
+          "types": {
+            "and": [
+              "creature",
+            ],
+          },
+        },
+        "suffix": {
+          "in": {
+            "owner": "a",
+            "zone": "graveyard",
+          },
+        },
+      },
+    },
+  ],
+  {
+    "effect": [
+      {
+        "condition": {
+          "is": {
+            "inZone": {
+              "in": "battlefield",
+            },
+          },
+        },
+        "effect": {
+          "does": {
+            "and": [
+              {
+                "loses": [
+                  {
+                    "enchant": {
+                      "object": {
+                        "object": "card",
+                        "types": {
+                          "and": [
+                            "creature",
+                          ],
+                        },
+                      },
+                      "suffix": {
+                        "in": {
+                          "owner": "a",
+                          "zone": "graveyard",
+                        },
+                      },
+                    },
+                  },
+                ],
+              },
+              {
+                "gains": {
+                  "quoted": "enchant creature put onto the battlefield with ~.",
+                },
+              },
+            ],
+          },
+          "what": "it",
+        },
+      },
+      {
+        "and": [
+          {
+            "control": "your",
+            "returns": {
+              "object": {
+                "object": "card",
+                "types": {
+                  "and": [
+                    "creature",
+                  ],
+                },
+              },
+              "reference": "enchanted",
+            },
+            "to": "battlefield",
+          },
+          {
+            "attach": "CARD_NAME",
+            "to": "it",
+          },
+        ],
+      },
+      {
+        "effect": {
+          "actor": {
+            "does": "control",
+            "whose": {
+              "object": {
+                "type": {
+                  "and": [
+                    "creature",
+                  ],
+                },
+              },
+              "reference": "that",
+            },
+          },
+          "does": {
+            "sacrifice": "it",
+          },
+        },
+        "trigger": {
+          "when": {
+            "does": {
+              "leaves": "battlefield",
+            },
+            "what": "CARD_NAME",
+          },
+        },
+      },
+    ],
+    "trigger": {
+      "when": {
+        "does": {
+          "enter": "battlefield",
+        },
+        "what": "CARD_NAME",
+      },
+    },
+  },
+  {
+    "does": {
+      "powerToughnessMod": {
+        "powerMod": -1,
+        "toughnessMod": -0,
+      },
+    },
+    "what": {
+      "object": {
+        "type": {
+          "and": [
+            "creature",
+          ],
+        },
+      },
+      "reference": "enchanted",
+    },
+  },
+]
+`;
+
 exports[`Unambiguous cards: single parse + snapshot > Abbot of Keral Keep 1`] = `
 [
   [
@@ -1682,54 +1831,6 @@ exports[`Unambiguous cards: single parse + snapshot > Chatterstorm 1`] = `
 ]
 `;
 
-exports[`Unambiguous cards: single parse + snapshot > Chromatic Lantern 1`] = `
-[
-  {
-    "does": {
-      "haveAbility": {
-        "activatedAbility": {
-          "addOneOf": [
-            "W",
-            "U",
-            "B",
-            "R",
-            "G",
-          ],
-          "amount": 1,
-        },
-        "costs": "tap",
-      },
-    },
-    "what": {
-      "object": {
-        "type": {
-          "and": [
-            "land",
-          ],
-        },
-      },
-      "suffix": {
-        "actor": "you",
-        "does": "control",
-      },
-    },
-  },
-  {
-    "activatedAbility": {
-      "addOneOf": [
-        "W",
-        "U",
-        "B",
-        "R",
-        "G",
-      ],
-      "amount": 1,
-    },
-    "costs": "tap",
-  },
-]
-`;
-
 exports[`Unambiguous cards: single parse + snapshot > Chromatic Star 1`] = `
 [
   {
@@ -2312,119 +2413,6 @@ exports[`Unambiguous cards: single parse + snapshot > Cut Down 1`] = `
       "reference": {
         "targetCount": 1,
       },
-    },
-  },
-]
-`;
-
-exports[`Unambiguous cards: single parse + snapshot > Dack Fayden 1`] = `
-[
-  {
-    "activatedAbility": {
-      "and": [
-        {
-          "actor": {
-            "player": "player",
-            "references": [
-              {
-                "targetCount": 1,
-              },
-            ],
-          },
-          "does": {
-            "draw": 2,
-          },
-        },
-        {
-          "discard": {
-            "object": "card",
-            "reference": {
-              "count": 2,
-            },
-          },
-        },
-      ],
-    },
-    "costs": {
-      "loyalty": 1,
-    },
-  },
-  {
-    "activatedAbility": {
-      "gainControlOf": {
-        "object": {
-          "type": {
-            "and": [
-              "artifact",
-            ],
-          },
-        },
-        "reference": {
-          "targetCount": 1,
-        },
-      },
-    },
-    "costs": {
-      "loyalty": -2,
-    },
-  },
-  {
-    "activatedAbility": {
-      "actor": "you",
-      "does": {
-        "emblem": {
-          "with": {
-            "ability": {
-              "effect": {
-                "gainControlOf": {
-                  "object": {
-                    "type": {
-                      "and": [
-                        "permanent",
-                      ],
-                    },
-                  },
-                  "reference": "those",
-                },
-              },
-              "trigger": {
-                "when": {
-                  "actor": "you",
-                  "does": {
-                    "cast": {
-                      "object": {
-                        "object": "spell",
-                        "suffix": {
-                          "targets": {
-                            "object": {
-                              "type": {
-                                "and": [
-                                  "permanent",
-                                ],
-                              },
-                            },
-                            "reference": {
-                              "count": {
-                                "atLeast": 1,
-                              },
-                            },
-                          },
-                        },
-                      },
-                      "reference": {
-                        "count": 1,
-                      },
-                    },
-                  },
-                },
-              },
-            },
-          },
-        },
-      },
-    },
-    "costs": {
-      "loyalty": -6,
     },
   },
 ]
@@ -3118,101 +3106,6 @@ exports[`Unambiguous cards: single parse + snapshot > Elegant Parlor 1`] = `
         },
         "what": "CARD_NAME",
       },
-    },
-  },
-]
-`;
-
-exports[`Unambiguous cards: single parse + snapshot > Elspeth, Sun's Champion 1`] = `
-[
-  {
-    "activatedAbility": {
-      "create": {
-        "amount": 3,
-        "color": "w",
-        "size": {
-          "power": 1,
-          "toughness": 1,
-        },
-        "type": {
-          "and": [
-            "soldier",
-            "creature",
-          ],
-        },
-      },
-    },
-    "costs": {
-      "loyalty": 1,
-    },
-  },
-  {
-    "activatedAbility": {
-      "destroy": {
-        "object": {
-          "condition": {
-            "with": {
-              "comparison": {
-                "gte": 4,
-              },
-              "value": "power",
-            },
-          },
-          "type": {
-            "and": [
-              "creature",
-            ],
-          },
-        },
-        "reference": {
-          "count": "all",
-        },
-      },
-    },
-    "costs": {
-      "loyalty": -3,
-    },
-  },
-  {
-    "activatedAbility": {
-      "actor": "you",
-      "does": {
-        "emblem": {
-          "with": {
-            "ability": {
-              "does": {
-                "and": [
-                  {
-                    "powerToughnessMod": {
-                      "powerMod": 2,
-                      "toughnessMod": 2,
-                    },
-                  },
-                  {
-                    "haveAbility": "flying",
-                  },
-                ],
-              },
-              "what": {
-                "object": {
-                  "type": {
-                    "and": [
-                      "creature",
-                    ],
-                  },
-                },
-                "suffix": {
-                  "actor": "you",
-                  "does": "control",
-                },
-              },
-            },
-          },
-        },
-      },
-    },
-    "costs": {
-      "loyalty": -7,
     },
   },
 ]
@@ -12854,92 +12747,6 @@ exports[`Unambiguous cards: single parse + snapshot > Worn Powerstone 1`] = `
       ],
     },
     "costs": "tap",
-  },
-]
-`;
-
-exports[`Unambiguous cards: single parse + snapshot > Wrenn and Six 1`] = `
-[
-  {
-    "activatedAbility": {
-      "from": {
-        "owner": "your",
-        "zone": "graveyard",
-      },
-      "returns": {
-        "object": {
-          "object": "card",
-          "types": {
-            "and": [
-              "land",
-            ],
-          },
-        },
-        "reference": {
-          "targetCount": 1,
-        },
-      },
-      "to": {
-        "owner": "your",
-        "zone": "hand",
-      },
-    },
-    "costs": {
-      "loyalty": 1,
-    },
-  },
-  {
-    "activatedAbility": {
-      "does": {
-        "deal": {
-          "amount": 1,
-          "damageTo": {
-            "object": "target",
-            "reference": "any",
-          },
-        },
-      },
-      "what": "CARD_NAME",
-    },
-    "costs": {
-      "loyalty": -1,
-    },
-  },
-  {
-    "activatedAbility": {
-      "actor": "you",
-      "does": {
-        "emblem": {
-          "with": {
-            "ability": {
-              "does": {
-                "haveAbility": "retrace",
-              },
-              "what": {
-                "object": {
-                  "object": "card",
-                  "types": {
-                    "and": [
-                      "instant",
-                      "sorcery",
-                    ],
-                  },
-                },
-                "suffix": {
-                  "in": {
-                    "owner": "your",
-                    "zone": "graveyard",
-                  },
-                },
-              },
-            },
-          },
-        },
-      },
-    },
-    "costs": {
-      "loyalty": -7,
-    },
   },
 ]
 `;

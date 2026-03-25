@@ -639,7 +639,7 @@ baseObjectVerbPhrase -> ("was" | "is") __ object {% ([, , is]) => ({ is }) %}
   | "counter" "s":? __ object {% ([, , , counters]) => ({ counters }) %}
   | "fights" __ object {% ([, , fights]) => ({ fights }) %}
   | "targets" __ object {% ([, , targets]) => ({ targets }) %}
-  | "loses" __ keyword {% ([, , loses]) => ({ loses }) %}
+  | "loses" __ acquiredAbility {% ([, , loses]) => ({ loses }) %}
   | "cost" "s":? __ ("up to" __):? manacost __  "less to cast" {% ([, , , , mana]) => ({ costReduction: { mana } }) %}
   | "can attack as though it didn\"t have defender" {% () => ({ ignores: "defender" }) %}
   | "can block an additional" __ object __ "each combat" {% ([, , blockAdditional]) => ({ blockAdditional }) %}
@@ -716,6 +716,7 @@ itsPossessive -> object SAXON {% ([o]) => o %}
 
 acquiredAbility -> keyword {% ([k]) => k %}
   | "\"" ability "\"" {% ([, a]) => a %}
+  | "\"" [^"]:+ "\"" {% ([, chars]) => ({ quoted: chars.join('') }) %}
   | acquiredAbility __ "and" __ acquiredAbility {% ([a1, , , , a2]) => ({ and: [a1, a2] }) %}
   | "this ability" {% () => "thisAbility" %}
   | "flashback" {% () => "flashback" %}
