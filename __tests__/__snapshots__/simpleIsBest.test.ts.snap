@@ -527,11 +527,6 @@ exports[`Unambiguous cards: single parse + snapshot > Animate Dead 1`] = `
                 "gains": [
                   {
                     "enchant": {
-                      "condition": {
-                        "with": {
-                          "object": "CARD_NAME",
-                        },
-                      },
                       "object": {
                         "type": {
                           "and": [
@@ -540,6 +535,7 @@ exports[`Unambiguous cards: single parse + snapshot > Animate Dead 1`] = `
                         },
                       },
                       "suffix": {
+                        "by": "CARD_NAME",
                         "does": "putOntoBattlefield",
                       },
                     },
