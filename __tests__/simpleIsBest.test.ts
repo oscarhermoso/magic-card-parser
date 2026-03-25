@@ -277,7 +277,7 @@ const cubeCards: CubeCard[] = [
   { name: 'Cut Down', oracle_text: 'Destroy target creature with total power and toughness 5 or less.' },
   { name: 'Dauntless Bodyguard', oracle_text: 'As this creature enters, choose another creature you control.\nSacrifice this creature: The chosen creature gains indestructible until end of turn.' },
   { name: 'Dismember', oracle_text: '({B/P} can be paid with either {B} or 2 life.)\nTarget creature gets -5/-5 until end of turn.' },
-  { name: 'Dragonlord Atarka', oracle_text: 'Flying, trample\nWhen Dragonlord Atarka enters, it deals 5 damage divided as you choose among any number of target creatures and/or planeswalkers your opponents control.', parseError: true },
+  { name: 'Dragonlord Atarka', oracle_text: 'Flying, trample\nWhen Dragonlord Atarka enters, it deals 5 damage divided as you choose among any number of target creatures and/or planeswalkers your opponents control.' },
   { name: 'Echo of Eons', oracle_text: 'Each player shuffles their hand and graveyard into their library, then draws seven cards.\nFlashback {2}{U} (You may cast this card from your graveyard for its flashback cost. Then exile it.)' },
   { name: 'Eidolon of the Great Revel', oracle_text: 'Whenever a player casts a spell with mana value 3 or less, this creature deals 2 damage to that player.' },
   { name: 'Elegant Parlor', oracle_text: '({T}: Add {R} or {W}.)\nThis land enters tapped.\nWhen this land enters, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)' },

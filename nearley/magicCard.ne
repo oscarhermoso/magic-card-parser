@@ -278,7 +278,7 @@ objectInner -> "it" {% () => "it" %}
   | "this emblem" {% () => "emblem" %}
   | object __ "that's" __ isWhat {% ([object, , , , condition]) => ({ object, condition }) %}
   | pureObject {% ([po]) => po %}
-  | pureObject __ "and" __ pureObject {% ([o1,,,,o2],r,reject) => (o1?.prefixes||o2?.prefixes||o1?.object?.prefixes||o2?.object?.prefixes) ? {and:[o1,o2]} : reject %}
+  | pureObject __ ("and" {% () => "and" %} | "or" {% () => "xor" %} | "and/or" {% () => "or" %}) __ pureObject {% ([o1,,c,,o2],r,reject) => (c!=="and"||o1?.prefixes||o2?.prefixes||o1?.object?.prefixes||o2?.object?.prefixes) ? {[c]:[o1,o2]} : reject %}
   | "each of" __ object {% ([, , each]) => ({ each }) %}
   | "the top" __ englishNumber __ "cards of" __ zone {% ([, , topCards, , , , from]) => ({ topCards, from }) %}
   | "the top of" __ playersPossessive __ "library" {% ([, , whose]) => ({ topOf: { whose, what: "library" } }) %}
