@@ -30,7 +30,6 @@ permanentTypeInner -> "artifact" {% () => "artifact" %}
   | "enchantment" {% () => "enchantment" %}
   | "land" {% () => "land" %}
   | "planeswalker" {% () => "planeswalker" %}
-  | "basic" {% () => "basic" %}
   | "permanent" {% () => "permanent" %}
 spellType -> "instant" {% () => "instant" %}
   | "sorcery" {% () => "sorcery" %}
