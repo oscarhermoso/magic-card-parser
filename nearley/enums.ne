@@ -14,17 +14,17 @@ counterKind -> ptModification {% ([c]) => c %}
   | "double strike" {% () => "double strike" %}
   | "first strike" {% () => "first strike" %}
   | [a-z]:+ {% (data, ref, reject) => { const w = data[0].join(''); return COUNTER_KINDS.has(w) ? w : reject; } %}
-superType -> ("basic"
-  | "legendary"
-  | "snow"
-  | "ongoing"
-  | "world") {% ([[t]]) => t %}
-subType -> (creatureType
-  | artifactType
-  | spellSubType
-  | enchantmentType
-  | planeswalkerType
-  | landType) {% ([[t]]) => t %}
+superType -> "basic" {% () => "basic" %}
+  | "legendary" {% () => "legendary" %}
+  | "snow" {% () => "snow" %}
+  | "ongoing" {% () => "ongoing" %}
+  | "world" {% () => "world" %}
+subType -> creatureType {% ([t]) => t %}
+  | artifactType {% ([t]) => t %}
+  | spellSubType {% ([t]) => t %}
+  | enchantmentType {% ([t]) => t %}
+  | planeswalkerType {% ([t]) => t %}
+  | landType {% ([t]) => t %}
 permanentTypeInner -> "artifact" {% () => "artifact" %}
   | "creature" {% () => "creature" %}
   | "enchantment" {% () => "enchantment" %}
@@ -34,52 +34,52 @@ permanentTypeInner -> "artifact" {% () => "artifact" %}
   | "permanent" {% () => "permanent" %}
 spellType -> "instant" {% () => "instant" %}
   | "sorcery" {% () => "sorcery" %}
-permanentTypeSpecifierInner -> (permanentTypeInner
-  | creatureType
-  | artifactType
-  | enchantmentType
-  | planeswalkerType
-  | landType) {% ([[t]]) => t %}
+permanentTypeSpecifierInner -> permanentTypeInner {% ([t]) => t %}
+  | creatureType {% ([t]) => t %}
+  | artifactType {% ([t]) => t %}
+  | enchantmentType {% ([t]) => t %}
+  | planeswalkerType {% ([t]) => t %}
+  | landType {% ([t]) => t %}
 creatureType -> "assembly-worker" {% () => "assembly-worker" %}
   | [a-z]:+ {% (data, ref, reject) => { const w = data[0].join(''); return CREATURE_TYPES.has(w) ? w : reject; } %}
 planeswalkerType -> [a-z]:+ {% (data, ref, reject) => { const w = data[0].join(''); return PLANESWALKER_TYPES.has(w) ? w : reject; } %}
-landType -> (basicLandType
-  | "desert"
-  | "gate"
-  | "lair"
-  | "locus"
-  | "mine"
-  | "power-plant"
-  | "tower"
-  | "urza" "'" "s") {% ([[t]]) => t %}
-basicLandType -> ("plains"
-  | "island"
-  | "swamp"
-  | "mountain"
-  | "forest") {% ([[t]]) => t %}
-enchantmentType -> ("aura"
-  | "cartouche"
-  | "curse"
-  | "saga"
-  | "shrine") {% ([[t]]) => t %}
-artifactType -> ("clue"
-  | "contraption"
-  | "equipment"
-  | "food"
-  | "fortification"
-  | "gold"
-  | "treasure"
-  | "vehicle") {% ([[t]]) => t %}
-spellSubType -> ("adventure"
-  | "trap"
-  | "arcane") {% ([[t]]) => t %}
-type -> (permanentTypeInner
-  | spellType
-  | "tribal"
-  | "conspiracy"
-  | "plane"
-  | "phenomena"
-  | "emblem") {% ([[t]]) => t %}
+landType -> basicLandType {% ([t]) => t %}
+  | "desert" {% () => "desert" %}
+  | "gate" {% () => "gate" %}
+  | "lair" {% () => "lair" %}
+  | "locus" {% () => "locus" %}
+  | "mine" {% () => "mine" %}
+  | "power-plant" {% () => "power-plant" %}
+  | "tower" {% () => "tower" %}
+  | "urza" "'" "s" {% () => "urza's" %}
+basicLandType -> "plains" {% () => "plains" %}
+  | "island" {% () => "island" %}
+  | "swamp" {% () => "swamp" %}
+  | "mountain" {% () => "mountain" %}
+  | "forest" {% () => "forest" %}
+enchantmentType -> "aura" {% () => "aura" %}
+  | "cartouche" {% () => "cartouche" %}
+  | "curse" {% () => "curse" %}
+  | "saga" {% () => "saga" %}
+  | "shrine" {% () => "shrine" %}
+artifactType -> "clue" {% () => "clue" %}
+  | "contraption" {% () => "contraption" %}
+  | "equipment" {% () => "equipment" %}
+  | "food" {% () => "food" %}
+  | "fortification" {% () => "fortification" %}
+  | "gold" {% () => "gold" %}
+  | "treasure" {% () => "treasure" %}
+  | "vehicle" {% () => "vehicle" %}
+spellSubType -> "adventure" {% () => "adventure" %}
+  | "trap" {% () => "trap" %}
+  | "arcane" {% () => "arcane" %}
+type -> permanentTypeInner {% ([t]) => t %}
+  | spellType {% ([t]) => t %}
+  | "tribal" {% () => "tribal" %}
+  | "conspiracy" {% () => "conspiracy" %}
+  | "plane" {% () => "plane" %}
+  | "phenomena" {% () => "phenomena" %}
+  | "emblem" {% () => "emblem" %}
 
 abilityWord -> "council's dilemma" {% () => "council's dilemma" %}
   | "fateful hour" {% () => "fateful hour" %}
