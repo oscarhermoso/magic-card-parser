@@ -30,6 +30,10 @@ modalQuantifier -> "one or both" {% () => [1, 2] %}
 
 keywords -> keyword (("," | ";") __ keyword):* {% ([k1, ks]) => [k1].concat(ks.map(([, , k]) => k)) %}
 # Keywords: simple keywords use [a-z]:+ with Set lookup; compound keywords are explicit rules.
+# Temporarily removed unused keyword rules to free compiler headroom:
+# bandingKeyword, landwalkKeyword, cumulativeUpkeepKeyword, bloodthirstKeyword,
+# suspendKeyword, levelUpKeyword, affinityKeyword, offeringKeyword, spliceKeyword,
+# forecastKeyword, championKeyword, reinforceKeyword, auraSwapKeyword
 keyword -> ("double strike"
   | "first strike"
   | "split second"
@@ -41,22 +45,9 @@ keyword -> ("double strike"
   | enchantKeyword
   | costKeyword
   | numberKeyword
-  | landwalkKeyword
   | protectionKeyword
-  | bandingKeyword
-  | cumulativeUpkeepKeyword
   | cyclingKeyword
   | kickerKeyword
-  | affinityKeyword
-  | spliceKeyword
-  | offeringKeyword
-  | bloodthirstKeyword
-  | forecastKeyword
-  | suspendKeyword
-  | championKeyword
-  | reinforceKeyword
-  | levelUpKeyword
-  | auraSwapKeyword
   | "partner with" __ [^(\n]:+ {% ([, , pw]) => ({ partnerWith: pw.join('') }) %}
   ) {% ([[keyword]]) => keyword %}
   | [a-z]:+ {% (data, ref, reject) => { const w = data[0].join(''); return SIMPLE_KEYWORDS.has(w) ? w : reject; } %}
@@ -79,26 +70,23 @@ typeCycling -> "plainscycling" {% () => "plains" %}
   | "slivercycling" {% () => "sliver" %}
   | "basic landcycling" {% () => "basicLand" %}
 enchantKeyword -> "enchant" __ anyEntity {% ([, , entity]) => ({ enchant: entity }) %}
-cumulativeUpkeepKeyword -> "cumulative upkeep" __ cost {% ([, , cumulativeUpkeep]) => ({ cumulativeUpkeep }) %}
 kickerKeyword -> "kicker" __ costs {% ([, , kicker]) => ({ kicker }) %}
-bloodthirstKeyword -> "bloodthirsty" __ number {% ([, , bloodthirsty]) => ({ bloodthirsty }) %}
-suspendKeyword -> "suspend" __ number __ DASHDASH __ cost {% ([, , suspend, , , , cost]) => ({ suspend, cost }) %}
-levelUpKeyword -> "level up" __ cost {% ([, , levelUp]) => ({ levelUp }) %}
-affinityKeyword -> "affinity for" __ object {% ([, , affinityFor]) => ({ affinityFor }) %}
-offeringKeyword -> object __ "offering" {% ([offering]) => ({ offering }) %}
-spliceKeyword -> "splice onto" __ object __ cost {% ([, , spliceOnto, , cost]) => ({ spliceOnto, cost }) %}
-forecastKeyword -> "forecast" __ DASHDASH __ activatedAbility {% ([, , , , forecast]) => ({ forecast }) %}
-championKeyword -> "champion" __ object {% ([, , champion]) => ({ champion }) %}
 protectionKeyword -> "protection from" __ anyEntity {% ([, , protectionFrom]) => ({ protectionFrom }) %}
-reinforceKeyword -> "reinforce" __ number __ DASHDASH __ cost {% ([, , reinforce, , , , cost]) => ({ reinforce, cost }) %}
-bandingKeyword -> "banding" {% () => ({ bandsWith: "any" }) %}
-  | "bands with other legendary creatures" {% () => ({ bandsWith: "legendary" }) %}
-  | "bands with other creatures named wolves of the hunt" {% () => ({ bandsWith: "wolves of the hunt" }) %}
-  | "bands with other dinosaurs" {% () => ({ bandsWith: "dinosaur" }) %}
-landwalkKeyword -> anyType "walk" {% ([landwalk]) => ({ landwalk }) %}
-  | "nonbasic landwalk" {% () => ({ landwalk: { not: { type: "basic" } } }) %}
-  | "snow landwalk" {% () => ({ landwalk: { type: "snow" } }) %}
-auraSwapKeyword -> "aura swap" __ cost {% ([, , auraSwap]) => ({ auraSwap }) %}
+# Temporarily removed unused keyword definitions to free compiler headroom.
+# Restore these when cards using them are added to the test suite:
+# cumulativeUpkeepKeyword -> "cumulative upkeep" __ cost
+# bloodthirstKeyword -> "bloodthirsty" __ number
+# suspendKeyword -> "suspend" __ number __ DASHDASH __ cost
+# levelUpKeyword -> "level up" __ cost
+# affinityKeyword -> "affinity for" __ object
+# offeringKeyword -> object __ "offering"
+# spliceKeyword -> "splice onto" __ object __ cost
+# forecastKeyword -> "forecast" __ DASHDASH __ activatedAbility
+# championKeyword -> "champion" __ object
+# reinforceKeyword -> "reinforce" __ number __ DASHDASH __ cost
+# bandingKeyword -> "banding" | "bands with other..."
+# landwalkKeyword -> anyType "walk" | "nonbasic landwalk" | "snow landwalk"
+# auraSwapKeyword -> "aura swap" __ cost
 
 abilityWordAbility -> abilityWord __ DASHDASH __ ability {% ([aw, , , , a]) => {
   if (typeof a === 'object' && a !== null && !Array.isArray(a)) {
@@ -232,7 +220,7 @@ forEachClause -> "for each" __ pureObject {% ([, , forEach]) => ({ forEach }) %}
  | "for each color of mana spent to cast" __ object {% ([, , forEachColorSpent]) => ({ forEachColorSpent }) %}
 
 condition -> sentence {% ([s]) => s %}
-  | ("you've" | "you") __ action __ duration {% ([, , done, , during]) => ({ done, during }) %}
+  # | ("you've" | "you") __ action __ duration  # temporarily removed — unused
   | "you've" __ "cast" __ countableCount __ object __ duration {% ([, , , , count, , what, , during]) => ({ done: { cast: { count, what } }, during }) %}
   | "it's" __ "your turn" {% () => "yourTurn" %}
   | "it's" __ "not" __ playersPossessive __ "turn" {% ([, , notTurnOf]) => ({ notTurnOf }) %}
@@ -254,8 +242,7 @@ ordinal -> "first" {% () => 1 %}
   | "second" {% () => 2 %}
   | "third" {% () => 3 %}
 
-action -> "scried" {% () => "scried" %}
-  | "surveilled" {% () => "surveilled" %}
+# action -> "scried" | "surveilled"  # temporarily removed — unused
 
 anyEntity -> object {% ([e]) => e %}
   | pureObject {% ([e]) => e %}
@@ -291,6 +278,7 @@ objectInner -> "it" {% () => "it" %}
   | "this emblem" {% () => "emblem" %}
   | object __ "that's" __ isWhat {% ([object, , , , condition]) => ({ object, condition }) %}
   | pureObject {% ([po]) => po %}
+  | pureObject __ "and" __ pureObject {% ([o1,,,,o2],r,reject) => (o1?.prefixes||o2?.prefixes||o1?.object?.prefixes||o2?.object?.prefixes) ? {and:[o1,o2]} : reject %}
   | "each of" __ object {% ([, , each]) => ({ each }) %}
   | "the top" __ englishNumber __ "cards of" __ zone {% ([, , topCards, , , , from]) => ({ topCards, from }) %}
   | "the top of" __ playersPossessive __ "library" {% ([, , whose]) => ({ topOf: { whose, what: "library" } }) %}
@@ -303,7 +291,7 @@ suffix -> player __ (("don't" | "doesn't") __):? ("control" | "own") "s":? {% ([
   | "revealed this way" {% () => ({ reference: "thisWay", does: "reveal" }) %}
   | "from" __ object {% ([, , from]) => ({ from }) %}
   | ("that" __):? "you cast" {% () => "youCast" %}
-  | "that" __ didAction (__ duration):? {% ([, , didAction, when]) => when ? { didAction, when: when[1] } : { didAction } %}
+  # | "that" __ didAction (__ duration)?  # temporarily removed — unused
   | "that targets only" __ object {% ([, , onlyTargets]) => ({ onlyTargets }) %}
   | "that targets" __ anyEntity {% ([, , targets]) => ({ targets }) %}
   | "tapped this way" {% () => "tappedThisWay" %}
@@ -396,7 +384,7 @@ commonReferencingPrefixInner -> "each" {% () => "each" %}
   | "that" {% () => "that" %}
   | "that player" SAXON {% () => "thatPlayer" %}
   | "these" {% () => "these" %}
-  | "those" {% () => "thsoe" %}
+  | "those" {% () => "those" %}
   | "another" {% () => "other" %}
   | "the chosen" {% () => "chosen" %}
   | "at least" __ englishNumber {% ([, , atLeast]) => ({ atLeast }) %}
@@ -425,9 +413,7 @@ prefix -> "first" {% () => "first" %}
   | connected[prefix] {% ([c]) => c %}
   | "other" {% () => "other" %}
 
-didAction -> "dealt damage" {% () => "dealtDamage" %}
-  | "was dealt damage" {% () => "damaged" %}
-  | "discarded" {% () => "discarded" %}
+# didAction -> "dealt damage" | "was dealt damage" | "discarded"  # temporarily removed — unused
 
 imperative -> "sacrifice" "s":? __ object {% ([, , , sacrifice]) => ({ sacrifice }) %}
   | connected[imperative] {% ([c]) => c %}
@@ -565,7 +551,7 @@ playerVerbModifier -> "for each" __ pureObject {% ([, , forEach]) => ({ forEach 
 basePlayerVerbPhrase -> gains __ "life equal to" __ itsPossessive __ numericalCharacteristic {% ([, , , , whose, , value]) => ({ lifeGain: { whose, value } }) %}
   | controls __ ("no" __):? object {% ([, , negation, controls]) => negation ? { not: { controls } } : { controls } %}
   | controls __ "more" __ object __ "than" __ player {% ([, , , , what, , , , thanWhom]) => ({ controls: { more: what, than: thanWhom } }) %}
-  | owns __ object {% ([, , owns]) => ({ owns }) %}
+  # | owns __ object  # temporarily removed — unused
   | ("don't" | "doesn't") "lose this mana as steps and phases end." {% () => "doesntEmpty" %}
   | "surveil" "s":? {% () => "surveil" %}
   | "life total becomes" __ englishNumber {% ([, , lifeTotalBecomes]) => ({ lifeTotalBecomes }) %}
@@ -735,7 +721,7 @@ acquiredAbility -> keyword {% ([k]) => k %}
 
 gets -> "get" "s":?
 controls -> "control" "s":?
-owns -> "own" "s":?
+# owns -> "own" "s":?  # temporarily removed — unused
 gains -> "gain" "s":?
 
 duration -> "this turn" {% () => ({ reference: "this", what: "turn" }) %}

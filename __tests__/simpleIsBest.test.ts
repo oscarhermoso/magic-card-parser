@@ -352,7 +352,7 @@ const cubeCards: CubeCard[] = [
   { name: 'Sulfuric Vortex', oracle_text: 'At the beginning of each player\'s upkeep, this enchantment deals 2 damage to that player.\nIf a player would gain life, that player gains no life instead.' },
   { name: 'Survival of the Fittest', oracle_text: '{G}, Discard a creature card: Search your library for a creature card, reveal that card, put it into your hand, then shuffle.' },
   { name: 'Temple Garden', oracle_text: '({T}: Add {G} or {W}.)\nAs this land enters, you may pay 2 life. If you don\'t, it enters tapped.' },
-  { name: 'Thalia, Heretic Cathar', oracle_text: 'First strike\nCreatures and nonbasic lands your opponents control enter tapped.', parseError: true },
+  { name: 'Thalia, Heretic Cathar', oracle_text: 'First strike\nCreatures and nonbasic lands your opponents control enter tapped.', ambiguous: true },
   { name: 'Thalia\'s Lieutenant', oracle_text: 'When this creature enters, put a +1/+1 counter on each other Human you control.\nWhenever another Human you control enters, put a +1/+1 counter on this creature.' },
   { name: 'Third Path Iconoclast', oracle_text: 'Whenever you cast a noncreature spell, create a 1/1 colorless Soldier artifact creature token.' },
   { name: 'Thundering Falls', oracle_text: '({T}: Add {U} or {R}.)\nThis land enters tapped.\nWhen this land enters, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)' },

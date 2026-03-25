@@ -1,5 +1,54 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`Ambiguous cards: parses with snapshot > Thalia, Heretic Cathar 1`] = `
+[
+  [
+    "first strike",
+  ],
+  {
+    "does": {
+      "enter": "battlefield",
+      "tapped": true,
+    },
+    "what": {
+      "and": [
+        {
+          "type": {
+            "and": [
+              "creature",
+            ],
+          },
+        },
+        {
+          "object": {
+            "prefixes": [
+              {
+                "not": {
+                  "type": {
+                    "and": [
+                      "basic",
+                    ],
+                  },
+                },
+              },
+            ],
+            "type": {
+              "and": [
+                "land",
+              ],
+            },
+          },
+          "suffix": {
+            "actor": "opponent",
+            "does": "control",
+          },
+        },
+      ],
+    },
+  },
+]
+`;
+
 exports[`Unambiguous cards: single parse + snapshot > Abbot of Keral Keep 1`] = `
 [
   [
@@ -2594,7 +2643,7 @@ exports[`Unambiguous cards: single parse + snapshot > Dack Fayden 1`] = `
                       ],
                     },
                   },
-                  "reference": "thsoe",
+                  "reference": "those",
                 },
               },
               "trigger": {
@@ -12053,7 +12102,7 @@ exports[`Unambiguous cards: single parse + snapshot > Sundering Titan 1`] = `
                 ],
               },
             },
-            "reference": "thsoe",
+            "reference": "those",
           },
         },
       ],
@@ -12269,7 +12318,7 @@ exports[`Unambiguous cards: single parse + snapshot > Sylvan Library 1`] = `
         },
         "forEach": {
           "object": "card",
-          "reference": "thsoe",
+          "reference": "those",
         },
       },
     ],

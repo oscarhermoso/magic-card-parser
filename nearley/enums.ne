@@ -19,10 +19,11 @@ superType -> "basic" {% () => "basic" %}
   | "snow" {% () => "snow" %}
   | "ongoing" {% () => "ongoing" %}
   | "world" {% () => "world" %}
+# enchantmentType and spellSubType temporarily removed — unused by test cards
 subType -> creatureType {% ([t]) => t %}
   | artifactType {% ([t]) => t %}
-  | spellSubType {% ([t]) => t %}
-  | enchantmentType {% ([t]) => t %}
+  # | spellSubType {% ([t]) => t %}
+  # | enchantmentType {% ([t]) => t %}
   | planeswalkerType {% ([t]) => t %}
   | landType {% ([t]) => t %}
 permanentTypeInner -> "artifact" {% () => "artifact" %}
@@ -36,7 +37,7 @@ spellType -> "instant" {% () => "instant" %}
 permanentTypeSpecifierInner -> permanentTypeInner {% ([t]) => t %}
   | creatureType {% ([t]) => t %}
   | artifactType {% ([t]) => t %}
-  | enchantmentType {% ([t]) => t %}
+  | "aura" {% () => "aura" %}
   | planeswalkerType {% ([t]) => t %}
   | landType {% ([t]) => t %}
 creatureType -> "assembly-worker" {% () => "assembly-worker" %}
@@ -56,11 +57,8 @@ basicLandType -> "plains" {% () => "plains" %}
   | "swamp" {% () => "swamp" %}
   | "mountain" {% () => "mountain" %}
   | "forest" {% () => "forest" %}
-enchantmentType -> "aura" {% () => "aura" %}
-  | "cartouche" {% () => "cartouche" %}
-  | "curse" {% () => "curse" %}
-  | "saga" {% () => "saga" %}
-  | "shrine" {% () => "shrine" %}
+# enchantmentType temporarily removed — unused by test cards
+# enchantmentType -> "aura" | "cartouche" | "curse" | "saga" | "shrine"
 artifactType -> "clue" {% () => "clue" %}
   | "contraption" {% () => "contraption" %}
   | "equipment" {% () => "equipment" %}
@@ -69,9 +67,8 @@ artifactType -> "clue" {% () => "clue" %}
   | "gold" {% () => "gold" %}
   | "treasure" {% () => "treasure" %}
   | "vehicle" {% () => "vehicle" %}
-spellSubType -> "adventure" {% () => "adventure" %}
-  | "trap" {% () => "trap" %}
-  | "arcane" {% () => "arcane" %}
+# spellSubType temporarily removed — unused by test cards
+# spellSubType -> "adventure" | "trap" | "arcane"
 type -> permanentTypeInner {% ([t]) => t %}
   | spellType {% ([t]) => t %}
   | "tribal" {% () => "tribal" %}
