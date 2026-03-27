@@ -17,6 +17,15 @@ const pluralTypeList = (p1, t1, c, p2, t2) => {
 
 _ -> " ":?
 __ -> " "
+_s -> "s":?
+_n -> "n":?
+connector -> "and"   {% () => "and" %}
+           | "or"    {% () => "xor" %}
+           | "and/or" {% () => "or" %}
+castOrPlay -> "cast" {% id %}
+            | "play" {% id %}
+hasOrHave -> "has" | "have"
+isOrAre -> "is" | "are"
 counterKind -> ptModification {% ([c]) => c %}
   | "double strike" {% () => "double strike" %}
   | "first strike" {% () => "first strike" %}
@@ -43,11 +52,7 @@ permanentTypeInner -> "artifact" {% () => "artifact" %}
 spellType -> "instant" {% () => "instant" %}
   | "sorcery" {% () => "sorcery" %}
 permanentTypeSpecifierInner -> permanentTypeInner {% ([t]) => t %}
-  | creatureType {% ([t]) => t %}
-  | artifactType {% ([t]) => t %}
-  | "aura" {% () => "aura" %}
-  | planeswalkerType {% ([t]) => t %}
-  | landType {% ([t]) => t %}
+  | subType {% ([t]) => t %}
 creatureType -> "assembly-worker" {% () => "assembly-worker" %}
   | [a-z]:+ {% (data, ref, reject) => { const w = data[0].join(''); return CREATURE_TYPES.has(w) ? w : reject; } %}
 planeswalkerType -> [a-z]:+ {% (data, ref, reject) => { const w = data[0].join(''); return PLANESWALKER_TYPES.has(w) ? w : reject; } %}
