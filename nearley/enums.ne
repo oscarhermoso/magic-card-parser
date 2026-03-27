@@ -16,102 +16,148 @@ const pluralTypeList = (p1, t1, c, p2, t2) => {
 %}
 
 _ -> " ":?
+
 __ -> " "
+
 _s -> "s":?
+
 _n -> "n":?
-connector -> "and"   {% () => "and" %}
-           | "or"    {% () => "xor" %}
-           | "and/or" {% () => "or" %}
+
+connector -> "and" {% () => 'and' %}
+  | "or" {% () => 'xor' %}
+  | "and/or" {% () => 'or' %}
+
 castOrPlay -> "cast" {% id %}
-            | "play" {% id %}
+  | "play" {% id %}
+
 hasOrHave -> "has" | "have"
+
 isOrAre -> "is" | "are"
+
 counterKind -> ptModification {% ([c]) => c %}
-  | "double strike" {% () => "double strike" %}
-  | "first strike" {% () => "first strike" %}
-  | [a-z]:+ {% (data, ref, reject) => { const w = data[0].join(''); return COUNTER_KINDS.has(w) ? w : reject; } %}
-superType -> "basic" {% () => "basic" %}
-  | "legendary" {% () => "legendary" %}
-  | "snow" {% () => "snow" %}
-  | "ongoing" {% () => "ongoing" %}
-  | "world" {% () => "world" %}
+  | "double strike" {% () => 'double strike' %}
+  | "first strike" {% () => 'first strike' %}
+  | [a-z]:+
+  {%
+    (data, ref, reject) => {
+      const w = data[0].join('');
+      return COUNTER_KINDS.has(w) ? w : reject;
+    }
+  %}
+
+superType -> "basic" {% () => 'basic' %}
+  | "legendary" {% () => 'legendary' %}
+  | "snow" {% () => 'snow' %}
+  | "ongoing" {% () => 'ongoing' %}
+  | "world" {% () => 'world' %}
+
 # spellSubType temporarily removed — unused by test cards
 subType -> creatureType {% ([t]) => t %}
   | artifactType {% ([t]) => t %}
-  | "aura" {% () => "aura" %}
+  | "aura" {% () => 'aura' %}
   # | spellSubType {% ([t]) => t %}
   # | enchantmentType {% ([t]) => t %}
   | planeswalkerType {% ([t]) => t %}
   | landType {% ([t]) => t %}
-permanentTypeInner -> "artifact" {% () => "artifact" %}
-  | "creature" {% () => "creature" %}
-  | "enchantment" {% () => "enchantment" %}
-  | "land" {% () => "land" %}
-  | "planeswalker" {% () => "planeswalker" %}
-  | "permanent" {% () => "permanent" %}
-spellType -> "instant" {% () => "instant" %}
-  | "sorcery" {% () => "sorcery" %}
+
+permanentTypeInner -> "artifact" {% () => 'artifact' %}
+  | "creature" {% () => 'creature' %}
+  | "enchantment" {% () => 'enchantment' %}
+  | "land" {% () => 'land' %}
+  | "planeswalker" {% () => 'planeswalker' %}
+  | "permanent" {% () => 'permanent' %}
+
+spellType -> "instant" {% () => 'instant' %}
+  | "sorcery" {% () => 'sorcery' %}
+
 permanentTypeSpecifierInner -> permanentTypeInner {% ([t]) => t %}
   | subType {% ([t]) => t %}
-creatureType -> "assembly-worker" {% () => "assembly-worker" %}
-  | [a-z]:+ {% (data, ref, reject) => { const w = data[0].join(''); return CREATURE_TYPES.has(w) ? w : reject; } %}
-planeswalkerType -> [a-z]:+ {% (data, ref, reject) => { const w = data[0].join(''); return PLANESWALKER_TYPES.has(w) ? w : reject; } %}
+
+creatureType -> "assembly-worker" {% () => 'assembly-worker' %}
+  | [a-z]:+
+  {%
+    (data, ref, reject) => {
+      const w = data[0].join('');
+      return CREATURE_TYPES.has(w) ? w : reject;
+    }
+  %}
+
+planeswalkerType -> [a-z]:+
+{%
+  (data, ref, reject) => {
+    const w = data[0].join('');
+    return PLANESWALKER_TYPES.has(w) ? w : reject;
+  }
+%}
+
 landType -> basicLandType {% ([t]) => t %}
-  | "desert" {% () => "desert" %}
-  | "gate" {% () => "gate" %}
-  | "lair" {% () => "lair" %}
-  | "locus" {% () => "locus" %}
-  | "mine" {% () => "mine" %}
-  | "power-plant" {% () => "power-plant" %}
-  | "tower" {% () => "tower" %}
+  | "desert" {% () => 'desert' %}
+  | "gate" {% () => 'gate' %}
+  | "lair" {% () => 'lair' %}
+  | "locus" {% () => 'locus' %}
+  | "mine" {% () => 'mine' %}
+  | "power-plant" {% () => 'power-plant' %}
+  | "tower" {% () => 'tower' %}
   | "urza" "'" "s" {% () => "urza's" %}
-basicLandType -> "plains" {% () => "plains" %}
-  | "island" {% () => "island" %}
-  | "swamp" {% () => "swamp" %}
-  | "mountain" {% () => "mountain" %}
-  | "forest" {% () => "forest" %}
+
+basicLandType -> "plains" {% () => 'plains' %}
+  | "island" {% () => 'island' %}
+  | "swamp" {% () => 'swamp' %}
+  | "mountain" {% () => 'mountain' %}
+  | "forest" {% () => 'forest' %}
+
 # enchantmentType temporarily removed — unused by test cards
 # enchantmentType -> "aura" | "cartouche" | "curse" | "saga" | "shrine"
-artifactType -> "clue" {% () => "clue" %}
-  | "contraption" {% () => "contraption" %}
-  | "equipment" {% () => "equipment" %}
-  | "food" {% () => "food" %}
-  | "fortification" {% () => "fortification" %}
-  | "gold" {% () => "gold" %}
-  | "treasure" {% () => "treasure" %}
-  | "vehicle" {% () => "vehicle" %}
+artifactType -> "clue" {% () => 'clue' %}
+  | "contraption" {% () => 'contraption' %}
+  | "equipment" {% () => 'equipment' %}
+  | "food" {% () => 'food' %}
+  | "fortification" {% () => 'fortification' %}
+  | "gold" {% () => 'gold' %}
+  | "treasure" {% () => 'treasure' %}
+  | "vehicle" {% () => 'vehicle' %}
+
 # spellSubType temporarily removed — unused by test cards
 # spellSubType -> "adventure" | "trap" | "arcane"
 type -> permanentTypeInner {% ([t]) => t %}
   | spellType {% ([t]) => t %}
-  | "tribal" {% () => "tribal" %}
-  | "conspiracy" {% () => "conspiracy" %}
-  | "plane" {% () => "plane" %}
-  | "phenomena" {% () => "phenomena" %}
-  | "emblem" {% () => "emblem" %}
+  | "tribal" {% () => 'tribal' %}
+  | "conspiracy" {% () => 'conspiracy' %}
+  | "plane" {% () => 'plane' %}
+  | "phenomena" {% () => 'phenomena' %}
+  | "emblem" {% () => 'emblem' %}
 
 abilityWord -> "council's dilemma" {% () => "council's dilemma" %}
-  | "fateful hour" {% () => "fateful hour" %}
-  | "join forces" {% () => "join forces" %}
-  | "spell mastery" {% () => "spell mastery" %}
-  | "will of the council" {% () => "will of the council" %}
-  | [a-z]:+ {% (data, ref, reject) => { const w = data[0].join(''); return ABILITY_WORDS.has(w) ? w : reject; } %}
+  | "fateful hour" {% () => 'fateful hour' %}
+  | "join forces" {% () => 'join forces' %}
+  | "spell mastery" {% () => 'spell mastery' %}
+  | "will of the council" {% () => 'will of the council' %}
+  | [a-z]:+
+  {%
+    (data, ref, reject) => {
+      const w = data[0].join('');
+      return ABILITY_WORDS.has(w) ? w : reject;
+    }
+  %}
 
-CARD_NAME -> "~" {% () => "CARD_NAME" %}
+CARD_NAME -> "~" {% () => 'CARD_NAME' %}
+
 DASHDASH -> "-" | "--"
+
 PLUSMINUS -> "+" | "-"
+
 SAXON -> "'" "s"
 
-partOfTurn -> "turn" {% () => "turn" %}
-  | "untap step" {% () => "untap" %}
-  | "upkeep" {% () => "upkeep" %}
-  | "draw step" {% () => "drawStep" %}
-  | "precombat main phase" {% () => "precombatMain" %}
-  | "main phase" {% () => "main" %}
-  | "combat" {% () => "combat" %}
-  | "declare attackers" {% () => "declareAttackers" %}
-  | "declare blockers" {% () => "declareBlockers" %}
-  | "combat damage step" {% () => "combatDamage" %}
-  | "end of combat" {% () => "endCombat" %}
-  | "postcombat main phase" {% () => "postcombatMain" %}
-  | "end step" {% () => "end" %}
+partOfTurn -> "turn" {% () => 'turn' %}
+  | "untap step" {% () => 'untap' %}
+  | "upkeep" {% () => 'upkeep' %}
+  | "draw step" {% () => 'drawStep' %}
+  | "precombat main phase" {% () => 'precombatMain' %}
+  | "main phase" {% () => 'main' %}
+  | "combat" {% () => 'combat' %}
+  | "declare attackers" {% () => 'declareAttackers' %}
+  | "declare blockers" {% () => 'declareBlockers' %}
+  | "combat damage step" {% () => 'combatDamage' %}
+  | "end of combat" {% () => 'endCombat' %}
+  | "postcombat main phase" {% () => 'postcombatMain' %}
+  | "end step" {% () => 'end' %}
