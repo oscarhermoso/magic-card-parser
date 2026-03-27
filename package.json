@@ -1,6 +1,6 @@
 {
   "name": "@oscarhermoso/magic-card-parser",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "A utility for parsing magic cards into a JSON structure for further processing.",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -33,6 +33,7 @@
     "visualize": "npm run build && node scripts/visualizeCard.js",
     "generate": "npm run build && node --max-old-space-size=30720 node_modules/nearley/bin/nearley-unparse.js src/generated/magicCardGrammar.js -n 5",
     "railroad": "nearley-railroad nearley/magicCard.ne > railroad.html",
+    "prepare": "npm run build",
     "prepublishOnly": "npm run build"
   },
   "directories": {
