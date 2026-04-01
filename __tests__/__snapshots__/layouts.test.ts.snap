@@ -51,57 +51,6 @@ exports[`parseAdventure(): adventure layout convenience function > Giant Killer 
 ]
 `;
 
-exports[`parseAdventure(): adventure layout convenience function > Giant Killer // Chop Down — creature and adventure faces 1`] = `
-[
-  {
-    "activatedAbility": {
-      "tap": {
-        "object": {
-          "type": "creature",
-        },
-        "reference": {
-          "targetCount": 1,
-        },
-      },
-    },
-    "costs": {
-      "and": [
-        {
-          "mana": [
-            1,
-            "w",
-          ],
-        },
-        "tap",
-      ],
-    },
-  },
-]
-`;
-
-exports[`parseAdventure(): adventure layout convenience function > Giant Killer // Chop Down — creature and adventure faces 2`] = `
-[
-  {
-    "destroy": {
-      "object": {
-        "condition": {
-          "with": {
-            "comparison": {
-              "gte": 4,
-            },
-            "value": "power",
-          },
-        },
-        "type": "creature",
-      },
-      "reference": {
-        "targetCount": 1,
-      },
-    },
-  },
-]
-`;
-
 exports[`parseAdventure(): adventure layout convenience function > Rimrock Knight // Boulder Rush — both faces parse correctly 1`] = `
 [
   {
@@ -114,43 +63,6 @@ exports[`parseAdventure(): adventure layout convenience function > Rimrock Knigh
 `;
 
 exports[`parseAdventure(): adventure layout convenience function > Rimrock Knight // Boulder Rush — both faces parse correctly 2`] = `
-[
-  {
-    "does": {
-      "does": {
-        "powerToughnessMod": {
-          "powerMod": 2,
-          "toughnessMod": 0,
-        },
-      },
-      "duration": {
-        "until": "endOfTurn",
-      },
-    },
-    "what": {
-      "object": {
-        "type": "creature",
-      },
-      "reference": {
-        "targetCount": 1,
-      },
-    },
-  },
-]
-`;
-
-exports[`parseAdventure(): adventure layout convenience function > Rimrock Knight // Boulder Rush — creature and adventure faces 1`] = `
-[
-  {
-    "does": {
-      "cant": "block",
-    },
-    "what": "CARD_NAME",
-  },
-]
-`;
-
-exports[`parseAdventure(): adventure layout convenience function > Rimrock Knight // Boulder Rush — creature and adventure faces 2`] = `
 [
   {
     "does": {
@@ -310,112 +222,6 @@ exports[`parseFaces(): adventure layout > Lovestruck Beast // Heart's Desire —
 ]
 `;
 
-exports[`parseFaces(): adventure layout > Lovestruck Beast // Heart's Desire — both faces return ParseResult 1`] = `
-[
-  {
-    "does": {
-      "cant": {
-        "cant": "attack",
-        "unless": {
-          "actor": "you",
-          "does": {
-            "controls": {
-              "object": {
-                "prefixes": [
-                  {
-                    "size": {
-                      "power": 1,
-                      "toughness": 1,
-                    },
-                  },
-                ],
-                "type": "creature",
-              },
-              "reference": {
-                "count": 1,
-              },
-            },
-          },
-        },
-      },
-    },
-    "what": "CARD_NAME",
-  },
-]
-`;
-
-exports[`parseFaces(): adventure layout > Lovestruck Beast // Heart's Desire — both faces return ParseResult 2`] = `
-[
-  {
-    "create": {
-      "amount": 1,
-      "color": "w",
-      "size": {
-        "power": 1,
-        "toughness": 1,
-      },
-      "type": {
-        "and": [
-          "human",
-          "creature",
-        ],
-      },
-    },
-  },
-]
-`;
-
-exports[`parseFaces(): split layout > Dead // Gone — oracle_text separator form 1`] = `
-[
-  {
-    "does": {
-      "deal": {
-        "amount": 2,
-        "damageTo": {
-          "object": {
-            "type": "creature",
-          },
-          "reference": {
-            "targetCount": 1,
-          },
-        },
-      },
-    },
-    "what": "CARD_NAME",
-  },
-]
-`;
-
-exports[`parseFaces(): split layout > Dead // Gone — oracle_text separator form 2`] = `
-[
-  {
-    "returns": {
-      "object": {
-        "object": {
-          "type": "creature",
-        },
-        "suffix": {
-          "actor": "you",
-          "does": "control",
-        },
-      },
-      "reference": {
-        "targetCount": 1,
-      },
-    },
-    "to": {
-      "owner": {
-        "does": "own",
-        "whose": {
-          "reference": "its",
-        },
-      },
-      "zone": "hand",
-    },
-  },
-]
-`;
-
 exports[`parseFaces(): split layout > Dead // Gone — oracle_text separator form, both halves parse correctly 1`] = `
 [
   {
@@ -463,43 +269,6 @@ exports[`parseFaces(): split layout > Dead // Gone — oracle_text separator for
       },
       "zone": "hand",
     },
-  },
-]
-`;
-
-exports[`parseFaces(): split layout > Fire // Ice — card_faces form 1`] = `
-[
-  {
-    "does": {
-      "deal": {
-        "amount": 2,
-        "divideAmong": {
-          "targetCount": [
-            1,
-            2,
-          ],
-        },
-      },
-    },
-    "what": "CARD_NAME",
-  },
-]
-`;
-
-exports[`parseFaces(): split layout > Fire // Ice — card_faces form 2`] = `
-[
-  {
-    "tap": {
-      "object": {
-        "type": "permanent",
-      },
-      "reference": {
-        "targetCount": 1,
-      },
-    },
-  },
-  {
-    "draw": 1,
   },
 ]
 `;

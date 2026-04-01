@@ -222,7 +222,9 @@ export type EffectNode =
   | { whose: ObjectSpec; activatedAbilities?: EffectNode }
   | { characteristic: string; setTo: Record<string, unknown> }
   | { flashbackCost: Record<string, unknown> }
-  // New EffectNode variants for sim mechanics with no prior grammar equivalent
+  // New EffectNode variants for sim mechanics with no prior grammar equivalent.
+  // Forward declarations: the grammar does not emit these shapes directly yet.
+  // Sim uses CARD_MECHANIC_OVERRIDES to inject these nodes until grammar rules are added (hq-5gc).
   | { castFrom: { zone: 'graveyard' | 'exile'; criteria?: ObjectSpec; restriction?: 'asThoughFlash' } }
   | { playFrom: { zone: 'graveyard' | 'exile'; restriction?: string } }
   | { replaces: { event: 'ETB' | 'die' | 'draw' | 'damage'; with: EffectNode; condition?: ObjectSpec } }
