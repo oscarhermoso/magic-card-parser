@@ -292,8 +292,8 @@ exports[`Unambiguous cards: single parse + snapshot > Akroma's Memorial 1`] = `
   },
   "vigilance",
   {
-    "does": {
-      "haveAbility": {
+    "grants": {
+      "effect": {
         "and": [
           "flying",
           "first strike",
@@ -315,7 +315,7 @@ exports[`Unambiguous cards: single parse + snapshot > Akroma's Memorial 1`] = `
         ],
       },
     },
-    "what": {
+    "to": {
       "object": {
         "type": "creature",
       },
@@ -465,10 +465,10 @@ exports[`Unambiguous cards: single parse + snapshot > Anger 1`] = `
       ],
     },
     "effect": {
-      "does": {
-        "haveAbility": "haste",
+      "grants": {
+        "keyword": "haste",
       },
-      "what": {
+      "to": {
         "object": {
           "type": "creature",
         },
@@ -989,24 +989,21 @@ exports[`Unambiguous cards: single parse + snapshot > Banefire 1`] = `
 exports[`Unambiguous cards: single parse + snapshot > Baral, Chief of Compliance 1`] = `
 [
   {
-    "does": {
-      "costReduction": {
-        "mana": [
-          1,
-        ],
-      },
-    },
-    "what": {
-      "object": {
-        "object": "spell",
-        "types": {
-          "and": [
-            "instant",
-            "sorcery",
-          ],
+    "costMod": {
+      "amount": 1,
+      "direction": "less",
+      "filter": {
+        "object": {
+          "object": "spell",
+          "types": {
+            "and": [
+              "instant",
+              "sorcery",
+            ],
+          },
         },
+        "suffix": "youCast",
       },
-      "suffix": "youCast",
     },
   },
   {
@@ -1331,10 +1328,10 @@ exports[`Unambiguous cards: single parse + snapshot > Blade Splicer 1`] = `
     },
   },
   {
-    "does": {
-      "haveAbility": "first strike",
+    "grants": {
+      "keyword": "first strike",
     },
-    "what": {
+    "to": {
       "object": {
         "type": "golem",
       },
@@ -1997,8 +1994,8 @@ exports[`Unambiguous cards: single parse + snapshot > Chatterstorm 1`] = `
 exports[`Unambiguous cards: single parse + snapshot > Chromatic Lantern 1`] = `
 [
   {
-    "does": {
-      "haveAbility": {
+    "grants": {
+      "effect": {
         "activatedAbility": {
           "addOneOf": [
             "W",
@@ -2012,7 +2009,7 @@ exports[`Unambiguous cards: single parse + snapshot > Chromatic Lantern 1`] = `
         "costs": "tap",
       },
     },
-    "what": {
+    "to": {
       "object": {
         "type": "land",
       },
@@ -5450,14 +5447,11 @@ exports[`Unambiguous cards: single parse + snapshot > Hellrider 1`] = `
 exports[`Unambiguous cards: single parse + snapshot > Helm of Awakening 1`] = `
 [
   {
-    "does": {
-      "costReduction": {
-        "mana": [
-          1,
-        ],
-      },
+    "costMod": {
+      "amount": 1,
+      "direction": "less",
+      "filter": "spell",
     },
-    "what": "spell",
   },
 ]
 `;
@@ -6701,23 +6695,19 @@ exports[`Unambiguous cards: single parse + snapshot > Llanowar Visionary 1`] = `
 exports[`Unambiguous cards: single parse + snapshot > Lodestone Golem 1`] = `
 [
   {
-    "does": {
-      "action": "cast",
-      "costIncrease": {
-        "mana": [
-          1,
+    "costMod": {
+      "amount": 1,
+      "direction": "more",
+      "filter": {
+        "object": "spell",
+        "prefixes": [
+          {
+            "not": {
+              "type": "artifact",
+            },
+          },
         ],
       },
-    },
-    "what": {
-      "object": "spell",
-      "prefixes": [
-        {
-          "not": {
-            "type": "artifact",
-          },
-        },
-      ],
     },
   },
 ]
@@ -10007,23 +9997,20 @@ exports[`Unambiguous cards: single parse + snapshot > Sakura-Tribe Elder 1`] = `
 exports[`Unambiguous cards: single parse + snapshot > Sapphire Medallion 1`] = `
 [
   {
-    "does": {
-      "costReduction": {
-        "mana": [
-          1,
-        ],
+    "costMod": {
+      "amount": 1,
+      "direction": "less",
+      "filter": {
+        "object": {
+          "object": "spell",
+          "prefixes": [
+            {
+              "color": "u",
+            },
+          ],
+        },
+        "suffix": "youCast",
       },
-    },
-    "what": {
-      "object": {
-        "object": "spell",
-        "prefixes": [
-          {
-            "color": "u",
-          },
-        ],
-      },
-      "suffix": "youCast",
     },
   },
 ]
@@ -11900,23 +11887,19 @@ exports[`Unambiguous cards: single parse + snapshot > Thalia, Guardian of Thrabe
 [
   "first strike",
   {
-    "does": {
-      "action": "cast",
-      "costIncrease": {
-        "mana": [
-          1,
+    "costMod": {
+      "amount": 1,
+      "direction": "more",
+      "filter": {
+        "object": "spell",
+        "prefixes": [
+          {
+            "not": {
+              "type": "creature",
+            },
+          },
         ],
       },
-    },
-    "what": {
-      "object": "spell",
-      "prefixes": [
-        {
-          "not": {
-            "type": "creature",
-          },
-        },
-      ],
     },
   },
 ]
@@ -12896,9 +12879,8 @@ exports[`Unambiguous cards: single parse + snapshot > Upheaval 1`] = `
 exports[`Unambiguous cards: single parse + snapshot > Urborg, Tomb of Yawgmoth 1`] = `
 [
   {
-    "each": "land",
-    "is": {
-      "inAddition": true,
+    "addType": {
+      "to": "land",
       "type": "swamp",
     },
   },
@@ -13704,10 +13686,10 @@ exports[`Unambiguous cards: single parse + snapshot > Wrenn and Six 1`] = `
         "emblem": {
           "with": {
             "ability": {
-              "does": {
-                "haveAbility": "retrace",
+              "grants": {
+                "keyword": "retrace",
               },
-              "what": {
+              "to": {
                 "object": {
                   "object": "card",
                   "types": {
@@ -13758,9 +13740,8 @@ exports[`Unambiguous cards: single parse + snapshot > Xander's Lounge 1`] = `
 exports[`Unambiguous cards: single parse + snapshot > Yavimaya, Cradle of Growth 1`] = `
 [
   {
-    "each": "land",
-    "is": {
-      "inAddition": true,
+    "addType": {
+      "to": "land",
       "type": "forest",
     },
   },

@@ -105,6 +105,10 @@ const KNOWN_EFFECT_KEYS = new Set([
   'characteristic',
   'setTo',
   'flashbackCost',
+  // New EffectNode shapes (hq-p0o)
+  'costMod',
+  'addType',
+  'grants',
 ]);
 
 /** Keys that identify top-level AbilityNode types (not EffectNode) */

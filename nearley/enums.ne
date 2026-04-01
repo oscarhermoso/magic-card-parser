@@ -13,6 +13,24 @@ const pluralTypeList = (p1, t1, c, p2, t2) => {
   if (all.length > 0) result.prefixes = all;
   return result;
 };
+const transformObjVerbPhrase = (what, does) => {
+  if (does && does.costIncrease !== undefined) {
+    const mana = does.costIncrease && does.costIncrease.mana;
+    const amount = Array.isArray(mana) && mana.length === 1 ? (mana[0] === 'x' ? 'X' : mana[0]) : does.costIncrease;
+    return { costMod: { amount, filter: what, direction: 'more' } };
+  }
+  if (does && does.costReduction !== undefined) {
+    const mana = does.costReduction && does.costReduction.mana;
+    const amount = Array.isArray(mana) && mana.length === 1 ? (mana[0] === 'x' ? 'X' : mana[0]) : does.costReduction;
+    return { costMod: { amount, filter: what, direction: 'less' } };
+  }
+  if (does && does.haveAbility !== undefined) {
+    const ability = does.haveAbility;
+    const grant = typeof ability === 'string' ? { keyword: ability } : { effect: ability };
+    return { grants: grant, to: what };
+  }
+  return { what, does };
+};
 %}
 
 _ -> " ":?

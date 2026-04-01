@@ -318,7 +318,7 @@ sentence -> singleSentence {% ([ss]) => ss %}
   | sentence __ "if" __ condition {% ([does, , , , condition]) => ({ does, condition }) %}
 
 singleSentence -> imperative {% ([i]) => i %}
-  | object __ objectVerbPhrase {% ([what, , does]) => ({ what, does }) %}
+  | object __ objectVerbPhrase {% ([what, , does]) => transformObjVerbPhrase(what, does) %}
   | "it's" __ isWhat {% ([, , is]) => ({ is }) %}
   | player __ playerVerbPhrase {% ([actor, , does]) => ({ actor, does }) %}
   | "if" __ condition "," __ sentence {% ([, , condition, , , effect]) => ({ condition, effect }) %}
@@ -361,12 +361,7 @@ singleSentence -> imperative {% ([i]) => i %}
   | "play with the top card of" __ playersPossessive __ "library revealed"
     {% ([, , whose]) => ({ playRevealed: { whose } }) %}
   | "each" __ permanentTypeInner __ "is" __ "a" _n __ subType __ "in addition to its other" __ permanentTypeInner __ "types"
-    {%
-      ([, , what, , , , , , , type, , , , , ,]) => ({
-        each: what,
-        is: { type, inAddition: true },
-      })
-    %}
+    {% ([, , to, , , , , , , type]) => ({ addType: { type, to } }) %}
 
 sentenceInstead -> sentence __ "instead" {% ([instead]) => ({ instead }) %}
   | "instead" __ sentence {% ([, , instead]) => ({ instead }) %}
