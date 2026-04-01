@@ -80,6 +80,51 @@ describe('type definitions match actual parser output', () => {
       expect(r.candidates).toBeNull();
       expect(r.abilities).toBeNull();
     });
+
+    it('partial parse: known clauses succeed, unknown clause emits { unknown: string }', () => {
+      const r = parseCard({
+        name: 'Test',
+        oracle_text: 'Flying\nThis clause cannot be parsed by the grammar at all.',
+      });
+      assertParseResult(r);
+      expect(r.error).toBeUndefined();
+      expect(r.abilities).not.toBeNull();
+      expect(r.candidates).not.toBeNull();
+      // confidence is 1/2 = 0.5
+      expect(r.confidence).toBe(0.5);
+      // unknownClauses lists the failed clause
+      expect(r.unknownClauses).toHaveLength(1);
+      expect(r.unknownClauses[0]).toContain('cannot be parsed');
+      // abilities includes the parsed keyword and the unknown node
+      const abilities = r.abilities!;
+      expect(abilities.some((a) => a === 'flying')).toBe(true);
+      expect(abilities.some((a) => typeof a === 'object' && a !== null && 'unknown' in a)).toBe(true);
+    });
+
+    it('all clauses unknown: returns null abilities and confidence=0', () => {
+      const r = parseCard({
+        name: 'Test',
+        oracle_text: 'First unparseable clause here.\nSecond unparseable clause here.',
+      });
+      assertParseResult(r);
+      expect(r.error).toBeTruthy();
+      expect(r.confidence).toBe(0);
+      expect(r.abilities).toBeNull();
+      expect(r.candidates).toBeNull();
+      expect(r.unknownClauses.length).toBeGreaterThan(0);
+    });
+
+    it('multi-clause card: all known clauses parse to confidence=1 with empty unknownClauses', () => {
+      const r = parseCard({
+        name: 'Birds of Paradise',
+        oracle_text: 'Flying\n{T}: Add one mana of any color.',
+      });
+      assertParseResult(r);
+      expect(r.error).toBeUndefined();
+      expect(r.confidence).toBe(1);
+      expect(r.unknownClauses).toEqual([]);
+      expect(r.abilities).not.toBeNull();
+    });
   });
 
   describe('TypeLineNode shape', () => {

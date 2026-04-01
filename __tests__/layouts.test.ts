@@ -183,7 +183,9 @@ describe('parseFaces(): transform layout', () => {
     expect(result.faces[1].faceName).toBe('Awoken Horror');
     // Both faces return ParseResult objects (grammar gaps expected for these complex texts)
     expect(result.faces[0].result).toBeDefined();
-    expect(result.faces[0].result.error).toBeTruthy(); // grammar gap expected — error string set
+    // Grammar gaps: some clauses (counters, transform trigger) are unparseable —
+    // unknownClauses is populated and confidence < 1 rather than a hard error
+    expect(result.faces[0].result.unknownClauses.length).toBeGreaterThan(0);
     expect(result.faces[1].result).toBeDefined();
   });
 });

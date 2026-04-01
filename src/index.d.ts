@@ -64,9 +64,11 @@ export type ManaCostValue = (string | number)[];
 /**
  * A node in the parsed ability AST.
  * Keywords are flattened as individual strings in the top-level array.
+ * `{ unknown: string }` is emitted for clauses the grammar could not parse.
  */
 export type AbilityNode =
   | string
+  | { unknown: string }
   | KeywordObject
   | ActivatedAbilityNode
   | TriggeredAbilityNode
