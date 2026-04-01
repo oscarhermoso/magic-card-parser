@@ -1,11 +1,20 @@
 // Type definitions for magic-card-parser
 // These types describe the actual output of the Nearley grammar parser.
 
-/** Input to parseCard */
+/** A single face of a multi-face card (follows Scryfall card_faces structure) */
+export interface CardFace {
+  name: string;
+  oracle_text: string;
+  type_line?: string;
+}
+
+/** Input to parseCard / parseFaces */
 export interface CardInput {
   name: string;
   oracle_text: string;
   layout?: string;
+  /** Scryfall-style card_faces array — used by parseFaces() for multi-face cards */
+  card_faces?: CardFace[];
 }
 
 /** Result from parseCard */
@@ -242,8 +251,38 @@ export interface TokenSpec {
   [key: string]: unknown;
 }
 
+/**
+ * Result from parseFaces() — one ParseResult per card face.
+ * Each face is identified by its name and parsed independently.
+ */
+export interface FaceParseResult {
+  faces: Array<{ faceName: string; result: ParseResult }>;
+  /** The layout type of the card (from CardInput.layout or inferred) */
+  layout: string;
+}
+
 /** Parse a card's oracle text into an AST */
 export function parseCard(card: CardInput): ParseResult;
+
+/**
+ * Parse a multi-face card (adventure, transform, DFC, split, etc.).
+ * Returns a ParseResult for each face independently.
+ *
+ * Face detection priority:
+ *  1. card.card_faces[] (Scryfall card_faces structure) — preferred
+ *  2. '\n//\n' separator in oracle_text (raw Scryfall split oracle text)
+ *  3. Fallback: treated as single face, equivalent to parseCard()
+ */
+export function parseFaces(card: CardInput): FaceParseResult;
+
+/**
+ * Convenience function for adventure-layout cards.
+ * Parses the creature face and adventure spell face independently.
+ */
+export function parseAdventure(
+  creatureFace: CardFace,
+  adventureFace: CardFace,
+): { creature: ParseResult; adventure: ParseResult };
 
 /** Parse a type line into structured components */
 export function parseTypeLine(typeLine: string): TypeLineResult;

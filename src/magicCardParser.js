@@ -6,7 +6,9 @@ import typeLineGrammar from './generated/typeLineGrammar.cjs';
 import { replaceCardName } from './nameReplacement.js';
 
 /** @typedef {import('./index.d.ts').CardInput} CardInput */
+/** @typedef {import('./index.d.ts').CardFace} CardFace */
 /** @typedef {import('./index.d.ts').ParseResult} ParseResult */
+/** @typedef {import('./index.d.ts').FaceParseResult} FaceParseResult */
 /** @typedef {import('./index.d.ts').TypeLineResult} TypeLineResult */
 
 /**
@@ -36,18 +38,7 @@ const compiledTypeLineGrammar = Grammar.fromCompiled(typeLineGrammar);
  * @returns {ParseResult}
  */
 const parseCard = (card) => {
-  const { name, oracle_text, layout } = card;
-
-  if (layout && layout != 'normal') {
-    // https://scryfall.com/docs/api/layouts
-    return {
-      result: null,
-      parsed: null,
-      error: 'Currently only support normal layout',
-      oracleText: oracle_text,
-      card,
-    };
-  }
+  const { name, oracle_text } = card;
 
   const magicCardParser = new Parser(compiledMagicCardGrammar);
   let oracleText = replaceCardName(oracle_text, name);
@@ -172,4 +163,63 @@ const cardToGraphViz = (card) => {
   return lines.join('\n');
 };
 
-export { cardToGraphViz, parseCard, parseTypeLine };
+/**
+ * Parse a multi-face card (adventure, transform, DFC, split, etc.), returning
+ * a ParseResult for each face independently.
+ *
+ * Face detection priority:
+ *  1. card.card_faces[] array (Scryfall card_faces structure)
+ *  2. '\n//\n' separator in oracle_text (raw Scryfall combined oracle text)
+ *  3. Fallback: parse the card as a single face
+ *
+ * @param {CardInput} card
+ * @returns {FaceParseResult}
+ */
+const parseFaces = (card) => {
+  const { name, oracle_text, layout, card_faces } = card;
+
+  // 1. Scryfall-style card_faces array — most structured, preferred
+  if (card_faces && card_faces.length > 0) {
+    return {
+      faces: card_faces.map((face) => ({
+        faceName: face.name,
+        result: parseCard({ name: face.name, oracle_text: face.oracle_text }),
+      })),
+      layout: layout || 'unknown',
+    };
+  }
+
+  // 2. Raw Scryfall oracle_text with '\n//\n' separator (split cards)
+  if (oracle_text && oracle_text.includes('\n//\n')) {
+    const parts = oracle_text.split('\n//\n');
+    const faceNames = name.split(' // ');
+    return {
+      faces: parts.map((text, i) => ({
+        faceName: faceNames[i] ?? name,
+        result: parseCard({ name: faceNames[i] ?? name, oracle_text: text }),
+      })),
+      layout: layout || 'split',
+    };
+  }
+
+  // 3. Fallback: single face
+  return {
+    faces: [{ faceName: name, result: parseCard(card) }],
+    layout: layout || 'normal',
+  };
+};
+
+/**
+ * Convenience function for adventure-layout cards.
+ * Parses the creature face and adventure spell face independently.
+ *
+ * @param {CardFace} creatureFace
+ * @param {CardFace} adventureFace
+ * @returns {{ creature: ParseResult, adventure: ParseResult }}
+ */
+const parseAdventure = (creatureFace, adventureFace) => ({
+  creature: parseCard({ name: creatureFace.name, oracle_text: creatureFace.oracle_text }),
+  adventure: parseCard({ name: adventureFace.name, oracle_text: adventureFace.oracle_text }),
+});
+
+export { cardToGraphViz, parseAdventure, parseCard, parseFaces, parseTypeLine };

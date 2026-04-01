@@ -21,13 +21,17 @@ describe('magic-card-parser setup', () => {
     expect(result.result).toHaveLength(1);
   });
 
-  it('returns error for non-normal layouts', () => {
+  it('parses non-normal layout oracle text without layout-based rejection', () => {
+    // Layout field no longer blocks parsing — parseCard attempts to parse oracle_text
+    // regardless of layout. Use parseFaces() for multi-face card routing.
     const result = parseCard({
       name: 'Test',
       oracle_text: 'Flying',
       layout: 'split',
     });
-    expect(result.error).toBeTruthy();
+    // 'Flying' is valid oracle text regardless of layout — should parse successfully
+    expect(result.error).toBeNull();
+    expect(result.result).not.toBeNull();
   });
 
   it('parses keywords correctly', () => {
