@@ -433,6 +433,9 @@ const cubeCards: CubeCard[] = [
   { name: 'Torsten, Founder of Benalia', oracle_text: 'When Torsten enters, reveal the top seven cards of your library. Put any number of creature and/or land cards from among them into your hand and the rest on the bottom of your library in a random order.\nWhen Torsten dies, create seven 1/1 white Soldier creature tokens.' },
   { name: 'Channel', oracle_text: 'Until end of turn, any time you could activate a mana ability, you may pay 1 life. If you do, add {C}.' },
   { name: 'Memory Jar', oracle_text: '{T}, Sacrifice this artifact: Each player exiles all cards from their hand face down and draws seven cards. At the beginning of the next end step, each player discards their hand and returns to their hand each card they exiled this way.' },
+  // New EffectNode types: CostModification, GrantKeyword
+  { name: 'Sapphire Medallion', oracle_text: 'Blue spells you cast cost {1} less to cast.' },
+  { name: "Akroma's Memorial", oracle_text: "Flying, first strike, trample, haste, protection from black and from red, vigilance\nCreatures you control have flying, first strike, trample, haste, protection from black and from red, and vigilance." },
 ];
 
 // ============================================================================

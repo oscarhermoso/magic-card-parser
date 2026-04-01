@@ -222,6 +222,14 @@ export type EffectNode =
   | { whose: ObjectSpec; activatedAbilities?: EffectNode }
   | { characteristic: string; setTo: Record<string, unknown> }
   | { flashbackCost: Record<string, unknown> }
+  // New EffectNode variants for sim mechanics with no prior grammar equivalent
+  | { castFrom: { zone: 'graveyard' | 'exile'; criteria?: ObjectSpec; restriction?: 'asThoughFlash' } }
+  | { playFrom: { zone: 'graveyard' | 'exile'; restriction?: string } }
+  | { replaces: { event: 'ETB' | 'die' | 'draw' | 'damage'; with: EffectNode; condition?: ObjectSpec } }
+  | { grants: ({ keyword: string } | { effect: EffectNode }); to: ObjectSpec; duration?: DurationSpec }
+  | { restricts: { cant: string; who: ObjectSpec | 'opponents' } }
+  | { costMod: { amount: number | 'X'; filter: ObjectSpec; direction: 'more' | 'less' } }
+  | { addType: { type: string; to: ObjectSpec } }
   | EffectNode[]
   | Record<string, unknown>;
 

@@ -272,6 +272,62 @@ exports[`Unambiguous cards: single parse + snapshot > Aether Spellbomb 1`] = `
 ]
 `;
 
+exports[`Unambiguous cards: single parse + snapshot > Akroma's Memorial 1`] = `
+[
+  "flying",
+  "first strike",
+  "trample",
+  "haste",
+  {
+    "protectionFrom": {
+      "and": [
+        {
+          "color": "b",
+        },
+        {
+          "color": "r",
+        },
+      ],
+    },
+  },
+  "vigilance",
+  {
+    "does": {
+      "haveAbility": {
+        "and": [
+          "flying",
+          "first strike",
+          "trample",
+          "haste",
+          {
+            "protectionFrom": {
+              "and": [
+                {
+                  "color": "b",
+                },
+                {
+                  "color": "r",
+                },
+              ],
+            },
+          },
+          "vigilance",
+        ],
+      },
+    },
+    "what": {
+      "object": {
+        "type": "creature",
+      },
+      "suffix": {
+        "actor": "you",
+        "does": "control",
+      },
+    },
+  },
+]
+`;
+
 exports[`Unambiguous cards: single parse + snapshot > Aluren 1`] = `
 [
   {
@@ -9943,6 +9999,31 @@ exports[`Unambiguous cards: single parse + snapshot > Sakura-Tribe Elder 1`] = `
     },
     "costs": {
       "sacrifice": "CARD_NAME",
+    },
+  },
+]
+`;
+
+exports[`Unambiguous cards: single parse + snapshot > Sapphire Medallion 1`] = `
+[
+  {
+    "does": {
+      "costReduction": {
+        "mana": [
+          1,
+        ],
+      },
+    },
+    "what": {
+      "object": {
+        "object": "spell",
+        "prefixes": [
+          {
+            "color": "u",
+          },
+        ],
+      },
+      "suffix": "youCast",
     },
   },
 ]

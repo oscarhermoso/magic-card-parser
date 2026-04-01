@@ -64,6 +64,7 @@ keyword -> ("double strike"
   | enchantKeyword
   | costKeyword
   | numberKeyword
+  | multiProtectionKeyword
   | protectionKeyword
   | cyclingKeyword
   | kickerKeyword
@@ -113,6 +114,9 @@ typeCycling -> "plainscycling" {% () => "plains" %}
 enchantKeyword -> "enchant" __ anyEntity {% ([, , entity]) => ({ enchant: entity }) %}
 
 kickerKeyword -> "kicker" __ costs {% ([, , kicker]) => ({ kicker }) %}
+
+multiProtectionKeyword -> "protection from" __ color __ "and from" __ color
+  {% ([, , c1, , , , c2]) => ({ protectionFrom: { and: [{ color: c1 }, { color: c2 }] } }) %}
 
 protectionKeyword -> "protection from" __ anyEntity
   {% ([, , protectionFrom]) => ({ protectionFrom }) %}
@@ -1143,7 +1147,15 @@ itsPossessive -> object SAXON {% ([o]) => o %}
   | "their" {% () => ({ reference: "their" }) %}
   | "your" {% () => ({ reference: "your" }) %}
 
-acquiredAbility -> keyword {% ([k]) => k %}
+acquiredAbility -> keyword ("," __ keyword):+ (",":? __ "and" __ keyword):?
+  {%
+    ([k1, ks, andK]) => {
+      const all = [k1, ...ks.map(([, , k]) => k)];
+      if (andK) all.push(andK[4]);
+      return { and: all };
+    }
+  %}
+  | keyword {% ([k]) => k %}
   | "\"" ability "\"" {% ([, a]) => a %}
   | acquiredAbility __ "and" __ acquiredAbility {% ([a1, , , , a2]) => ({ and: [a1, a2] }) %}
   | "this ability" {% () => "thisAbility" %}
