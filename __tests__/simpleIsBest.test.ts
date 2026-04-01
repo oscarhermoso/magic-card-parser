@@ -456,10 +456,10 @@ describe('Unambiguous cards: single parse + snapshot', () => {
   const unambiguous = cardTestEntries.filter(([, c]) => !c.ambiguous && !c.parseError);
   it.each(unambiguous)('%s', (_label, card) => {
     const result = parse(card);
-    expect(result.error).toBeNull();
-    expect(result.result).not.toBeNull();
-    expect(result.result).toHaveLength(1);
-    expect(result.result![0]).toMatchSnapshot();
+    expect(result.error).toBeUndefined();
+    expect(result.candidates).not.toBeNull();
+    expect(result.candidates).toHaveLength(1);
+    expect(result.abilities!).toMatchSnapshot();
   });
 });
 
@@ -472,9 +472,9 @@ describe('Ambiguous cards: parses with snapshot', () => {
   } else {
     it.each(ambiguous)('%s', (_label, card) => {
       const result = parse(card);
-      expect(result.result).not.toBeNull();
-      expect(result.result!.length).toBeGreaterThanOrEqual(1);
-      expect(result.result![0]).toMatchSnapshot();
+      expect(result.candidates).not.toBeNull();
+      expect(result.candidates!.length).toBeGreaterThanOrEqual(1);
+      expect(result.abilities!).toMatchSnapshot();
     });
   }
 });
@@ -483,14 +483,14 @@ describe('Known parse failures: grammar too complex', () => {
   const parseErrors = cardTestEntries.filter(([, c]) => c.parseError);
   it.each(parseErrors)('%s', (_label, card) => {
     const result = parse(card);
-    expect(result.error).not.toBeNull();
+    expect(result.error).toBeTruthy();
   });
 });
 
 describe('Misc', () => {
   it('parseCard works without layout field', () => {
     const result = parseCard({ name: 'Lightning Bolt', oracle_text: 'Lightning Bolt deals 3 damage to any target.' });
-    expect(result.result).not.toBeNull();
+    expect(result.candidates).not.toBeNull();
   });
 });
 

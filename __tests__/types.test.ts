@@ -47,33 +47,38 @@ function isKeywordObject(a: AbilityNode): a is KeywordObject {
 
 function assertParseResult(r: unknown): asserts r is ParseResult {
   expect(r).toHaveProperty('oracleText');
-  expect(r).toHaveProperty('card');
-  expect(typeof r === 'object' && r !== null && 'error' in r).toBe(true);
-  expect(typeof r === 'object' && r !== null && ('result' in r || 'parsed' in r)).toBe(true);
+  expect(r).toHaveProperty('confidence');
+  expect(r).toHaveProperty('unknownClauses');
+  expect(typeof r === 'object' && r !== null && 'candidates' in r).toBe(true);
 }
 
 describe('type definitions match actual parser output', () => {
   describe('ParseResult shape', () => {
-    it('successful parse has result, error=null, oracleText, card', () => {
+    it('successful parse has candidates, abilities, confidence, oracleText', () => {
       const r = parseCard({
         name: 'Serra Angel',
         oracle_text: 'Flying, vigilance',
       });
       assertParseResult(r);
-      expect(r.error).toBeNull();
-      expect(r.result).not.toBeNull();
-      expect(Array.isArray(r.result)).toBe(true);
+      expect(r.error).toBeUndefined();
+      expect(r.candidates).not.toBeNull();
+      expect(Array.isArray(r.candidates)).toBe(true);
+      expect(r.abilities).not.toBeNull();
+      expect(r.confidence).toBe(1);
+      expect(r.unknownClauses).toEqual([]);
       expect(typeof r.oracleText).toBe('string');
-      expect(r.card).toHaveProperty('name', 'Serra Angel');
     });
 
-    it('error parse has error set', () => {
+    it('error parse has error set and confidence=0', () => {
       const r = parseCard({
         name: 'Test',
         oracle_text: 'This is not valid magic card text that should parse at all.',
       });
       assertParseResult(r);
       expect(r.error).toBeTruthy();
+      expect(r.confidence).toBe(0);
+      expect(r.candidates).toBeNull();
+      expect(r.abilities).toBeNull();
     });
   });
 
@@ -113,8 +118,8 @@ describe('type definitions match actual parser output', () => {
         name: 'Test',
         oracle_text: 'Flying, haste',
       });
-      expect(r.error).toBeNull();
-      const abilities = r.result![0];
+      expect(r.error).toBeUndefined();
+      const abilities = r.abilities!;
       // Keywords are flattened as individual strings in the top-level array
       const keywords = abilities.filter((a): a is string => typeof a === 'string');
       expect(keywords).toContain('flying');
@@ -127,7 +132,7 @@ describe('type definitions match actual parser output', () => {
         oracle_text: 'Flashback {1}{R}',
       });
       if (r.error) return; // skip if grammar doesn't handle this
-      const abilities = r.result![0];
+      const abilities = r.abilities!;
       const kwObj = abilities.find(
         (a): a is KeywordObject => isKeywordObject(a) && 'flashback' in a
       );
@@ -148,8 +153,8 @@ describe('type definitions match actual parser output', () => {
         name: 'Llanowar Elves',
         oracle_text: '{T}: Add {G}.',
       });
-      expect(r.error).toBeNull();
-      const abilities = r.result![0];
+      expect(r.error).toBeUndefined();
+      const abilities = r.abilities!;
       const activated = abilities.find(isActivated);
       expect(activated).toBeDefined();
       expect(activated!.costs).toBeDefined();
@@ -164,7 +169,7 @@ describe('type definitions match actual parser output', () => {
         oracle_text: 'At the beginning of your upkeep, reveal the top card of your library and put that card into your hand. You lose life equal to its mana value.',
       });
       if (r.error) return; // skip if grammar doesn't handle this
-      const abilities = r.result![0];
+      const abilities = r.abilities!;
       const triggered = abilities.find(isTriggered);
       if (triggered) {
         expect(triggered.trigger).toBeDefined();
@@ -184,8 +189,8 @@ describe('type definitions match actual parser output', () => {
         name: 'Counterspell',
         oracle_text: 'Counter target spell.',
       });
-      expect(r.error).toBeNull();
-      const abilities = r.result![0];
+      expect(r.error).toBeUndefined();
+      const abilities = r.abilities!;
       // Find counter effect
       const counterEffect = abilities.find(
         a => isObject(a) && 'counter' in a
@@ -199,7 +204,7 @@ describe('type definitions match actual parser output', () => {
         oracle_text: 'Create a 1/1 white Soldier creature token.',
       });
       if (r.error) return;
-      const abilities = r.result![0];
+      const abilities = r.abilities!;
       const createEffect = abilities.find(
         a => isObject(a) && 'create' in a
       );
@@ -213,8 +218,8 @@ describe('type definitions match actual parser output', () => {
         name: 'Llanowar Elves',
         oracle_text: '{T}: Add {G}.',
       });
-      expect(r.error).toBeNull();
-      const abilities = r.result![0];
+      expect(r.error).toBeUndefined();
+      const abilities = r.abilities!;
       const activated = abilities.find(isActivated);
       if (activated) {
         const effect = activated.activatedAbility;
@@ -233,7 +238,7 @@ describe('type definitions match actual parser output', () => {
         oracle_text: '{1}{W}, {T}: Destroy target creature.',
       });
       if (r.error) return;
-      const abilities = r.result![0];
+      const abilities = r.abilities!;
       const activated = abilities.find(isActivated);
       if (activated) {
         const costs = activated.costs;

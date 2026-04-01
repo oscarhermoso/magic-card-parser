@@ -268,9 +268,9 @@ describe('AST shape validation against index.d.ts', () => {
 
     for (const card of cards) {
       const result = parseCard({ ...card, layout: 'normal' });
-      if (result.error || !result.result) continue;
+      if (result.error || !result.candidates) continue;
 
-      for (const ability of result.result[0]) {
+      for (const ability of result.abilities!) {
         if (typeof ability === 'string') continue;
         if (Array.isArray(ability)) continue; // EffectNode[] is valid
         if (typeof ability !== 'object' || ability === null) continue;
@@ -302,9 +302,9 @@ describe('AST shape validation against index.d.ts', () => {
 
     for (const card of cards) {
       const result = parseCard({ ...card, layout: 'normal' });
-      if (result.error || !result.result) continue;
+      if (result.error || !result.candidates) continue;
 
-      for (const ability of result.result[0]) {
+      for (const ability of result.abilities!) {
         if (typeof ability === 'string') continue;
         if (Array.isArray(ability)) continue;
         if (typeof ability !== 'object' || ability === null) continue;
@@ -335,9 +335,9 @@ describe('AST shape validation against index.d.ts', () => {
 
     for (const card of cards) {
       const result = parseCard({ ...card, layout: 'normal' });
-      if (result.error || !result.result) continue;
+      if (result.error || !result.candidates) continue;
 
-      for (const ability of result.result[0]) {
+      for (const ability of result.abilities!) {
         if (
           Array.isArray(ability) &&
           ability.every((a) => typeof a === 'string')
@@ -362,9 +362,9 @@ describe('AST shape validation against index.d.ts', () => {
 
     for (const card of cards) {
       const result = parseCard({ ...card, layout: 'normal' });
-      if (result.error || !result.result) continue;
+      if (result.error || !result.candidates) continue;
 
-      JSON.stringify(result.result[0], (key, value) => {
+      JSON.stringify(result.abilities!, (key, value) => {
         if (key === 'counterKind') {
           const ok =
             typeof value === 'string' ||
@@ -387,9 +387,9 @@ describe('AST shape validation against index.d.ts', () => {
 
     for (const card of cards) {
       const result = parseCard({ ...card, layout: 'normal' });
-      if (result.error || !result.result) continue;
+      if (result.error || !result.candidates) continue;
 
-      JSON.stringify(result.result[0], function (key, value) {
+      JSON.stringify(result.abilities!, function (key, value) {
         if (
           key === 'type' &&
           value !== null &&
@@ -418,9 +418,9 @@ describe('AST shape validation against index.d.ts', () => {
 
     for (const card of cards) {
       const result = parseCard({ ...card, layout: 'normal' });
-      if (result.error || !result.result) continue;
+      if (result.error || !result.candidates) continue;
 
-      for (const ability of result.result[0]) {
+      for (const ability of result.abilities!) {
         if (
           typeof ability === 'object' &&
           ability !== null &&
@@ -447,9 +447,9 @@ describe('AST shape validation against index.d.ts', () => {
 
     for (const card of cards) {
       const result = parseCard({ ...card, layout: 'normal' });
-      if (result.error || !result.result) continue;
+      if (result.error || !result.candidates) continue;
 
-      for (const ability of result.result[0]) {
+      for (const ability of result.abilities!) {
         if (
           typeof ability === 'object' &&
           ability !== null &&

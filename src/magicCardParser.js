@@ -8,7 +8,7 @@ import { replaceCardName } from './nameReplacement.js';
 /** @typedef {import('./index.d.ts').CardInput} CardInput */
 /** @typedef {import('./index.d.ts').CardFace} CardFace */
 /** @typedef {import('./index.d.ts').ParseResult} ParseResult */
-/** @typedef {import('./index.d.ts').FaceParseResult} FaceParseResult */
+/** @typedef {import('./index.d.ts').MultiParseResult} MultiParseResult */
 /** @typedef {import('./index.d.ts').TypeLineResult} TypeLineResult */
 
 /**
@@ -41,24 +41,24 @@ const parseCard = (card) => {
   const { name, oracle_text } = card;
 
   const magicCardParser = new Parser(compiledMagicCardGrammar);
-  let oracleText = replaceCardName(oracle_text, name);
+  const oracleText = replaceCardName(oracle_text, name);
 
   try {
     magicCardParser.feed(oracleText);
   } catch (e) {
-    const error = e instanceof Error ? e : String(e);
-    return { result: null, parsed: null, error, oracleText, card };
+    const error = e instanceof Error ? e.message : String(e);
+    return { abilities: null, candidates: null, confidence: 0, unknownClauses: [], error, oracleText };
   }
 
   const { results } = magicCardParser;
-  const result = makeUnique(results);
-  if (result.length === 0) {
-    return { result: null, error: 'Incomplete parse', oracleText, card };
+  const candidates = makeUnique(results);
+  if (candidates.length === 0) {
+    return { abilities: null, candidates: null, confidence: 0, unknownClauses: [], error: 'Incomplete parse', oracleText };
   }
-  if (result.length > 1) {
-    return { result, error: 'Ambiguous parse', oracleText, card };
+  if (candidates.length > 1) {
+    return { abilities: candidates[0], candidates, confidence: 1, unknownClauses: [], error: 'Ambiguous parse', oracleText };
   }
-  return { result, error: null, oracleText, card };
+  return { abilities: candidates[0], candidates, confidence: 1, unknownClauses: [], oracleText };
 };
 
 /**
@@ -97,8 +97,9 @@ const parseTypeLine = (typeLine) => {
  * @returns {string | null}
  */
 const cardToGraphViz = (card) => {
-  const { result } = parseCard(card);
-  if (!result) return null;
+  const { abilities } = parseCard(card);
+  if (!abilities) return null;
+  const result = [abilities];
 
   /**
    * @param {any} obj
@@ -173,7 +174,7 @@ const cardToGraphViz = (card) => {
  *  3. Fallback: parse the card as a single face
  *
  * @param {CardInput} card
- * @returns {FaceParseResult}
+ * @returns {MultiParseResult}
  */
 const parseFaces = (card) => {
   const { name, oracle_text, layout, card_faces } = card;

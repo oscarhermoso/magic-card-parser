@@ -1,6 +1,17 @@
 // Type definitions for magic-card-parser
 // These types describe the actual output of the Nearley grammar parser.
 
+/** Typed card layout values (Scryfall layout field) */
+export type CardLayout =
+  | 'normal'
+  | 'adventure'
+  | 'transform'
+  | 'modal_dfc'
+  | 'split'
+  | 'flip'
+  | 'leveler'
+  | 'meld';
+
 /** A single face of a multi-face card (follows Scryfall card_faces structure) */
 export interface CardFace {
   name: string;
@@ -12,23 +23,25 @@ export interface CardFace {
 export interface CardInput {
   name: string;
   oracle_text: string;
-  layout?: string;
+  layout?: CardLayout;
   /** Scryfall-style card_faces array — used by parseFaces() for multi-face cards */
   card_faces?: CardFace[];
 }
 
-/** Result from parseCard */
+/** Result from parseCard (v1.0) */
 export interface ParseResult {
-  /** Array of possible parses. Each parse is an array of AbilityNodes. null on error. */
-  result: AbilityNode[][] | null;
-  /** Error message/object, or null on success. "Ambiguous parse" if multiple results. */
-  error: string | Error | null;
+  /** Best parse — first (or only) candidate. null on error. */
+  abilities: AbilityNode[] | null;
+  /** All parse candidates (length > 1 means ambiguous parse). null on error. */
+  candidates: AbilityNode[][] | null;
+  /** Fraction of oracle text clauses successfully parsed (0–1). */
+  confidence: number;
+  /** Clauses the grammar could not parse (populated once hq-iu6 lands). */
+  unknownClauses: string[];
   /** The oracle text after name substitution and lowercasing */
   oracleText: string;
-  /** The original card input */
-  card: CardInput;
-  /** Alias for result (used in some error paths instead of result) */
-  parsed?: AbilityNode[][] | null;
+  /** Error message, or undefined on success. "Ambiguous parse" if multiple results. */
+  error?: string;
 }
 
 /** Result from parseTypeLine */
@@ -265,11 +278,14 @@ export interface TokenSpec {
  * Result from parseFaces() — one ParseResult per card face.
  * Each face is identified by its name and parsed independently.
  */
-export interface FaceParseResult {
+export interface MultiParseResult {
   faces: Array<{ faceName: string; result: ParseResult }>;
   /** The layout type of the card (from CardInput.layout or inferred) */
-  layout: string;
+  layout: CardLayout | string;
 }
+
+/** @deprecated Use MultiParseResult */
+export type FaceParseResult = MultiParseResult;
 
 /** Parse a card's oracle text into an AST */
 export function parseCard(card: CardInput): ParseResult;
@@ -283,7 +299,7 @@ export function parseCard(card: CardInput): ParseResult;
  *  2. '\n//\n' separator in oracle_text (raw Scryfall split oracle text)
  *  3. Fallback: treated as single face, equivalent to parseCard()
  */
-export function parseFaces(card: CardInput): FaceParseResult;
+export function parseFaces(card: CardInput): MultiParseResult;
 
 /**
  * Convenience function for adventure-layout cards.

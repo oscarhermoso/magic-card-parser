@@ -60,58 +60,47 @@ const { parseCard, parseTypeLine } = require('@oscarhermoso/magic-card-parser');
 
 ## Overview
 
-Include it in your project with `import { parseCard } from '@oscarhermoso/magic-card-parser'`.
-`parseCard` takes a single argument, `card`, that must include the properties
-`name` and `oracle_text`. It will automatically replace the cards name with `~`
-in the oracle text and convert to lowercase before parsing. The return value is
-an object like the following:
-```json
-{
-  "result": [
-    [
-      {
-        "costs": "tap",
-        "activatedAbility": {
-          "create": {
-            "amount": 1,
-            "type": { "and": ["human", "creature"] },
-            "size": { "power": 1, "toughness": 1 },
-            "color": "w"
-          }
-        }
-      },
-      {
-        "asLongAs": {
-          "actor": "you",
-          "does": { "comparison": { "lte": 5 }, "value": "life" }
-        },
-        "effect": {
-          "what": {
-            "object": { "type": "creature", "prefixes": ["other"] },
-            "suffix": { "actor": "you", "does": "control" }
-          },
-          "does": { "powerToughnessMod": { "powerMod": 2, "toughnessMod": 2 } }
-        },
-        "abilityWord": "fateful hour"
-      }
-    ]
+Include it in your project with `import { parseCard, parseFaces } from '@oscarhermoso/magic-card-parser'`.
+
+### v1.0 API
+
+```typescript
+// Parse a single-face card
+const r = parseCard({ name: 'Lightning Bolt', oracle_text: 'Deal 3 damage to any target.' });
+r.abilities;       // AbilityNode[] | null — best parse (null on error)
+r.candidates;      // AbilityNode[][] | null — all parse candidates
+r.confidence;      // number 0-1 (1 = fully parsed, 0 = parse failed)
+r.unknownClauses;  // string[] — unrecognized text segments
+r.oracleText;      // string — normalized oracle text
+r.error;           // string | undefined — "Ambiguous parse" / "Incomplete parse" / error message
+
+// Parse a multi-face card (adventure, transform, DFC, split, etc.)
+const mpr = parseFaces({
+  name: 'Bonecrusher Giant // Stomp',
+  oracle_text: '',
+  layout: 'adventure',
+  card_faces: [
+    { name: 'Bonecrusher Giant', oracle_text: '...' },
+    { name: 'Stomp', oracle_text: '...' },
   ],
-  "error": null,
-  "oracleText": "{t}: create a 1/1 white human creature token.\nfateful hour -- as long as you have 5 or less life, other creatures you control get +2/+2.",
-  "card": {
-    "name": "Thraben Doomsayer",
-    "oracle_text": "{T}: Create a 1/1 white Human creature token.\nFateful hour — As long as you have 5 or less life, other creatures you control get +2/+2.",
-    "layout": "normal"
-  }
-}
+});
+mpr.faces;   // Array<{ faceName: string; result: ParseResult }>
+mpr.layout;  // CardLayout string
 ```
-Most notably `result` is an array of possible parses. If there is more than one
-possible parse, meaning it parses to a different json value, than it will
-report an error of `"Ambiguous parse"`. If the parse is incomplete, meaning it
-expected more input than it got, then it will return a `null` result with the
-error `"Incomplete parse"`. Finally, if the input was invalid, meaning there is
-no possible parse tree for it, you will get a `null` result and an `Error`
-object describing where the parser failed.
+
+`parseCard` automatically replaces the card's name with `CARD_NAME` in oracle text and lowercases before parsing. The `abilities` field is the first (best) parse candidate. `candidates` contains all possible parses — length > 1 means an ambiguous parse.
+
+### v0.x → v1.0 Migration
+
+| v0.x field | v1.0 replacement | Notes |
+|---|---|---|
+| `result` | `candidates` | Same data, renamed |
+| `result[0]` | `abilities` | Convenience shorthand for first candidate |
+| `error: null` | `error: undefined` | Success now omits the field |
+| `error: Error` | `error: string` | Error objects are coerced to message strings |
+| `card` | _(removed)_ | Pass the card object yourself if needed |
+| `parsed` | _(removed)_ | Was an alias for `result` |
+| `FaceParseResult` | `MultiParseResult` | Type renamed; alias kept for compat |
 
 We do not guarantee that all the parses are correct, it is just too much work
 to manually review all of them at this time. We do check many of the parses
