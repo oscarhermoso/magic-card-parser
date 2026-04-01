@@ -30,7 +30,9 @@ const makeUnique = (lst) => {
   return result;
 };
 
+// @ts-ignore — nearley's CompiledRules type doesn't accommodate tuple-destructuring postprocessors
 const compiledMagicCardGrammar = Grammar.fromCompiled(magicCardGrammar);
+// @ts-ignore — nearley's CompiledRules type doesn't accommodate tuple-destructuring postprocessors
 const compiledTypeLineGrammar = Grammar.fromCompiled(typeLineGrammar);
 
 /**
