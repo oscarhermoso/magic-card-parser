@@ -1,0 +1,242 @@
+[
+  {"name":"Lightning Bolt","oracle_text":"Lightning Bolt deals 3 damage to any target.","layout":"normal"},
+  {"name":"Counterspell","oracle_text":"Counter target spell.","layout":"normal"},
+  {"name":"Llanowar Elves","oracle_text":"{T}: Add {G}.","layout":"normal"},
+  {"name":"Faithless Looting","oracle_text":"Draw two cards, then discard two cards.\nFlashback {2}{R} (You may cast this card from your graveyard for its flashback cost. Then exile it.)","layout":"normal"},
+  {"name":"Swords to Plowshares","oracle_text":"Exile target creature. Its controller gains life equal to its power.","layout":"normal"},
+  {"name":"Abrade","oracle_text":"Choose one —\n• Abrade deals 3 damage to target creature.\n• Destroy target artifact.","layout":"normal"},
+  {"name":"Brainstorm","oracle_text":"Draw three cards, then put two cards from your hand on top of your library in any order.","layout":"normal"},
+  {"name":"Path to Exile","oracle_text":"Exile target creature. Its controller may search their library for a basic land card, put that card onto the battlefield tapped, then shuffle.","layout":"normal"},
+  {"name":"Ponder","oracle_text":"Look at the top three cards of your library, then put them back in any order. You may shuffle.\nDraw a card.","layout":"normal"},
+  {"name":"Preordain","oracle_text":"Scry 2, then draw a card. (To scry 2, look at the top two cards of your library, then put any number of them on the bottom and the rest on top in any order.)","layout":"normal"},
+  {"name":"Birds of Paradise","oracle_text":"Flying\n{T}: Add one mana of any color.","layout":"normal"},
+  {"name":"Eternal Witness","oracle_text":"When this creature enters, you may return target card from your graveyard to your hand.","layout":"normal"},
+  {"name":"Mana Leak","oracle_text":"Counter target spell unless its controller pays {3}.","layout":"normal"},
+  {"name":"Young Pyromancer","oracle_text":"Whenever you cast an instant or sorcery spell, create a 1/1 red Elemental creature token.","layout":"normal"},
+  {"name":"Monastery Swiftspear","oracle_text":"Haste\nProwess (Whenever you cast a noncreature spell, this creature gets +1/+1 until end of turn.)","layout":"normal"},
+  {"name":"Duress","oracle_text":"Target opponent reveals their hand. You choose a noncreature, nonland card from it. That player discards that card.","layout":"normal"},
+  {"name":"Bloodstained Mire","oracle_text":"{T}, Pay 1 life, Sacrifice this land: Search your library for a Swamp or Mountain card, put it onto the battlefield, then shuffle.","layout":"normal"},
+  {"name":"Polluted Delta","oracle_text":"{T}, Pay 1 life, Sacrifice this land: Search your library for an Island or Swamp card, put it onto the battlefield, then shuffle.","layout":"normal"},
+  {"name":"Flooded Strand","oracle_text":"{T}, Pay 1 life, Sacrifice this land: Search your library for a Plains or Island card, put it onto the battlefield, then shuffle.","layout":"normal"},
+  {"name":"Windswept Heath","oracle_text":"{T}, Pay 1 life, Sacrifice this land: Search your library for a Forest or Plains card, put it onto the battlefield, then shuffle.","layout":"normal"},
+  {"name":"Elvish Mystic","oracle_text":"{T}: Add {G}.","layout":"normal"},
+  {"name":"Mind Stone","oracle_text":"{T}: Add {C}.\n{1}, {T}, Sacrifice this artifact: Draw a card.","layout":"normal"},
+  {"name":"Opt","oracle_text":"Scry 1. (Look at the top card of your library. You may put that card on the bottom.)\nDraw a card.","layout":"normal"},
+  {"name":"Scalding Tarn","oracle_text":"{T}, Pay 1 life, Sacrifice this land: Search your library for an Island or Mountain card, put it onto the battlefield, then shuffle.","layout":"normal"},
+  {"name":"Misty Rainforest","oracle_text":"{T}, Pay 1 life, Sacrifice this land: Search your library for a Forest or Island card, put it onto the battlefield, then shuffle.","layout":"normal"},
+  {"name":"Evolving Wilds","oracle_text":"{T}, Sacrifice this land: Search your library for a basic land card, put it onto the battlefield tapped, then shuffle.","layout":"normal"},
+  {"name":"Goblin Guide","oracle_text":"Haste\nWhenever this creature attacks, defending player reveals the top card of their library. If it's a land card, that player puts it into their hand.","layout":"normal"},
+  {"name":"Snapcaster Mage","oracle_text":"Flash\nWhen this creature enters, target instant or sorcery card in your graveyard gains flashback until end of turn. The flashback cost is equal to its mana cost. (You may cast that card from your graveyard for its flashback cost. Then exile it.)","layout":"normal"},
+  {"name":"Thoughtseize","oracle_text":"Target player reveals their hand. You choose a nonland card from it. That player discards that card. You lose 2 life.","layout":"normal"},
+  {"name":"Stoneforge Mystic","oracle_text":"When this creature enters, you may search your library for an Equipment card, reveal it, put it into your hand, then shuffle.\n{1}{W}, {T}: You may put an Equipment card from your hand onto the battlefield.","layout":"normal"},
+  {"name":"Dark Ritual","oracle_text":"Add {B}{B}{B}.","layout":"normal"},
+  {"name":"Sol Ring","oracle_text":"{T}: Add {C}{C}.","layout":"normal"},
+  {"name":"Rampant Growth","oracle_text":"Search your library for a basic land card, put that card onto the battlefield tapped, then shuffle.","layout":"normal"},
+  {"name":"Giant Growth","oracle_text":"Target creature gets +3/+3 until end of turn.","layout":"normal"},
+  {"name":"Serra Angel","oracle_text":"Flying, vigilance","layout":"normal"},
+  {
+    "name": "Bonecrusher Giant // Stomp",
+    "oracle_text": "",
+    "layout": "adventure",
+    "card_faces": [
+      {
+        "name": "Bonecrusher Giant",
+        "oracle_text": "Whenever this creature becomes the target of a spell, this creature deals 2 damage to that spell's controller."
+      },
+      {
+        "name": "Stomp",
+        "oracle_text": "Damage can't be prevented this turn. Stomp deals 2 damage to any target."
+      }
+    ]
+  },
+  {
+    "name": "Brazen Borrower // Petty Theft",
+    "oracle_text": "",
+    "layout": "adventure",
+    "card_faces": [
+      {
+        "name": "Brazen Borrower",
+        "oracle_text": "Flash\nFlying\nThis creature can block only creatures with flying."
+      },
+      {
+        "name": "Petty Theft",
+        "oracle_text": "Return target nonland permanent an opponent controls to its owner's hand."
+      }
+    ]
+  },
+  {
+    "name": "Giant Killer // Chop Down",
+    "oracle_text": "",
+    "layout": "adventure",
+    "card_faces": [
+      {
+        "name": "Giant Killer",
+        "oracle_text": "{1}{W}, {T}: Tap target creature."
+      },
+      {
+        "name": "Chop Down",
+        "oracle_text": "Destroy target creature with power 4 or greater."
+      }
+    ]
+  },
+  {
+    "name": "Rimrock Knight // Boulder Rush",
+    "oracle_text": "",
+    "layout": "adventure",
+    "card_faces": [
+      {
+        "name": "Rimrock Knight",
+        "oracle_text": "This creature can't block."
+      },
+      {
+        "name": "Boulder Rush",
+        "oracle_text": "Target creature gets +2/+0 until end of turn."
+      }
+    ]
+  },
+  {
+    "name": "Lovestruck Beast // Heart's Desire",
+    "oracle_text": "",
+    "layout": "adventure",
+    "card_faces": [
+      {
+        "name": "Lovestruck Beast",
+        "oracle_text": "This creature can't attack unless you control a 1/1 creature."
+      },
+      {
+        "name": "Heart's Desire",
+        "oracle_text": "Create a 1/1 white Human creature token."
+      }
+    ]
+  },
+  {
+    "name": "Delver of Secrets // Insectile Aberration",
+    "oracle_text": "",
+    "layout": "transform",
+    "card_faces": [
+      {
+        "name": "Delver of Secrets",
+        "oracle_text": "At the beginning of your upkeep, look at the top card of your library. You may reveal that card. If an instant or sorcery card is revealed this way, transform this creature."
+      },
+      {
+        "name": "Insectile Aberration",
+        "oracle_text": "Flying"
+      }
+    ]
+  },
+  {
+    "name": "Bloodghast // (back)",
+    "oracle_text": "Haste\nBloodghast can't block.\nWhenever a land enters the battlefield under your control, return Bloodghast from your graveyard to the battlefield.\nBB: Sacrifice Bloodghast.",
+    "layout": "normal"
+  },
+  {
+    "name": "Bloodline Keeper // Lord of Lineage",
+    "oracle_text": "",
+    "layout": "transform",
+    "card_faces": [
+      {
+        "name": "Bloodline Keeper",
+        "oracle_text": "Flying\n{T}: Create a 2/2 black Vampire creature token with flying.\nAt the beginning of your upkeep, if you control four or more Vampires, you may transform this creature."
+      },
+      {
+        "name": "Lord of Lineage",
+        "oracle_text": "Flying\nOther Vampires you control get +2/+2.\n{T}: Create a 2/2 black Vampire creature token with flying."
+      }
+    ]
+  },
+  {
+    "name": "Mayor of Avabruck // Howlpack Alpha",
+    "oracle_text": "",
+    "layout": "transform",
+    "card_faces": [
+      {
+        "name": "Mayor of Avabruck",
+        "oracle_text": "Other Human creatures you control get +1/+1.\nAt the beginning of each upkeep, if no spells were cast last turn, transform this creature."
+      },
+      {
+        "name": "Howlpack Alpha",
+        "oracle_text": "Other Wolf and Werewolf creatures you control get +1/+1.\nAt the beginning of each upkeep, if a player cast two or more spells last turn, transform this creature.\nAt the beginning of your end step, create a 2/2 green Wolf creature token."
+      }
+    ]
+  },
+  {
+    "name": "Agadeem's Awakening // Agadeem, the Undercrypt",
+    "oracle_text": "",
+    "layout": "modal_dfc",
+    "card_faces": [
+      {
+        "name": "Agadeem's Awakening",
+        "oracle_text": "Return from your graveyard to the battlefield any number of target creature cards that each have a different mana value X or less."
+      },
+      {
+        "name": "Agadeem, the Undercrypt",
+        "oracle_text": ""
+      }
+    ]
+  },
+  {
+    "name": "Shatterskull Smashing // Shatterskull, the Hammer Pass",
+    "oracle_text": "",
+    "layout": "modal_dfc",
+    "card_faces": [
+      {
+        "name": "Shatterskull Smashing",
+        "oracle_text": "Shatterskull Smashing deals X damage divided as you choose among up to two target creatures and/or planeswalkers. If X is 6 or more, Shatterskull Smashing deals twice X damage divided as you choose among them instead."
+      },
+      {
+        "name": "Shatterskull, the Hammer Pass",
+        "oracle_text": ""
+      }
+    ]
+  },
+  {
+    "name": "Emeria's Call // Emeria, Shattered Skyclave",
+    "oracle_text": "",
+    "layout": "modal_dfc",
+    "card_faces": [
+      {
+        "name": "Emeria's Call",
+        "oracle_text": "Create two 4/4 white Angel Warrior creature tokens with flying. Non-Angel creatures your opponents control lose indestructible until your next turn."
+      },
+      {
+        "name": "Emeria, Shattered Skyclave",
+        "oracle_text": ""
+      }
+    ]
+  },
+  {
+    "name": "Fire // Ice",
+    "oracle_text": "",
+    "layout": "split",
+    "card_faces": [
+      {
+        "name": "Fire",
+        "oracle_text": "Fire deals 2 damage divided as you choose among one or two targets."
+      },
+      {
+        "name": "Ice",
+        "oracle_text": "Tap target permanent.\nDraw a card."
+      }
+    ]
+  },
+  {
+    "name": "Dead // Gone",
+    "oracle_text": "Dead deals 2 damage to target creature.\n//\nReturn target creature you don't control to its owner's hand.",
+    "layout": "split"
+  },
+  {
+    "name": "Life // Death",
+    "oracle_text": "",
+    "layout": "split",
+    "card_faces": [
+      {
+        "name": "Life",
+        "oracle_text": "Search your library for up to two basic land cards, put them onto the battlefield tapped, then shuffle."
+      },
+      {
+        "name": "Death",
+        "oracle_text": "Return target creature card from your graveyard to play. That creature loses all abilities and is a black Zombie in addition to its other types."
+      }
+    ]
+  }
+]

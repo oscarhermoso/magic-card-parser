@@ -5,5 +5,6 @@ export default defineConfig({
     globals: true,
     testTimeout: 30000,
     globalSetup: './vitest.globalSetup.ts',
+    reporters: ['verbose'],
   },
 });
