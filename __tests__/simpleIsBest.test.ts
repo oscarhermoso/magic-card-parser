@@ -1,6 +1,6 @@
 // @ts-nocheck — data-driven test file; type narrowing not needed for parse result assertions
 import { describe, it, expect } from 'vitest';
-import { parseCard, parseTypeLine } from '../src/magicCardParser.js';
+import { parseCard, parseFaces, parseTypeLine } from '../src/magicCardParser.js';
 
 // Card data extracted from mtg-cube-simulator's simple-is-best cube (src/cards.json)
 // These represent the 360-card cube used in the simulator.
@@ -533,5 +533,337 @@ describe('Type line parsing', () => {
     const result = parseTypeLine('legendary planeswalker — liliana');
     expect(result.error).toBeNull();
     expect(result.result).not.toBeNull();
+  });
+});
+
+// ============================================================================
+// Layout-specific snapshot tests — non-normal layout cards from the cube.
+// Covers adventure, transform/DFC, split, and modal_dfc layouts.
+// Uses parseFaces() v1.0 API; snapshots full multi-face parse result.
+// ============================================================================
+
+describe('Layout snapshots: adventure cards', () => {
+  it('Bonecrusher Giant // Stomp', () => {
+    const result = parseFaces({
+      name: 'Bonecrusher Giant // Stomp',
+      oracle_text: '',
+      layout: 'adventure',
+      card_faces: [
+        {
+          name: 'Bonecrusher Giant',
+          oracle_text:
+            "Whenever this creature becomes the target of a spell, this creature deals 2 damage to that spell's controller.",
+        },
+        {
+          name: 'Stomp',
+          oracle_text: "Damage can't be prevented this turn. Stomp deals 2 damage to any target.",
+        },
+      ],
+    });
+    expect(result.layout).toBe('adventure');
+    expect(result.faces).toHaveLength(2);
+    expect(result.faces[0].result).toBeDefined();
+    expect(result.faces[1].result).toBeDefined();
+    expect(result).toMatchSnapshot();
+  });
+
+  it('Brazen Borrower // Petty Theft', () => {
+    const result = parseFaces({
+      name: 'Brazen Borrower // Petty Theft',
+      oracle_text: '',
+      layout: 'adventure',
+      card_faces: [
+        {
+          name: 'Brazen Borrower',
+          oracle_text: 'Flash\nFlying\nThis creature can block only creatures with flying.',
+        },
+        {
+          name: 'Petty Theft',
+          oracle_text: "Return target nonland permanent an opponent controls to its owner's hand.",
+        },
+      ],
+    });
+    expect(result.layout).toBe('adventure');
+    expect(result.faces).toHaveLength(2);
+    expect(result.faces[0].result).toBeDefined();
+    expect(result.faces[1].result).toBeDefined();
+    expect(result).toMatchSnapshot();
+  });
+
+  it('Giant Killer // Chop Down', () => {
+    const result = parseFaces({
+      name: 'Giant Killer // Chop Down',
+      oracle_text: '',
+      layout: 'adventure',
+      card_faces: [
+        {
+          name: 'Giant Killer',
+          oracle_text: '{1}{W}, {T}: Tap target creature.',
+        },
+        {
+          name: 'Chop Down',
+          oracle_text: 'Destroy target creature with power 4 or greater.',
+        },
+      ],
+    });
+    expect(result.layout).toBe('adventure');
+    expect(result.faces).toHaveLength(2);
+    expect(result.faces[0].result).toBeDefined();
+    expect(result.faces[1].result).toBeDefined();
+    expect(result).toMatchSnapshot();
+  });
+
+  it('Questing Druid // Seek the Beast', () => {
+    const result = parseFaces({
+      name: 'Questing Druid // Seek the Beast',
+      oracle_text: '',
+      layout: 'adventure',
+      card_faces: [
+        {
+          name: 'Questing Druid',
+          oracle_text:
+            'Whenever you cast a spell, you may pay {1}. If you do, put a +1/+1 counter on this creature.',
+        },
+        {
+          name: 'Seek the Beast',
+          oracle_text:
+            'Look at the top four cards of your library. You may reveal a creature or land card from among them and put it into your hand. Put the rest on the bottom of your library in a random order.',
+        },
+      ],
+    });
+    expect(result.layout).toBe('adventure');
+    expect(result.faces).toHaveLength(2);
+    expect(result.faces[0].result).toBeDefined();
+    expect(result.faces[1].result).toBeDefined();
+    expect(result).toMatchSnapshot();
+  });
+
+  it("Lovestruck Beast // Heart's Desire", () => {
+    const result = parseFaces({
+      name: "Lovestruck Beast // Heart's Desire",
+      oracle_text: '',
+      layout: 'adventure',
+      card_faces: [
+        {
+          name: 'Lovestruck Beast',
+          oracle_text: "This creature can't attack unless you control a 1/1 creature.",
+        },
+        {
+          name: "Heart's Desire",
+          oracle_text: 'Create a 1/1 white Human creature token.',
+        },
+      ],
+    });
+    expect(result.layout).toBe('adventure');
+    expect(result.faces).toHaveLength(2);
+    expect(result.faces[0].result).toBeDefined();
+    expect(result.faces[1].result).toBeDefined();
+    expect(result).toMatchSnapshot();
+  });
+});
+
+describe('Layout snapshots: transform/DFC cards', () => {
+  it('Delver of Secrets // Insectile Aberration', () => {
+    const result = parseFaces({
+      name: 'Delver of Secrets // Insectile Aberration',
+      oracle_text: '',
+      layout: 'transform',
+      card_faces: [
+        {
+          name: 'Delver of Secrets',
+          oracle_text:
+            'At the beginning of your upkeep, look at the top card of your library. You may reveal that card. If an instant or sorcery card is revealed this way, transform this creature.',
+        },
+        { name: 'Insectile Aberration', oracle_text: 'Flying' },
+      ],
+    });
+    expect(result.layout).toBe('transform');
+    expect(result.faces).toHaveLength(2);
+    expect(result.faces[0].result).toBeDefined();
+    expect(result.faces[1].result).toBeDefined();
+    expect(result).toMatchSnapshot();
+  });
+
+  it('Fable of the Mirror-Breaker // Reflection of Kiki-Jiki', () => {
+    const result = parseFaces({
+      name: 'Fable of the Mirror-Breaker // Reflection of Kiki-Jiki',
+      oracle_text: '',
+      layout: 'transform',
+      card_faces: [
+        {
+          name: 'Fable of the Mirror-Breaker',
+          oracle_text:
+            "(As this Saga enters and after your draw step, add a lore counter.)\nI \u2014 Create a 2/2 red Goblin Shaman creature token with \"Whenever this token attacks, create a Treasure token.\"\nII \u2014 You may discard up to two cards. If you do, draw that many cards.\nIII \u2014 Exile this Saga, then return it to the battlefield transformed under your control.",
+        },
+        {
+          name: 'Reflection of Kiki-Jiki',
+          oracle_text:
+            'Haste\nWhenever Reflection of Kiki-Jiki enters or attacks, create a token that\'s a copy of another target nonlegendary creature you control, except it has haste. Sacrifice that token at the beginning of the next end step.',
+        },
+      ],
+    });
+    expect(result.layout).toBe('transform');
+    expect(result.faces).toHaveLength(2);
+    expect(result.faces[0].result).toBeDefined();
+    expect(result.faces[1].result).toBeDefined();
+    expect(result).toMatchSnapshot();
+  });
+
+  it('Thing in the Ice // Awoken Horror', () => {
+    const result = parseFaces({
+      name: 'Thing in the Ice // Awoken Horror',
+      oracle_text: '',
+      layout: 'transform',
+      card_faces: [
+        {
+          name: 'Thing in the Ice',
+          oracle_text:
+            'Defender\nThis creature enters with four ice counters on it.\nWhenever you cast an instant or sorcery spell, remove an ice counter from this creature. Then if it has no ice counters on it, transform it.',
+        },
+        {
+          name: 'Awoken Horror',
+          oracle_text:
+            "When this creature transforms into Awoken Horror, return all non-Horror creatures to their owners' hands.",
+        },
+      ],
+    });
+    expect(result.layout).toBe('transform');
+    expect(result.faces).toHaveLength(2);
+    expect(result.faces[0].result).toBeDefined();
+    expect(result.faces[1].result).toBeDefined();
+    expect(result).toMatchSnapshot();
+  });
+
+  it('Kytheon, Hero of Akros // Gideon, Battle-Forged', () => {
+    const result = parseFaces({
+      name: 'Kytheon, Hero of Akros // Gideon, Battle-Forged',
+      oracle_text: '',
+      layout: 'transform',
+      card_faces: [
+        {
+          name: 'Kytheon, Hero of Akros',
+          oracle_text:
+            'At end of combat, if Kytheon and at least two other creatures attacked this combat, exile Kytheon, then return him to the battlefield transformed under his owner\'s control.\n{2}{W}: Kytheon gains indestructible until end of turn.',
+        },
+        {
+          name: 'Gideon, Battle-Forged',
+          oracle_text:
+            "+2: Up to one target creature an opponent controls attacks Gideon during its controller's next turn if able.\n+1: Until your next turn, target creature gains indestructible. Untap that creature.\n0: Until end of turn, Gideon becomes a 4/4 Human Soldier creature with indestructible that's still a planeswalker. Prevent all damage that would be dealt to him this turn.",
+        },
+      ],
+    });
+    expect(result.layout).toBe('transform');
+    expect(result.faces).toHaveLength(2);
+    expect(result.faces[0].result).toBeDefined();
+    expect(result.faces[1].result).toBeDefined();
+    expect(result).toMatchSnapshot();
+  });
+});
+
+describe('Layout snapshots: split cards', () => {
+  it('Fire // Ice', () => {
+    const result = parseFaces({
+      name: 'Fire // Ice',
+      oracle_text: '',
+      layout: 'split',
+      card_faces: [
+        {
+          name: 'Fire',
+          oracle_text: 'Fire deals 2 damage divided as you choose among one or two targets.',
+        },
+        {
+          name: 'Ice',
+          oracle_text: 'Tap target permanent.\nDraw a card.',
+        },
+      ],
+    });
+    expect(result.layout).toBe('split');
+    expect(result.faces).toHaveLength(2);
+    expect(result.faces[0].result).toBeDefined();
+    expect(result.faces[1].result).toBeDefined();
+    expect(result).toMatchSnapshot();
+  });
+
+  it('Dead // Gone', () => {
+    const result = parseFaces({
+      name: 'Dead // Gone',
+      oracle_text:
+        "Dead deals 2 damage to target creature.\n//\nReturn target creature you don't control to its owner's hand.",
+      layout: 'split',
+    });
+    expect(result.layout).toBe('split');
+    expect(result.faces).toHaveLength(2);
+    expect(result.faces[0].result).toBeDefined();
+    expect(result.faces[1].result).toBeDefined();
+    expect(result).toMatchSnapshot();
+  });
+
+  it('Life // Death', () => {
+    const result = parseFaces({
+      name: 'Life // Death',
+      oracle_text: '',
+      layout: 'split',
+      card_faces: [
+        {
+          name: 'Life',
+          oracle_text:
+            'Search your library for up to two basic land cards, put them onto the battlefield tapped, then shuffle.',
+        },
+        {
+          name: 'Death',
+          oracle_text:
+            'Return target creature card from your graveyard to play. That creature loses all abilities and is a black Zombie in addition to its other types.',
+        },
+      ],
+    });
+    expect(result.layout).toBe('split');
+    expect(result.faces).toHaveLength(2);
+    expect(result.faces[0].result).toBeDefined();
+    expect(result.faces[1].result).toBeDefined();
+    expect(result).toMatchSnapshot();
+  });
+});
+
+describe('Layout snapshots: modal_dfc cards', () => {
+  it('Shatterskull Smashing // Shatterskull, the Hammer Pass', () => {
+    const result = parseFaces({
+      name: 'Shatterskull Smashing // Shatterskull, the Hammer Pass',
+      oracle_text: '',
+      layout: 'modal_dfc',
+      card_faces: [
+        {
+          name: 'Shatterskull Smashing',
+          oracle_text:
+            'Shatterskull Smashing deals X damage divided as you choose among up to two target creatures and/or planeswalkers. If X is 6 or more, Shatterskull Smashing deals twice X damage divided as you choose among them instead.',
+        },
+        { name: 'Shatterskull, the Hammer Pass', oracle_text: '' },
+      ],
+    });
+    expect(result.layout).toBe('modal_dfc');
+    expect(result.faces).toHaveLength(2);
+    expect(result.faces[0].result).toBeDefined();
+    expect(result.faces[1].result).toBeDefined();
+    expect(result).toMatchSnapshot();
+  });
+
+  it('Sink into Stupor // Soporific Springs', () => {
+    const result = parseFaces({
+      name: 'Sink into Stupor // Soporific Springs',
+      oracle_text: '',
+      layout: 'modal_dfc',
+      card_faces: [
+        {
+          name: 'Sink into Stupor',
+          oracle_text:
+            "Return target spell or nonland permanent an opponent controls to its owner's hand.",
+        },
+        { name: 'Soporific Springs', oracle_text: '' },
+      ],
+    });
+    expect(result.layout).toBe('modal_dfc');
+    expect(result.faces).toHaveLength(2);
+    expect(result.faces[0].result).toBeDefined();
+    expect(result.faces[1].result).toBeDefined();
+    expect(result).toMatchSnapshot();
   });
 });

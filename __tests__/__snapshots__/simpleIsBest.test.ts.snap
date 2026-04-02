@@ -1,5 +1,1810 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`Layout snapshots: adventure cards > Bonecrusher Giant // Stomp 1`] = `
+{
+  "faces": [
+    {
+      "faceName": "Bonecrusher Giant",
+      "result": {
+        "abilities": [
+          {
+            "effect": {
+              "does": {
+                "deal": {
+                  "amount": 2,
+                  "damageTo": {
+                    "does": "control",
+                    "whose": {
+                      "object": "spell",
+                      "reference": "that",
+                    },
+                  },
+                },
+              },
+              "what": "CARD_NAME",
+            },
+            "trigger": {
+              "when": {
+                "does": {
+                  "becomesTargetOf": {
+                    "object": "spell",
+                    "reference": {
+                      "count": 1,
+                    },
+                  },
+                },
+                "what": "CARD_NAME",
+              },
+            },
+          },
+        ],
+        "candidates": [
+          [
+            {
+              "effect": {
+                "does": {
+                  "deal": {
+                    "amount": 2,
+                    "damageTo": {
+                      "does": "control",
+                      "whose": {
+                        "object": "spell",
+                        "reference": "that",
+                      },
+                    },
+                  },
+                },
+                "what": "CARD_NAME",
+              },
+              "trigger": {
+                "when": {
+                  "does": {
+                    "becomesTargetOf": {
+                      "object": "spell",
+                      "reference": {
+                        "count": 1,
+                      },
+                    },
+                  },
+                  "what": "CARD_NAME",
+                },
+              },
+            },
+          ],
+        ],
+        "confidence": 1,
+        "oracleText": "whenever ~ becomes the target of a spell, ~ deals 2 damage to that spell's controller.",
+        "unknownClauses": [],
+      },
+    },
+    {
+      "faceName": "Stomp",
+      "result": {
+        "abilities": null,
+        "candidates": null,
+        "confidence": 0,
+        "error": "Syntax error at line 1 col 11:
+
+1 damage can't be prevented this turn. ~ deals 2 damage to any target.
+            ^
+
+Unexpected "'". Instead, I was expecting to see one of the following:
+
+A character matching /[a-z]/ based on:
+    planeswalkerType$ebnf$1 → planeswalkerType$ebnf$1 ● /[a-z]/
+    planeswalkerType →  ● planeswalkerType$ebnf$1
+    subType →  ● planeswalkerType
+    anyTypeInner →  ● subType
+    anyType →  ● anyTypeInner anyType$ebnf$1
+    pureObject1 → pureObject1$ebnf$3 ● anyType _s
+    pureObject →  ● pureObject1 pureObject$ebnf$1 pureObject$ebnf$2
+    objectInner →  ● pureObject
+    object → object$ebnf$1 ● objectInner
+    manacost →  ● object SAXON __ manacost$string$1 manacost$ebnf$2
+    cost →  ● manacost
+    costKeyword → costKeyword$ebnf$1 __ ● cost
+    keyword$subexpression$1 →  ● costKeyword
+    keyword →  ● keyword$subexpression$1
+    keywords →  ● keyword keywords$ebnf$1
+    ability$subexpression$1 →  ● keywords
+    ability →  ● ability$subexpression$1 ability$ebnf$1 ability$ebnf$2
+    abilityOrRemind →  ● ability
+    card → card$ebnf$1 ● abilityOrRemind card$ebnf$2 card$ebnf$3
+A character matching /[a-z]/ based on:
+    creatureType$ebnf$1 → creatureType$ebnf$1 ● /[a-z]/
+    creatureType →  ● creatureType$ebnf$1
+    subType →  ● creatureType
+    anyTypeInner →  ● subType
+    anyType →  ● anyTypeInner anyType$ebnf$1
+    pureObject1 → pureObject1$ebnf$3 ● anyType _s
+    pureObject →  ● pureObject1 pureObject$ebnf$1 pureObject$ebnf$2
+    objectInner →  ● pureObject
+    object → object$ebnf$1 ● objectInner
+    manacost →  ● object SAXON __ manacost$string$1 manacost$ebnf$2
+    cost →  ● manacost
+    costKeyword → costKeyword$ebnf$1 __ ● cost
+    keyword$subexpression$1 →  ● costKeyword
+    keyword →  ● keyword$subexpression$1
+    keywords →  ● keyword keywords$ebnf$1
+    ability$subexpression$1 →  ● keywords
+    ability →  ● ability$subexpression$1 ability$ebnf$1 ability$ebnf$2
+    abilityOrRemind →  ● ability
+    card → card$ebnf$1 ● abilityOrRemind card$ebnf$2 card$ebnf$3
+A character matching /[a-z]/ based on:
+    counterKind$ebnf$1 → counterKind$ebnf$1 ● /[a-z]/
+    counterKind →  ● counterKind$ebnf$1
+    objectInner$ebnf$1$subexpression$1 →  ● counterKind __
+    objectInner$ebnf$1 →  ● objectInner$ebnf$1$subexpression$1
+    objectInner →  ● objectInner$ebnf$1 objectInner$string$13 _s __ objectInner$string$14 __ object
+    object → object$ebnf$1 ● objectInner
+    manacost →  ● object SAXON __ manacost$string$1 manacost$ebnf$2
+    cost →  ● manacost
+    costKeyword → costKeyword$ebnf$1 __ ● cost
+    keyword$subexpression$1 →  ● costKeyword
+    keyword →  ● keyword$subexpression$1
+    keywords →  ● keyword keywords$ebnf$1
+    ability$subexpression$1 →  ● keywords
+    ability →  ● ability$subexpression$1 ability$ebnf$1 ability$ebnf$2
+    abilityOrRemind →  ● ability
+    card → card$ebnf$1 ● abilityOrRemind card$ebnf$2 card$ebnf$3
+",
+        "oracleText": "damage can't be prevented this turn. ~ deals 2 damage to any target.",
+        "unknownClauses": [
+          "damage can't be prevented this turn. ~ deals 2 damage to any target.",
+        ],
+      },
+    },
+  ],
+  "layout": "adventure",
+}
+`;
+
+exports[`Layout snapshots: adventure cards > Brazen Borrower // Petty Theft 1`] = `
+{
+  "faces": [
+    {
+      "faceName": "Brazen Borrower",
+      "result": {
+        "abilities": [
+          "flash",
+          "flying",
+          {
+            "unknown": "~ can block only creatures with flying.",
+          },
+        ],
+        "candidates": [
+          [
+            "flash",
+            "flying",
+            {
+              "unknown": "~ can block only creatures with flying.",
+            },
+          ],
+        ],
+        "confidence": 0.6666666666666666,
+        "oracleText": "flash
+flying
+~ can block only creatures with flying.",
+        "unknownClauses": [
+          "~ can block only creatures with flying.",
+        ],
+      },
+    },
+    {
+      "faceName": "Petty Theft",
+      "result": {
+        "abilities": [
+          {
+            "returns": {
+              "object": {
+                "object": {
+                  "prefixes": [
+                    {
+                      "not": {
+                        "type": "land",
+                      },
+                    },
+                  ],
+                  "type": "permanent",
+                },
+                "suffix": {
+                  "actor": {
+                    "player": "opponents",
+                    "references": [
+                      {
+                        "count": 1,
+                      },
+                    ],
+                  },
+                  "does": "control",
+                },
+              },
+              "reference": {
+                "targetCount": 1,
+              },
+            },
+            "to": {
+              "owner": {
+                "does": "own",
+                "whose": {
+                  "reference": "its",
+                },
+              },
+              "zone": "hand",
+            },
+          },
+        ],
+        "candidates": [
+          [
+            {
+              "returns": {
+                "object": {
+                  "object": {
+                    "prefixes": [
+                      {
+                        "not": {
+                          "type": "land",
+                        },
+                      },
+                    ],
+                    "type": "permanent",
+                  },
+                  "suffix": {
+                    "actor": {
+                      "player": "opponents",
+                      "references": [
+                        {
+                          "count": 1,
+                        },
+                      ],
+                    },
+                    "does": "control",
+                  },
+                },
+                "reference": {
+                  "targetCount": 1,
+                },
+              },
+              "to": {
+                "owner": {
+                  "does": "own",
+                  "whose": {
+                    "reference": "its",
+                  },
+                },
+                "zone": "hand",
+              },
+            },
+          ],
+        ],
+        "confidence": 1,
+        "oracleText": "return target nonland permanent an opponent controls to its owner's hand.",
+        "unknownClauses": [],
+      },
+    },
+  ],
+  "layout": "adventure",
+}
+`;
+
+exports[`Layout snapshots: adventure cards > Giant Killer // Chop Down 1`] = `
+{
+  "faces": [
+    {
+      "faceName": "Giant Killer",
+      "result": {
+        "abilities": [
+          {
+            "activatedAbility": {
+              "tap": {
+                "object": {
+                  "type": "creature",
+                },
+                "reference": {
+                  "targetCount": 1,
+                },
+              },
+            },
+            "costs": {
+              "and": [
+                {
+                  "mana": [
+                    1,
+                    "w",
+                  ],
+                },
+                "tap",
+              ],
+            },
+          },
+        ],
+        "candidates": [
+          [
+            {
+              "activatedAbility": {
+                "tap": {
+                  "object": {
+                    "type": "creature",
+                  },
+                  "reference": {
+                    "targetCount": 1,
+                  },
+                },
+              },
+              "costs": {
+                "and": [
+                  {
+                    "mana": [
+                      1,
+                      "w",
+                    ],
+                  },
+                  "tap",
+                ],
+              },
+            },
+          ],
+        ],
+        "confidence": 1,
+        "oracleText": "{1}{w}, {t}: tap target creature.",
+        "unknownClauses": [],
+      },
+    },
+    {
+      "faceName": "Chop Down",
+      "result": {
+        "abilities": [
+          {
+            "destroy": {
+              "object": {
+                "condition": {
+                  "with": {
+                    "comparison": {
+                      "gte": 4,
+                    },
+                    "value": "power",
+                  },
+                },
+                "type": "creature",
+              },
+              "reference": {
+                "targetCount": 1,
+              },
+            },
+          },
+        ],
+        "candidates": [
+          [
+            {
+              "destroy": {
+                "object": {
+                  "condition": {
+                    "with": {
+                      "comparison": {
+                        "gte": 4,
+                      },
+                      "value": "power",
+                    },
+                  },
+                  "type": "creature",
+                },
+                "reference": {
+                  "targetCount": 1,
+                },
+              },
+            },
+          ],
+        ],
+        "confidence": 1,
+        "oracleText": "destroy target creature with power 4 or greater.",
+        "unknownClauses": [],
+      },
+    },
+  ],
+  "layout": "adventure",
+}
+`;
+
+exports[`Layout snapshots: adventure cards > Lovestruck Beast // Heart's Desire 1`] = `
+{
+  "faces": [
+    {
+      "faceName": "Lovestruck Beast",
+      "result": {
+        "abilities": [
+          {
+            "does": {
+              "cant": {
+                "cant": "attack",
+                "unless": {
+                  "actor": "you",
+                  "does": {
+                    "controls": {
+                      "object": {
+                        "prefixes": [
+                          {
+                            "size": {
+                              "power": 1,
+                              "toughness": 1,
+                            },
+                          },
+                        ],
+                        "type": "creature",
+                      },
+                      "reference": {
+                        "count": 1,
+                      },
+                    },
+                  },
+                },
+              },
+            },
+            "what": "CARD_NAME",
+          },
+        ],
+        "candidates": [
+          [
+            {
+              "does": {
+                "cant": {
+                  "cant": "attack",
+                  "unless": {
+                    "actor": "you",
+                    "does": {
+                      "controls": {
+                        "object": {
+                          "prefixes": [
+                            {
+                              "size": {
+                                "power": 1,
+                                "toughness": 1,
+                              },
+                            },
+                          ],
+                          "type": "creature",
+                        },
+                        "reference": {
+                          "count": 1,
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+              "what": "CARD_NAME",
+            },
+          ],
+        ],
+        "confidence": 1,
+        "oracleText": "~ can't attack unless you control a 1/1 creature.",
+        "unknownClauses": [],
+      },
+    },
+    {
+      "faceName": "Heart's Desire",
+      "result": {
+        "abilities": [
+          {
+            "create": {
+              "amount": 1,
+              "color": "w",
+              "size": {
+                "power": 1,
+                "toughness": 1,
+              },
+              "type": {
+                "and": [
+                  "human",
+                  "creature",
+                ],
+              },
+            },
+          },
+        ],
+        "candidates": [
+          [
+            {
+              "create": {
+                "amount": 1,
+                "color": "w",
+                "size": {
+                  "power": 1,
+                  "toughness": 1,
+                },
+                "type": {
+                  "and": [
+                    "human",
+                    "creature",
+                  ],
+                },
+              },
+            },
+          ],
+        ],
+        "confidence": 1,
+        "oracleText": "create a 1/1 white human creature token.",
+        "unknownClauses": [],
+      },
+    },
+  ],
+  "layout": "adventure",
+}
+`;
+
+exports[`Layout snapshots: adventure cards > Questing Druid // Seek the Beast 1`] = `
+{
+  "faces": [
+    {
+      "faceName": "Questing Druid",
+      "result": {
+        "abilities": [
+          {
+            "effect": [
+              {
+                "actor": "you",
+                "does": {
+                  "may": {
+                    "pay": [
+                      1,
+                    ],
+                  },
+                },
+              },
+              {
+                "condition": {
+                  "actor": "you",
+                  "does": "do",
+                },
+                "effect": {
+                  "amount": 1,
+                  "counterKind": {
+                    "powerMod": 1,
+                    "toughnessMod": 1,
+                  },
+                  "putOn": "CARD_NAME",
+                },
+              },
+            ],
+            "trigger": {
+              "when": {
+                "actor": "you",
+                "does": {
+                  "cast": {
+                    "object": "spell",
+                    "reference": {
+                      "count": 1,
+                    },
+                  },
+                },
+              },
+            },
+          },
+        ],
+        "candidates": [
+          [
+            {
+              "effect": [
+                {
+                  "actor": "you",
+                  "does": {
+                    "may": {
+                      "pay": [
+                        1,
+                      ],
+                    },
+                  },
+                },
+                {
+                  "condition": {
+                    "actor": "you",
+                    "does": "do",
+                  },
+                  "effect": {
+                    "amount": 1,
+                    "counterKind": {
+                      "powerMod": 1,
+                      "toughnessMod": 1,
+                    },
+                    "putOn": "CARD_NAME",
+                  },
+                },
+              ],
+              "trigger": {
+                "when": {
+                  "actor": "you",
+                  "does": {
+                    "cast": {
+                      "object": "spell",
+                      "reference": {
+                        "count": 1,
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          ],
+        ],
+        "confidence": 1,
+        "oracleText": "whenever you cast a spell, you may pay {1}. if you do, put a +1/+1 counter on ~.",
+        "unknownClauses": [],
+      },
+    },
+    {
+      "faceName": "Seek the Beast",
+      "result": {
+        "abilities": [
+          {
+            "lookAt": {
+              "from": {
+                "owner": "your",
+                "zone": "library",
+              },
+              "topCards": 4,
+            },
+          },
+          {
+            "actor": "you",
+            "does": {
+              "may": {
+                "and": [
+                  {
+                    "reveal": {
+                      "object": {
+                        "object": {
+                          "object": "card",
+                          "types": {
+                            "or": [
+                              "creature",
+                              "land",
+                            ],
+                          },
+                        },
+                        "suffix": "amongThem",
+                      },
+                      "reference": {
+                        "count": 1,
+                      },
+                    },
+                  },
+                  {
+                    "into": {
+                      "owner": "your",
+                      "zone": "hand",
+                    },
+                    "put": "it",
+                  },
+                ],
+              },
+            },
+          },
+          {
+            "into": {
+              "bottom": {
+                "owner": "your",
+                "zone": "library",
+              },
+              "order": "random",
+            },
+            "put": {
+              "object": "rest",
+              "reference": "the",
+            },
+          },
+        ],
+        "candidates": [
+          [
+            {
+              "lookAt": {
+                "from": {
+                  "owner": "your",
+                  "zone": "library",
+                },
+                "topCards": 4,
+              },
+            },
+            {
+              "actor": "you",
+              "does": {
+                "may": {
+                  "and": [
+                    {
+                      "reveal": {
+                        "object": {
+                          "object": {
+                            "object": "card",
+                            "types": {
+                              "or": [
+                                "creature",
+                                "land",
+                              ],
+                            },
+                          },
+                          "suffix": "amongThem",
+                        },
+                        "reference": {
+                          "count": 1,
+                        },
+                      },
+                    },
+                    {
+                      "into": {
+                        "owner": "your",
+                        "zone": "hand",
+                      },
+                      "put": "it",
+                    },
+                  ],
+                },
+              },
+            },
+            {
+              "into": {
+                "bottom": {
+                  "owner": "your",
+                  "zone": "library",
+                },
+                "order": "random",
+              },
+              "put": {
+                "object": "rest",
+                "reference": "the",
+              },
+            },
+          ],
+        ],
+        "confidence": 1,
+        "oracleText": "look at the top four cards of your library. you may reveal a creature or land card from among them and put it into your hand. put the rest on the bottom of your library in a random order.",
+        "unknownClauses": [],
+      },
+    },
+  ],
+  "layout": "adventure",
+}
+`;
+
+exports[`Layout snapshots: modal_dfc cards > Shatterskull Smashing // Shatterskull, the Hammer Pass 1`] = `
+{
+  "faces": [
+    {
+      "faceName": "Shatterskull Smashing",
+      "result": {
+        "abilities": null,
+        "candidates": null,
+        "confidence": 0,
+        "error": "Syntax error at line 1 col 46:
+
+1 ~ deals x damage divided as you choose among up to two target creatures and/or planeswalkers. if x is 6 or more, ~ deals twice x damage divided as you choose among them instead.
+                                               ^
+
+Unexpected "u". Instead, I was expecting to see one of the following:
+
+A "o" based on:
+    divideTargets$string$1 →  ● "o" "n" "e" "," " " "t" "w" "o" "," " " "o" "r" " " "t" "h" "r" "e" "e" " " "t" "a" "r" "g" "e" "t" "s"
+    divideTargets →  ● divideTargets$string$1
+    divideAmongDamageTargets → divideAmongDamageTargets$string$1 __ ● divideTargets
+    dealsWhat → numberDefinition __ dealsWhat$string$12 __ ● divideAmongDamageTargets
+    baseObjectVerbPhrase → baseObjectVerbPhrase$string$18 _s __ ● dealsWhat
+    modifiedObjectVerbPhrase →  ● baseObjectVerbPhrase modifiedObjectVerbPhrase$ebnf$1 modifiedObjectVerbPhrase$ebnf$2 modifiedObjectVerbPhrase$ebnf$3
+    objectVerbPhrase →  ● modifiedObjectVerbPhrase
+    singleSentence → object __ ● objectVerbPhrase
+    sentence →  ● singleSentence
+    sentenceDot →  ● sentence sentenceDot$ebnf$1 sentenceDot$ebnf$2
+    staticOrSpell →  ● sentenceDot
+    ability$subexpression$1 →  ● staticOrSpell
+    ability →  ● ability$subexpression$1 ability$ebnf$1 ability$ebnf$2
+    abilityOrRemind →  ● ability
+    card → card$ebnf$1 ● abilityOrRemind card$ebnf$2 card$ebnf$3
+A "a" based on:
+    divideTargets$string$2 →  ● "a" "n" "y" " " "n" "u" "m" "b" "e" "r" " " "o" "f"
+    divideTargets →  ● divideTargets$string$2 __ object
+    divideAmongDamageTargets → divideAmongDamageTargets$string$1 __ ● divideTargets
+    dealsWhat → numberDefinition __ dealsWhat$string$12 __ ● divideAmongDamageTargets
+    baseObjectVerbPhrase → baseObjectVerbPhrase$string$18 _s __ ● dealsWhat
+    modifiedObjectVerbPhrase →  ● baseObjectVerbPhrase modifiedObjectVerbPhrase$ebnf$1 modifiedObjectVerbPhrase$ebnf$2 modifiedObjectVerbPhrase$ebnf$3
+    objectVerbPhrase →  ● modifiedObjectVerbPhrase
+    singleSentence → object __ ● objectVerbPhrase
+    sentence →  ● singleSentence
+    sentenceDot →  ● sentence sentenceDot$ebnf$1 sentenceDot$ebnf$2
+    staticOrSpell →  ● sentenceDot
+    ability$subexpression$1 →  ● staticOrSpell
+    ability →  ● ability$subexpression$1 ability$ebnf$1 ability$ebnf$2
+    abilityOrRemind →  ● ability
+    card → card$ebnf$1 ● abilityOrRemind card$ebnf$2 card$ebnf$3
+A "o" based on:
+    divideTargets$string$3 →  ● "o" "n" "e" " " "o" "r" " " "t" "w" "o" " " "t" "a" "r" "g" "e" "t" "s"
+    divideTargets →  ● divideTargets$string$3
+    divideAmongDamageTargets → divideAmongDamageTargets$string$1 __ ● divideTargets
+    dealsWhat → numberDefinition __ dealsWhat$string$12 __ ● divideAmongDamageTargets
+    baseObjectVerbPhrase → baseObjectVerbPhrase$string$18 _s __ ● dealsWhat
+    modifiedObjectVerbPhrase →  ● baseObjectVerbPhrase modifiedObjectVerbPhrase$ebnf$1 modifiedObjectVerbPhrase$ebnf$2 modifiedObjectVerbPhrase$ebnf$3
+    objectVerbPhrase →  ● modifiedObjectVerbPhrase
+    singleSentence → object __ ● objectVerbPhrase
+    sentence →  ● singleSentence
+    sentenceDot →  ● sentence sentenceDot$ebnf$1 sentenceDot$ebnf$2
+    staticOrSpell →  ● sentenceDot
+    ability$subexpression$1 →  ● staticOrSpell
+    ability →  ● ability$subexpression$1 ability$ebnf$1 ability$ebnf$2
+    abilityOrRemind →  ● ability
+    card → card$ebnf$1 ● abilityOrRemind card$ebnf$2 card$ebnf$3
+",
+        "oracleText": "~ deals x damage divided as you choose among up to two target creatures and/or planeswalkers. if x is 6 or more, ~ deals twice x damage divided as you choose among them instead.",
+        "unknownClauses": [
+          "~ deals x damage divided as you choose among up to two target creatures and/or planeswalkers. if x is 6 or more, ~ deals twice x damage divided as you choose among them instead.",
+        ],
+      },
+    },
+    {
+      "faceName": "Shatterskull, the Hammer Pass",
+      "result": {
+        "abilities": [],
+        "candidates": [
+          [],
+        ],
+        "confidence": 1,
+        "oracleText": "",
+        "unknownClauses": [],
+      },
+    },
+  ],
+  "layout": "modal_dfc",
+}
+`;
+
+exports[`Layout snapshots: modal_dfc cards > Sink into Stupor // Soporific Springs 1`] = `
+{
+  "faces": [
+    {
+      "faceName": "Sink into Stupor",
+      "result": {
+        "abilities": null,
+        "candidates": null,
+        "confidence": 0,
+        "error": "Syntax error at line 1 col 24:
+
+1 return target spell or nonland permanent an opponent controls to its owner's hand.
+                         ^
+
+Unexpected "n". Instead, I was expecting to see one of the following:
+
+A "p" based on:
+    pureObjectInner$string$12 → "s" "p" "e" "l" "l" " " "o" "r" " " ● "p" "e" "r" "m" "a" "n" "e" "n" "t"
+    pureObjectInner →  ● pureObjectInner$string$12
+    pureObject1 → pureObject1$ebnf$1 pureObject1$ebnf$2 ● pureObjectInner
+    pureObject →  ● pureObject1 pureObject$ebnf$1 pureObject$ebnf$2
+    objectInner →  ● pureObject
+    object → object$ebnf$1 ● objectInner
+    imperative → imperative$string$8 _s __ ● object imperative$ebnf$2 __ imperative$string$9 __ zone imperative$ebnf$3 imperative$ebnf$4 imperative$ebnf$5
+    singleSentence →  ● imperative
+    sentence →  ● singleSentence
+    sentenceDot →  ● sentence sentenceDot$ebnf$1 sentenceDot$ebnf$2
+    staticOrSpell →  ● sentenceDot
+    ability$subexpression$1 →  ● staticOrSpell
+    ability →  ● ability$subexpression$1 ability$ebnf$1 ability$ebnf$2
+    abilityOrRemind →  ● ability
+    card → card$ebnf$1 ● abilityOrRemind card$ebnf$2 card$ebnf$3
+A "a" based on:
+    pureObjectInner$string$11 → "s" "p" "e" "l" "l" " " "o" "r" " " ● "a" "b" "i" "l" "i" "t" "y"
+    pureObjectInner →  ● pureObjectInner$string$11
+    pureObject1 → pureObject1$ebnf$1 pureObject1$ebnf$2 ● pureObjectInner
+    pureObject →  ● pureObject1 pureObject$ebnf$1 pureObject$ebnf$2
+    objectInner →  ● pureObject
+    object → object$ebnf$1 ● objectInner
+    imperative → imperative$string$8 _s __ ● object imperative$ebnf$2 __ imperative$string$9 __ zone imperative$ebnf$3 imperative$ebnf$4 imperative$ebnf$5
+    singleSentence →  ● imperative
+    sentence →  ● singleSentence
+    sentenceDot →  ● sentence sentenceDot$ebnf$1 sentenceDot$ebnf$2
+    staticOrSpell →  ● sentenceDot
+    ability$subexpression$1 →  ● staticOrSpell
+    ability →  ● ability$subexpression$1 ability$ebnf$1 ability$ebnf$2
+    abilityOrRemind →  ● ability
+    card → card$ebnf$1 ● abilityOrRemind card$ebnf$2 card$ebnf$3
+",
+        "oracleText": "return target spell or nonland permanent an opponent controls to its owner's hand.",
+        "unknownClauses": [
+          "return target spell or nonland permanent an opponent controls to its owner's hand.",
+        ],
+      },
+    },
+    {
+      "faceName": "Soporific Springs",
+      "result": {
+        "abilities": [],
+        "candidates": [
+          [],
+        ],
+        "confidence": 1,
+        "oracleText": "",
+        "unknownClauses": [],
+      },
+    },
+  ],
+  "layout": "modal_dfc",
+}
+`;
+
+exports[`Layout snapshots: split cards > Dead // Gone 1`] = `
+{
+  "faces": [
+    {
+      "faceName": "Dead",
+      "result": {
+        "abilities": [
+          {
+            "does": {
+              "deal": {
+                "amount": 2,
+                "damageTo": {
+                  "object": {
+                    "type": "creature",
+                  },
+                  "reference": {
+                    "targetCount": 1,
+                  },
+                },
+              },
+            },
+            "what": "CARD_NAME",
+          },
+        ],
+        "candidates": [
+          [
+            {
+              "does": {
+                "deal": {
+                  "amount": 2,
+                  "damageTo": {
+                    "object": {
+                      "type": "creature",
+                    },
+                    "reference": {
+                      "targetCount": 1,
+                    },
+                  },
+                },
+              },
+              "what": "CARD_NAME",
+            },
+          ],
+        ],
+        "confidence": 1,
+        "oracleText": "~ deals 2 damage to target creature.",
+        "unknownClauses": [],
+      },
+    },
+    {
+      "faceName": "Gone",
+      "result": {
+        "abilities": [
+          {
+            "returns": {
+              "object": {
+                "object": {
+                  "type": "creature",
+                },
+                "suffix": {
+                  "actor": "you",
+                  "does": "control",
+                },
+              },
+              "reference": {
+                "targetCount": 1,
+              },
+            },
+            "to": {
+              "owner": {
+                "does": "own",
+                "whose": {
+                  "reference": "its",
+                },
+              },
+              "zone": "hand",
+            },
+          },
+        ],
+        "candidates": [
+          [
+            {
+              "returns": {
+                "object": {
+                  "object": {
+                    "type": "creature",
+                  },
+                  "suffix": {
+                    "actor": "you",
+                    "does": "control",
+                  },
+                },
+                "reference": {
+                  "targetCount": 1,
+                },
+              },
+              "to": {
+                "owner": {
+                  "does": "own",
+                  "whose": {
+                    "reference": "its",
+                  },
+                },
+                "zone": "hand",
+              },
+            },
+          ],
+        ],
+        "confidence": 1,
+        "oracleText": "return target creature you don't control to its owner's hand.",
+        "unknownClauses": [],
+      },
+    },
+  ],
+  "layout": "split",
+}
+`;
+
+exports[`Layout snapshots: split cards > Fire // Ice 1`] = `
+{
+  "faces": [
+    {
+      "faceName": "Fire",
+      "result": {
+        "abilities": [
+          {
+            "does": {
+              "deal": {
+                "amount": 2,
+                "divideAmong": {
+                  "targetCount": [
+                    1,
+                    2,
+                  ],
+                },
+              },
+            },
+            "what": "CARD_NAME",
+          },
+        ],
+        "candidates": [
+          [
+            {
+              "does": {
+                "deal": {
+                  "amount": 2,
+                  "divideAmong": {
+                    "targetCount": [
+                      1,
+                      2,
+                    ],
+                  },
+                },
+              },
+              "what": "CARD_NAME",
+            },
+          ],
+        ],
+        "confidence": 1,
+        "oracleText": "~ deals 2 damage divided as you choose among one or two targets.",
+        "unknownClauses": [],
+      },
+    },
+    {
+      "faceName": "Ice",
+      "result": {
+        "abilities": [
+          {
+            "tap": {
+              "object": {
+                "type": "permanent",
+              },
+              "reference": {
+                "targetCount": 1,
+              },
+            },
+          },
+          {
+            "draw": 1,
+          },
+        ],
+        "candidates": [
+          [
+            {
+              "tap": {
+                "object": {
+                  "type": "permanent",
+                },
+                "reference": {
+                  "targetCount": 1,
+                },
+              },
+            },
+            {
+              "draw": 1,
+            },
+          ],
+        ],
+        "confidence": 1,
+        "oracleText": "tap target permanent.
+draw a card.",
+        "unknownClauses": [],
+      },
+    },
+  ],
+  "layout": "split",
+}
+`;
+
+exports[`Layout snapshots: split cards > Life // Death 1`] = `
+{
+  "faces": [
+    {
+      "faceName": "Life",
+      "result": {
+        "abilities": [
+          {
+            "and": [
+              {
+                "criteria": {
+                  "object": {
+                    "object": "card",
+                    "types": {
+                      "and": [
+                        "basic",
+                        "land",
+                      ],
+                    },
+                  },
+                  "reference": {
+                    "count": {
+                      "upTo": 2,
+                    },
+                  },
+                },
+                "search": {
+                  "owner": "your",
+                  "zone": "library",
+                },
+              },
+              {
+                "into": "battlefield",
+                "put": "them",
+                "tapped": true,
+              },
+              {
+                "shuffle": "library",
+              },
+            ],
+          },
+        ],
+        "candidates": [
+          [
+            {
+              "and": [
+                {
+                  "criteria": {
+                    "object": {
+                      "object": "card",
+                      "types": {
+                        "and": [
+                          "basic",
+                          "land",
+                        ],
+                      },
+                    },
+                    "reference": {
+                      "count": {
+                        "upTo": 2,
+                      },
+                    },
+                  },
+                  "search": {
+                    "owner": "your",
+                    "zone": "library",
+                  },
+                },
+                {
+                  "into": "battlefield",
+                  "put": "them",
+                  "tapped": true,
+                },
+                {
+                  "shuffle": "library",
+                },
+              ],
+            },
+          ],
+        ],
+        "confidence": 1,
+        "oracleText": "search your library for up to two basic land cards, put them onto the battlefield tapped, then shuffle.",
+        "unknownClauses": [],
+      },
+    },
+    {
+      "faceName": "Death",
+      "result": {
+        "abilities": null,
+        "candidates": null,
+        "confidence": 0,
+        "error": "Syntax error at line 1 col 56:
+
+1 return target creature card from your graveyard to play. that creature loses all abilities and is a black zombie in addition to its other types.
+                                                         ^
+
+Unexpected ".". Instead, I was expecting to see one of the following:
+
+A "e" based on:
+    purePlayer$string$1 → "p" "l" "a" "y" ● "e" "r"
+    purePlayer →  ● purePlayer$string$1 _s
+    player → player$ebnf$1 ● purePlayer
+    playersPossessive →  ● player playersPossessive$subexpression$1
+    zone$subexpression$1 →  ● playersPossessive
+    zone →  ● zone$subexpression$1 __ ownedZone
+    imperative → imperative$string$8 _s __ object imperative$ebnf$2 __ imperative$string$9 __ ● zone imperative$ebnf$3 imperative$ebnf$4 imperative$ebnf$5
+    singleSentence →  ● imperative
+    sentence →  ● singleSentence
+    sentenceDot →  ● sentence sentenceDot$ebnf$1 sentenceDot$ebnf$2
+    staticOrSpell →  ● sentenceDot
+    ability$subexpression$1 →  ● staticOrSpell
+    ability →  ● ability$subexpression$1 ability$ebnf$1 ability$ebnf$2
+    abilityOrRemind →  ● ability
+    card → card$ebnf$1 ● abilityOrRemind card$ebnf$2 card$ebnf$3
+A character matching /[a-z]/ based on:
+    counterKind$ebnf$1 → counterKind$ebnf$1 ● /[a-z]/
+    counterKind →  ● counterKind$ebnf$1
+    objectInner$ebnf$1$subexpression$1 →  ● counterKind __
+    objectInner$ebnf$1 →  ● objectInner$ebnf$1$subexpression$1
+    objectInner →  ● objectInner$ebnf$1 objectInner$string$13 _s __ objectInner$string$14 __ object
+    object → object$ebnf$1 ● objectInner
+    itsPossessive →  ● object SAXON
+    player →  ● itsPossessive __ player$subexpression$1 _s
+    playersPossessive →  ● player playersPossessive$subexpression$1
+    zone$subexpression$1 →  ● playersPossessive
+    zone →  ● zone$subexpression$1 __ ownedZone
+    imperative → imperative$string$8 _s __ object imperative$ebnf$2 __ imperative$string$9 __ ● zone imperative$ebnf$3 imperative$ebnf$4 imperative$ebnf$5
+    singleSentence →  ● imperative
+    sentence →  ● singleSentence
+    sentenceDot →  ● sentence sentenceDot$ebnf$1 sentenceDot$ebnf$2
+    staticOrSpell →  ● sentenceDot
+    ability$subexpression$1 →  ● staticOrSpell
+    ability →  ● ability$subexpression$1 ability$ebnf$1 ability$ebnf$2
+    abilityOrRemind →  ● ability
+    card → card$ebnf$1 ● abilityOrRemind card$ebnf$2 card$ebnf$3
+A character matching /[a-z]/ based on:
+    creatureType$ebnf$1 → creatureType$ebnf$1 ● /[a-z]/
+    creatureType →  ● creatureType$ebnf$1
+    subType →  ● creatureType
+    anyTypeInner →  ● subType
+    anyType →  ● anyTypeInner anyType$ebnf$1
+    pureObject1 → pureObject1$ebnf$3 ● anyType _s
+    pureObject →  ● pureObject1 pureObject$ebnf$1 pureObject$ebnf$2
+    objectInner →  ● pureObject
+    object → object$ebnf$1 ● objectInner
+    itsPossessive →  ● object SAXON
+    player →  ● itsPossessive __ player$subexpression$1 _s
+    playersPossessive →  ● player playersPossessive$subexpression$1
+    zone$subexpression$1 →  ● playersPossessive
+    zone →  ● zone$subexpression$1 __ ownedZone
+    imperative → imperative$string$8 _s __ object imperative$ebnf$2 __ imperative$string$9 __ ● zone imperative$ebnf$3 imperative$ebnf$4 imperative$ebnf$5
+    singleSentence →  ● imperative
+    sentence →  ● singleSentence
+    sentenceDot →  ● sentence sentenceDot$ebnf$1 sentenceDot$ebnf$2
+    staticOrSpell →  ● sentenceDot
+    ability$subexpression$1 →  ● staticOrSpell
+    ability →  ● ability$subexpression$1 ability$ebnf$1 ability$ebnf$2
+    abilityOrRemind →  ● ability
+    card → card$ebnf$1 ● abilityOrRemind card$ebnf$2 card$ebnf$3
+A character matching /[a-z]/ based on:
+    planeswalkerType$ebnf$1 → planeswalkerType$ebnf$1 ● /[a-z]/
+    planeswalkerType →  ● planeswalkerType$ebnf$1
+    subType →  ● planeswalkerType
+    anyTypeInner →  ● subType
+    anyType →  ● anyTypeInner anyType$ebnf$1
+    pureObject1 → pureObject1$ebnf$3 ● anyType _s
+    pureObject →  ● pureObject1 pureObject$ebnf$1 pureObject$ebnf$2
+    objectInner →  ● pureObject
+    object → object$ebnf$1 ● objectInner
+    itsPossessive →  ● object SAXON
+    player →  ● itsPossessive __ player$subexpression$1 _s
+    playersPossessive →  ● player playersPossessive$subexpression$1
+    zone$subexpression$1 →  ● playersPossessive
+    zone →  ● zone$subexpression$1 __ ownedZone
+    imperative → imperative$string$8 _s __ object imperative$ebnf$2 __ imperative$string$9 __ ● zone imperative$ebnf$3 imperative$ebnf$4 imperative$ebnf$5
+    singleSentence →  ● imperative
+    sentence →  ● singleSentence
+    sentenceDot →  ● sentence sentenceDot$ebnf$1 sentenceDot$ebnf$2
+    staticOrSpell →  ● sentenceDot
+    ability$subexpression$1 →  ● staticOrSpell
+    ability →  ● ability$subexpression$1 ability$ebnf$1 ability$ebnf$2
+    abilityOrRemind →  ● ability
+    card → card$ebnf$1 ● abilityOrRemind card$ebnf$2 card$ebnf$3
+",
+        "oracleText": "return target creature card from your graveyard to play. that creature loses all abilities and is a black zombie in addition to its other types.",
+        "unknownClauses": [
+          "return target creature card from your graveyard to play. that creature loses all abilities and is a black zombie in addition to its other types.",
+        ],
+      },
+    },
+  ],
+  "layout": "split",
+}
+`;
+
+exports[`Layout snapshots: transform/DFC cards > Delver of Secrets // Insectile Aberration 1`] = `
+{
+  "faces": [
+    {
+      "faceName": "Delver of Secrets",
+      "result": {
+        "abilities": null,
+        "candidates": null,
+        "confidence": 0,
+        "error": "Syntax error at line 1 col 144:
+
+1 at the beginning of your upkeep, look at the top card of your library. you may reveal that card. if an instant or sorcery card is revealed this way, transform ~.
+                                                                                                                                                 ^
+
+Unexpected " ". Instead, I was expecting to see one of the following:
+
+A character matching /[a-z]/ based on:
+    creatureType$ebnf$1 → creatureType$ebnf$1 ● /[a-z]/
+    creatureType →  ● creatureType$ebnf$1
+    subType →  ● creatureType
+    anyTypeInner →  ● subType
+    anyType →  ● anyTypeInner anyType$ebnf$1
+    pureObject1 → pureObject1$ebnf$3 ● anyType _s
+    pureObject →  ● pureObject1 pureObject$ebnf$1 pureObject$ebnf$2
+    objectInner →  ● pureObject
+    object → object$ebnf$1 ● objectInner
+    baseObjectVerbPhrase → baseObjectVerbPhrase$subexpression$1 __ ● object
+    modifiedObjectVerbPhrase →  ● baseObjectVerbPhrase modifiedObjectVerbPhrase$ebnf$1 modifiedObjectVerbPhrase$ebnf$2 modifiedObjectVerbPhrase$ebnf$3
+    objectVerbPhrase →  ● modifiedObjectVerbPhrase
+    singleSentence → object __ ● objectVerbPhrase
+    sentence →  ● singleSentence
+    condition →  ● sentence
+    singleSentence → singleSentence$string$2 __ ● condition "," __ sentence
+    sentence →  ● singleSentence
+    additionalSentence →  ● sentence
+    sentenceDot$ebnf$1$subexpression$1 → sentenceDot$ebnf$1$subexpression$1$ebnf$1 __ ● additionalSentence
+    sentenceDot$ebnf$1 → sentenceDot$ebnf$1 ● sentenceDot$ebnf$1$subexpression$1
+    sentenceDot → sentence ● sentenceDot$ebnf$1 sentenceDot$ebnf$2
+    effect$subexpression$1 →  ● sentenceDot
+    effect →  ● effect$subexpression$1
+    triggeredAbility → triggerCondition "," __ ● effect
+    ability$subexpression$1 →  ● triggeredAbility
+    ability →  ● ability$subexpression$1 ability$ebnf$1 ability$ebnf$2
+    abilityOrRemind →  ● ability
+    card → card$ebnf$1 ● abilityOrRemind card$ebnf$2 card$ebnf$3
+A character matching /[a-z]/ based on:
+    planeswalkerType$ebnf$1 → planeswalkerType$ebnf$1 ● /[a-z]/
+    planeswalkerType →  ● planeswalkerType$ebnf$1
+    subType →  ● planeswalkerType
+    anyTypeInner →  ● subType
+    anyType →  ● anyTypeInner anyType$ebnf$1
+    pureObject1 → pureObject1$ebnf$3 ● anyType _s
+    pureObject →  ● pureObject1 pureObject$ebnf$1 pureObject$ebnf$2
+    objectInner →  ● pureObject
+    object → object$ebnf$1 ● objectInner
+    baseObjectVerbPhrase → baseObjectVerbPhrase$subexpression$1 __ ● object
+    modifiedObjectVerbPhrase →  ● baseObjectVerbPhrase modifiedObjectVerbPhrase$ebnf$1 modifiedObjectVerbPhrase$ebnf$2 modifiedObjectVerbPhrase$ebnf$3
+    objectVerbPhrase →  ● modifiedObjectVerbPhrase
+    singleSentence → object __ ● objectVerbPhrase
+    sentence →  ● singleSentence
+    condition →  ● sentence
+    singleSentence → singleSentence$string$2 __ ● condition "," __ sentence
+    sentence →  ● singleSentence
+    additionalSentence →  ● sentence
+    sentenceDot$ebnf$1$subexpression$1 → sentenceDot$ebnf$1$subexpression$1$ebnf$1 __ ● additionalSentence
+    sentenceDot$ebnf$1 → sentenceDot$ebnf$1 ● sentenceDot$ebnf$1$subexpression$1
+    sentenceDot → sentence ● sentenceDot$ebnf$1 sentenceDot$ebnf$2
+    effect$subexpression$1 →  ● sentenceDot
+    effect →  ● effect$subexpression$1
+    triggeredAbility → triggerCondition "," __ ● effect
+    ability$subexpression$1 →  ● triggeredAbility
+    ability →  ● ability$subexpression$1 ability$ebnf$1 ability$ebnf$2
+    abilityOrRemind →  ● ability
+    card → card$ebnf$1 ● abilityOrRemind card$ebnf$2 card$ebnf$3
+",
+        "oracleText": "at the beginning of your upkeep, look at the top card of your library. you may reveal that card. if an instant or sorcery card is revealed this way, transform ~.",
+        "unknownClauses": [
+          "at the beginning of your upkeep, look at the top card of your library. you may reveal that card. if an instant or sorcery card is revealed this way, transform ~.",
+        ],
+      },
+    },
+    {
+      "faceName": "Insectile Aberration",
+      "result": {
+        "abilities": [
+          "flying",
+        ],
+        "candidates": [
+          [
+            "flying",
+          ],
+        ],
+        "confidence": 1,
+        "oracleText": "flying",
+        "unknownClauses": [],
+      },
+    },
+  ],
+  "layout": "transform",
+}
+`;
+
+exports[`Layout snapshots: transform/DFC cards > Fable of the Mirror-Breaker // Reflection of Kiki-Jiki 1`] = `
+{
+  "faces": [
+    {
+      "faceName": "Fable of the Mirror-Breaker",
+      "result": {
+        "abilities": [
+          {
+            "unknown": "i -- create a 2/2 red goblin shaman creature token with "whenever this token attacks, create a treasure token."",
+          },
+          {
+            "unknown": "ii -- you may discard up to two cards. if you do, draw that many cards.",
+          },
+          {
+            "unknown": "iii -- exile this saga, then return it to the battlefield transformed under your control.",
+          },
+        ],
+        "candidates": [
+          [
+            {
+              "unknown": "i -- create a 2/2 red goblin shaman creature token with "whenever this token attacks, create a treasure token."",
+            },
+            {
+              "unknown": "ii -- you may discard up to two cards. if you do, draw that many cards.",
+            },
+            {
+              "unknown": "iii -- exile this saga, then return it to the battlefield transformed under your control.",
+            },
+          ],
+        ],
+        "confidence": 0.25,
+        "oracleText": "(as this saga enters and after your draw step, add a lore counter.)
+i -- create a 2/2 red goblin shaman creature token with "whenever this token attacks, create a treasure token."
+ii -- you may discard up to two cards. if you do, draw that many cards.
+iii -- exile this saga, then return it to the battlefield transformed under your control.",
+        "unknownClauses": [
+          "i -- create a 2/2 red goblin shaman creature token with "whenever this token attacks, create a treasure token."",
+          "ii -- you may discard up to two cards. if you do, draw that many cards.",
+          "iii -- exile this saga, then return it to the battlefield transformed under your control.",
+        ],
+      },
+    },
+    {
+      "faceName": "Reflection of Kiki-Jiki",
+      "result": {
+        "abilities": [
+          "haste",
+          {
+            "unknown": "whenever ~ enters or attacks, create a token that's a copy of another target nonlegendary creature you control, except it has haste. sacrifice that token at the beginning of the next end step.",
+          },
+        ],
+        "candidates": [
+          [
+            "haste",
+            {
+              "unknown": "whenever ~ enters or attacks, create a token that's a copy of another target nonlegendary creature you control, except it has haste. sacrifice that token at the beginning of the next end step.",
+            },
+          ],
+        ],
+        "confidence": 0.5,
+        "oracleText": "haste
+whenever ~ enters or attacks, create a token that's a copy of another target nonlegendary creature you control, except it has haste. sacrifice that token at the beginning of the next end step.",
+        "unknownClauses": [
+          "whenever ~ enters or attacks, create a token that's a copy of another target nonlegendary creature you control, except it has haste. sacrifice that token at the beginning of the next end step.",
+        ],
+      },
+    },
+  ],
+  "layout": "transform",
+}
+`;
+
+exports[`Layout snapshots: transform/DFC cards > Kytheon, Hero of Akros // Gideon, Battle-Forged 1`] = `
+{
+  "faces": [
+    {
+      "faceName": "Kytheon, Hero of Akros",
+      "result": {
+        "abilities": [
+          {
+            "unknown": "at end of combat, if ~ and at least two other creatures attacked this combat, exile ~, then return him to the battlefield transformed under his owner's control.",
+          },
+          {
+            "activatedAbility": {
+              "does": {
+                "does": {
+                  "gains": "indestructible",
+                },
+                "duration": {
+                  "until": "endOfTurn",
+                },
+              },
+              "what": "CARD_NAME",
+            },
+            "costs": {
+              "mana": [
+                2,
+                "w",
+              ],
+            },
+          },
+        ],
+        "candidates": [
+          [
+            {
+              "unknown": "at end of combat, if ~ and at least two other creatures attacked this combat, exile ~, then return him to the battlefield transformed under his owner's control.",
+            },
+            {
+              "activatedAbility": {
+                "does": {
+                  "does": {
+                    "gains": "indestructible",
+                  },
+                  "duration": {
+                    "until": "endOfTurn",
+                  },
+                },
+                "what": "CARD_NAME",
+              },
+              "costs": {
+                "mana": [
+                  2,
+                  "w",
+                ],
+              },
+            },
+          ],
+        ],
+        "confidence": 0.5,
+        "oracleText": "at end of combat, if ~ and at least two other creatures attacked this combat, exile ~, then return him to the battlefield transformed under his owner's control.
+{2}{w}: ~ gains indestructible until end of turn.",
+        "unknownClauses": [
+          "at end of combat, if ~ and at least two other creatures attacked this combat, exile ~, then return him to the battlefield transformed under his owner's control.",
+        ],
+      },
+    },
+    {
+      "faceName": "Gideon, Battle-Forged",
+      "result": {
+        "abilities": [
+          {
+            "unknown": "+2: up to one target creature an opponent controls attacks ~ during its controller's next turn if able.",
+          },
+          {
+            "activatedAbility": [
+              {
+                "duration": {
+                  "until": "yourNextTurn",
+                },
+                "effect": {
+                  "does": {
+                    "gains": "indestructible",
+                  },
+                  "what": {
+                    "object": {
+                      "type": "creature",
+                    },
+                    "reference": {
+                      "targetCount": 1,
+                    },
+                  },
+                },
+              },
+              {
+                "untap": {
+                  "object": {
+                    "type": "creature",
+                  },
+                  "reference": "that",
+                },
+              },
+            ],
+            "costs": {
+              "loyalty": 1,
+            },
+          },
+          {
+            "unknown": "0: until end of turn, ~ becomes a 4/4 human soldier creature with indestructible that's still a planeswalker. prevent all damage that would be dealt to him this turn.",
+          },
+        ],
+        "candidates": [
+          [
+            {
+              "unknown": "+2: up to one target creature an opponent controls attacks ~ during its controller's next turn if able.",
+            },
+            {
+              "activatedAbility": [
+                {
+                  "duration": {
+                    "until": "yourNextTurn",
+                  },
+                  "effect": {
+                    "does": {
+                      "gains": "indestructible",
+                    },
+                    "what": {
+                      "object": {
+                        "type": "creature",
+                      },
+                      "reference": {
+                        "targetCount": 1,
+                      },
+                    },
+                  },
+                },
+                {
+                  "untap": {
+                    "object": {
+                      "type": "creature",
+                    },
+                    "reference": "that",
+                  },
+                },
+              ],
+              "costs": {
+                "loyalty": 1,
+              },
+            },
+            {
+              "unknown": "0: until end of turn, ~ becomes a 4/4 human soldier creature with indestructible that's still a planeswalker. prevent all damage that would be dealt to him this turn.",
+            },
+          ],
+        ],
+        "confidence": 0.3333333333333333,
+        "oracleText": "+2: up to one target creature an opponent controls attacks ~ during its controller's next turn if able.
++1: until your next turn, target creature gains indestructible. untap that creature.
+0: until end of turn, ~ becomes a 4/4 human soldier creature with indestructible that's still a planeswalker. prevent all damage that would be dealt to him this turn.",
+        "unknownClauses": [
+          "+2: up to one target creature an opponent controls attacks ~ during its controller's next turn if able.",
+          "0: until end of turn, ~ becomes a 4/4 human soldier creature with indestructible that's still a planeswalker. prevent all damage that would be dealt to him this turn.",
+        ],
+      },
+    },
+  ],
+  "layout": "transform",
+}
+`;
+
+exports[`Layout snapshots: transform/DFC cards > Thing in the Ice // Awoken Horror 1`] = `
+{
+  "faces": [
+    {
+      "faceName": "Thing in the Ice",
+      "result": {
+        "abilities": [
+          "defender",
+          {
+            "does": {
+              "entersWith": {
+                "amount": 4,
+                "counterKind": "ice",
+              },
+            },
+            "what": "CARD_NAME",
+          },
+          {
+            "unknown": "whenever you cast an instant or sorcery spell, remove an ice counter from ~. then if it has no ice counters on it, transform it.",
+          },
+        ],
+        "candidates": [
+          [
+            "defender",
+            {
+              "does": {
+                "entersWith": {
+                  "amount": 4,
+                  "counterKind": "ice",
+                },
+              },
+              "what": "CARD_NAME",
+            },
+            {
+              "unknown": "whenever you cast an instant or sorcery spell, remove an ice counter from ~. then if it has no ice counters on it, transform it.",
+            },
+          ],
+        ],
+        "confidence": 0.6666666666666666,
+        "oracleText": "defender
+~ enters with four ice counters on it.
+whenever you cast an instant or sorcery spell, remove an ice counter from ~. then if it has no ice counters on it, transform it.",
+        "unknownClauses": [
+          "whenever you cast an instant or sorcery spell, remove an ice counter from ~. then if it has no ice counters on it, transform it.",
+        ],
+      },
+    },
+    {
+      "faceName": "Awoken Horror",
+      "result": {
+        "abilities": null,
+        "candidates": null,
+        "confidence": 0,
+        "error": "Syntax error at line 1 col 18:
+
+1 when ~ transforms into ~, return all non-horror creatures to their owners' hands.
+                   ^
+
+Unexpected " ". Instead, I was expecting to see one of the following:
+
+A character matching /[a-z]/ based on:
+    counterKind$ebnf$1 → counterKind$ebnf$1 ● /[a-z]/
+    counterKind →  ● counterKind$ebnf$1
+    objectInner$ebnf$1$subexpression$1 →  ● counterKind __
+    objectInner$ebnf$1 →  ● objectInner$ebnf$1$subexpression$1
+    objectInner →  ● objectInner$ebnf$1 objectInner$string$13 _s __ objectInner$string$14 __ object
+    object → object$ebnf$1 ● objectInner
+    suffix →  ● object __ suffix$string$17
+    pureObject$ebnf$1$subexpression$1 → __ ● suffix
+    pureObject$ebnf$1 →  ● pureObject$ebnf$1$subexpression$1
+    pureObject → pureObject1 ● pureObject$ebnf$1 pureObject$ebnf$2
+    objectInner →  ● pureObject
+    object → object$ebnf$1 ● objectInner
+    triggerConditionInner →  ● object __ triggerConditionInner$string$2
+    triggerCondition → triggerCondition$subexpression$1 __ ● triggerConditionInner triggerCondition$ebnf$1
+    triggeredAbility →  ● triggerCondition "," __ effect
+    ability$subexpression$1 →  ● triggeredAbility
+    ability →  ● ability$subexpression$1 ability$ebnf$1 ability$ebnf$2
+    abilityOrRemind →  ● ability
+    card → card$ebnf$1 ● abilityOrRemind card$ebnf$2 card$ebnf$3
+A character matching /[a-z]/ based on:
+    creatureType$ebnf$1 → creatureType$ebnf$1 ● /[a-z]/
+    creatureType →  ● creatureType$ebnf$1
+    subType →  ● creatureType
+    anyTypeInner →  ● subType
+    anyType →  ● anyTypeInner anyType$ebnf$1
+    pureObject1 → pureObject1$ebnf$3 ● anyType _s
+    pureObject →  ● pureObject1 pureObject$ebnf$1 pureObject$ebnf$2
+    objectInner →  ● pureObject
+    object → object$ebnf$1 ● objectInner
+    suffix →  ● object __ suffix$string$17
+    pureObject$ebnf$1$subexpression$1 → __ ● suffix
+    pureObject$ebnf$1 →  ● pureObject$ebnf$1$subexpression$1
+    pureObject → pureObject1 ● pureObject$ebnf$1 pureObject$ebnf$2
+    objectInner →  ● pureObject
+    object → object$ebnf$1 ● objectInner
+    triggerConditionInner →  ● object __ triggerConditionInner$string$2
+    triggerCondition → triggerCondition$subexpression$1 __ ● triggerConditionInner triggerCondition$ebnf$1
+    triggeredAbility →  ● triggerCondition "," __ effect
+    ability$subexpression$1 →  ● triggeredAbility
+    ability →  ● ability$subexpression$1 ability$ebnf$1 ability$ebnf$2
+    abilityOrRemind →  ● ability
+    card → card$ebnf$1 ● abilityOrRemind card$ebnf$2 card$ebnf$3
+A character matching /[a-z]/ based on:
+    planeswalkerType$ebnf$1 → planeswalkerType$ebnf$1 ● /[a-z]/
+    planeswalkerType →  ● planeswalkerType$ebnf$1
+    subType →  ● planeswalkerType
+    anyTypeInner →  ● subType
+    anyType →  ● anyTypeInner anyType$ebnf$1
+    pureObject1 → pureObject1$ebnf$3 ● anyType _s
+    pureObject →  ● pureObject1 pureObject$ebnf$1 pureObject$ebnf$2
+    objectInner →  ● pureObject
+    object → object$ebnf$1 ● objectInner
+    suffix →  ● object __ suffix$string$17
+    pureObject$ebnf$1$subexpression$1 → __ ● suffix
+    pureObject$ebnf$1 →  ● pureObject$ebnf$1$subexpression$1
+    pureObject → pureObject1 ● pureObject$ebnf$1 pureObject$ebnf$2
+    objectInner →  ● pureObject
+    object → object$ebnf$1 ● objectInner
+    triggerConditionInner →  ● object __ triggerConditionInner$string$2
+    triggerCondition → triggerCondition$subexpression$1 __ ● triggerConditionInner triggerCondition$ebnf$1
+    triggeredAbility →  ● triggerCondition "," __ effect
+    ability$subexpression$1 →  ● triggeredAbility
+    ability →  ● ability$subexpression$1 ability$ebnf$1 ability$ebnf$2
+    abilityOrRemind →  ● ability
+    card → card$ebnf$1 ● abilityOrRemind card$ebnf$2 card$ebnf$3
+",
+        "oracleText": "when ~ transforms into ~, return all non-horror creatures to their owners' hands.",
+        "unknownClauses": [
+          "when ~ transforms into ~, return all non-horror creatures to their owners' hands.",
+        ],
+      },
+    },
+  ],
+  "layout": "transform",
+}
+`;
+
 exports[`Unambiguous cards: single parse + snapshot > Abbot of Keral Keep 1`] = `
 [
   "prowess",
