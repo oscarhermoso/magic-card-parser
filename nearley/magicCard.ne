@@ -336,7 +336,8 @@ singleSentence -> imperative {% ([i]) => i %}
   | asLongAsClause "," __ sentence {% ([asLongAs, , , effect]) => ({ asLongAs, effect }) %}
   | duration "," __ sentence {% ([duration, , , effect]) => ({ duration, effect }) %}
   | duration "," __ triggeredAbility {% ([duration, , , effect]) => ({ duration, effect }) %}
-  | "for each" __ object "," __ sentence {% ([, , forEach, , , effect]) => ({ forEach, effect }) %}
+  | "for each" __ (object {% ([o]) => o %} | purePlayer {% ([p]) => p %}) "," __ sentence
+    {% ([, , [forEach], , , effect]) => ({ forEach, effect }) %}
   | "for each of" __ object "," __ sentence
     {% ([, , forEach, , , effect]) => ({ forEach, effect }) %}
   | activatedAbilities __ activatedAbilitiesVP (__ duration):?
@@ -418,6 +419,26 @@ condition -> sentence {% ([s]) => s %}
       })
     %}
   | "both targets are still legal as this ability resolves" {% () => "bothTargetsLegal" %}
+  | playersPossessive __ "devotion to" __ [^,.\n]:+ __ "is" __ numericalComparison
+    {%
+      ([whose, , , , colors, , , , comparison]) => ({
+        devotion: { whose, to: colors.join("") },
+        is: comparison,
+      })
+    %}
+  | player __ "lost" __ numericalComparison __ "life" __ duration
+    {% ([who, , , , amount, , , , during]) => ({ who, lost: { life: amount }, during }) %}
+  | object __ "entered the battlefield" __ duration
+    {% ([what, , , , during]) => ({ what, entered: "battlefield", during }) %}
+  | object __ ("you controlled" __):? "left the battlefield" __ ("under" __ playersPossessive __ "control" __):? duration
+    {%
+      ([what, , youControlled, , , control, during]) => {
+        const result = { what, left: "battlefield", during };
+        if (youControlled) result.control = "your";
+        if (control) result.control = control[2];
+        return result;
+      }
+    %}
 
 ordinal -> "first" {% () => 1 %}
   | "second" {% () => 2 %}
@@ -467,6 +488,8 @@ object -> (referencingObjectPrefix __):? objectInner
 objectInner -> "it" {% () => "it" %}
   | "them" {% () => "them" %}
   | "they" {% () => "they" %}
+  | "he" {% () => "it" %}
+  | "she" {% () => "it" %}
   | "rest" {% () => "rest" %}
   | "this emblem" {% () => "emblem" %}
   | object __ "that's" __ isWhat {% ([object, , , , condition]) => ({ object, condition }) %}
@@ -816,7 +839,7 @@ imperative -> "sacrifice" _s __ object {% ([, , , sacrifice]) => ({ sacrifice })
       })
     %}
   | "choose" _s __ object {% ([, , , choose]) => ({ choose }) %}
-  | "look" _s __ "at" __ (object | zone) {% ([, , , , , [lookAt]]) => ({ lookAt }) %}
+  | "look" _s __ "at" __ (object | zone) (__ "any time"):? {% ([, , , , , [lookAt]]) => ({ lookAt }) %}
   | "put them back in any order" {% () => ({ putBack: true, anyOrder: true }) %}
   | "reveal" _s __ (object | zone) (__ "at random" __ fromZone):?
     {%
@@ -934,7 +957,7 @@ basePlayerVerbPhrase -> gains __ "life equal to" __ itsPossessive __ numericalCh
     {% ([, , play, , , , cast, , from]) => ({ may: { play: play, cast: cast, from } }) %}
   | "cycle" __ object {% ([, , cycle]) => ({ cycle }) %}
   | "tap" _s __ object __ "for mana" {% ([, , , what]) => ({ tapsForMana: what }) %}
-  | "has no cards in hand" {% () => ({ not: { has: { what: "card", in: "hand" } } }) %}
+  | hasOrHave __ "no cards in hand" {% () => ({ not: { has: { what: "card", in: "hand" } } }) %}
   | hasOrHave __ object __ inZone {% ([, , what, , inZone]) => ({ has: { what, ...inZone } }) %}
   | "has" __ object __ objectVerbPhrase {% ([, , what, , does]) => ({ what, does }) %}
 
@@ -988,25 +1011,33 @@ baseObjectVerbPhrase -> ("was" | "is") __ object {% ([, , is]) => ({ is }) %}
           : { counterKind, amount },
       })
     %}
-  | "enter" _s __ "the battlefield" (__ "tapped"):? (__ "under" __ playersPossessive __ "control"):? (__ fromZone):? (__ "and with" __ (englishNumber {% ([n]) => n %} | englishNumber __ "additional" {% ([additional]) => ({ additional }) %}) __ counterKind __ "counter" _s __ "on it"):?
+  | "enter" _s __ "the battlefield" (__ ("tapped" {% () => "tapped" %} | "untapped" {% () => "untapped" %})):? (__ "under" __ playersPossessive __ "control"):? (__ fromZone):? (__ "and with" __ (englishNumber {% ([n]) => n %} | englishNumber __ "additional" {% ([additional]) => ({ additional }) %}) __ counterKind __ "counter" _s __ "on it"):?
     {%
-      ([, , , , tapped, control, from, counters]) => {
+      ([, , , , tapState, control, from, counters]) => {
         const result = { enter: "battlefield" };
-        if (tapped) result.tapped = true;
+        if (tapState && tapState[1] === "tapped") result.tapped = true;
+        if (tapState && tapState[1] === "untapped") result.untapped = true;
         if (control) result.control = control[3];
         if (from) result.from = from[1];
         if (counters) result.with = { amount: counters[3], counterKind: counters[5] };
         return result;
       }
     %}
-  | "enter" _s (__ "tapped"):? (__ "and it" __ ("wasn" "'" "t" | "was not") __ "cast"):?
+  | "enter" _s (__ ("tapped" {% () => "tapped" %} | "untapped" {% () => "untapped" %})):? (__ "and it" __ ("wasn" "'" "t" | "was not") __ "cast"):?
     {%
-      ([, , tapped, notCast]) => {
+      ([, , tapState, notCast]) => {
         const result = { enter: "battlefield" };
-        if (tapped) result.tapped = true;
+        if (tapState && tapState[1] === "tapped") result.tapped = true;
+        if (tapState && tapState[1] === "untapped") result.untapped = true;
         if (notCast) result.condition = { not: "wasCast" };
         return result;
       }
+    %}
+  | "enter" _s (__ "the battlefield"):? __ "tapped unless" __ player __ controls __ object
+    {%
+      ([, , , , , , who, , , , what]) => ({
+        enter: "battlefield", tapped: true, unless: { actor: who, does: { controls: what } }
+      })
     %}
   | "enter" _s __ "as" __ becomesWhat (__ "on the battlefield"):?
     {% ([, , , , , becomes]) => ({ enter: "battlefield", as: becomes }) %}
@@ -1017,6 +1048,7 @@ baseObjectVerbPhrase -> ("was" | "is") __ object {% ([, , is]) => ({ is }) %}
   | ("can't" | "don't" | "doesn't") __ cantClause {% ([, , cant]) => ({ cant }) %}
   | "deal" _s __ dealsWhat {% ([, , , deal]) => ({ deal }) %}
   | isOrAre __ isWhat {% ([, , is]) => ({ is }) %}
+  | ("isn" "'" "t" | "aren" "'" "t") __ isWhat {% ([, , is]) => ({ not: { is } }) %}
   | "attack" _s (__ ("this" | "each") __ "combat if able"):? (__ "and" __ "isn't" __ "blocked"):?
     {%
       ([, , reference, isntBlocked]) => {
@@ -1075,6 +1107,8 @@ baseObjectVerbPhrase -> ("was" | "is") __ object {% ([, , is]) => ({ is }) %}
   | "assign its combat damage as though it" __ "weren't" __ "blocked"
     {% () => ({ damage: { as: { not: "blocked" } } }) %}
   | "remains tapped" {% () => ({ remains: "tapped" }) %}
+  | "phase" _s __ "out" {% () => "phaseOut" %}
+  | "phase" _s __ "in" {% () => "phaseIn" %}
 
 objectInfinitive -> "be put" __ intoZone (__ fromZone):? (__ duration):?
   {%
@@ -1155,6 +1189,7 @@ acquiredAbility -> keyword ("," __ keyword):+ (",":? __ "and" __ keyword):?
   | acquiredAbility __ "and" __ acquiredAbility {% ([a1, , , , a2]) => ({ and: [a1, a2] }) %}
   | "this ability" {% () => "thisAbility" %}
   | "flashback" {% () => "flashback" %}
+  | "madness" {% () => "madness" %}
 
 gets -> "get" _s
 
@@ -1172,6 +1207,7 @@ untilClause -> "until" __ untilClauseInner {% ([, , u]) => u %}
 untilClauseInner -> sentence {% ([s]) => s %}
   | "end of turn" {% () => "endOfTurn" %}
   | "your next turn" {% () => "yourNextTurn" %}
+  | "your next end step" {% () => "yourNextEndStep" %}
 
 numericalCharacteristic -> "toughness" {% () => "toughness" %}
   | "power" {% () => "power" %}
@@ -1217,7 +1253,14 @@ tokenDescription -> englishNumber (__ pt):? (__ color):? __ permanentTypeSpecifi
     {% ([amount, , , , , , , , , , copy]) => ({ amount, copy }) %}
   | connected[tokenDescription] {% ([c]) => c %}
 
-tokenState -> "attacking" {% () => "attacking" %}
+tokenState -> "attacking" (__ anyEntity (__ "or" __ anyEntity):?):?
+    {%
+      ([, target]) => {
+        if (!target) return "attacking";
+        if (target[2]) return { attacking: { or: [target[1], target[2][3]] } };
+        return { attacking: target[1] };
+      }
+    %}
   | "blocking" (__ object):? {% ([, target]) => (target ? { blocking: target[1] } : "blocking") %}
   | "tapped" (__ "and" __ tokenState):?
     {% ([, more]) => (more ? { and: ["tapped", more[3]] } : "tapped") %}
@@ -1275,6 +1318,8 @@ withClauseInner -> numericalCharacteristic __ numericalComparison
   | "the same name as" __ object {% ([, , sameNameAs]) => ({ sameNameAs }) %}
   | "lesser" __ numericalCharacteristic {% ([, , lesser]) => ({ lesser }) %}
   | acquiredAbility {% ([ability]) => ({ ability }) %}
+  | "different" __ ("power" | "toughness" | "name" | "mana value") _s
+    {% ([, , [characteristic]]) => ({ different: characteristic }) %}
   | object {% ([object]) => ({ object }) %}
 
 dealsWhat -> damageNoun __ "to" __ damageRecipient {% ([damage, , , , to]) => ({ ...damage, to }) %}
@@ -1346,6 +1391,7 @@ numericalComparison -> numberDefinition __ "or greater" {% ([gte]) => ({ gte }) 
   | numberDefinition __ "or less" {% ([lte]) => ({ lte }) %}
   | "less than or equal to" __ numberDefinition {% ([, , lte]) => ({ lte }) %}
   | "greater than" __ numberDefinition {% ([, , gt]) => ({ gt }) %}
+  | "less than" __ numberDefinition {% ([, , lt]) => ({ lt }) %}
   | "at least" __ numberDefinition {% ([, , gte]) => ({ gte }) %}
   | "more than" __ numberDefinition {% ([, , gt]) => ({ gt }) %}
   | numberDefinition __ "or more" {% ([gte]) => ({ gte }) %}

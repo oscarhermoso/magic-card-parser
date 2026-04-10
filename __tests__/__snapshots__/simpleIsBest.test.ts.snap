@@ -135,7 +135,7 @@ A character matching /[a-z]/ based on:
     counterKind →  ● counterKind$ebnf$1
     objectInner$ebnf$1$subexpression$1 →  ● counterKind __
     objectInner$ebnf$1 →  ● objectInner$ebnf$1$subexpression$1
-    objectInner →  ● objectInner$ebnf$1 objectInner$string$13 _s __ objectInner$string$14 __ object
+    objectInner →  ● objectInner$ebnf$1 objectInner$string$15 _s __ objectInner$string$16 __ object
     object → object$ebnf$1 ● objectInner
     manacost →  ● object SAXON __ manacost$string$1 manacost$ebnf$2
     cost →  ● manacost
@@ -784,7 +784,7 @@ A "o" based on:
     divideTargets →  ● divideTargets$string$1
     divideAmongDamageTargets → divideAmongDamageTargets$string$1 __ ● divideTargets
     dealsWhat → numberDefinition __ dealsWhat$string$12 __ ● divideAmongDamageTargets
-    baseObjectVerbPhrase → baseObjectVerbPhrase$string$18 _s __ ● dealsWhat
+    baseObjectVerbPhrase → baseObjectVerbPhrase$string$20 _s __ ● dealsWhat
     modifiedObjectVerbPhrase →  ● baseObjectVerbPhrase modifiedObjectVerbPhrase$ebnf$1 modifiedObjectVerbPhrase$ebnf$2 modifiedObjectVerbPhrase$ebnf$3
     objectVerbPhrase →  ● modifiedObjectVerbPhrase
     singleSentence → object __ ● objectVerbPhrase
@@ -800,7 +800,7 @@ A "a" based on:
     divideTargets →  ● divideTargets$string$2 __ object
     divideAmongDamageTargets → divideAmongDamageTargets$string$1 __ ● divideTargets
     dealsWhat → numberDefinition __ dealsWhat$string$12 __ ● divideAmongDamageTargets
-    baseObjectVerbPhrase → baseObjectVerbPhrase$string$18 _s __ ● dealsWhat
+    baseObjectVerbPhrase → baseObjectVerbPhrase$string$20 _s __ ● dealsWhat
     modifiedObjectVerbPhrase →  ● baseObjectVerbPhrase modifiedObjectVerbPhrase$ebnf$1 modifiedObjectVerbPhrase$ebnf$2 modifiedObjectVerbPhrase$ebnf$3
     objectVerbPhrase →  ● modifiedObjectVerbPhrase
     singleSentence → object __ ● objectVerbPhrase
@@ -816,7 +816,7 @@ A "o" based on:
     divideTargets →  ● divideTargets$string$3
     divideAmongDamageTargets → divideAmongDamageTargets$string$1 __ ● divideTargets
     dealsWhat → numberDefinition __ dealsWhat$string$12 __ ● divideAmongDamageTargets
-    baseObjectVerbPhrase → baseObjectVerbPhrase$string$18 _s __ ● dealsWhat
+    baseObjectVerbPhrase → baseObjectVerbPhrase$string$20 _s __ ● dealsWhat
     modifiedObjectVerbPhrase →  ● baseObjectVerbPhrase modifiedObjectVerbPhrase$ebnf$1 modifiedObjectVerbPhrase$ebnf$2 modifiedObjectVerbPhrase$ebnf$3
     objectVerbPhrase →  ● modifiedObjectVerbPhrase
     singleSentence → object __ ● objectVerbPhrase
@@ -1251,7 +1251,7 @@ A character matching /[a-z]/ based on:
     counterKind →  ● counterKind$ebnf$1
     objectInner$ebnf$1$subexpression$1 →  ● counterKind __
     objectInner$ebnf$1 →  ● objectInner$ebnf$1$subexpression$1
-    objectInner →  ● objectInner$ebnf$1 objectInner$string$13 _s __ objectInner$string$14 __ object
+    objectInner →  ● objectInner$ebnf$1 objectInner$string$15 _s __ objectInner$string$16 __ object
     object → object$ebnf$1 ● objectInner
     itsPossessive →  ● object SAXON
     player →  ● itsPossessive __ player$subexpression$1 _s
@@ -1732,7 +1732,7 @@ A character matching /[a-z]/ based on:
     counterKind →  ● counterKind$ebnf$1
     objectInner$ebnf$1$subexpression$1 →  ● counterKind __
     objectInner$ebnf$1 →  ● objectInner$ebnf$1$subexpression$1
-    objectInner →  ● objectInner$ebnf$1 objectInner$string$13 _s __ objectInner$string$14 __ object
+    objectInner →  ● objectInner$ebnf$1 objectInner$string$15 _s __ objectInner$string$16 __ object
     object → object$ebnf$1 ● objectInner
     suffix →  ● object __ suffix$string$17
     pureObject$ebnf$1$subexpression$1 → __ ● suffix
