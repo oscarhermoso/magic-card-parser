@@ -272,7 +272,7 @@ describe('AST shape validation against index.d.ts', () => {
 
     for (const card of cards) {
       const result = parseCard({ ...card, layout: 'normal' });
-      if (result.error || !result.candidates) continue;
+      if (result.error || !result.abilities) continue;
 
       for (const ability of result.abilities!) {
         if (typeof ability === 'string') continue;
@@ -306,7 +306,7 @@ describe('AST shape validation against index.d.ts', () => {
 
     for (const card of cards) {
       const result = parseCard({ ...card, layout: 'normal' });
-      if (result.error || !result.candidates) continue;
+      if (result.error || !result.abilities) continue;
 
       for (const ability of result.abilities!) {
         if (typeof ability === 'string') continue;
@@ -339,7 +339,7 @@ describe('AST shape validation against index.d.ts', () => {
 
     for (const card of cards) {
       const result = parseCard({ ...card, layout: 'normal' });
-      if (result.error || !result.candidates) continue;
+      if (result.error || !result.abilities) continue;
 
       for (const ability of result.abilities!) {
         if (
@@ -366,7 +366,7 @@ describe('AST shape validation against index.d.ts', () => {
 
     for (const card of cards) {
       const result = parseCard({ ...card, layout: 'normal' });
-      if (result.error || !result.candidates) continue;
+      if (result.error || !result.abilities) continue;
 
       JSON.stringify(result.abilities!, (key, value) => {
         if (key === 'counterKind') {
@@ -391,7 +391,7 @@ describe('AST shape validation against index.d.ts', () => {
 
     for (const card of cards) {
       const result = parseCard({ ...card, layout: 'normal' });
-      if (result.error || !result.candidates) continue;
+      if (result.error || !result.abilities) continue;
 
       JSON.stringify(result.abilities!, function (key, value) {
         if (
@@ -422,7 +422,7 @@ describe('AST shape validation against index.d.ts', () => {
 
     for (const card of cards) {
       const result = parseCard({ ...card, layout: 'normal' });
-      if (result.error || !result.candidates) continue;
+      if (result.error || !result.abilities) continue;
 
       for (const ability of result.abilities!) {
         if (
@@ -451,7 +451,7 @@ describe('AST shape validation against index.d.ts', () => {
 
     for (const card of cards) {
       const result = parseCard({ ...card, layout: 'normal' });
-      if (result.error || !result.candidates) continue;
+      if (result.error || !result.abilities) continue;
 
       for (const ability of result.abilities!) {
         if (

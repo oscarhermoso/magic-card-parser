@@ -38,7 +38,7 @@ describe('parseFaces(): adventure layout', () => {
     expect(result.faces[1].faceName).toBe('Stomp');
     // Creature face parses successfully
     expect(result.faces[0].result.error).toBeUndefined();
-    expect(result.faces[0].result.candidates).not.toBeNull();
+    expect(result.faces[0].result.abilities).not.toBeNull();
     expect(result.faces[0].result.abilities!).toMatchSnapshot();
     // Adventure face oracle text has grammar gaps (apostrophe in "can't be prevented") — parseable result still returned
     expect(result.faces[1].result).toBeDefined();
@@ -65,7 +65,7 @@ describe('parseFaces(): adventure layout', () => {
     expect(result.faces[1].faceName).toBe('Petty Theft');
     // Adventure (spell) face parses cleanly
     expect(result.faces[1].result.error).toBeUndefined();
-    expect(result.faces[1].result.candidates).not.toBeNull();
+    expect(result.faces[1].result.abilities).not.toBeNull();
     expect(result.faces[1].result.abilities!).toMatchSnapshot();
     // Creature face has grammar gap ("can block only") — result still returned
     expect(result.faces[0].result).toBeDefined();
@@ -91,9 +91,9 @@ describe('parseFaces(): adventure layout', () => {
     expect(result.faces[0].faceName).toBe('Lovestruck Beast');
     expect(result.faces[1].faceName).toBe("Heart's Desire");
     expect(result.faces[0].result.error).toBeUndefined();
-    expect(result.faces[0].result.candidates).not.toBeNull();
+    expect(result.faces[0].result.abilities).not.toBeNull();
     expect(result.faces[1].result.error).toBeUndefined();
-    expect(result.faces[1].result.candidates).not.toBeNull();
+    expect(result.faces[1].result.abilities).not.toBeNull();
     expect(result.faces[0].result.abilities!).toMatchSnapshot();
     expect(result.faces[1].result.abilities!).toMatchSnapshot();
   });
@@ -109,9 +109,9 @@ describe('parseAdventure(): adventure layout convenience function', () => {
       },
     );
     expect(result.creature.error).toBeUndefined();
-    expect(result.creature.candidates).not.toBeNull();
+    expect(result.creature.abilities).not.toBeNull();
     expect(result.adventure.error).toBeUndefined();
-    expect(result.adventure.candidates).not.toBeNull();
+    expect(result.adventure.abilities).not.toBeNull();
     expect(result.creature.abilities!).toMatchSnapshot();
     expect(result.adventure.abilities!).toMatchSnapshot();
   });
@@ -125,9 +125,9 @@ describe('parseAdventure(): adventure layout convenience function', () => {
       },
     );
     expect(result.creature.error).toBeUndefined();
-    expect(result.creature.candidates).not.toBeNull();
+    expect(result.creature.abilities).not.toBeNull();
     expect(result.adventure.error).toBeUndefined();
-    expect(result.adventure.candidates).not.toBeNull();
+    expect(result.adventure.abilities).not.toBeNull();
     expect(result.creature.abilities!).toMatchSnapshot();
     expect(result.adventure.abilities!).toMatchSnapshot();
   });
@@ -154,7 +154,7 @@ describe('parseFaces(): transform layout', () => {
     expect(result.faces[1].faceName).toBe('Insectile Aberration');
     // Back face (simple keyword) parses correctly
     expect(result.faces[1].result.error).toBeUndefined();
-    expect(result.faces[1].result.candidates).not.toBeNull();
+    expect(result.faces[1].result.abilities).not.toBeNull();
     expect(result.faces[1].result.abilities!).toMatchSnapshot();
     // Front face has grammar gap ("transform" verb) — result still returned
     expect(result.faces[0].result).toBeDefined();
@@ -212,7 +212,7 @@ describe('parseFaces(): split layout', () => {
     expect(result.faces[0].faceName).toBe('Fire');
     expect(result.faces[1].faceName).toBe('Ice');
     expect(result.faces[1].result.error).toBeUndefined();
-    expect(result.faces[1].result.candidates).not.toBeNull();
+    expect(result.faces[1].result.abilities).not.toBeNull();
     expect(result.faces[1].result.abilities!).toMatchSnapshot();
     // Fire half has complex divide-damage text — result still returned
     expect(result.faces[0].result).toBeDefined();
@@ -229,9 +229,9 @@ describe('parseFaces(): split layout', () => {
     expect(result.faces[0].faceName).toBe('Dead');
     expect(result.faces[1].faceName).toBe('Gone');
     expect(result.faces[0].result.error).toBeUndefined();
-    expect(result.faces[0].result.candidates).not.toBeNull();
+    expect(result.faces[0].result.abilities).not.toBeNull();
     expect(result.faces[1].result.error).toBeUndefined();
-    expect(result.faces[1].result.candidates).not.toBeNull();
+    expect(result.faces[1].result.abilities).not.toBeNull();
     expect(result.faces[0].result.abilities!).toMatchSnapshot();
     expect(result.faces[1].result.abilities!).toMatchSnapshot();
   });
@@ -292,7 +292,7 @@ describe('parseFaces(): backward compatibility', () => {
     expect(result.faces).toHaveLength(1);
     expect(result.faces[0].faceName).toBe('Counterspell');
     expect(result.faces[0].result.error).toBeUndefined();
-    expect(result.faces[0].result.candidates).not.toBeNull();
+    expect(result.faces[0].result.abilities).not.toBeNull();
   });
 
   it('parseCard no longer rejects non-normal layout', () => {
@@ -306,6 +306,6 @@ describe('parseFaces(): backward compatibility', () => {
     expect(result.error).not.toBe('Currently only support normal layout');
     // Simple oracle text parses cleanly
     expect(result.error).toBeUndefined();
-    expect(result.candidates).not.toBeNull();
+    expect(result.abilities).not.toBeNull();
   });
 });

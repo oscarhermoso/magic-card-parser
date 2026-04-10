@@ -44,7 +44,7 @@ async function fetchCards() {
 }
 
 function runReport(cards) {
-  const results = { ok: [], ambiguous: [], parseError: [], skipped: [] };
+  const results = { ok: [], parseError: [], skipped: [] };
 
   for (const card of cards) {
     // Skip non-normal layouts (parser only supports normal)
@@ -54,10 +54,8 @@ function runReport(cards) {
     }
 
     const r = parseCard({ name: card.name, oracle_text: card.oracle_text, layout: 'normal' });
-    if (r.error === null) {
+    if (!r.error) {
       results.ok.push(card.name);
-    } else if (r.error === 'Ambiguous parse') {
-      results.ambiguous.push(card.name);
     } else {
       results.parseError.push({ name: card.name, error: String(r.error).slice(0, 120) });
     }
@@ -70,7 +68,6 @@ function runReport(cards) {
   console.log(`Skipped (non-normal layout): ${results.skipped.length}`);
   console.log(`Normal-layout cards tested: ${normalCards}`);
   console.log(`  Parsed OK: ${results.ok.length} (${pct(results.ok.length, normalCards)})`);
-  console.log(`  Ambiguous: ${results.ambiguous.length} (${pct(results.ambiguous.length, normalCards)})`);
   console.log(`  Parse error: ${results.parseError.length} (${pct(results.parseError.length, normalCards)})`);
 
   if (results.skipped.length > 0) {
@@ -82,11 +79,6 @@ function runReport(cards) {
     for (const [layout, count] of Object.entries(layoutCounts).sort((a, b) => b[1] - a[1])) {
       console.log(`  ${layout}: ${count}`);
     }
-  }
-
-  if (results.ambiguous.length > 0 && results.ambiguous.length <= 30) {
-    console.log(`\nAmbiguous cards:`);
-    for (const name of results.ambiguous) console.log(`  ${name}`);
   }
 
   if (results.parseError.length > 0) {

@@ -17,8 +17,7 @@ describe('magic-card-parser setup', () => {
       layout: 'normal',
     });
     expect(result.error).toBeUndefined();
-    expect(result.candidates).not.toBeNull();
-    expect(result.candidates).toHaveLength(1);
+    expect(result.abilities).not.toBeNull();
   });
 
   it('parses non-normal layout oracle text without layout-based rejection', () => {
@@ -31,7 +30,7 @@ describe('magic-card-parser setup', () => {
     });
     // 'Flying' is valid oracle text regardless of layout — should parse successfully
     expect(result.error).toBeUndefined();
-    expect(result.candidates).not.toBeNull();
+    expect(result.abilities).not.toBeNull();
   });
 
   it('parses keywords correctly', () => {
@@ -41,7 +40,7 @@ describe('magic-card-parser setup', () => {
       layout: 'normal',
     });
     expect(result.error).toBeUndefined();
-    expect(result.candidates).not.toBeNull();
+    expect(result.abilities).not.toBeNull();
     // Keywords should be in the best parse result
     const abilities = result.abilities!;
     expect(abilities).toBeDefined();

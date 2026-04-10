@@ -16,11 +16,9 @@ function parse(card: TestCard) {
 
 // ============================================================================
 // All cube cards — parsed and snapshot-tested for regression detection.
-// Cards marked `ambiguous: true` may produce multiple parse results.
 // ============================================================================
 
 interface CubeCard extends TestCard {
-  ambiguous?: boolean;
   parseError?: boolean;
 }
 
@@ -452,31 +450,14 @@ for (const card of cubeCards) {
   cardTestEntries.push([label, card]);
 }
 
-describe('Unambiguous cards: single parse + snapshot', () => {
-  const unambiguous = cardTestEntries.filter(([, c]) => !c.ambiguous && !c.parseError);
-  it.each(unambiguous)('%s', (_label, card) => {
+describe('Cards: single parse + snapshot', () => {
+  const parseable = cardTestEntries.filter(([, c]) => !c.parseError);
+  it.each(parseable)('%s', (_label, card) => {
     const result = parse(card);
     expect(result.error).toBeUndefined();
-    expect(result.candidates).not.toBeNull();
-    expect(result.candidates).toHaveLength(1);
+    expect(result.abilities).not.toBeNull();
     expect(result.abilities!).toMatchSnapshot();
   });
-});
-
-describe('Ambiguous cards: parses with snapshot', () => {
-  const ambiguous = cardTestEntries.filter(([, c]) => c.ambiguous && !c.parseError);
-  if (ambiguous.length === 0) {
-    it('no ambiguous cards remaining', () => {
-      expect(ambiguous).toHaveLength(0);
-    });
-  } else {
-    it.each(ambiguous)('%s', (_label, card) => {
-      const result = parse(card);
-      expect(result.candidates).not.toBeNull();
-      expect(result.candidates!.length).toBeGreaterThanOrEqual(1);
-      expect(result.abilities!).toMatchSnapshot();
-    });
-  }
 });
 
 describe('Known parse failures: grammar too complex', () => {
@@ -490,7 +471,7 @@ describe('Known parse failures: grammar too complex', () => {
 describe('Misc', () => {
   it('parseCard works without layout field', () => {
     const result = parseCard({ name: 'Lightning Bolt', oracle_text: 'Lightning Bolt deals 3 damage to any target.' });
-    expect(result.candidates).not.toBeNull();
+    expect(result.abilities).not.toBeNull();
   });
 });
 

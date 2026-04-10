@@ -30,17 +30,15 @@ export interface CardInput {
 
 /** Result from parseCard (v1.0) */
 export interface ParseResult {
-  /** Best parse — first (or only) candidate. null on error. */
+  /** The definitive parse result. null on error. */
   abilities: AbilityNode[] | null;
-  /** All parse candidates (length > 1 means ambiguous parse). null on error. */
-  candidates: AbilityNode[][] | null;
   /** Fraction of oracle text clauses successfully parsed (0–1). */
   confidence: number;
-  /** Clauses the grammar could not parse (populated once hq-iu6 lands). */
+  /** Clauses the grammar could not parse. */
   unknownClauses: string[];
   /** The oracle text after name substitution and lowercasing */
   oracleText: string;
-  /** Error message, or undefined on success. "Ambiguous parse" if multiple results. */
+  /** Error message, or undefined on success. */
   error?: string;
 }
 

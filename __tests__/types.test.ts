@@ -49,21 +49,19 @@ function assertParseResult(r: unknown): asserts r is ParseResult {
   expect(r).toHaveProperty('oracleText');
   expect(r).toHaveProperty('confidence');
   expect(r).toHaveProperty('unknownClauses');
-  expect(typeof r === 'object' && r !== null && 'candidates' in r).toBe(true);
 }
 
 describe('type definitions match actual parser output', () => {
   describe('ParseResult shape', () => {
-    it('successful parse has candidates, abilities, confidence, oracleText', () => {
+    it('successful parse has abilities, confidence, oracleText', () => {
       const r = parseCard({
         name: 'Serra Angel',
         oracle_text: 'Flying, vigilance',
       });
       assertParseResult(r);
       expect(r.error).toBeUndefined();
-      expect(r.candidates).not.toBeNull();
-      expect(Array.isArray(r.candidates)).toBe(true);
       expect(r.abilities).not.toBeNull();
+      expect(Array.isArray(r.abilities)).toBe(true);
       expect(r.confidence).toBe(1);
       expect(r.unknownClauses).toEqual([]);
       expect(typeof r.oracleText).toBe('string');
@@ -77,7 +75,6 @@ describe('type definitions match actual parser output', () => {
       assertParseResult(r);
       expect(r.error).toBeTruthy();
       expect(r.confidence).toBe(0);
-      expect(r.candidates).toBeNull();
       expect(r.abilities).toBeNull();
     });
 
@@ -89,7 +86,6 @@ describe('type definitions match actual parser output', () => {
       assertParseResult(r);
       expect(r.error).toBeUndefined();
       expect(r.abilities).not.toBeNull();
-      expect(r.candidates).not.toBeNull();
       // confidence is 1/2 = 0.5
       expect(r.confidence).toBe(0.5);
       // unknownClauses lists the failed clause
@@ -110,7 +106,6 @@ describe('type definitions match actual parser output', () => {
       expect(r.error).toBeTruthy();
       expect(r.confidence).toBe(0);
       expect(r.abilities).toBeNull();
-      expect(r.candidates).toBeNull();
       expect(r.unknownClauses.length).toBeGreaterThan(0);
     });
 

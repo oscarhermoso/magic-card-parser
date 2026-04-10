@@ -37,20 +37,20 @@ const compiledTypeLineGrammar = Grammar.fromCompiled(typeLineGrammar);
 
 /**
  * Try to parse a single text as a full card via the grammar.
- * Returns the unique candidates array, or null on failure.
+ * Returns the first (best) unique parse result, or null on failure.
  * @param {string} text
- * @returns {{ candidates: any[][] | null, error: string | null }}
+ * @returns {{ result: any[] | null, error: string | null }}
  */
 const tryParse = (text) => {
   const parser = new Parser(compiledMagicCardGrammar);
   try {
     parser.feed(text);
   } catch (e) {
-    return { candidates: null, error: e instanceof Error ? e.message : String(e) };
+    return { result: null, error: e instanceof Error ? e.message : String(e) };
   }
-  const candidates = makeUnique(parser.results);
-  if (candidates.length === 0) return { candidates: null, error: 'Incomplete parse' };
-  return { candidates, error: null };
+  const results = makeUnique(parser.results);
+  if (results.length === 0) return { result: null, error: 'Incomplete parse' };
+  return { result: results[0], error: null };
 };
 
 /**
@@ -62,19 +62,16 @@ const parseCard = (card) => {
   const oracleText = replaceCardName(oracle_text, name);
 
   // Attempt 1: parse the full oracle text
-  const { candidates: fullCandidates, error: fullError } = tryParse(oracleText);
-  if (fullCandidates) {
-    if (fullCandidates.length > 1) {
-      return { abilities: fullCandidates[0], candidates: fullCandidates, confidence: 1, unknownClauses: [], error: 'Ambiguous parse', oracleText };
-    }
-    return { abilities: fullCandidates[0], candidates: fullCandidates, confidence: 1, unknownClauses: [], oracleText };
+  const { result: fullResult, error: fullError } = tryParse(oracleText);
+  if (fullResult) {
+    return { abilities: fullResult, confidence: 1, unknownClauses: [], oracleText };
   }
 
   // Attempt 2: parse clause-by-clause (split on newlines)
   const lines = oracleText.split('\n').filter((l) => l.trim() !== '');
   if (lines.length <= 1) {
     // Single clause failed — return error as before
-    return { abilities: null, candidates: null, confidence: 0, unknownClauses: lines, error: fullError ?? 'Incomplete parse', oracleText };
+    return { abilities: null, confidence: 0, unknownClauses: lines, error: fullError ?? 'Incomplete parse', oracleText };
   }
 
   /** @type {any[]} */
@@ -84,11 +81,10 @@ const parseCard = (card) => {
   let successCount = 0;
 
   for (const line of lines) {
-    const { candidates: lineCandidates } = tryParse(line);
-    if (lineCandidates) {
-      // Spread the first parse candidate's abilities into the result
-      const lineAbilities = lineCandidates[0];
-      abilities.push(...(Array.isArray(lineAbilities) ? lineAbilities : [lineAbilities]));
+    const { result: lineResult } = tryParse(line);
+    if (lineResult) {
+      // Spread the parse result's abilities into the result
+      abilities.push(...(Array.isArray(lineResult) ? lineResult : [lineResult]));
       successCount++;
     } else {
       unknownClauses.push(line);
@@ -99,10 +95,10 @@ const parseCard = (card) => {
   const confidence = successCount / lines.length;
 
   if (successCount === 0) {
-    return { abilities: null, candidates: null, confidence: 0, unknownClauses, error: fullError ?? 'Incomplete parse', oracleText };
+    return { abilities: null, confidence: 0, unknownClauses, error: fullError ?? 'Incomplete parse', oracleText };
   }
 
-  return { abilities, candidates: [abilities], confidence, unknownClauses, oracleText };
+  return { abilities, confidence, unknownClauses, oracleText };
 };
 
 /**

@@ -8,8 +8,7 @@ Tested against the top 1000 most-cubed cards on [CubeCobra](https://cubecobra.co
 
 | | Count | % of testable |
 |---|---|---|
-| Parsed OK | 650 | 67.4% |
-| Ambiguous parse | 66 | 6.8% |
+| Parsed OK | 716 | 74.2% |
 | Parse error | 248 | 25.7% |
 | Skipped (non-normal layout) | 36 | — |
 
@@ -67,12 +66,11 @@ Include it in your project with `import { parseCard, parseFaces } from '@oscarhe
 ```typescript
 // Parse a single-face card
 const r = parseCard({ name: 'Lightning Bolt', oracle_text: 'Deal 3 damage to any target.' });
-r.abilities;       // AbilityNode[] | null — best parse (null on error)
-r.candidates;      // AbilityNode[][] | null — all parse candidates
+r.abilities;       // AbilityNode[] | null — definitive parse (null on error)
 r.confidence;      // number 0-1 (1 = fully parsed, 0 = parse failed)
 r.unknownClauses;  // string[] — unrecognized text segments
 r.oracleText;      // string — normalized oracle text
-r.error;           // string | undefined — "Ambiguous parse" / "Incomplete parse" / error message
+r.error;           // string | undefined — "Incomplete parse" / error message
 
 // Parse a multi-face card (adventure, transform, DFC, split, etc.)
 const mpr = parseFaces({
@@ -88,14 +86,15 @@ mpr.faces;   // Array<{ faceName: string; result: ParseResult }>
 mpr.layout;  // CardLayout string
 ```
 
-`parseCard` automatically replaces the card's name with `CARD_NAME` in oracle text and lowercases before parsing. The `abilities` field is the first (best) parse candidate. `candidates` contains all possible parses — length > 1 means an ambiguous parse.
+`parseCard` automatically replaces the card's name with `CARD_NAME` in oracle text and lowercases before parsing. The grammar commits to a single definitive parse — `abilities` is the result (not a candidate array).
 
 ### v0.x → v1.0 Migration
 
 | v0.x field | v1.0 replacement | Notes |
 |---|---|---|
-| `result` | `candidates` | Same data, renamed |
-| `result[0]` | `abilities` | Convenience shorthand for first candidate |
+| `result` | `abilities` | Single definitive parse |
+| `result[0]` | `abilities` | No longer an array of candidates |
+| `candidates` | _(removed)_ | Grammar commits to one parse |
 | `error: null` | `error: undefined` | Success now omits the field |
 | `error: Error` | `error: string` | Error objects are coerced to message strings |
 | `card` | _(removed)_ | Pass the card object yourself if needed |
