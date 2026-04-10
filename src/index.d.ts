@@ -12,6 +12,155 @@ export type CardLayout =
   | 'leveler'
   | 'meld';
 
+// ─── Game Zone Enums ───────────────────────────────────────────────────────────
+
+/** Zones that can be owned by a player (have possessive: "your graveyard") */
+export type OwnedZone = 'graveyard' | 'library' | 'hand';
+
+/** All game zones the parser emits as string values */
+export type Zone = OwnedZone | 'battlefield' | 'exile' | 'anywhere' | 'stack' | 'command';
+
+// ─── Turn Phase / Step Enums ───────────────────────────────────────────────────
+
+/** Turn phases and steps — camelCase values emitted by partOfTurn grammar rule */
+export type TurnPhase =
+  | 'turn'
+  | 'untap'
+  | 'upkeep'
+  | 'drawStep'
+  | 'precombatMain'
+  | 'main'
+  | 'combat'
+  | 'declareAttackers'
+  | 'declareBlockers'
+  | 'combatDamage'
+  | 'endCombat'
+  | 'postcombatMain'
+  | 'end';
+
+// ─── Color Enums ───────────────────────────────────────────────────────────────
+
+/** Single-letter mana/color abbreviations (WUBRG + colorless) */
+export type Color = 'w' | 'u' | 'b' | 'r' | 'g';
+
+/** Extended color identity including colorless */
+export type ColorIdentity = Color | 'colorless';
+
+/** Color filter values the grammar emits — includes mono/multi for "monocolored"/"multicolored" */
+export type ColorFilter = ColorIdentity | 'mono' | 'multi';
+
+/** Mana symbol letters: colors + colorless + generic/special */
+export type ManaLetter = Color | 'c' | 'x' | 'y' | 'z' | 'p' | 's' | number;
+
+// ─── Counter Enums ─────────────────────────────────────────────────────────────
+
+/** Named counter kinds recognized by the grammar (from COUNTER_KINDS Set) */
+export type CounterKind =
+  | 'acorn' | 'age' | 'aim' | 'arrow' | 'arrowhead' | 'awakening'
+  | 'blaze' | 'blood' | 'bounty' | 'bribery' | 'brick'
+  | 'cage' | 'carrion' | 'charge' | 'coin' | 'credit' | 'corpse' | 'crystal' | 'cube' | 'currency'
+  | 'death' | 'deathtouch' | 'delay' | 'depletion' | 'despair' | 'devotion' | 'divinity' | 'doom' | 'dream'
+  | 'echo' | 'egg' | 'elixir' | 'energy' | 'eon' | 'experience' | 'eyeball' | 'eyestalk'
+  | 'fade' | 'fate' | 'feather' | 'fetch' | 'filibuster' | 'flood' | 'flying' | 'fungus' | 'fuse'
+  | 'gem' | 'glyph' | 'gold' | 'growth'
+  | 'hatchling' | 'healing' | 'hexproof' | 'hit' | 'hoofprint' | 'hour'
+  | 'ice' | 'indestructible' | 'infection' | 'intervention' | 'isolation'
+  | 'javelin'
+  | 'ki' | 'knowledge'
+  | 'level' | 'lifelink' | 'lore' | 'loyalty' | 'luck'
+  | 'magnet' | 'manabond' | 'manifestation' | 'mannequin' | 'mask' | 'matrix' | 'menace' | 'mine' | 'mining' | 'mire' | 'music' | 'muster'
+  | 'net'
+  | 'omen' | 'ore'
+  | 'page' | 'pain' | 'paralyzation' | 'petal' | 'petrification' | 'phylactery' | 'pin' | 'plague' | 'poison' | 'polyp' | 'pressure' | 'prey' | 'pupa'
+  | 'quest'
+  | 'reach' | 'rust'
+  | 'scream' | 'shell' | 'shield' | 'silver' | 'shred' | 'sleep' | 'sleight' | 'slime' | 'slumber' | 'soot' | 'soul' | 'spark' | 'spore' | 'storage' | 'strife' | 'study'
+  | 'task' | 'theft' | 'tide' | 'time' | 'tower' | 'training' | 'trample' | 'trap' | 'treasure'
+  | 'velocity' | 'verse' | 'vigilance' | 'vitality' | 'volatile'
+  | 'wage' | 'winch' | 'wind' | 'wish';
+
+/** Counter specification: a named counter kind, a P/T modification (+1/+1, -1/-1), or "double strike"/"first strike" */
+export type CounterSpec = CounterKind | PTModification | 'double strike' | 'first strike';
+
+// ─── Card Type Enums ───────────────────────────────────────────────────────────
+
+/** Supertypes */
+export type SuperType = 'basic' | 'legendary' | 'snow' | 'ongoing' | 'world';
+
+/** Permanent card types */
+export type PermanentType = 'artifact' | 'creature' | 'enchantment' | 'land' | 'planeswalker' | 'permanent';
+
+/** Non-permanent spell types */
+export type SpellType = 'instant' | 'sorcery';
+
+/** All card types the grammar recognizes */
+export type CardType = PermanentType | SpellType | 'tribal' | 'conspiracy' | 'plane' | 'phenomena' | 'emblem';
+
+/** Basic land types */
+export type BasicLandType = 'plains' | 'island' | 'swamp' | 'mountain' | 'forest';
+
+/** All land subtypes */
+export type LandType = BasicLandType | 'desert' | 'gate' | 'lair' | 'locus' | 'mine' | 'power-plant' | 'tower' | "urza's";
+
+/** Artifact subtypes */
+export type ArtifactType = 'clue' | 'contraption' | 'equipment' | 'food' | 'fortification' | 'gold' | 'treasure' | 'vehicle';
+
+/** Union of all subtypes the grammar can emit */
+export type SubType = string; // CreatureType | PlaneswalkerType | LandType | ArtifactType — string for extensibility
+
+// ─── Keyword Enums ─────────────────────────────────────────────────────────────
+
+/** Evergreen and deciduous keywords that take no additional value */
+export type SimpleKeyword =
+  | 'deathtouch' | 'defender' | 'flash' | 'flying' | 'haste' | 'hexproof'
+  | 'indestructible' | 'intimidate' | 'lifelink' | 'reach' | 'shroud'
+  | 'trample' | 'vigilance' | 'flanking' | 'phasing' | 'shadow'
+  | 'horsemanship' | 'fear' | 'provoke' | 'storm' | 'sunburst' | 'epic'
+  | 'convoke' | 'haunt' | 'delve' | 'gravestorm' | 'changeling' | 'hideaway'
+  | 'conspire' | 'persist' | 'wither' | 'retrace' | 'exalted' | 'cascade'
+  | 'rebound' | 'infect' | 'undying' | 'soulbond' | 'unleash' | 'cipher'
+  | 'evolve' | 'extort' | 'fuse' | 'dethrone' | 'prowess' | 'exploit'
+  | 'menace' | 'devoid' | 'ingest' | 'myriad' | 'skulk' | 'melee'
+  | 'undaunted' | 'improvise' | 'aftermath' | 'ascend' | 'assist'
+  | 'mentor' | 'riot' | 'partner';
+
+/** Keywords that take a mana cost as parameter */
+export type CostKeyword =
+  | 'equip' | 'escape' | 'spectacle' | 'eternalize' | 'embalm' | 'escalate'
+  | 'emerge' | 'surge' | 'awaken' | 'dash' | 'outlast' | 'mutate' | 'bestow'
+  | 'scavenge' | 'overload' | 'buyback' | 'echo' | 'flashback' | 'madness'
+  | 'morph' | 'entwine' | 'ninjutsu' | 'transmute' | 'replicate' | 'recover'
+  | 'fortify' | 'evoke' | 'unearth' | 'miracle' | 'megamorph' | 'prowl'
+  | 'transfigure' | 'multikicker';
+
+/** Keywords that take a numeric value as parameter */
+export type NumberKeyword =
+  | 'afterlife' | 'afflict' | 'fabricate' | 'crew' | 'renown' | 'tribute'
+  | 'rampage' | 'fading' | 'amplify' | 'modular' | 'bushido' | 'dredge'
+  | 'graft' | 'ripple' | 'vanishing' | 'absorb' | 'poisonous' | 'devour'
+  | 'annihilator' | 'frenzy' | 'soulshift';
+
+/** All keyword types */
+export type Keyword = SimpleKeyword | CostKeyword | NumberKeyword;
+
+// ─── Ability Word Enums ────────────────────────────────────────────────────────
+
+/** Ability words (italicized in card text, no rules meaning) */
+export type AbilityWord =
+  | 'adamant' | 'addendum' | 'battalion' | 'bloodrush' | 'channel' | 'chroma'
+  | 'cohort' | 'constellation' | 'converge' | 'coven' | 'delirium' | 'domain'
+  | 'eminence' | 'enrage' | 'exhaust' | 'ferocious' | 'formidable' | 'grandeur'
+  | 'hellbent' | 'heroic' | 'imprint' | 'inspired' | 'kinship' | 'landfall'
+  | 'lieutenant' | 'metalcraft' | 'morbid' | 'parley' | 'radiance' | 'raid'
+  | 'rally' | 'revolt' | 'strive' | 'sweep' | 'temptingoffer' | 'threshold'
+  | 'undergrowth'
+  | "council's dilemma" | 'fateful hour' | 'join forces' | 'spell mastery' | 'will of the council';
+
+// ─── Numerical Characteristics ─────────────────────────────────────────────────
+
+/** Numerical characteristics that can be compared or modified */
+export type NumericalCharacteristic = 'toughness' | 'power' | 'convertedManaCost' | 'manaValue' | 'lifeTotal';
+
 /** A single face of a multi-face card (follows Scryfall card_faces structure) */
 export interface CardFace {
   name: string;
@@ -51,13 +200,13 @@ export interface TypeLineResult {
 
 /** A parsed type line node */
 export interface TypeLineNode {
-  superType?: string;
-  type: string | { and: string[] };
-  subType?: string | { and: string[] };
+  superType?: SuperType | string;
+  type: CardType | string | { and: (CardType | string)[] };
+  subType?: SubType | string | { and: (SubType | string)[] };
 }
 
 /** Mana cost value — an array mixing generic amounts and color chars */
-export type ManaCostValue = (string | number)[];
+export type ManaCostValue = (ManaLetter | string | number)[];
 
 /**
  * A node in the parsed ability AST.
@@ -84,7 +233,7 @@ export interface ActivatedAbilityNode {
   costs: CostSpec;
   activatedAbility: EffectNode | EffectNode[];
   instructions?: Record<string, unknown>;
-  abilityWord?: string;
+  abilityWord?: AbilityWord;
 }
 
 /** A triggered ability with trigger condition and effect */
@@ -132,7 +281,7 @@ export interface TriggerSpec {
   at?: string | Record<string, unknown>;
   turnPhase?: {
     qualification?: string;
-    partOfTurn: string;
+    partOfTurn: TurnPhase;
   };
   [key: string]: unknown;
 }
@@ -155,14 +304,14 @@ export type TypeFilter = string | { and: string[] } | { or: string[] };
 /** Object filter used in prefixes/suffixes */
 export type ObjectFilter =
   | { not: Record<string, unknown> }
-  | { color: string | string[] }
+  | { color: ColorFilter | ColorFilter[] }
   | Record<string, unknown>;
 
 /** Condition node */
 export type ConditionNode = string | Record<string, unknown>;
 
 /** Duration specification */
-export type DurationSpec = string | { until: string | ConditionNode };
+export type DurationSpec = 'endOfTurn' | 'yourNextTurn' | string | { until: string | ConditionNode };
 
 /**
  * Effect node - the most varied AST shape.
@@ -184,14 +333,14 @@ export type EffectNode =
   | { surveil: number }
   | { tap: ObjectSpec }
   | { untap: ObjectSpec }
-  | { returns: ObjectSpec; to: string; tapped?: boolean }
-  | { search: string | ObjectSpec; criteria?: ObjectSpec }
+  | { returns: ObjectSpec; to: Zone | string; tapped?: boolean }
+  | { search: Zone | string | ObjectSpec; criteria?: ObjectSpec }
   | { addOneOf: (string | string[])[]; amount?: number }
-  | { amount: number; counterKind: string | PTModification; putOn: ObjectSpec }
+  | { amount: number; counterKind: CounterSpec; putOn: ObjectSpec }
   | { cast: ObjectSpec; withoutPaying?: boolean; duration?: DurationSpec }
   | {
       put: ObjectSpec;
-      into: string | { secondFromTop: Record<string, unknown> };
+      into: Zone | string | { secondFromTop: Record<string, unknown> };
       tapped?: boolean;
       control?: string;
     }
@@ -214,7 +363,7 @@ export type EffectNode =
   | { add: string[]; instead?: EffectNode }
   | { enchant: ObjectSpec | { condition: Record<string, unknown> } }
   | { attach: string; to: string }
-  | { shuffle: string }
+  | { shuffle: Zone | string }
   | { reveal: ObjectSpec; from?: ObjectSpec }
   | { lookAt: ObjectSpec }
   | { separate: ObjectSpec; into: Record<string, unknown> }
@@ -228,20 +377,20 @@ export type EffectNode =
   | { addCombinationOf: string[]; amount?: number }
   | { protectionFrom: ObjectSpec }
   | { each: ObjectSpec; is: string | ObjectSpec }
-  | { skip: string }
+  | { skip: TurnPhase | string }
   | { choose: string | ObjectSpec }
   | { would: string | Record<string, unknown>; instead?: EffectNode; except?: EffectNode; while?: ConditionNode }
   | { playRevealed: ObjectSpec }
   | { whose: ObjectSpec; activatedAbilities?: EffectNode }
-  | { characteristic: string; setTo: Record<string, unknown> }
+  | { characteristic: NumericalCharacteristic | string; setTo: Record<string, unknown> }
   | { flashbackCost: Record<string, unknown> }
   // New EffectNode variants for sim mechanics with no prior grammar equivalent.
   // Forward declarations: the grammar does not emit these shapes directly yet.
   // Sim uses CARD_MECHANIC_OVERRIDES to inject these nodes until grammar rules are added (hq-5gc).
-  | { castFrom: { zone: 'graveyard' | 'exile'; criteria?: ObjectSpec; restriction?: 'asThoughFlash' } }
-  | { playFrom: { zone: 'graveyard' | 'exile'; restriction?: string } }
+  | { castFrom: { zone: Zone; criteria?: ObjectSpec; restriction?: 'asThoughFlash' } }
+  | { playFrom: { zone: Zone; restriction?: string } }
   | { replaces: { event: 'ETB' | 'die' | 'draw' | 'damage'; with: EffectNode; condition?: ObjectSpec } }
-  | { grants: ({ keyword: string } | { effect: EffectNode }); to: ObjectSpec; duration?: DurationSpec }
+  | { grants: ({ keyword: Keyword | string } | { effect: EffectNode }); to: ObjectSpec; duration?: DurationSpec }
   | { restricts: { cant: string; who: ObjectSpec | 'opponents' } }
   | { costMod: { amount: number | 'X'; filter: ObjectSpec; direction: 'more' | 'less' } }
   | { addType: { type: string; to: ObjectSpec } }
@@ -269,8 +418,8 @@ export interface TokenSpec {
   type?: string;
   power?: number;
   toughness?: number;
-  color?: string;
-  abilities?: string[];
+  color?: ColorFilter | ColorFilter[];
+  abilities?: (Keyword | string)[];
   [key: string]: unknown;
 }
 
