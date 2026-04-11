@@ -116,7 +116,7 @@ export type SimpleKeyword =
   | 'indestructible' | 'intimidate' | 'lifelink' | 'reach' | 'shroud'
   | 'trample' | 'vigilance' | 'flanking' | 'phasing' | 'shadow'
   | 'horsemanship' | 'fear' | 'provoke' | 'storm' | 'sunburst' | 'epic'
-  | 'convoke' | 'haunt' | 'delve' | 'gravestorm' | 'changeling' | 'hideaway'
+  | 'convoke' | 'haunt' | 'delve' | 'gravestorm' | 'changeling'
   | 'conspire' | 'persist' | 'wither' | 'retrace' | 'exalted' | 'cascade'
   | 'rebound' | 'infect' | 'undying' | 'soulbond' | 'unleash' | 'cipher'
   | 'evolve' | 'extort' | 'fuse' | 'dethrone' | 'prowess' | 'exploit'
@@ -131,17 +131,21 @@ export type CostKeyword =
   | 'scavenge' | 'overload' | 'buyback' | 'echo' | 'flashback' | 'madness'
   | 'morph' | 'entwine' | 'ninjutsu' | 'transmute' | 'replicate' | 'recover'
   | 'fortify' | 'evoke' | 'unearth' | 'miracle' | 'megamorph' | 'prowl'
-  | 'transfigure' | 'multikicker';
+  | 'transfigure' | 'multikicker'
+  | 'disguise' | 'plot' | 'squad' | 'reconfigure' | 'level up';
 
 /** Keywords that take a numeric value as parameter */
 export type NumberKeyword =
   | 'afterlife' | 'afflict' | 'fabricate' | 'crew' | 'renown' | 'tribute'
   | 'rampage' | 'fading' | 'amplify' | 'modular' | 'bushido' | 'dredge'
   | 'graft' | 'ripple' | 'vanishing' | 'absorb' | 'poisonous' | 'devour'
-  | 'annihilator' | 'frenzy' | 'soulshift';
+  | 'annihilator' | 'frenzy' | 'soulshift' | 'hideaway';
+
+/** Keywords expressed as an explicit literal (multi-word or punctuated) */
+export type LiteralKeyword = 'for mirrodin!';
 
 /** All keyword types */
-export type Keyword = SimpleKeyword | CostKeyword | NumberKeyword;
+export type Keyword = SimpleKeyword | CostKeyword | NumberKeyword | LiteralKeyword;
 
 // ─── Ability Word Enums ────────────────────────────────────────────────────────
 

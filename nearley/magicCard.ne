@@ -61,6 +61,8 @@ keyword -> ("double strike"
   | "living weapon"
   | "hidden agenda"
   | "jump-start"
+  | "for mirrodin!" {% () => "for mirrodin!" %}
+  | levelUpKeyword
   | enchantKeyword
   | costKeyword
   | numberKeyword
@@ -78,13 +80,25 @@ keyword -> ("double strike"
     }
   %}
 
+# Multi-word cost keyword: "level up {1}"
+levelUpKeyword -> "level up" __ cost {% ([, , cost]) => ({ "level up": cost }) %}
+
 # Cost keywords: keyword name __ cost → { name: cost }
+# Also supports the modern "keyword -- cost" form (evoke, equip alt-cost, etc.)
 costKeyword -> [a-z]:+ __ cost
 {%
   (data, ref, reject) => {
     const name = data[0].join("");
     if (!COST_KEYWORDS.has(name)) return reject;
     return { [name]: data[2] };
+  }
+%}
+  | [a-z]:+ _ DASHDASH _ cost
+{%
+  (data, ref, reject) => {
+    const name = data[0].join("");
+    if (!COST_KEYWORDS.has(name)) return reject;
+    return { [name]: data[4] };
   }
 %}
 
@@ -1485,6 +1499,12 @@ anyType -> anyTypeInner (__ anyTypeInner):*
     {% ([t1, , connector, , t2]) => ({ [connector]: [t1, t2] }) %}
   | anyTypeInner ("," __ anyTypeInner):+ ",":? __ "or" __ anyTypeInner
     {% ([t1, ts, , , , , tLast]) => ({ or: [t1, ...ts.map(([, , t]) => t), tLast] }) %}
+  # Disjunction with a "non<supertype>" prefix on the tail element
+  # (e.g. "artifact, enchantment, or nonbasic land")
+  | anyTypeInner ("," __ anyTypeInner):* ",":? __ "or" __ "non" ("-" | __):? anyTypeInner __ anyTypeInner
+    {% ([t1, ts, , , , , , , notType, , tailType]) => ({
+        or: [t1, ...ts.map(([, , t]) => t), { type: tailType, not: notType }]
+      }) %}
 
 anyTypeInner -> permanentTypeInner {% ([t]) => t %}
   | spellType {% ([t]) => t %}
