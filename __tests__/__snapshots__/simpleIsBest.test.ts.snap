@@ -171,6 +171,66 @@ exports[`Cards: single parse + snapshot > Accursed Marauder 1`] = `
 ]
 `;
 
+exports[`Cards: single parse + snapshot > Adeline, Resplendent Cathar 1`] = `
+[
+  "vigilance",
+  {
+    "effect": {
+      "effect": {
+        "create": {
+          "amount": 1,
+          "color": "w",
+          "size": {
+            "power": 1,
+            "toughness": 1,
+          },
+          "state": {
+            "and": [
+              "tapped",
+              {
+                "attacking": {
+                  "or": [
+                    "they",
+                    {
+                      "object": {
+                        "object": {
+                          "type": "planeswalker",
+                        },
+                        "suffix": {
+                          "actor": "they",
+                          "does": "control",
+                        },
+                      },
+                      "reference": {
+                        "count": 1,
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+          "type": {
+            "and": [
+              "human",
+              "soldier",
+              "creature",
+            ],
+          },
+        },
+      },
+      "forEach": "o",
+    },
+    "trigger": {
+      "when": {
+        "does": "attack",
+        "what": "CARD_NAME",
+      },
+    },
+  },
+]
+`;
+
 exports[`Cards: single parse + snapshot > Aether Spellbomb (2) 1`] = `
 [
   {
@@ -1237,6 +1297,9 @@ exports[`Cards: single parse + snapshot > Bitterblossom 1`] = `
           },
           {
             "create": {
+              "abilities": [
+                "flying",
+              ],
               "amount": 1,
               "color": "b",
               "size": {
@@ -1249,11 +1312,6 @@ exports[`Cards: single parse + snapshot > Bitterblossom 1`] = `
                   "rogue",
                   "creature",
                 ],
-              },
-              "with": {
-                "with": {
-                  "ability": "flying",
-                },
               },
             },
           },
@@ -1662,6 +1720,9 @@ exports[`Cards: single parse + snapshot > Brimaz, King of Oreskos 1`] = `
   {
     "effect": {
       "create": {
+        "abilities": [
+          "vigilance",
+        ],
         "amount": 1,
         "color": "w",
         "size": {
@@ -1676,11 +1737,6 @@ exports[`Cards: single parse + snapshot > Brimaz, King of Oreskos 1`] = `
             "creature",
           ],
         },
-        "with": {
-          "with": {
-            "ability": "vigilance",
-          },
-        },
       },
     },
     "trigger": {
@@ -1693,6 +1749,9 @@ exports[`Cards: single parse + snapshot > Brimaz, King of Oreskos 1`] = `
   {
     "effect": {
       "create": {
+        "abilities": [
+          "vigilance",
+        ],
         "amount": 1,
         "color": "w",
         "size": {
@@ -1713,11 +1772,6 @@ exports[`Cards: single parse + snapshot > Brimaz, King of Oreskos 1`] = `
             "soldier",
             "creature",
           ],
-        },
-        "with": {
-          "with": {
-            "ability": "vigilance",
-          },
         },
       },
     },
@@ -2175,6 +2229,70 @@ exports[`Cards: single parse + snapshot > City of Brass 1`] = `
       "amount": 1,
     },
     "costs": "tap",
+  },
+]
+`;
+
+exports[`Cards: single parse + snapshot > Cloudseeder 1`] = `
+[
+  {
+    "effect": [
+      {
+        "create": {
+          "amount": 1,
+          "color": "u",
+          "name": "cloud sprite",
+          "size": {
+            "power": 1,
+            "toughness": 1,
+          },
+          "type": {
+            "and": [
+              "faerie",
+              "creature",
+            ],
+          },
+        },
+      },
+      {
+        "grants": {
+          "effect": {
+            "and": [
+              "flying",
+              {
+                "does": {
+                  "can": {
+                    "block": {
+                      "only": {
+                        "condition": {
+                          "with": {
+                            "ability": "flying",
+                          },
+                        },
+                        "type": "creature",
+                      },
+                    },
+                  },
+                },
+                "what": {
+                  "object": "token",
+                  "reference": "this",
+                },
+              },
+            ],
+          },
+        },
+        "to": "it",
+      },
+    ],
+    "trigger": {
+      "when": {
+        "does": {
+          "enter": "battlefield",
+        },
+        "what": "CARD_NAME",
+      },
+    },
   },
 ]
 `;
@@ -3941,6 +4059,90 @@ exports[`Cards: single parse + snapshot > Fell 1`] = `
 ]
 `;
 
+exports[`Cards: single parse + snapshot > Field of the Dead 1`] = `
+[
+  {
+    "does": {
+      "enter": "battlefield",
+      "tapped": true,
+    },
+    "what": "CARD_NAME",
+  },
+  {
+    "activatedAbility": {
+      "add": [
+        "c",
+      ],
+    },
+    "costs": "tap",
+  },
+  {
+    "effect": {
+      "condition": {
+        "actor": "you",
+        "does": {
+          "has": {
+            "object": {
+              "condition": {
+                "with": {
+                  "different": "name",
+                },
+              },
+              "type": "land",
+            },
+            "reference": {
+              "count": {
+                "atLeast": 7,
+              },
+            },
+          },
+        },
+      },
+      "effect": {
+        "create": {
+          "amount": 1,
+          "color": "b",
+          "size": {
+            "power": 2,
+            "toughness": 2,
+          },
+          "type": {
+            "and": [
+              "zombie",
+              "creature",
+            ],
+          },
+        },
+      },
+    },
+    "trigger": {
+      "when": {
+        "does": {
+          "enter": "battlefield",
+        },
+        "what": {
+          "xor": [
+            "CARD_NAME",
+            {
+              "object": {
+                "object": {
+                  "type": "land",
+                },
+                "suffix": {
+                  "actor": "you",
+                  "does": "control",
+                },
+              },
+              "reference": "other",
+            },
+          ],
+        },
+      },
+    },
+  },
+]
+`;
+
 exports[`Cards: single parse + snapshot > Fireblast 1`] = `
 [
   {
@@ -4570,6 +4772,33 @@ exports[`Cards: single parse + snapshot > Gitaxian Probe 1`] = `
 ]
 `;
 
+exports[`Cards: single parse + snapshot > Glimmer Lens 1`] = `
+[
+  "for mirrodin!",
+  {
+    "does": {
+      "powerToughnessMod": {
+        "powerMod": 1,
+        "toughnessMod": 0,
+      },
+    },
+    "what": {
+      "object": {
+        "type": "creature",
+      },
+      "reference": "equipped",
+    },
+  },
+  {
+    "equip": {
+      "mana": [
+        2,
+      ],
+    },
+  },
+]
+`;
+
 exports[`Cards: single parse + snapshot > Goblin Bombardment 1`] = `
 [
   {
@@ -4679,6 +4908,9 @@ exports[`Cards: single parse + snapshot > Goblin Rabblemaster 1`] = `
   {
     "effect": {
       "create": {
+        "abilities": [
+          "haste",
+        ],
         "amount": 1,
         "color": "r",
         "size": {
@@ -4690,11 +4922,6 @@ exports[`Cards: single parse + snapshot > Goblin Rabblemaster 1`] = `
             "goblin",
             "creature",
           ],
-        },
-        "with": {
-          "with": {
-            "ability": "haste",
-          },
         },
       },
     },
@@ -5530,6 +5757,99 @@ exports[`Cards: single parse + snapshot > High Tide 1`] = `
           },
         },
       },
+    },
+  },
+]
+`;
+
+exports[`Cards: single parse + snapshot > Hive of the Eye Tyrant 1`] = `
+[
+  {
+    "does": {
+      "enter": "battlefield",
+      "tapped": true,
+    },
+    "what": "CARD_NAME",
+  },
+  {
+    "activatedAbility": {
+      "add": [
+        "b",
+      ],
+    },
+    "costs": "tap",
+  },
+  {
+    "activatedAbility": [
+      {
+        "duration": {
+          "until": "endOfTurn",
+        },
+        "effect": {
+          "does": {
+            "become": {
+              "abilities": [
+                "menace",
+                {
+                  "effect": {
+                    "exile": {
+                      "object": "card",
+                      "reference": {
+                        "targetCount": 1,
+                      },
+                    },
+                    "from": {
+                      "owner": "defendingPlayer",
+                      "zone": "graveyard",
+                    },
+                  },
+                  "trigger": {
+                    "when": {
+                      "does": "attack",
+                      "what": "CARD_NAME",
+                    },
+                  },
+                },
+              ],
+              "color": "b",
+              "size": {
+                "power": 3,
+                "toughness": 3,
+              },
+              "type": {
+                "and": [
+                  "beholder",
+                  "creature",
+                ],
+              },
+            },
+          },
+          "what": "CARD_NAME",
+        },
+      },
+      {
+        "is": {
+          "still": {
+            "object": {
+              "type": "land",
+            },
+            "reference": {
+              "count": 1,
+            },
+          },
+        },
+      },
+    ],
+    "costs": {
+      "and": [
+        {
+          "mana": [
+            3,
+            "b",
+          ],
+        },
+        "tap",
+      ],
     },
   },
 ]
@@ -6590,6 +6910,9 @@ exports[`Cards: single parse + snapshot > Lingering Souls 1`] = `
 [
   {
     "create": {
+      "abilities": [
+        "flying",
+      ],
       "amount": 2,
       "color": "w",
       "size": {
@@ -6601,11 +6924,6 @@ exports[`Cards: single parse + snapshot > Lingering Souls 1`] = `
           "spirit",
           "creature",
         ],
-      },
-      "with": {
-        "with": {
-          "ability": "flying",
-        },
       },
     },
   },
@@ -7758,6 +8076,9 @@ exports[`Cards: single parse + snapshot > Monastery Mentor 1`] = `
   {
     "effect": {
       "create": {
+        "abilities": [
+          "prowess",
+        ],
         "amount": 1,
         "color": "w",
         "size": {
@@ -7769,11 +8090,6 @@ exports[`Cards: single parse + snapshot > Monastery Mentor 1`] = `
             "monk",
             "creature",
           ],
-        },
-        "with": {
-          "with": {
-            "ability": "prowess",
-          },
         },
       },
     },
@@ -8373,6 +8689,154 @@ exports[`Cards: single parse + snapshot > Noxious Gearhulk 1`] = `
 ]
 `;
 
+exports[`Cards: single parse + snapshot > Old-Growth Troll 1`] = `
+[
+  "trample",
+  {
+    "effect": [
+      {
+        "create": {
+          "abilities": [
+            "reach",
+          ],
+          "amount": 1,
+          "color": "g",
+          "size": {
+            "power": 3,
+            "toughness": 3,
+          },
+          "type": {
+            "and": [
+              "treefolk",
+              "creature",
+            ],
+          },
+        },
+      },
+      {
+        "condition": {
+          "actor": "you",
+          "does": {
+            "controls": {
+              "object": {
+                "type": "forest",
+              },
+              "reference": {
+                "count": 1,
+              },
+            },
+          },
+        },
+        "effect": {
+          "attach": "CARD_NAME",
+          "to": "it",
+        },
+      },
+      {
+        "does": {
+          "become": {
+            "abilities": [
+              {
+                "enchant": {
+                  "object": {
+                    "type": "forest",
+                  },
+                  "suffix": {
+                    "actor": "you",
+                    "does": "control",
+                  },
+                },
+              },
+              {
+                "does": {
+                  "and": [
+                    {
+                      "haveAbility": {
+                        "activatedAbility": {
+                          "add": [
+                            "g",
+                            "g",
+                          ],
+                        },
+                        "costs": "tap",
+                      },
+                    },
+                    {
+                      "is": {
+                        "object": {
+                          "object": {
+                            "condition": {
+                              "still": {
+                                "object": {
+                                  "type": "land",
+                                },
+                                "reference": {
+                                  "count": 1,
+                                },
+                              },
+                            },
+                            "object": {
+                              "condition": {
+                                "with": {
+                                  "ability": "reach",
+                                },
+                              },
+                              "prefixes": [
+                                {
+                                  "size": {
+                                    "power": 3,
+                                    "toughness": 3,
+                                  },
+                                },
+                                {
+                                  "color": "g",
+                                },
+                              ],
+                              "type": {
+                                "and": [
+                                  "treefolk",
+                                  "creature",
+                                ],
+                              },
+                            },
+                          },
+                          "reference": {
+                            "count": 1,
+                          },
+                        },
+                      },
+                    },
+                  ],
+                },
+                "what": {
+                  "object": {
+                    "type": "forest",
+                  },
+                  "reference": "enchanted",
+                },
+              },
+            ],
+            "type": {
+              "and": [
+                "aura",
+                "enchantment",
+              ],
+            },
+          },
+        },
+        "what": "it",
+      },
+    ],
+    "trigger": {
+      "when": {
+        "does": "die",
+        "what": "CARD_NAME",
+      },
+    },
+  },
+]
+`;
+
 exports[`Cards: single parse + snapshot > Ophiomancer 1`] = `
 [
   {
@@ -8389,6 +8853,9 @@ exports[`Cards: single parse + snapshot > Ophiomancer 1`] = `
       },
       "effect": {
         "create": {
+          "abilities": [
+            "deathtouch",
+          ],
           "amount": 1,
           "color": "b",
           "size": {
@@ -8400,11 +8867,6 @@ exports[`Cards: single parse + snapshot > Ophiomancer 1`] = `
               "snake",
               "creature",
             ],
-          },
-          "with": {
-            "with": {
-              "ability": "deathtouch",
-            },
           },
         },
       },
@@ -11989,6 +12451,76 @@ exports[`Cards: single parse + snapshot > Third Path Iconoclast 1`] = `
 ]
 `;
 
+exports[`Cards: single parse + snapshot > Thopter Assembly 1`] = `
+[
+  "flying",
+  {
+    "effect": {
+      "returns": {
+        "not": "CARD_NAME",
+        "object": {
+          "object": {
+            "type": "thopter",
+          },
+          "suffix": {
+            "actor": "you",
+            "does": "control",
+          },
+        },
+        "reference": {
+          "count": "all",
+        },
+      },
+      "to": {
+        "owner": {
+          "does": "own",
+          "whose": {
+            "reference": "their",
+          },
+        },
+        "zone": "hand",
+      },
+    },
+    "trigger": {
+      "turnPhase": {
+        "partOfTurn": "upkeep",
+        "qualification": {
+          "whose": "your",
+        },
+      },
+    },
+  },
+  {
+    "effect": {
+      "create": {
+        "abilities": [
+          "flying",
+        ],
+        "amount": 5,
+        "color": "colorless",
+        "size": {
+          "power": 1,
+          "toughness": 1,
+        },
+        "type": {
+          "and": [
+            "thopter",
+            "artifact",
+            "creature",
+          ],
+        },
+      },
+    },
+    "trigger": {
+      "when": {
+        "does": "attack",
+        "what": "CARD_NAME",
+      },
+    },
+  },
+]
+`;
+
 exports[`Cards: single parse + snapshot > Thoughtseize 1`] = `
 [
   {
@@ -13560,6 +14092,9 @@ exports[`Cards: single parse + snapshot > Worldspine Wurm 1`] = `
   {
     "effect": {
       "create": {
+        "abilities": [
+          "trample",
+        ],
         "amount": 3,
         "color": "g",
         "size": {
@@ -13571,11 +14106,6 @@ exports[`Cards: single parse + snapshot > Worldspine Wurm 1`] = `
             "wurm",
             "creature",
           ],
-        },
-        "with": {
-          "with": {
-            "ability": "trample",
-          },
         },
       },
     },
@@ -14110,16 +14640,28 @@ exports[`Layout snapshots: adventure cards > Brazen Borrower // Petty Theft 1`] 
           "flash",
           "flying",
           {
-            "unknown": "~ can block only creatures with flying.",
+            "does": {
+              "can": {
+                "block": {
+                  "only": {
+                    "condition": {
+                      "with": {
+                        "ability": "flying",
+                      },
+                    },
+                    "type": "creature",
+                  },
+                },
+              },
+            },
+            "what": "CARD_NAME",
           },
         ],
-        "confidence": 0.6666666666666666,
+        "confidence": 1,
         "oracleText": "flash
 flying
 ~ can block only creatures with flying.",
-        "unknownClauses": [
-          "~ can block only creatures with flying.",
-        ],
+        "unknownClauses": [],
       },
     },
     {
@@ -14550,7 +15092,7 @@ A "p" based on:
     pureObject →  ● pureObject1 pureObject$ebnf$1 pureObject$ebnf$2
     objectInner →  ● pureObject
     object → object$ebnf$1 ● objectInner
-    imperative → imperative$string$8 _s __ ● object imperative$ebnf$2 __ imperative$string$9 __ zone imperative$ebnf$3 imperative$ebnf$4 imperative$ebnf$5
+    imperative → imperative$string$8 _s __ ● object imperative$ebnf$2 __ imperative$string$9 __ zone imperative$ebnf$3 imperative$ebnf$4 imperative$ebnf$5 imperative$ebnf$6
     singleSentence →  ● imperative
     sentence →  ● singleSentence
     sentenceDot →  ● sentence sentenceDot$ebnf$1 sentenceDot$ebnf$2
@@ -14566,7 +15108,7 @@ A "a" based on:
     pureObject →  ● pureObject1 pureObject$ebnf$1 pureObject$ebnf$2
     objectInner →  ● pureObject
     object → object$ebnf$1 ● objectInner
-    imperative → imperative$string$8 _s __ ● object imperative$ebnf$2 __ imperative$string$9 __ zone imperative$ebnf$3 imperative$ebnf$4 imperative$ebnf$5
+    imperative → imperative$string$8 _s __ ● object imperative$ebnf$2 __ imperative$string$9 __ zone imperative$ebnf$3 imperative$ebnf$4 imperative$ebnf$5 imperative$ebnf$6
     singleSentence →  ● imperative
     sentence →  ● singleSentence
     sentenceDot →  ● sentence sentenceDot$ebnf$1 sentenceDot$ebnf$2
@@ -14787,7 +15329,7 @@ A "e" based on:
     playersPossessive →  ● player playersPossessive$subexpression$1
     zone$subexpression$1 →  ● playersPossessive
     zone →  ● zone$subexpression$1 __ ownedZone
-    imperative → imperative$string$8 _s __ object imperative$ebnf$2 __ imperative$string$9 __ ● zone imperative$ebnf$3 imperative$ebnf$4 imperative$ebnf$5
+    imperative → imperative$string$8 _s __ object imperative$ebnf$2 __ imperative$string$9 __ ● zone imperative$ebnf$3 imperative$ebnf$4 imperative$ebnf$5 imperative$ebnf$6
     singleSentence →  ● imperative
     sentence →  ● singleSentence
     sentenceDot →  ● sentence sentenceDot$ebnf$1 sentenceDot$ebnf$2
@@ -14808,7 +15350,7 @@ A character matching /[a-z]/ based on:
     playersPossessive →  ● player playersPossessive$subexpression$1
     zone$subexpression$1 →  ● playersPossessive
     zone →  ● zone$subexpression$1 __ ownedZone
-    imperative → imperative$string$8 _s __ object imperative$ebnf$2 __ imperative$string$9 __ ● zone imperative$ebnf$3 imperative$ebnf$4 imperative$ebnf$5
+    imperative → imperative$string$8 _s __ object imperative$ebnf$2 __ imperative$string$9 __ ● zone imperative$ebnf$3 imperative$ebnf$4 imperative$ebnf$5 imperative$ebnf$6
     singleSentence →  ● imperative
     sentence →  ● singleSentence
     sentenceDot →  ● sentence sentenceDot$ebnf$1 sentenceDot$ebnf$2
@@ -14832,7 +15374,7 @@ A character matching /[a-z]/ based on:
     playersPossessive →  ● player playersPossessive$subexpression$1
     zone$subexpression$1 →  ● playersPossessive
     zone →  ● zone$subexpression$1 __ ownedZone
-    imperative → imperative$string$8 _s __ object imperative$ebnf$2 __ imperative$string$9 __ ● zone imperative$ebnf$3 imperative$ebnf$4 imperative$ebnf$5
+    imperative → imperative$string$8 _s __ object imperative$ebnf$2 __ imperative$string$9 __ ● zone imperative$ebnf$3 imperative$ebnf$4 imperative$ebnf$5 imperative$ebnf$6
     singleSentence →  ● imperative
     sentence →  ● singleSentence
     sentenceDot →  ● sentence sentenceDot$ebnf$1 sentenceDot$ebnf$2
@@ -14856,7 +15398,7 @@ A character matching /[a-z]/ based on:
     playersPossessive →  ● player playersPossessive$subexpression$1
     zone$subexpression$1 →  ● playersPossessive
     zone →  ● zone$subexpression$1 __ ownedZone
-    imperative → imperative$string$8 _s __ object imperative$ebnf$2 __ imperative$string$9 __ ● zone imperative$ebnf$3 imperative$ebnf$4 imperative$ebnf$5
+    imperative → imperative$string$8 _s __ object imperative$ebnf$2 __ imperative$string$9 __ ● zone imperative$ebnf$3 imperative$ebnf$4 imperative$ebnf$5 imperative$ebnf$6
     singleSentence →  ● imperative
     sentence →  ● singleSentence
     sentenceDot →  ● sentence sentenceDot$ebnf$1 sentenceDot$ebnf$2

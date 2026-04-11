@@ -434,6 +434,14 @@ const cubeCards: CubeCard[] = [
   // New EffectNode types: CostModification, GrantKeyword
   { name: 'Sapphire Medallion', oracle_text: 'Blue spells you cast cost {1} less to cast.' },
   { name: "Akroma's Memorial", oracle_text: "Flying, first strike, trample, haste, protection from black and from red, vigilance\nCreatures you control have flying, first strike, trample, haste, protection from black and from red, and vigilance." },
+  // pa-q21: token creation with embedded ability text (F3 audit)
+  { name: 'Cloudseeder', oracle_text: 'When Cloudseeder enters, create a 1/1 blue Faerie creature token named Cloud Sprite. It has flying and "This token can block only creatures with flying."' },
+  { name: 'Field of the Dead', oracle_text: 'Field of the Dead enters tapped.\n{T}: Add {C}.\nWhenever Field of the Dead or another land you control enters, if you have seven or more lands with different names, create a 2/2 black Zombie creature token.' },
+  { name: 'Hive of the Eye Tyrant', oracle_text: "Hive of the Eye Tyrant enters tapped.\n{T}: Add {B}.\n{3}{B}, {T}: Until end of turn, Hive of the Eye Tyrant becomes a 3/3 black Beholder creature with menace and \"Whenever this creature attacks, exile target card from defending player's graveyard.\" It's still a land." },
+  { name: 'Old-Growth Troll', oracle_text: "Trample\nWhen Old-Growth Troll dies, create a 3/3 green Treefolk creature token with reach. Then if you control a Forest, attach Old-Growth Troll to it. It becomes an Aura enchantment with enchant Forest you control and \"Enchanted Forest has '{T}: Add {G}{G}' and is a 3/3 green Treefolk creature with reach that's still a land.\"" },
+  { name: 'Thopter Assembly', oracle_text: "Flying\nAt the beginning of your upkeep, return all Thopters you control to their owner's hand except Thopter Assembly.\nWhenever Thopter Assembly attacks, create five 1/1 colorless Thopter artifact creature tokens with flying." },
+  { name: 'Adeline, Resplendent Cathar', oracle_text: 'Vigilance\nWhenever Adeline, Resplendent Cathar attacks, for each opponent, create a 1/1 white Human Soldier creature token that\'s tapped and attacking that player or a planeswalker they control.' },
+  { name: 'Glimmer Lens', oracle_text: 'For Mirrodin! (When Glimmer Lens enters, create a 2/2 red Rebel creature token, then attach this to it.)\nEquipped creature gets +1/+0.\nEquip {2}' },
 ];
 
 // ============================================================================

@@ -4,7 +4,7 @@
  * Common MTG words that should NOT be treated as name abbreviations.
  * These appear as first words of card names but are too generic to replace.
  */
-const BLOCKED_FIRST_WORDS = /^(goblin|dragon|angel|demon|human|zombie|soldier|knight|wizard|elf|beast|spirit|vampire|bear|cat|dog|bird|snake|spider|wolf|giant|troll|ogre|orc|golem|elemental|artifact|creature|land|enchant|instant|sorcery|planeswalker|legendary|token|tribal|snow|basic|world|forest|island|swamp|mountain|plains)$/i;
+const BLOCKED_FIRST_WORDS = /^(goblin|dragon|angel|demon|human|zombie|soldier|knight|wizard|elf|beast|spirit|vampire|bear|cat|dog|bird|snake|spider|wolf|giant|troll|ogre|orc|golem|elemental|thopter|faerie|rebel|treefolk|beholder|detective|artifact|creature|land|enchant|instant|sorcery|planeswalker|legendary|token|tribal|snow|basic|world|forest|island|swamp|mountain|plains)$/i;
 
 /**
  * Self-reference patterns: "this <type>" → ~

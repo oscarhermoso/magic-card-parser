@@ -61,7 +61,7 @@ keyword -> ("double strike"
   | "living weapon"
   | "hidden agenda"
   | "jump-start"
-  | "for mirrodin!" {% () => "for mirrodin!" %}
+  | "for mirrodin!" {% () => ["for mirrodin!"] %}
   | levelUpKeyword
   | enchantKeyword
   | costKeyword
@@ -561,6 +561,7 @@ suffix -> player __ (("don't" | "doesn't") __):? ("control" | "own") _s
   | "attached to" __ object {% ([, , attachedTo]) => ({ attachedTo }) %}
   | "it targets" {% () => ({ what: "it", does: "targets" }) %}
   | "other than" __ object {% ([, , not]) => ({ not }) %}
+  | "except" __ object {% ([, , not]) => ({ not }) %}
   | "in the pile of" __ playersPossessive __ "choice"
     {% ([, , whose]) => ({ pile: { choice: whose } }) %}
   | objectAction __ "this way" {% ([does]) => ({ reference: "thisWay", does }) %}
@@ -710,13 +711,20 @@ imperative -> "sacrifice" _s __ object {% ([, , , sacrifice]) => ({ sacrifice })
     {% ([, , , whose]) => ({ discard: { what: "hand", whose } }) %}
   | "discard" _s __ object (__ "at random"):?
     {% ([, , , discard, random]) => (random ? { discard, random: true } : { discard }) %}
-  | "return" _s __ object  (__ fromZone):? __ "to" __ zone (__ "tapped"):? (__ "under" __ playersPossessive __ "control"):? (__ "attached to" __ object):?
+  | "return" _s __ object  (__ fromZone):? __ "to" __ zone (__ "tapped"):? (__ "under" __ playersPossessive __ "control"):? (__ "attached to" __ object):? (__ "except" __ object):?
     {%
-      ([, , , returns, from, , , , to, tapped, control, attached]) => {
+      ([, , , returns, from, , , , to, tapped, control, attached, except]) => {
         let result = tapped ? { returns, to, tapped: true } : { returns, to };
         if (attached) result.attached = attached[3];
         if (from) result.from = from[1];
         if (control) result.control = control[3];
+        if (except) {
+          if (typeof result.returns === "object" && result.returns !== null) {
+            result.returns = { ...result.returns, not: except[3] };
+          } else {
+            result.returns = { object: result.returns, not: except[3] };
+          }
+        }
         return result;
       }
     %}
@@ -936,6 +944,7 @@ basePlayerVerbPhrase -> gains __ "life equal to" __ itsPossessive __ numericalCh
     {% ([, , negation, controls]) => (negation ? { not: { controls } } : { controls }) %}
   | controls __ "more" __ object __ "than" __ player
     {% ([, , , , what, , , , thanWhom]) => ({ controls: { more: what, than: thanWhom } }) %}
+  | hasOrHave __ object {% ([, , has]) => ({ has }) %}
   # | owns __ object  # temporarily removed — unused
   | ("don't" | "doesn't") "lose this mana as steps and phases end." {% () => "doesntEmpty" %}
   | "surveil" _s {% () => "surveil" %}
@@ -1091,6 +1100,8 @@ baseObjectVerbPhrase -> ("was" | "is") __ object {% ([, , is]) => ({ is }) %}
   | "can attack as though it didn\"t have defender" {% () => ({ ignores: "defender" }) %}
   | "can block an additional" __ object __ "each combat"
     {% ([, , blockAdditional]) => ({ blockAdditional }) %}
+  | "can block only" __ object
+    {% ([, , only]) => ({ can: { block: { only } } }) %}
   | ("do" | "does") __ "so" {% () => "do" %}
   | "remain" _s __ "exiled" {% () => ({ remain: "exile" }) %}
   | "become" _s __ becomesWhat {% ([, , , become]) => ({ become }) %}
@@ -1163,7 +1174,7 @@ becomesWhat -> "tapped" {% () => "tap" %}
         if (color) result.color = color[1];
         if (size) result.size = size[1];
         else if (size2) result.size = size2[3];
-        if (withClause) result.with = withClause[3];
+        if (withClause) result.abilities = flattenAbilities(withClause[3]);
         if (inAddition) result.inAddition = true;
         return result;
       }
@@ -1200,6 +1211,7 @@ acquiredAbility -> keyword ("," __ keyword):+ (",":? __ "and" __ keyword):?
   %}
   | keyword {% ([k]) => k %}
   | "\"" ability "\"" {% ([, a]) => a %}
+  | "'" ability "'" {% ([, a]) => a %}
   | acquiredAbility __ "and" __ acquiredAbility {% ([a1, , , , a2]) => ({ and: [a1, a2] }) %}
   | "this ability" {% () => "thisAbility" %}
   | "flashback" {% () => "flashback" %}
@@ -1246,7 +1258,11 @@ tokenDescription -> englishNumber (__ pt):? (__ color):? __ permanentTypeSpecifi
       const result = { amount, type };
       if (size) result.size = size[1];
       if (color) result.color = color[1];
-      if (withClause) result.with = withClause[1];
+      if (withClause) {
+        const abilities = abilitiesFromWithClause(withClause[1]);
+        if (abilities) result.abilities = abilities;
+        else result.with = withClause[1];
+      }
       if (name) result.name = name[3].join("");
       if (state) result.state = state[3];
       return result;
@@ -1258,7 +1274,11 @@ tokenDescription -> englishNumber (__ pt):? (__ color):? __ permanentTypeSpecifi
         const result = { amount, type };
         if (size) result.size = size[1];
         if (color) result.color = color[1];
-        if (withClause) result.with = withClause[1];
+        if (withClause) {
+          const abilities = abilitiesFromWithClause(withClause[1]);
+          if (abilities) result.abilities = abilities;
+          else result.with = withClause[1];
+        }
         if (state) result.state = state[3];
         return result;
       }
