@@ -11,4 +11,6 @@ nearley/magicCard.js
 !.github
 !.vscode
 !.env.example
+!.beads/
+!.beads/.gitignore
 ralph.yml
