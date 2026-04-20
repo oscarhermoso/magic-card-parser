@@ -10,6 +10,14 @@ import { replaceCardName } from './nameReplacement.js';
 /** @typedef {import('./index.d.ts').ParseResult} ParseResult */
 /** @typedef {import('./index.d.ts').MultiParseResult} MultiParseResult */
 /** @typedef {import('./index.d.ts').TypeLineResult} TypeLineResult */
+/** @typedef {import('./index.d.ts').ParsedCard} ParsedCard */
+/** @typedef {import('./index.d.ts').ParsedCardFace} ParsedCardFace */
+/** @typedef {import('./index.d.ts').ParsedAbility} ParsedAbility */
+/** @typedef {import('./index.d.ts').ParsedKeyword} ParsedKeyword */
+/** @typedef {import('./index.d.ts').ParsedTypeLine} ParsedTypeLine */
+/** @typedef {import('./index.d.ts').ManaCost} ManaCost */
+/** @typedef {import('./index.d.ts').ManaSymbol} ManaSymbol */
+/** @typedef {import('./index.d.ts').PowerToughness} PowerToughness */
 
 /**
  * @template T
@@ -263,4 +271,404 @@ const parseAdventure = (creatureFace, adventureFace) => ({
   adventure: parseCard({ name: adventureFace.name, oracle_text: adventureFace.oracle_text }),
 });
 
-export { cardToGraphViz, parseAdventure, parseCard, parseFaces, parseTypeLine };
+// ─── MTGOSDK-style ParsedCard builders (pa-4na) ────────────────────────────────
+
+/**
+ * Parse a Scryfall-style mana_cost string (e.g. "{2}{W}{W}", "{X}{B/G}{P}")
+ * into a structured ManaCost object.
+ * @param {string} raw
+ * @returns {ManaCost}
+ */
+const parseManaCost = (raw) => {
+  /** @type {ManaSymbol[]} */
+  const symbols = [];
+  let generic;
+  let cmc = 0;
+  const re = /\{([^}]+)\}/g;
+  let match;
+  while ((match = re.exec(raw)) !== null) {
+    const body = match[1].toLowerCase();
+    if (/^\d+$/.test(body)) {
+      const amount = parseInt(body, 10);
+      generic = (generic ?? 0) + amount;
+      cmc += amount;
+      symbols.push({ kind: 'generic', amount });
+    } else if (body === 'x' || body === 'y' || body === 'z') {
+      symbols.push({ kind: /** @type {'x'|'y'|'z'} */ (body) });
+    } else if (body === 'c') {
+      cmc += 1;
+      symbols.push({ kind: 'colorless' });
+    } else if (body === 's') {
+      cmc += 1;
+      symbols.push({ kind: 'snow' });
+    } else if (body.includes('/p')) {
+      cmc += 1;
+      const color = body.replace('/p', '');
+      symbols.push({
+        kind: 'phyrexian',
+        colors: /** @type {any[]} */ ([color]),
+      });
+    } else if (body.includes('/')) {
+      cmc += 1;
+      const parts = body.split('/');
+      symbols.push({
+        kind: 'hybrid',
+        colors: /** @type {any[]} */ (parts.filter((p) => 'wubrg'.includes(p))),
+      });
+    } else if ('wubrg'.includes(body)) {
+      cmc += 1;
+      symbols.push({
+        kind: 'colored',
+        colors: /** @type {any[]} */ ([body]),
+      });
+    } else {
+      symbols.push({ kind: 'generic' });
+    }
+  }
+  /** @type {ManaCost} */
+  const cost = { raw, symbols, cmc };
+  if (generic !== undefined) cost.generic = generic;
+  return cost;
+};
+
+/**
+ * Convert a grammar-emitted ManaCostValue array (e.g. [1, 'r']) into a ManaCost.
+ * @param {(string | number)[]} arr
+ * @returns {ManaCost}
+ */
+const manaCostFromArray = (arr) => {
+  /** @type {ManaSymbol[]} */
+  const symbols = [];
+  let generic;
+  let cmc = 0;
+  for (const el of arr) {
+    if (typeof el === 'number') {
+      generic = (generic ?? 0) + el;
+      cmc += el;
+      symbols.push({ kind: 'generic', amount: el });
+    } else if (typeof el === 'string') {
+      const c = el.toLowerCase();
+      if (c === 'x' || c === 'y' || c === 'z') {
+        symbols.push({ kind: /** @type {'x'|'y'|'z'} */ (c) });
+      } else if (c === 'c') {
+        cmc += 1;
+        symbols.push({ kind: 'colorless' });
+      } else if (c === 's') {
+        cmc += 1;
+        symbols.push({ kind: 'snow' });
+      } else if (c === 'p') {
+        symbols.push({ kind: 'phyrexian' });
+      } else if ('wubrg'.includes(c)) {
+        cmc += 1;
+        symbols.push({ kind: 'colored', colors: /** @type {any[]} */ ([c]) });
+      }
+    }
+  }
+  /** @type {ManaCost} */
+  const out = { raw: arr.map((x) => `{${x}}`).join(''), symbols, cmc };
+  if (generic !== undefined) out.generic = generic;
+  return out;
+};
+
+/**
+ * Coerce a Scryfall P/T/loyalty/defense string into a typed PowerToughness.
+ * @param {string | undefined} raw
+ * @returns {PowerToughness | undefined}
+ */
+const coercePT = (raw) => {
+  if (raw === undefined || raw === null || raw === '') return undefined;
+  if (/^-?\d+$/.test(raw)) return parseInt(raw, 10);
+  return raw;
+};
+
+/**
+ * Flatten a parseTypeLine result's top node into super/main/sub arrays.
+ * @param {any} node
+ * @returns {ParsedTypeLine}
+ */
+const flattenTypeLineNode = (node) => {
+  /** @type {any[]} */
+  const supers = [];
+  /** @type {any[]} */
+  const mains = [];
+  /** @type {string[]} */
+  const subs = [];
+  if (node.superType) {
+    if (typeof node.superType === 'object' && node.superType.and) supers.push(...node.superType.and);
+    else supers.push(node.superType);
+  }
+  if (node.type) {
+    if (typeof node.type === 'object' && node.type.and) mains.push(...node.type.and);
+    else mains.push(node.type);
+  }
+  if (node.subType) {
+    if (typeof node.subType === 'object' && node.subType.and) subs.push(...node.subType.and);
+    else if (typeof node.subType === 'string') subs.push(node.subType);
+  }
+  return { super: supers, main: mains, sub: subs };
+};
+
+/**
+ * Parse a type_line string into ParsedTypeLine, falling back to empty on failure.
+ * @param {string | undefined} typeLine
+ * @returns {ParsedTypeLine}
+ */
+const buildTypeLine = (typeLine) => {
+  if (!typeLine) return { super: [], main: [], sub: [] };
+  const r = parseTypeLine(typeLine);
+  if (!r.result || r.result.length === 0) return { super: [], main: [], sub: [] };
+  return flattenTypeLineNode(r.result[0]);
+};
+
+/**
+ * Determine whether the parsed type line is an instant/sorcery (spell).
+ * @param {ParsedTypeLine} tl
+ */
+const isSpellTypes = (tl) =>
+  tl.main.some((t) => t === 'instant' || t === 'sorcery');
+
+const SIMPLE_KEYWORDS = new Set([
+  'deathtouch', 'defender', 'flash', 'flying', 'haste', 'hexproof',
+  'indestructible', 'intimidate', 'lifelink', 'reach', 'shroud',
+  'trample', 'vigilance', 'flanking', 'phasing', 'shadow', 'horsemanship',
+  'fear', 'provoke', 'storm', 'sunburst', 'epic', 'convoke', 'haunt',
+  'delve', 'gravestorm', 'changeling', 'conspire', 'persist', 'wither',
+  'retrace', 'exalted', 'cascade', 'rebound', 'infect', 'undying',
+  'soulbond', 'unleash', 'cipher', 'evolve', 'extort', 'fuse', 'dethrone',
+  'prowess', 'exploit', 'menace', 'devoid', 'ingest', 'myriad', 'skulk',
+  'melee', 'undaunted', 'improvise', 'aftermath', 'ascend', 'assist',
+  'mentor', 'riot', 'partner', 'for mirrodin!',
+]);
+
+/**
+ * Classify a single AbilityNode (from ParseResult.abilities) into a
+ * ParsedAbility or ParsedKeyword bucket.
+ *
+ * @param {any} node
+ * @param {{ isSpell: boolean }} ctx
+ * @returns {{ kind: 'keyword', value: ParsedKeyword } | { kind: 'ability', value: ParsedAbility }}
+ */
+const classifyNode = (node, ctx) => {
+  // Bare keyword string
+  if (typeof node === 'string') {
+    return { kind: 'keyword', value: { keyword: node } };
+  }
+  if (node === null || typeof node !== 'object' || Array.isArray(node)) {
+    return { kind: 'ability', value: { type: 'unknown', text: String(node) } };
+  }
+  // Unknown clause (partial parse fallback)
+  if ('unknown' in node && typeof node.unknown === 'string') {
+    return { kind: 'ability', value: { type: 'unknown', text: node.unknown } };
+  }
+  // Activated ability
+  if ('activatedAbility' in node) {
+    const eff = node.activatedAbility;
+    const effects = Array.isArray(eff) ? eff : [eff];
+    /** @type {ParsedAbility} */
+    const ability = { type: 'activated', cost: node.costs, effects };
+    if (node.abilityWord) ability.abilityWord = node.abilityWord;
+    return { kind: 'ability', value: ability };
+  }
+  // Triggered ability
+  if ('trigger' in node) {
+    const eff = node.effect;
+    const effects = Array.isArray(eff) ? eff : eff !== undefined ? [eff] : [];
+    /** @type {ParsedAbility} */
+    const ability = { type: 'triggered', trigger: node.trigger, effects };
+    if (node.abilityWord) ability.abilityWord = node.abilityWord;
+    return { kind: 'ability', value: ability };
+  }
+  // Modal
+  if ('quantifier' in node && 'options' in node) {
+    return { kind: 'ability', value: { type: 'modal', quantifier: node.quantifier, options: node.options } };
+  }
+  // Additional cost
+  if ('additionalCost' in node) {
+    return { kind: 'ability', value: { type: 'additionalCost', cost: node.additionalCost } };
+  }
+  // KeywordObject: single-key map whose key is a recognized keyword.
+  const keys = Object.keys(node);
+  if (keys.length === 1) {
+    const key = keys[0];
+    const val = node[key];
+    // Heuristic: if the value is a ManaCostValue-ish ({mana: [...]}) or number,
+    // treat as keyword with payload.
+    if (val && typeof val === 'object' && 'mana' in val && Array.isArray(val.mana)) {
+      return { kind: 'keyword', value: { keyword: key, cost: manaCostFromArray(val.mana) } };
+    }
+    if (typeof val === 'number') {
+      return { kind: 'keyword', value: { keyword: key, value: val } };
+    }
+    if (typeof val === 'string' && SIMPLE_KEYWORDS.has(key)) {
+      return { kind: 'keyword', value: { keyword: key, literal: val } };
+    }
+  }
+  // Fallback: treat as a static or spell effect with a single EffectNode.
+  /** @type {ParsedAbility} */
+  const eff = ctx.isSpell
+    ? { type: 'spell', effects: [node] }
+    : { type: 'static', effects: [node] };
+  return { kind: 'ability', value: eff };
+};
+
+/**
+ * Split a ParseResult's abilities array into classified ParsedAbility[] and ParsedKeyword[].
+ * @param {any[] | null} abilityNodes
+ * @param {{ isSpell: boolean }} ctx
+ * @returns {{ abilities: ParsedAbility[], keywords: ParsedKeyword[] }}
+ */
+const classifyAbilities = (abilityNodes, ctx) => {
+  /** @type {ParsedAbility[]} */
+  const abilities = [];
+  /** @type {ParsedKeyword[]} */
+  const keywords = [];
+  if (!abilityNodes) return { abilities, keywords };
+  for (const node of abilityNodes) {
+    const c = classifyNode(node, ctx);
+    if (c.kind === 'keyword') keywords.push(c.value);
+    else abilities.push(c.value);
+  }
+  return { abilities, keywords };
+};
+
+/**
+ * Build a ParsedCardFace from a face input + its ParseResult.
+ * @param {{ name: string, oracle_text: string, type_line?: string, mana_cost?: string, power?: string, toughness?: string, loyalty?: string, defense?: string }} face
+ * @param {ParseResult} result
+ * @returns {ParsedCardFace}
+ */
+const buildFace = (face, result) => {
+  const types = buildTypeLine(face.type_line);
+  const { abilities, keywords } = classifyAbilities(result.abilities, { isSpell: isSpellTypes(types) });
+  /** @type {ParsedCardFace} */
+  const out = {
+    name: face.name,
+    abilities,
+    keywords,
+    unknownClauses: result.unknownClauses,
+    oracleText: result.oracleText,
+    confidence: result.confidence,
+  };
+  if (face.type_line) out.types = types;
+  if (face.mana_cost) {
+    const mc = parseManaCost(face.mana_cost);
+    out.manaCost = mc;
+    out.cmc = mc.cmc;
+  }
+  const power = coercePT(face.power);
+  const toughness = coercePT(face.toughness);
+  const loyalty = coercePT(face.loyalty);
+  const defense = coercePT(face.defense);
+  if (power !== undefined) out.power = power;
+  if (toughness !== undefined) out.toughness = toughness;
+  if (loyalty !== undefined) out.loyalty = loyalty;
+  if (defense !== undefined) out.defense = defense;
+  if (result.error) out.error = result.error;
+  return out;
+};
+
+/**
+ * MTGOSDK-style rich card parser. Composes parseCard() / parseFaces() output
+ * with Scryfall catalog fields into a single ParsedCard surface.
+ *
+ * @param {CardInput} card
+ * @returns {ParsedCard}
+ */
+const parseCardFull = (card) => {
+  const layout = card.layout ?? 'normal';
+  const types = buildTypeLine(card.type_line);
+  const isSpell = isSpellTypes(types);
+
+  // Multi-face routing (adventure / transform / modal_dfc / split / flip / meld)
+  if (card.card_faces && card.card_faces.length > 0) {
+    const multi = parseFaces(card);
+    const faces = multi.faces.map(({ faceName, result }, i) => {
+      const srcFace = card.card_faces?.[i] ?? { name: faceName, oracle_text: '' };
+      return buildFace(
+        {
+          name: faceName,
+          oracle_text: srcFace.oracle_text ?? '',
+          type_line: srcFace.type_line,
+          // Scryfall card_faces[] carries mana_cost/power/toughness on the face itself;
+          // cast through to pick them up if present.
+          mana_cost: /** @type {any} */ (srcFace).mana_cost,
+          power: /** @type {any} */ (srcFace).power,
+          toughness: /** @type {any} */ (srcFace).toughness,
+          loyalty: /** @type {any} */ (srcFace).loyalty,
+          defense: /** @type {any} */ (srcFace).defense,
+        },
+        result,
+      );
+    });
+    // Aggregate the front face's abilities/keywords/unknownClauses to the top level
+    const front = faces[0];
+    /** @type {ParsedCard} */
+    const out = {
+      name: card.name,
+      layout,
+      faces,
+      types,
+      abilities: front ? front.abilities : [],
+      keywords: front ? front.keywords : [],
+      unknownClauses: front ? front.unknownClauses : [],
+      oracleText: front ? front.oracleText : '',
+      confidence: front ? front.confidence : 0,
+    };
+    if (faces.length > 1) out.otherFace = faces[1].name;
+    if (card.mana_cost) {
+      const mc = parseManaCost(card.mana_cost);
+      out.manaCost = mc;
+      out.cmc = mc.cmc;
+    } else if (card.cmc !== undefined) {
+      out.cmc = card.cmc;
+    }
+    if (card.colors) out.colors = card.colors;
+    if (card.color_identity) out.colorIdentity = card.color_identity;
+    const power = coercePT(card.power);
+    const toughness = coercePT(card.toughness);
+    const loyalty = coercePT(card.loyalty);
+    const defense = coercePT(card.defense);
+    if (power !== undefined) out.power = power;
+    if (toughness !== undefined) out.toughness = toughness;
+    if (loyalty !== undefined) out.loyalty = loyalty;
+    if (defense !== undefined) out.defense = defense;
+    return out;
+  }
+
+  // Single-face
+  const result = parseCard(card);
+  const { abilities, keywords } = classifyAbilities(result.abilities, { isSpell });
+
+  /** @type {ParsedCard} */
+  const out = {
+    name: card.name,
+    layout,
+    types,
+    abilities,
+    keywords,
+    unknownClauses: result.unknownClauses,
+    oracleText: result.oracleText,
+    confidence: result.confidence,
+  };
+  if (card.mana_cost) {
+    const mc = parseManaCost(card.mana_cost);
+    out.manaCost = mc;
+    out.cmc = mc.cmc;
+  } else if (card.cmc !== undefined) {
+    out.cmc = card.cmc;
+  }
+  if (card.colors) out.colors = card.colors;
+  if (card.color_identity) out.colorIdentity = card.color_identity;
+  const power = coercePT(card.power);
+  const toughness = coercePT(card.toughness);
+  const loyalty = coercePT(card.loyalty);
+  const defense = coercePT(card.defense);
+  if (power !== undefined) out.power = power;
+  if (toughness !== undefined) out.toughness = toughness;
+  if (loyalty !== undefined) out.loyalty = loyalty;
+  if (defense !== undefined) out.defense = defense;
+  if (result.error) out.error = result.error;
+  return out;
+};
+
+export { cardToGraphViz, parseAdventure, parseCard, parseCardFull, parseFaces, parseTypeLine };

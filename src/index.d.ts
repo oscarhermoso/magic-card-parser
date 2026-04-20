@@ -172,13 +172,23 @@ export interface CardFace {
   type_line?: string;
 }
 
-/** Input to parseCard / parseFaces */
+/** Input to parseCard / parseFaces / parseCardFull */
 export interface CardInput {
   name: string;
   oracle_text: string;
   layout?: CardLayout;
   /** Scryfall-style card_faces array — used by parseFaces() for multi-face cards */
   card_faces?: CardFace[];
+  // Optional Scryfall catalog fields — used by parseCardFull() for rich ParsedCard output
+  mana_cost?: string;
+  type_line?: string;
+  power?: string;
+  toughness?: string;
+  loyalty?: string;
+  defense?: string;
+  colors?: Color[];
+  color_identity?: ColorIdentity[];
+  cmc?: number;
 }
 
 /** Result from parseCard (v1.0) */
@@ -468,3 +478,130 @@ export function parseTypeLine(typeLine: string): TypeLineResult;
 
 /** Generate a GraphViz DOT representation of a card's parse tree */
 export function cardToGraphViz(card: CardInput): string | null;
+
+// ─── MTGOSDK-style ParsedCard interface (pa-4na) ──────────────────────────────
+// Rich catalog interface modeled after MTGOSDK's GameCard / IGameCard surface
+// (see hq-dqwp research). Covers static catalog fields only — runtime game
+// state (Zone history, IsTapped, Damage, ManaPool, etc.) belongs to sim.
+
+/** Power/toughness/loyalty values: numeric when literal, string for *, X, 1+*, etc. */
+export type PowerToughness = number | '*' | 'X' | string;
+
+/** A single parsed mana symbol within a mana cost */
+export interface ManaSymbol {
+  kind: 'generic' | 'colored' | 'hybrid' | 'phyrexian' | 'x' | 'y' | 'z' | 'snow' | 'colorless';
+  colors?: Color[];
+  amount?: number;
+}
+
+/** Structured mana cost */
+export interface ManaCost {
+  raw: string;
+  symbols: ManaSymbol[];
+  generic?: number;
+  cmc: number;
+}
+
+/** Structured type line: supertypes, main types, subtypes */
+export interface ParsedTypeLine {
+  super: SuperType[];
+  main: CardType[];
+  sub: string[];
+}
+
+/** A counter on a card — kind from CounterKind enum (200+ values per MTGOSDK) or PT modification */
+export interface CardCounter {
+  kind: CounterKind | 'plusOnePlusOne' | 'minusOneMinusOne' | string;
+  amount?: number;
+}
+
+/** Association kinds — maps to MTGOSDK GameCardAssociation enum (catalog-relevant subset) */
+export type AssociationKind =
+  | 'equippedTo' | 'attached' | 'attachedTo'
+  | 'blockingTarget' | 'attackingTarget'
+  | 'counterpart' | 'soulbond' | 'imprintedCard'
+  | 'chosenSource' | 'triggeringSource' | 'actionTarget'
+  | 'linkedAbility' | 'backside' | 'meldPartner';
+
+/** A relationship between this card and another card/player */
+export interface CardAssociation {
+  kind: AssociationKind;
+  targetRef?: string;
+}
+
+/** A keyword ability with optional cost/value payload */
+export interface ParsedKeyword {
+  keyword: Keyword | string;
+  cost?: ManaCost;
+  value?: number;
+  literal?: string;
+}
+
+/** A classified ability — discriminated union by `type` */
+export type ParsedAbility =
+  | { type: 'static'; effects: EffectNode[]; abilityWord?: AbilityWord; text?: string }
+  | { type: 'triggered'; trigger: TriggerSpec; effects: EffectNode[]; abilityWord?: AbilityWord; text?: string }
+  | { type: 'activated'; cost: CostSpec; effects: EffectNode[]; abilityWord?: AbilityWord; text?: string }
+  | { type: 'replacement'; effects: EffectNode[]; abilityWord?: AbilityWord; text?: string }
+  | { type: 'spell'; effects: EffectNode[]; abilityWord?: AbilityWord; text?: string }
+  | { type: 'modal'; quantifier: number[] | string; options: EffectNode[]; text?: string }
+  | { type: 'additionalCost'; cost: EffectNode; text?: string }
+  | { type: 'unknown'; text: string };
+
+/** A single face of a multi-face ParsedCard */
+export interface ParsedCardFace {
+  name: string;
+  layout?: CardLayout;
+  manaCost?: ManaCost;
+  cmc?: number;
+  colors?: ColorIdentity[];
+  types?: ParsedTypeLine;
+  power?: PowerToughness;
+  toughness?: PowerToughness;
+  loyalty?: number | string;
+  defense?: number | string;
+  abilities: ParsedAbility[];
+  keywords: ParsedKeyword[];
+  unknownClauses: string[];
+  oracleText: string;
+  confidence: number;
+  error?: string;
+}
+
+/**
+ * MTGOSDK-style ParsedCard — the full catalog surface for a card.
+ * Emitted by parseCardFull(). Static fields only; runtime state lives in sim.
+ */
+export interface ParsedCard {
+  // Identity
+  name: string;
+  layout: CardLayout;
+  faces?: ParsedCardFace[];
+  otherFace?: string;
+
+  // Static catalog values
+  manaCost?: ManaCost;
+  cmc?: number;
+  colors?: ColorIdentity[];
+  colorIdentity?: ColorIdentity[];
+  types: ParsedTypeLine;
+  power?: PowerToughness;
+  toughness?: PowerToughness;
+  loyalty?: number | string;
+  defense?: number | string;
+
+  // Parsed text
+  abilities: ParsedAbility[];
+  keywords: ParsedKeyword[];
+  unknownClauses: string[];
+  oracleText: string;
+  confidence: number;
+  error?: string;
+}
+
+/**
+ * Parse a card into the rich MTGOSDK-style ParsedCard surface.
+ * Classifies abilities, passes through Scryfall catalog fields (mana_cost,
+ * type_line, power/toughness, etc.), and routes multi-face cards via parseFaces().
+ */
+export function parseCardFull(card: CardInput): ParsedCard;

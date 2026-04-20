@@ -1,0 +1,891 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`parseCardFull(): adventure layout > Bonecrusher Giant // Stomp — faces array populated, otherFace set 1`] = `
+{
+  "abilities": [
+    {
+      "effects": [
+        {
+          "does": {
+            "deal": {
+              "amount": 2,
+              "damageTo": {
+                "does": "control",
+                "whose": {
+                  "object": "spell",
+                  "reference": "that",
+                },
+              },
+            },
+          },
+          "what": "CARD_NAME",
+        },
+      ],
+      "trigger": {
+        "when": {
+          "does": {
+            "becomesTargetOf": {
+              "object": "spell",
+              "reference": {
+                "count": 1,
+              },
+            },
+          },
+          "what": "CARD_NAME",
+        },
+      },
+      "type": "triggered",
+    },
+  ],
+  "confidence": 1,
+  "faces": [
+    {
+      "abilities": [
+        {
+          "effects": [
+            {
+              "does": {
+                "deal": {
+                  "amount": 2,
+                  "damageTo": {
+                    "does": "control",
+                    "whose": {
+                      "object": "spell",
+                      "reference": "that",
+                    },
+                  },
+                },
+              },
+              "what": "CARD_NAME",
+            },
+          ],
+          "trigger": {
+            "when": {
+              "does": {
+                "becomesTargetOf": {
+                  "object": "spell",
+                  "reference": {
+                    "count": 1,
+                  },
+                },
+              },
+              "what": "CARD_NAME",
+            },
+          },
+          "type": "triggered",
+        },
+      ],
+      "confidence": 1,
+      "keywords": [],
+      "name": "Bonecrusher Giant",
+      "oracleText": "whenever ~ becomes the target of a spell, ~ deals 2 damage to that spell's controller.",
+      "unknownClauses": [],
+    },
+    {
+      "abilities": [
+        {
+          "effects": [
+            {
+              "does": {
+                "deal": {
+                  "amount": 2,
+                  "damageTo": {
+                    "object": "target",
+                    "reference": "any",
+                  },
+                },
+              },
+              "what": "CARD_NAME",
+            },
+          ],
+          "type": "static",
+        },
+      ],
+      "confidence": 1,
+      "keywords": [],
+      "name": "Stomp",
+      "oracleText": "~ deals 2 damage to any target.",
+      "unknownClauses": [],
+    },
+  ],
+  "keywords": [],
+  "layout": "adventure",
+  "name": "Bonecrusher Giant // Stomp",
+  "oracleText": "whenever ~ becomes the target of a spell, ~ deals 2 damage to that spell's controller.",
+  "otherFace": "Stomp",
+  "types": {
+    "main": [],
+    "sub": [],
+    "super": [],
+  },
+  "unknownClauses": [],
+}
+`;
+
+exports[`parseCardFull(): flip layout > Kitsune Mystic — flip layout carries otherFace 1`] = `
+{
+  "abilities": [],
+  "confidence": 0,
+  "faces": [
+    {
+      "abilities": [],
+      "confidence": 0,
+      "error": "Syntax error at line 1 col 55:
+
+1 at the beginning of the end step, if ~ is enchanted by two or more auras, flip it.
+                                                        ^
+
+Unexpected " ". Instead, I was expecting to see one of the following:
+
+A character matching /[a-z]/ based on:
+    counterKind$ebnf$1 → counterKind$ebnf$1 ● /[a-z]/
+    counterKind →  ● counterKind$ebnf$1
+    objectInner$ebnf$1$subexpression$1 →  ● counterKind __
+    objectInner$ebnf$1 →  ● objectInner$ebnf$1$subexpression$1
+    objectInner →  ● objectInner$ebnf$1 objectInner$string$15 _s __ objectInner$string$16 __ object
+    object → object$ebnf$1 ● objectInner
+    baseObjectVerbPhrase → baseObjectVerbPhrase$subexpression$1 __ ● object
+    modifiedObjectVerbPhrase →  ● baseObjectVerbPhrase modifiedObjectVerbPhrase$ebnf$1 modifiedObjectVerbPhrase$ebnf$2 modifiedObjectVerbPhrase$ebnf$3
+    objectVerbPhrase →  ● modifiedObjectVerbPhrase
+    singleSentence → object __ ● objectVerbPhrase
+    sentence →  ● singleSentence
+    condition →  ● sentence
+    singleSentence → singleSentence$string$2 __ ● condition "," __ sentence
+    sentence →  ● singleSentence
+    sentenceDot →  ● sentence sentenceDot$ebnf$1 sentenceDot$ebnf$2
+    effect$subexpression$1 →  ● sentenceDot
+    effect →  ● effect$subexpression$1
+    triggeredAbility → triggerCondition "," __ ● effect
+    ability$subexpression$1 →  ● triggeredAbility
+    ability →  ● ability$subexpression$1 ability$ebnf$1 ability$ebnf$2
+    abilityOrRemind →  ● ability
+    card → card$ebnf$1 ● abilityOrRemind card$ebnf$2 card$ebnf$3
+A character matching /[a-z]/ based on:
+    creatureType$ebnf$1 → creatureType$ebnf$1 ● /[a-z]/
+    creatureType →  ● creatureType$ebnf$1
+    subType →  ● creatureType
+    anyTypeInner →  ● subType
+    anyType →  ● anyTypeInner anyType$ebnf$1
+    pureObject1 → pureObject1$ebnf$3 ● anyType _s
+    pureObject →  ● pureObject1 pureObject$ebnf$1 pureObject$ebnf$2
+    objectInner →  ● pureObject
+    object → object$ebnf$1 ● objectInner
+    baseObjectVerbPhrase → baseObjectVerbPhrase$subexpression$1 __ ● object
+    modifiedObjectVerbPhrase →  ● baseObjectVerbPhrase modifiedObjectVerbPhrase$ebnf$1 modifiedObjectVerbPhrase$ebnf$2 modifiedObjectVerbPhrase$ebnf$3
+    objectVerbPhrase →  ● modifiedObjectVerbPhrase
+    singleSentence → object __ ● objectVerbPhrase
+    sentence →  ● singleSentence
+    condition →  ● sentence
+    singleSentence → singleSentence$string$2 __ ● condition "," __ sentence
+    sentence →  ● singleSentence
+    sentenceDot →  ● sentence sentenceDot$ebnf$1 sentenceDot$ebnf$2
+    effect$subexpression$1 →  ● sentenceDot
+    effect →  ● effect$subexpression$1
+    triggeredAbility → triggerCondition "," __ ● effect
+    ability$subexpression$1 →  ● triggeredAbility
+    ability →  ● ability$subexpression$1 ability$ebnf$1 ability$ebnf$2
+    abilityOrRemind →  ● ability
+    card → card$ebnf$1 ● abilityOrRemind card$ebnf$2 card$ebnf$3
+A character matching /[a-z]/ based on:
+    planeswalkerType$ebnf$1 → planeswalkerType$ebnf$1 ● /[a-z]/
+    planeswalkerType →  ● planeswalkerType$ebnf$1
+    subType →  ● planeswalkerType
+    anyTypeInner →  ● subType
+    anyType →  ● anyTypeInner anyType$ebnf$1
+    pureObject1 → pureObject1$ebnf$3 ● anyType _s
+    pureObject →  ● pureObject1 pureObject$ebnf$1 pureObject$ebnf$2
+    objectInner →  ● pureObject
+    object → object$ebnf$1 ● objectInner
+    baseObjectVerbPhrase → baseObjectVerbPhrase$subexpression$1 __ ● object
+    modifiedObjectVerbPhrase →  ● baseObjectVerbPhrase modifiedObjectVerbPhrase$ebnf$1 modifiedObjectVerbPhrase$ebnf$2 modifiedObjectVerbPhrase$ebnf$3
+    objectVerbPhrase →  ● modifiedObjectVerbPhrase
+    singleSentence → object __ ● objectVerbPhrase
+    sentence →  ● singleSentence
+    condition →  ● sentence
+    singleSentence → singleSentence$string$2 __ ● condition "," __ sentence
+    sentence →  ● singleSentence
+    sentenceDot →  ● sentence sentenceDot$ebnf$1 sentenceDot$ebnf$2
+    effect$subexpression$1 →  ● sentenceDot
+    effect →  ● effect$subexpression$1
+    triggeredAbility → triggerCondition "," __ ● effect
+    ability$subexpression$1 →  ● triggeredAbility
+    ability →  ● ability$subexpression$1 ability$ebnf$1 ability$ebnf$2
+    abilityOrRemind →  ● ability
+    card → card$ebnf$1 ● abilityOrRemind card$ebnf$2 card$ebnf$3
+",
+      "keywords": [],
+      "name": "Kitsune Mystic",
+      "oracleText": "at the beginning of the end step, if ~ is enchanted by two or more auras, flip it.",
+      "unknownClauses": [
+        "at the beginning of the end step, if ~ is enchanted by two or more auras, flip it.",
+      ],
+    },
+    {
+      "abilities": [
+        {
+          "cost": {
+            "mana": [
+              1,
+            ],
+          },
+          "effects": [
+            {
+              "attach": {
+                "object": {
+                  "object": {
+                    "type": "aura",
+                  },
+                  "suffix": {
+                    "actor": "you",
+                    "does": "control",
+                  },
+                },
+                "reference": {
+                  "targetCount": 1,
+                },
+              },
+              "to": {
+                "object": {
+                  "type": "creature",
+                },
+                "reference": {
+                  "targetCount": 1,
+                },
+              },
+            },
+          ],
+          "type": "activated",
+        },
+      ],
+      "confidence": 1,
+      "keywords": [],
+      "name": "Autumn-Tail, Kitsune Sage",
+      "oracleText": "{1}: attach target aura you control to target creature.",
+      "unknownClauses": [],
+    },
+  ],
+  "keywords": [],
+  "layout": "flip",
+  "name": "Kitsune Mystic // Autumn-Tail, Kitsune Sage",
+  "oracleText": "at the beginning of the end step, if ~ is enchanted by two or more auras, flip it.",
+  "otherFace": "Autumn-Tail, Kitsune Sage",
+  "types": {
+    "main": [],
+    "sub": [],
+    "super": [],
+  },
+  "unknownClauses": [
+    "at the beginning of the end step, if ~ is enchanted by two or more auras, flip it.",
+  ],
+}
+`;
+
+exports[`parseCardFull(): leveler layout > Kargan Dragonlord — simple keywords carry through 1`] = `
+{
+  "abilities": [],
+  "cmc": 1,
+  "confidence": 1,
+  "keywords": [
+    {
+      "cost": {
+        "cmc": 1,
+        "raw": "{r}",
+        "symbols": [
+          {
+            "colors": [
+              "r",
+            ],
+            "kind": "colored",
+          },
+        ],
+      },
+      "keyword": "level up",
+    },
+  ],
+  "layout": "leveler",
+  "manaCost": {
+    "cmc": 1,
+    "raw": "{R}",
+    "symbols": [
+      {
+        "colors": [
+          "r",
+        ],
+        "kind": "colored",
+      },
+    ],
+  },
+  "name": "Kargan Dragonlord",
+  "oracleText": "level up {r}",
+  "power": 2,
+  "toughness": 2,
+  "types": {
+    "main": [
+      "creature",
+    ],
+    "sub": [
+      "human",
+      "warrior",
+    ],
+    "super": [],
+  },
+  "unknownClauses": [],
+}
+`;
+
+exports[`parseCardFull(): meld layout > Bruna, the Fading Light — meld card has single face but layout preserved 1`] = `
+{
+  "abilities": [],
+  "cmc": 7,
+  "confidence": 1,
+  "keywords": [
+    {
+      "keyword": "flying",
+    },
+  ],
+  "layout": "meld",
+  "manaCost": {
+    "cmc": 7,
+    "generic": 5,
+    "raw": "{5}{W}{W}",
+    "symbols": [
+      {
+        "amount": 5,
+        "kind": "generic",
+      },
+      {
+        "colors": [
+          "w",
+        ],
+        "kind": "colored",
+      },
+      {
+        "colors": [
+          "w",
+        ],
+        "kind": "colored",
+      },
+    ],
+  },
+  "name": "Bruna, the Fading Light",
+  "oracleText": "flying",
+  "power": 5,
+  "toughness": 7,
+  "types": {
+    "main": [
+      "creature",
+    ],
+    "sub": [
+      "angel",
+      "horror",
+    ],
+    "super": [
+      "legendary",
+    ],
+  },
+  "unknownClauses": [],
+}
+`;
+
+exports[`parseCardFull(): modal_dfc layout > Shatterskull Smashing // Shatterskull, the Hammer Pass — otherFace set 1`] = `
+{
+  "abilities": [
+    {
+      "effects": [
+        {
+          "does": {
+            "deal": {
+              "amount": "x",
+              "damageTo": {
+                "object": "target",
+                "reference": "any",
+              },
+            },
+          },
+          "what": "CARD_NAME",
+        },
+      ],
+      "type": "static",
+    },
+  ],
+  "confidence": 1,
+  "faces": [
+    {
+      "abilities": [
+        {
+          "effects": [
+            {
+              "does": {
+                "deal": {
+                  "amount": "x",
+                  "damageTo": {
+                    "object": "target",
+                    "reference": "any",
+                  },
+                },
+              },
+              "what": "CARD_NAME",
+            },
+          ],
+          "type": "static",
+        },
+      ],
+      "confidence": 1,
+      "keywords": [],
+      "name": "Shatterskull Smashing",
+      "oracleText": "~ deals x damage to any target.",
+      "unknownClauses": [],
+    },
+    {
+      "abilities": [],
+      "confidence": 1,
+      "keywords": [],
+      "name": "Shatterskull, the Hammer Pass",
+      "oracleText": "",
+      "unknownClauses": [],
+    },
+  ],
+  "keywords": [],
+  "layout": "modal_dfc",
+  "name": "Shatterskull Smashing // Shatterskull, the Hammer Pass",
+  "oracleText": "~ deals x damage to any target.",
+  "otherFace": "Shatterskull, the Hammer Pass",
+  "types": {
+    "main": [],
+    "sub": [],
+    "super": [],
+  },
+  "unknownClauses": [],
+}
+`;
+
+exports[`parseCardFull(): normal layout — instant (spell) > Counterspell — effects classified as spell 1`] = `
+{
+  "abilities": [
+    {
+      "effects": [
+        {
+          "counter": {
+            "object": "spell",
+            "reference": {
+              "targetCount": 1,
+            },
+          },
+        },
+      ],
+      "type": "spell",
+    },
+  ],
+  "cmc": 2,
+  "confidence": 1,
+  "keywords": [],
+  "layout": "normal",
+  "manaCost": {
+    "cmc": 2,
+    "raw": "{U}{U}",
+    "symbols": [
+      {
+        "colors": [
+          "u",
+        ],
+        "kind": "colored",
+      },
+      {
+        "colors": [
+          "u",
+        ],
+        "kind": "colored",
+      },
+    ],
+  },
+  "name": "Counterspell",
+  "oracleText": "counter target spell.",
+  "types": {
+    "main": [
+      "instant",
+    ],
+    "sub": [],
+    "super": [],
+  },
+  "unknownClauses": [],
+}
+`;
+
+exports[`parseCardFull(): normal layout — planeswalker > Jace, the Mind Sculptor — loyalty passed through, multiple abilities 1`] = `
+{
+  "abilities": [
+    {
+      "cost": {
+        "loyalty": 2,
+      },
+      "effects": [
+        {
+          "lookAt": {
+            "from": {
+              "owner": {
+                "player": "player",
+                "references": [
+                  {
+                    "targetCount": 1,
+                  },
+                ],
+              },
+              "zone": "library",
+            },
+            "topCards": 1,
+          },
+        },
+      ],
+      "type": "activated",
+    },
+    {
+      "cost": {
+        "loyalty": -1,
+      },
+      "effects": [
+        {
+          "draw": 3,
+        },
+      ],
+      "type": "activated",
+    },
+  ],
+  "cmc": 4,
+  "confidence": 1,
+  "keywords": [],
+  "layout": "normal",
+  "loyalty": 3,
+  "manaCost": {
+    "cmc": 4,
+    "generic": 2,
+    "raw": "{2}{U}{U}",
+    "symbols": [
+      {
+        "amount": 2,
+        "kind": "generic",
+      },
+      {
+        "colors": [
+          "u",
+        ],
+        "kind": "colored",
+      },
+      {
+        "colors": [
+          "u",
+        ],
+        "kind": "colored",
+      },
+    ],
+  },
+  "name": "Jace, the Mind Sculptor",
+  "oracleText": "+2: look at the top card of target player's library.
+-1: draw three cards.",
+  "types": {
+    "main": [
+      "planeswalker",
+    ],
+    "sub": [
+      "jace",
+    ],
+    "super": [
+      "legendary",
+    ],
+  },
+  "unknownClauses": [],
+}
+`;
+
+exports[`parseCardFull(): normal layout — vanilla creature > Llanowar Elves — activated ability classified 1`] = `
+{
+  "abilities": [
+    {
+      "cost": "tap",
+      "effects": [
+        {
+          "add": [
+            "g",
+          ],
+        },
+      ],
+      "type": "activated",
+    },
+  ],
+  "cmc": 1,
+  "confidence": 1,
+  "keywords": [],
+  "layout": "normal",
+  "manaCost": {
+    "cmc": 1,
+    "raw": "{G}",
+    "symbols": [
+      {
+        "colors": [
+          "g",
+        ],
+        "kind": "colored",
+      },
+    ],
+  },
+  "name": "Llanowar Elves",
+  "oracleText": "{t}: add {g}.",
+  "power": 1,
+  "toughness": 1,
+  "types": {
+    "main": [
+      "creature",
+    ],
+    "sub": [
+      "elf",
+      "druid",
+    ],
+    "super": [],
+  },
+  "unknownClauses": [],
+}
+`;
+
+exports[`parseCardFull(): normal layout — vanilla creature > Serra Angel — keywords separated, types structured, mana cost parsed 1`] = `
+{
+  "abilities": [],
+  "cmc": 5,
+  "colorIdentity": [
+    "w",
+  ],
+  "colors": [
+    "w",
+  ],
+  "confidence": 1,
+  "keywords": [
+    {
+      "keyword": "flying",
+    },
+    {
+      "keyword": "vigilance",
+    },
+  ],
+  "layout": "normal",
+  "manaCost": {
+    "cmc": 5,
+    "generic": 3,
+    "raw": "{3}{W}{W}",
+    "symbols": [
+      {
+        "amount": 3,
+        "kind": "generic",
+      },
+      {
+        "colors": [
+          "w",
+        ],
+        "kind": "colored",
+      },
+      {
+        "colors": [
+          "w",
+        ],
+        "kind": "colored",
+      },
+    ],
+  },
+  "name": "Serra Angel",
+  "oracleText": "flying, vigilance",
+  "power": 4,
+  "toughness": 4,
+  "types": {
+    "main": [
+      "creature",
+    ],
+    "sub": [
+      "angel",
+    ],
+    "super": [],
+  },
+  "unknownClauses": [],
+}
+`;
+
+exports[`parseCardFull(): split layout > Dead // Gone — both halves classified as spells 1`] = `
+{
+  "abilities": [
+    {
+      "effects": [
+        {
+          "does": {
+            "deal": {
+              "amount": 2,
+              "damageTo": {
+                "object": {
+                  "type": "creature",
+                },
+                "reference": {
+                  "targetCount": 1,
+                },
+              },
+            },
+          },
+          "what": "CARD_NAME",
+        },
+      ],
+      "type": "static",
+    },
+    {
+      "text": "//",
+      "type": "unknown",
+    },
+    {
+      "effects": [
+        {
+          "returns": {
+            "object": {
+              "object": {
+                "type": "creature",
+              },
+              "suffix": {
+                "actor": "you",
+                "does": "control",
+              },
+            },
+            "reference": {
+              "targetCount": 1,
+            },
+          },
+          "to": {
+            "owner": {
+              "does": "own",
+              "whose": {
+                "reference": "its",
+              },
+            },
+            "zone": "hand",
+          },
+        },
+      ],
+      "type": "static",
+    },
+  ],
+  "confidence": 0.6666666666666666,
+  "keywords": [],
+  "layout": "split",
+  "name": "Dead // Gone",
+  "oracleText": "~ deals 2 damage to target creature.
+//
+return target creature you don't control to its owner's hand.",
+  "types": {
+    "main": [],
+    "sub": [],
+    "super": [],
+  },
+  "unknownClauses": [
+    "//",
+  ],
+}
+`;
+
+exports[`parseCardFull(): transform (DFC) layout > Delver of Secrets // Insectile Aberration — back face keyword classified 1`] = `
+{
+  "abilities": [
+    {
+      "effects": [
+        {
+          "lookAt": {
+            "from": {
+              "owner": "your",
+              "zone": "library",
+            },
+            "topCards": 1,
+          },
+        },
+        {
+          "actor": "you",
+          "does": {
+            "may": {
+              "reveal": {
+                "object": "card",
+                "reference": "that",
+              },
+            },
+          },
+        },
+      ],
+      "trigger": {
+        "turnPhase": {
+          "partOfTurn": "upkeep",
+          "qualification": {
+            "whose": "your",
+          },
+        },
+      },
+      "type": "triggered",
+    },
+  ],
+  "confidence": 1,
+  "faces": [
+    {
+      "abilities": [
+        {
+          "effects": [
+            {
+              "lookAt": {
+                "from": {
+                  "owner": "your",
+                  "zone": "library",
+                },
+                "topCards": 1,
+              },
+            },
+            {
+              "actor": "you",
+              "does": {
+                "may": {
+                  "reveal": {
+                    "object": "card",
+                    "reference": "that",
+                  },
+                },
+              },
+            },
+          ],
+          "trigger": {
+            "turnPhase": {
+              "partOfTurn": "upkeep",
+              "qualification": {
+                "whose": "your",
+              },
+            },
+          },
+          "type": "triggered",
+        },
+      ],
+      "confidence": 1,
+      "keywords": [],
+      "name": "Delver of Secrets",
+      "oracleText": "at the beginning of your upkeep, look at the top card of your library. you may reveal that card.",
+      "unknownClauses": [],
+    },
+    {
+      "abilities": [],
+      "confidence": 1,
+      "keywords": [
+        {
+          "keyword": "flying",
+        },
+      ],
+      "name": "Insectile Aberration",
+      "oracleText": "flying",
+      "unknownClauses": [],
+    },
+  ],
+  "keywords": [],
+  "layout": "transform",
+  "name": "Delver of Secrets // Insectile Aberration",
+  "oracleText": "at the beginning of your upkeep, look at the top card of your library. you may reveal that card.",
+  "otherFace": "Insectile Aberration",
+  "types": {
+    "main": [],
+    "sub": [],
+    "super": [],
+  },
+  "unknownClauses": [],
+}
+`;
